@@ -1,0 +1,211 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WMS-Garfat</title>
+        <!-- <link href="/path/to/print.css" media="print" rel="stylesheet" /> -->
+    </head>
+    <body>
+        <div><head>WMS</head></div>
+        <hr>
+
+        
+        <div id="controlframe">
+            <div id="printframe">
+                <p id="showtest">wahahaha</p>
+                <button type="button" class="button">Print &#x1F5B6</button> 
+                <!-- JS unicode for printer \u1F5B6 -->
+            </div>
+        </div>
+        <div id="bodyframe" class="bodyframe">
+            <div id="activejobs" class="activejobs">
+                <div id="activejob" class="activejob">
+                    <div class="itemline"><p class="itemtitle">QOT</p><p class="listitem"> 108箱</p></div>
+                    
+                    <p class="itemtitle">MAEU1234567</p>
+                    <hr>
+                    <div class="itemline"><p class="listitem">时间</p><p class="listitem"> 26/6/2024 1600</p></div>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>  
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                     
+                </div>
+                <div id="activejob" class="activejob">
+                    <p class="itemtitle">QOT</p>
+                    <p class="itemtitle">MAEU1234567</p>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                        
+                    
+                    
+                </div>
+                <div id="activejob" class="activejob">
+                    <p class="itemtitle">QOT</p>
+                    <p class="itemtitle">MAEU1234567</p>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                </div>
+            </div>
+            <hr>
+            <div id="controlpanel" class="controlpanel">
+                <div id="itemdetail" class="itemdetail">
+                    <div id="statusbox" class="statusbox">status</div>
+                    <p class="itemtitle">QOT</p>
+                    <p class="itemtitle">MAEU1234567</p>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <hr>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                </div>
+            </div>
+            
+        </div>
+        <script>
+            window.addEventListener("load", function(){
+                showtest.innerHTML="load page";
+            });
+            var button = document.getElementsByTagName("button")[0];
+            // Adding an event listener to the button that executes a function when the button is clicked
+            button.addEventListener("click", function() {
+                // Displaying an alert message
+                alert("You clicked the button!");
+                printSpecificContent();
+            });
+
+            function printSpecificContent() {
+                var printContents = document.getElementById("printframe").innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents; // Restore original content
+            }
+
+
+        </script>
+    </body>
+    <style type="text/css">
+        [draggable=true] {
+            cursor: move;
+        }
+        .bodyframe{
+            display: flex;
+            width: 1200px;
+        }
+        .activejobs{
+            display: flex;
+            width: 700;
+        }
+        .activejob{
+            border-width: 1px;
+            border-style: solid;
+            border-color: light-grey;
+            border-radius: 7px;
+            margin:6px 6px 6px 6px;
+            padding-left:5px;
+            padding-right:5px;
+            width: 200px;
+            height: 350px;
+            font-size: 16px;
+            display: inline-block;
+            box-shadow:  0px 5px 15px rgba(0,0,0,0.25);
+            transition:0.5s;
+        }
+        .listitem{
+            margin: 0 0 0 0;
+            display: inline;
+            font-size: 16px;
+        }
+        .itemtitle{
+            font-size: 18px;
+            font-weight: bold;
+            display:block;
+            margin: 0 0 0 0;
+        }
+        .itemline{
+            display: inline-block;
+            width: 100%;
+        }
+
+        .controlpanel{
+            display: flex;
+            width:600px;
+            height: 800px;
+            margin: 0 0 0 20px;
+            
+        }
+        .itemdetail{
+            position: relative;
+            display: inline-block;
+            width: 500px;
+        }
+        .statusbox{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .button {
+        align-items: center;
+        appearance: none;
+        background-color: #FCFCFD;
+        border-radius: 4px;
+        border-width: 0;
+        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+        box-sizing: border-box;
+        color: #36395A;
+        cursor: pointer;
+        display: inline-flex;
+        font-family: "JetBrains Mono",monospace;
+        height: 27px;
+        justify-content: center;
+        line-height: 1;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 7px;
+        padding-right: 7px;
+        position: relative;
+        text-align: left;
+        text-decoration: none;
+        transition: box-shadow .15s,transform .15s;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        white-space: nowrap;
+        will-change: box-shadow,transform;
+        font-size: 15px;
+        }
+
+        .button:focus {
+        box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        }
+
+        .button:hover {
+        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+        transform: translateY(-2px);
+        }
+
+        .button:active {
+        box-shadow: #D6D6E7 0 3px 7px inset;
+        transform: translateY(2px);
+        }
+    </style>
+</html>
