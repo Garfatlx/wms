@@ -14,13 +14,13 @@
         <div id="controlframe">
             <div id="printframe">
                 <p id="showtest">wahahaha</p>
-                <button type="button" class="button">Print &#x1F5B6</button> 
+                <button id="printbutton" type="button" class="button">Print &#x1F5B6</button> 
                 <!-- JS unicode for printer \u1F5B6 -->
             </div>
         </div>
         <div id="bodyframe" class="bodyframe">
             <div id="activejobs" class="activejobs">
-                <div id="activejob" class="activejob">
+                <div id="activejob1" class="activejob">
                     <div class="itemline"><p class="itemtitle">QOT</p><p class="listitem"> 108箱</p></div>
                     
                     <p class="itemtitle">MAEU1234567</p>
@@ -65,43 +65,21 @@
             <hr>
             <div id="controlpanel" class="controlpanel">
                 <div id="itemdetail" class="itemdetail">
+                    <form id="itemdetailform" class="itemdetailform">
+                        <label for="itemdetailinput">Item Detail</label>
+                        <input type="text" id="itemdetailinput" name="labelname">
+                        <label for="itemdetailinput">Item Detail</label>
+                        <input type="text" id="itemdetailinput" name="equipmentnumber">
+                        <hr>
+                        <label for="itemdetailinput">Item Detail</label>
+                        <input type="text" id="itemdetailinput" name="activity">
+                        <label for="itemdetailinput">Item Detail</label>
+                        <input type="text" id="itemdetailinput" name="activity">
+                    </form>
                     <div id="statusbox" class="statusbox">status</div>
-                    <p class="itemtitle">QOT</p>
-                    <p class="itemtitle">MAEU1234567</p>
-                    <hr>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
-                    <hr>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
-                    <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
                 </div>
             </div>
-            
         </div>
-        <script>
-            // window.addEventListener("load", function(){
-            //     showtest.innerHTML="load page";
-            // });
-            // var button = document.getElementsByTagName("button")[0];
-            // // Adding an event listener to the button that executes a function when the button is clicked
-            // button.addEventListener("click", function() {
-            //     // Displaying an alert message
-            //     alert("You clicked the button!");
-            //     printSpecificContent();
-            // });
-
-            // function printSpecificContent() {
-            //     var printContents = document.getElementById("printframe").innerHTML;
-            //     var originalContents = document.body.innerHTML;
-            //     document.body.innerHTML = printContents;
-            //     window.print();
-            //     document.body.innerHTML = originalContents; // Restore original content
-            // }
-
-
-        </script>
     </body>
     <style type="text/css">
         [draggable=true] {
