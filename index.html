@@ -5,6 +5,8 @@
         <title>WMS-Garfat</title>
         <script src="script.js" type="text/javascript"></script>
         <!-- <link href="/path/to/print.css" media="print" rel="stylesheet" /> -->
+        <link href="loadingstyle.css" rel="stylesheet" type="text/css">
+        <link href="otherstyle.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div><head>WMS</head></div>
@@ -12,11 +14,30 @@
 
         
         <div id="controlframe">
-            <div id="printframe">
-                <p id="showtest">wahahaha</p>
-                <button id="printbutton" type="button" class="button">Print &#x1F5B6</button> 
-                <!-- JS unicode for printer \u1F5B6 -->
+            <div class="radio-inputs">
+                <label>
+                    <input class="radio-input" checked="" type="radio" name="engine">
+                        <span class="radio-tile">
+                            
+                            <span class="radio-label">当前任务</span>
+                        </span>
+                </label>
+                <label>
+                    <input  class="radio-input" type="radio" name="engine">
+                    <span class="radio-tile">
+                        
+                        <span class="radio-label">库存清单</span>
+                    </span>
+                </label>
+                <label>
+                    <input class="radio-input" type="radio" name="engine">
+                    <span class="radio-tile">
+                        
+                        <span class="radio-label">出入记录</span>
+                    </span>
+                </label>
             </div>
+            
         </div>
         <div id="bodyframe" class="bodyframe">
             <div id="activejobs" class="activejobs">
@@ -60,8 +81,27 @@
                     <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
                     <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
                     <div class="itemline"><p class="listitem">HAJ1</p><p class="listitem"> 108箱</p></div>
+                    <div class="input-container">
+                        <input type="text" id="input" required="">
+                        <label for="input" class="label">Enter Text</label>
+                        <div class="underline"></div>
+                      </div>
                 </div>
+                <div class="banter-loader">
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    <div class="banter-loader__box"></div>
+                    
+                  </div>
             </div>
+            
+              
             <hr>
             <div id="controlpanel" class="controlpanel">
                 <div id="itemdetail" class="itemdetail">
@@ -81,6 +121,7 @@
             width: 1200px;
         }
         .activejobs{
+            position: relative;
             display: flex;
             width: 700;
         }
@@ -141,7 +182,7 @@
         .controlbar{
             display: flex;
             width: 100%;
-            height: 50px;
+            
         }
         .linecontrol{
             display: block;
@@ -156,51 +197,68 @@
             display: block;
             width: 100%;
         }
-
         .button {
-        align-items: center;
-        appearance: none;
-        background-color: #FCFCFD;
-        border-radius: 4px;
-        border-width: 0;
-        box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-        box-sizing: border-box;
-        color: #36395A;
-        cursor: pointer;
-        display: inline-flex;
-        font-family: "JetBrains Mono",monospace;
-        height: 27px;
-        justify-content: center;
-        line-height: 1;
-        list-style: none;
-        overflow: hidden;
-        padding-left: 7px;
-        padding-right: 7px;
-        position: relative;
-        text-align: left;
-        text-decoration: none;
-        transition: box-shadow .15s,transform .15s;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
-        white-space: nowrap;
-        will-change: box-shadow,transform;
-        font-size: 15px;
-        margin: 2px 2px 2px 2px;
-        }
-
-        .button:focus {
-        box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-        }
-
-        .button:hover {
-        box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-        transform: translateY(-2px);
+            font-family: inherit;
+            border: none;
+            /* outline: 1px dotted rgb(37, 37, 37);
+            outline-offset: -4px; */
+            background: hsl(0deg 0% 75%);
+            box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 15px;
         }
 
         .button:active {
-        box-shadow: #D6D6E7 0 3px 7px inset;
-        transform: translateY(2px);
+            box-shadow: inset -1px -1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+        }
+        .input-container {
+            position: relative;
+            
+            margin: 0 0 0 0;
+            width: 100px;
+        }
+
+        .input-container input[type="text"] {
+            font-size: 20px;
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            padding: 2px 0 0 0;
+            background-color: transparent;
+            outline: none;
+        }
+
+        .input-container .label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #524f4f;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-container input[type="text"]:focus ~ .label, .input-container input[type="text"]:valid ~ .label
+        {
+            top: -15px;
+            font-size: 12px;
+            color: #777676;
+        }
+
+        .input-container .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background-color: #333;
+            transform: scaleX(0);
+            transition: all 0.3s ease;
+        }
+
+        .input-container input[type="text"]:focus ~ .underline {
+            transform: scaleX(1);
         }
     </style>
 </html>

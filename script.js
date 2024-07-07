@@ -4,13 +4,7 @@ window.addEventListener("load", function(){
         showtest.innerHTML="load page";
     }
 
-    var button = document.getElementById("printbutton");
-    // Adding an event listener to the button that executes a function when the button is clicked
-    button.addEventListener("click", function() {
-        // Displaying an alert message
-        alert("You clicked the button!");
-        printSpecificContent();
-    });
+    
 
     var itemclicked = document.getElementById("activejob1");
     itemclicked.addEventListener("click", function() {
@@ -51,18 +45,28 @@ function loaddetail(clickeditem){
 
     //title line
     var linecontrol0=document.createElement("div");
-    linecontrol0.className="linecontrol";
+    linecontrol0.className="input-container";
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
     input0.name="joblabel";
-    input0.className="lineinput";
-    input0.value=clickeditem;
+    input0.id="input";
+    input0.required=true;
+    // input0.className="lineinput";
+    input0.value="ddd";
     var input0label=document.createElement("label");
     input0label.innerHTML="工作标签";
-    input0label.className="lineinputlabel";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    // input0label.className="lineinputlabel";
     detailform.appendChild(linecontrol0);
-    linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
+    linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(inputbottomline);
+    
+    
+    
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
