@@ -13,7 +13,7 @@
         <hr>
 
         
-        <div id="controlframe">
+        <div id="controlframe" class="controlframe">
             <div class="radio-inputs">
                 <label>
                     <input class="radio-input" checked="" type="radio" name="engine">
@@ -37,7 +37,7 @@
                     </span>
                 </label>
             </div>
-            
+            <button class="button" id="newjobbutton" style="position: absolute; right: 20px;top: 6;">新建任务</button>
         </div>
         <div id="bodyframe" class="bodyframe">
             <div id="activejobs" class="activejobs">
@@ -120,6 +120,11 @@
             display: flex;
             width: 1200px;
         }
+        .controlframe{
+            display: inline-block;
+            width: 600px;
+            position: relative;
+        }
         .activejobs{
             position: relative;
             display: flex;
@@ -129,7 +134,7 @@
             border-width: 1px;
             border-style: solid;
             border-color: light-grey;
-            border-radius: 7px;
+            border-radius: 4px;
             margin:6px 6px 6px 6px;
             padding-left:5px;
             padding-right:5px;
@@ -180,8 +185,10 @@
         }
 
         .controlbar{
+
             display: flex;
             width: 100%;
+            
             
         }
         .linecontrol{
@@ -208,6 +215,7 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             padding: 5px 15px;
+            transition: 0.2s;
         }
 
         .button:active {
@@ -216,7 +224,7 @@
         .input-container {
             position: relative;
             
-            margin: 0 0 0 0;
+            margin: 15 0 0 0;
             width: 100px;
         }
 

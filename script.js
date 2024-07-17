@@ -11,6 +11,10 @@ window.addEventListener("load", function(){
         loaddetail("101");
     });
 
+    var newjobbutton = document.getElementById("newjobbutton");
+    newjobbutton.addEventListener("click", function() {
+        loaddetail("");
+    });
 });
 
 
@@ -54,7 +58,7 @@ function loaddetail(clickeditem){
     input0.id="input";
     input0.required=true;
     // input0.className="lineinput";
-    input0.value="ddd";
+    input0.value="";
     var input0label=document.createElement("label");
     input0label.innerHTML="工作标签";
     input0label.htmlFor="input";
@@ -69,18 +73,45 @@ function loaddetail(clickeditem){
     
 
     var linecontrol0=document.createElement("div");
-    linecontrol0.className="linecontrol";
+    linecontrol0.className="input-container";
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
-    input0.name="jobreference";
-    input0.className="lineinput";
+    input0.name="containernumber";
+    input0.id="input";
+    input0.required=true;
     input0.value=clickeditem;
     var input0label=document.createElement("label");
     input0label.innerHTML="箱号/单号";
-    input0label.className="lineinputlabel";
+    input0label.htmlFor="input";
+    input0label.className="label";
     detailform.appendChild(linecontrol0);
-    linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
+    linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(inputbottomline);
+
+    var linecontrol0=document.createElement("div");
+    linecontrol0.className="input-container";
+    linecontrol0.style.position="absolute";
+    linecontrol0.style.right="100px";
+    linecontrol0.style.top="30px";
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var input0=document.createElement("input");
+    input0.type="text";
+    input0.name="jobreference";
+    input0.id="input";
+    input0.required=true;
+    input0.value=clickeditem;
+    var input0label=document.createElement("label");
+    input0label.innerHTML="提货码";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    detailform.appendChild(linecontrol0);
+    linecontrol0.appendChild(input0);
+    linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(inputbottomline);
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
@@ -174,8 +205,8 @@ function createdetailline(id, clickeditem){
     
     //create an api connection to chatgpt
     
-    var input3=document.createElement("input");
-    input3.type="textarea";
+    var input3=document.createElement("textarea");
+    
     input3.name="fba";
     input3.className="lineinput";
     input3.value=clickeditem;
@@ -185,8 +216,7 @@ function createdetailline(id, clickeditem){
     detaillineform.appendChild(input3label);
     detaillineform.appendChild(input3);
 
-    var input3=document.createElement("input");
-    input3.type="textarea";
+    var input3=document.createElement("textarea");
     input3.name="note";
     input3.className="lineinput";
     input3.value=clickeditem;
