@@ -179,6 +179,8 @@ function loaddetail(clickeditem){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
 
+    createstatusbar();
+
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
     var input0=document.createElement("input");
@@ -382,4 +384,49 @@ function showloading(){
     const activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
     activejobs.appendChild(banterLoader);
+}
+
+function createstatusbar(){
+    var detailform=document.getElementById("detailform");
+    // Create the container div for the status-radio-input
+    const statusRadioInput = document.createElement('div');
+    statusRadioInput.className = 'status-radio-input';
+    statusRadioInput.style.position="absolute";
+    statusRadioInput.style.right="60px";
+    statusRadioInput.style.top="80px";
+
+    // Define the radio button options
+    const options = [
+        { value: '预报', id: 'value-1', checked: true },
+        { value: '排队中', id: 'value-2', checked: false },
+        { value: '作业中', id: 'value-3', checked: false },
+        { value: '完成', id: 'value-4', checked: false } // Note: Corrected the duplicate id 'value-3' to 'value-4'
+    ];
+
+    // Loop through each option to create and append the labels, inputs, and spans
+    options.forEach(option => {
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.setAttribute('type', 'radio');
+        input.setAttribute('name', 'value-radio');
+        input.setAttribute('value', option.value);
+        input.setAttribute('id', option.id);
+        if (option.checked) input.setAttribute('checked', '');
+
+        const span = document.createElement('span');
+        span.textContent = option.value;
+
+        label.appendChild(input);
+        label.appendChild(span);
+
+        statusRadioInput.appendChild(label);
+    });
+
+    // Create and append the status-selection span
+    const statusSelectionSpan = document.createElement('span');
+    statusSelectionSpan.className = 'status-selection';
+    statusRadioInput.appendChild(statusSelectionSpan);
+
+    // Append the status-radio-input to the document body or a specific container
+    detailform.appendChild(statusRadioInput);
 }
