@@ -131,9 +131,14 @@
         }
         .activejobs{
             position: relative;
-            display: inline-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
             width: 700px;
             max-width: 700px;
+            height: 700px;
+            overflow: auto;
         }
         .activejob{
             border-width: 1px;
@@ -172,12 +177,23 @@
             display: inline-block;
             width: 100%;
         }
+        .lineinputlabel{
+            display: inline-block;
+            margin: 5 5 5 5;
+        }
+        .jobstatus{
+            display: inline-block;
+            position: absolute;
+            right: 5;
+            top: 2;
+        }
 
         .controlpanel{
             display: flex;
             width:600px;
             height: 800px;
             margin: 0 0 0 20px;
+            position: relative;
             
         }
         .itemdetail{

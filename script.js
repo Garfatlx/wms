@@ -4,9 +4,9 @@ window.addEventListener("load", function(){
         showtest.innerHTML="load page";
     }
 
-    var sysresponse = document.getElementById("response");
+    sysresponse = document.getElementById("response");
     sysresponse.innerHTML=new Date().getTime();
-
+    
     searchjobs();
 
 
@@ -16,8 +16,10 @@ window.addEventListener("load", function(){
     });
 });
 
+
+
 function searchjobs(){
-    showloading();
+    showloading(document.getElementById("activejobs"));
     // const searchjob = new FormData(document.getElementById("searchjobs"));
     const searchjobs = new FormData();
     
@@ -39,32 +41,56 @@ function searchjobs(){
     xhr.send(searchjobs);
 
 }
-function addnewjob(jobid,detaillinenumber){
+function searchitems(searchcreteria){
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                return xhr.response["data"];
+                sysresponse.innerHTML=xhr.response["msg"];
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+}
 
-    const addjob = new FormData(document.getElementById("detailform"));
-    if(jobid==""){
+function addnewjob(clickeditem,detaillinenumber){
+
+    var addjob = new FormData(document.getElementById("detailform"));
+    if(clickeditem==""){
         jobid = new Date().getTime();
+    }else{
+        jobid = clickeditem['jobid'];
     }
     addjob.append("jobid",jobid);
+
+    for (let [key, value] of addjob.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+    
     const xhr  = new XMLHttpRequest();  
     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/addjob", true);
     //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
-                alert("success");
+                sysresponse.innerHTML=xhr.response["msg"];
             }
+            
         }
     }
     xhr.responseType="json";
     xhr.send(addjob);
 
     for (var i = 1; i <= detaillinenumber; i++) {
-        const addjobline = new FormData(document.getElementById("detaillineform"+i));
+        var addjobline = new FormData(document.getElementById("detaillineform"+i));
         
         addjobline.append("jobid",jobid);
         addjobline.append("container",addjob.get("container"));
-        addjobline.append("indate",addjob.get("date"));
+        addjobline.append("date",addjob.get("date"));
 
         
         const xhr  = new XMLHttpRequest();  
@@ -78,9 +104,10 @@ function addnewjob(jobid,detaillinenumber){
         xhr.responseType="json";
         xhr.send(addjobline);
 
+        
     }
 
-    
+    document.getElementById("controlpanel").innerHTML = "";
 
 }
 function printSpecificContent() {
@@ -90,8 +117,8 @@ function printSpecificContent() {
     window.print();
     document.body.innerHTML = originalContents; // Restore original content
 }
-function loaddetail(clickeditem){
-    var detaillinenumber=1;
+async function loaddetail(clickeditem){
+    var detaillinenumber=0;
 
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML="";
@@ -104,13 +131,30 @@ function loaddetail(clickeditem){
     var controlbar=document.createElement("div");
     controlbar.className="controlbar";
     var submitbutton=document.createElement("button");
-    submitbutton.innerHTML="Submit";
+    submitbutton.innerHTML="保存";
     submitbutton.className="button";
+    
+    
+    var cancelButton = document.createElement("button");
+    cancelButton.innerHTML = "取消任务";
+    cancelButton.className = "button";
+    cancelButton.addEventListener("click", function() {
+        // Displaying an alert message
+        if (confirm("Are you sure you want to cancel this task?")) {
+            // Code to execute if user confirms cancellation
+            // ...
+        } else {
+            // Code to execute if user cancels cancellation
+            // ...
+        }
+    });
+    
     var printbutton=document.createElement("button");
-    printbutton.innerHTML="Print &#x1F5B6";
+    printbutton.innerHTML="打印操作单 &#x1F5B6";
     printbutton.className="button";
     detailform.appendChild(controlbar);
     controlbar.appendChild(submitbutton);
+    controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
 
     //title line
@@ -135,9 +179,6 @@ function loaddetail(clickeditem){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
     
-    
-    
-
     var linecontrol0=document.createElement("div");
     linecontrol0.className="input-container";
     var inputbottomline=document.createElement("div");
@@ -179,17 +220,19 @@ function loaddetail(clickeditem){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
 
-    createstatusbar();
+    createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"));
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
     var input0=document.createElement("input");
-    input0.type="date";
+    input0.type="datetime-local";
     input0.name="date";
+    input0.id="inputdate";
     input0.className="lineinput";
     input0.value=((clickeditem!='')?clickeditem['date']:"");;
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
+    input0label.htmlFor="inputdate";
     input0label.className="lineinputlabel";
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0label);
@@ -210,11 +253,32 @@ function loaddetail(clickeditem){
 
     detailform.appendChild(document.createElement("hr"));
     
-    createdetailline(detaillinenumber,"test1");
+    //load items
+    if(clickeditem!=""){
+        var searchcreteria = new FormData();
+        searchcreteria.append("jobid",clickeditem['jobid']);
+        console.log(clickeditem['jobid']);
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+            method: 'POST',
+            body: searchcreteria,
+          });
+
+        const data = await response.json();
+        sysresponse.innerHTML=data["msg"];
+        
+        var items = data["data"];
+        if(items!=null){
+            for (var i = 0; i < items.length; i++) {
+                createdetailline(i+1,items[i]);
+            }
+            detaillinenumber=items.length;
+        }
+    }
+    
 
     var addnew = document.createElement("button");
     addnew.type="button";
-    addnew.innerHTML="New Line";
+    addnew.innerHTML="新增货物信息";
     addnew.className="button";
     addnew.addEventListener("click", function(){
         detaillinenumber++;
@@ -227,13 +291,16 @@ function loaddetail(clickeditem){
     //submit button    
     detailform.addEventListener("submit", function (event) {
         event.preventDefault();
+        
+    });
+    submitbutton.addEventListener("click", function() {
         var inputform=document.getElementById("detailform");
         var formdata=new FormData(inputform);
-        for (let [key, value] of formdata.entries()) {
-            console.log(`${key}: ${value}`);
-        }
-
+        // for (let [key, value] of formdata.entries()) {
+        //     console.log(`${key}: ${value}`);
+        // }
         addnewjob(clickeditem,detaillinenumber);
+
     });
     printbutton.addEventListener("click", function() {
         // Displaying an alert message
@@ -243,7 +310,7 @@ function loaddetail(clickeditem){
     
 }
 
-function createdetailline(id, clickeditem){
+function createdetailline(id, item){
     var detailform=document.getElementById("detailform");
 
     var detaillineform=document.createElement("form");
@@ -255,7 +322,7 @@ function createdetailline(id, clickeditem){
     input1.type="text";
     input1.name="label";
     input1.className="lineinput";
-    input1.value=clickeditem;
+    input1.value=item!=''?item['label']:'';
     var input1label=document.createElement("label");
     input1label.innerHTML="货物标签";
     input1label.className="lineinputlabel";
@@ -268,7 +335,7 @@ function createdetailline(id, clickeditem){
     input2.name="pcs";
     input2.className="lineinput";
     input2.style.width="50px";
-    input2.value=clickeditem;
+    input2.value=item!=''?item['pcs']:'';
     var input2label=document.createElement("label");
     input2label.innerHTML="件数";
     input2label.className="lineinputlabel";
@@ -280,7 +347,7 @@ function createdetailline(id, clickeditem){
     input2.name="plt";
     input2.className="lineinput";
     input2.style.width="50px";
-    input2.value=clickeditem;
+    input2.value=item!=''?item['plt']:'';
     var input2label=document.createElement("label");
     input2label.innerHTML="托数";
     input2label.className="lineinputlabel";
@@ -295,7 +362,7 @@ function createdetailline(id, clickeditem){
     
     input3.name="fba";
     input3.className="lineinput";
-    input3.value=clickeditem;
+    input3.value=item!=''?item['fba']:'';
     var input3label=document.createElement("label");
     input3label.innerHTML="FBA";
     input3label.className="lineinputlabel";
@@ -305,16 +372,22 @@ function createdetailline(id, clickeditem){
     var input3=document.createElement("textarea");
     input3.name="note";
     input3.className="lineinput";
-    input3.value=clickeditem;
+    input3.value=item!=''?item['note']:'';
     var input3label=document.createElement("label");
     input3label.innerHTML="备注";
     input3label.className="lineinputlabel";
     detaillineform.appendChild(input3label);
     detaillineform.appendChild(input3);
+
+    var input4 = document.createElement("input");
+    input4.type = "hidden";
+    input4.name = "id";
+    input4.value = item != '' ? item['id'] : '';
+    detaillineform.appendChild(input4);
 }
 
 function createjob(jobcontent){
-    const clickeditem=jobcontent;
+    var clickeditem=jobcontent;
     var joblist = document.getElementById("activejobs");
 
     var activejob = document.createElement("div");
@@ -330,6 +403,12 @@ function createjob(jobcontent){
     itemTitle1.textContent = jobcontent['customer'];
     itemLine1.appendChild(itemTitle1);
     activejob.appendChild(itemLine1);
+
+    //create the container div for the status
+    const jobstatus = document.createElement('div');
+    jobstatus.className = 'jobstatus';
+    jobstatus.textContent = jobcontent['status'];
+    activejob.appendChild(jobstatus);
 
     // Create and append the standalone item title
     const itemTitle2 = document.createElement('p');
@@ -364,13 +443,22 @@ function createjob(jobcontent){
     const hr2 = document.createElement('hr');
     activejob.appendChild(hr2);
 
+    // Create the container div for the third item line
+    const itemLine3 = document.createElement('div');
+    itemLine3.className = 'itemline';
+    const listItem4 = document.createElement('div');
+    listItem4.className = 'listitem';
+    listItem4.innerHTML = jobcontent['overview'];
+    itemLine3.appendChild(listItem4);
+    activejob.appendChild(itemLine3);
+
     joblist.appendChild(activejob);
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem);
     });
 }
 
-function showloading(){
+function showloading(parent){
     const banterLoader = document.createElement('div');
     banterLoader.className = 'banter-loader';
 
@@ -381,12 +469,12 @@ function showloading(){
         banterLoader.appendChild(box);
     }
 
-    const activejobs = document.getElementById("activejobs");
-    activejobs.innerHTML="";
-    activejobs.appendChild(banterLoader);
+    // Append the banter-loader to the document body or a specific container
+    parent.innerHTML="";
+    parent.appendChild(banterLoader);
 }
 
-function createstatusbar(){
+function createstatusbar(status){
     var detailform=document.getElementById("detailform");
     // Create the container div for the status-radio-input
     const statusRadioInput = document.createElement('div');
@@ -397,10 +485,10 @@ function createstatusbar(){
 
     // Define the radio button options
     const options = [
-        { value: '预报', id: 'value-1', checked: true },
-        { value: '排队中', id: 'value-2', checked: false },
-        { value: '作业中', id: 'value-3', checked: false },
-        { value: '完成', id: 'value-4', checked: false } // Note: Corrected the duplicate id 'value-3' to 'value-4'
+        { value: '预报', id: 'value-1', checked: ((status=="预报")?true:false) },
+        { value: '排队中', id: 'value-2', checked: ((status=="排队中")?true:false) },
+        { value: '作业中', id: 'value-3', checked: ((status=="作业中")?true:false) },
+        { value: '完成', id: 'value-4', checked: ((status=="完成")?true:false) } // Note: Corrected the duplicate id 'value-3' to 'value-4'
     ];
 
     // Loop through each option to create and append the labels, inputs, and spans
@@ -408,7 +496,7 @@ function createstatusbar(){
         const label = document.createElement('label');
         const input = document.createElement('input');
         input.setAttribute('type', 'radio');
-        input.setAttribute('name', 'value-radio');
+        input.setAttribute('name', 'status');
         input.setAttribute('value', option.value);
         input.setAttribute('id', option.id);
         if (option.checked) input.setAttribute('checked', '');
