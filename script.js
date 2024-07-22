@@ -4,12 +4,11 @@ window.addEventListener("load", function(){
         showtest.innerHTML="load page";
     }
 
-    
+    var sysresponse = document.getElementById("response");
+    sysresponse.innerHTML=new Date().getTime();
 
-    var itemclicked = document.getElementById("activejob1");
-    itemclicked.addEventListener("click", function() {
-        loaddetail("101");
-    });
+    searchjobs();
+
 
     var newjobbutton = document.getElementById("newjobbutton");
     newjobbutton.addEventListener("click", function() {
@@ -17,7 +16,73 @@ window.addEventListener("load", function(){
     });
 });
 
+function searchjobs(){
+    showloading();
+    // const searchjob = new FormData(document.getElementById("searchjobs"));
+    const searchjobs = new FormData();
+    
+    console.log("searchjobs");
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                var joblist = document.getElementById("activejobs");
+                joblist.innerHTML="";
+                for (var i = 0; i < xhr.response["data"].length; i++) {
+                    createjob(xhr.response["data"][i]);
+                }
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchjobs);
 
+}
+function addnewjob(jobid,detaillinenumber){
+
+    const addjob = new FormData(document.getElementById("detailform"));
+    if(jobid==""){
+        jobid = new Date().getTime();
+    }
+    addjob.append("jobid",jobid);
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/addjob", true);
+    //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                alert("success");
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(addjob);
+
+    for (var i = 1; i <= detaillinenumber; i++) {
+        const addjobline = new FormData(document.getElementById("detaillineform"+i));
+        
+        addjobline.append("jobid",jobid);
+        addjobline.append("container",addjob.get("container"));
+        addjobline.append("indate",addjob.get("date"));
+
+        
+        const xhr  = new XMLHttpRequest();  
+        xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/additem", true);
+        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+        xhr.onreadystatechange= () => {
+            if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                // restext.innerHTML=xhr.response["msg"];
+            }
+        }
+        xhr.responseType="json";
+        xhr.send(addjobline);
+
+    }
+
+    
+
+}
 function printSpecificContent() {
     var printContents = document.getElementById("itemdetail").innerHTML;
     var originalContents = document.body.innerHTML;
@@ -26,6 +91,7 @@ function printSpecificContent() {
     document.body.innerHTML = originalContents; // Restore original content
 }
 function loaddetail(clickeditem){
+    var detaillinenumber=1;
 
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML="";
@@ -54,11 +120,11 @@ function loaddetail(clickeditem){
     inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
-    input0.name="joblabel";
+    input0.name="customer";
     input0.id="input";
     input0.required=true;
     // input0.className="lineinput";
-    input0.value="";
+    input0.value=((clickeditem!='')?clickeditem['customer']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML="工作标签";
     input0label.htmlFor="input";
@@ -78,10 +144,10 @@ function loaddetail(clickeditem){
     inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
-    input0.name="containernumber";
+    input0.name="container";
     input0.id="input";
     input0.required=true;
-    input0.value=clickeditem;
+    input0.value=((clickeditem!='')?clickeditem['container']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML="箱号/单号";
     input0label.htmlFor="input";
@@ -100,10 +166,10 @@ function loaddetail(clickeditem){
     inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
-    input0.name="jobreference";
+    input0.name="reference";
     input0.id="input";
     input0.required=true;
-    input0.value=clickeditem;
+    input0.value=((clickeditem!='')?clickeditem['reference']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML="提货码";
     input0label.htmlFor="input";
@@ -117,9 +183,9 @@ function loaddetail(clickeditem){
     linecontrol0.className="linecontrol";
     var input0=document.createElement("input");
     input0.type="date";
-    input0.name="jobdate";
+    input0.name="date";
     input0.className="lineinput";
-    input0.value=clickeditem;
+    input0.value=((clickeditem!='')?clickeditem['date']:"");;
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
     input0label.className="lineinputlabel";
@@ -127,14 +193,30 @@ function loaddetail(clickeditem){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
 
-    createdetailline(1,"test1");
+    var linecontrol0=document.createElement("div");
+    linecontrol0.className="linecontrol";
+    var input0=document.createElement("textarea");
+    input0.name="deladdress";
+    input0.className="lineinput";
+    input0.value=((clickeditem!='')?clickeditem['deladdress']:"");
+    var input0label=document.createElement("label");
+    input0label.innerHTML="送货地址";
+    input0label.className="lineinputlabel";
+    detailform.appendChild(linecontrol0);
+    linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(input0);
+
+    detailform.appendChild(document.createElement("hr"));
+    
+    createdetailline(detaillinenumber,"test1");
 
     var addnew = document.createElement("button");
     addnew.type="button";
     addnew.innerHTML="New Line";
     addnew.className="button";
     addnew.addEventListener("click", function(){
-        createdetailline(2,"");
+        detaillinenumber++;
+        createdetailline(detaillinenumber,"");
         detailform.appendChild(addnew);
         
     });
@@ -148,6 +230,8 @@ function loaddetail(clickeditem){
         for (let [key, value] of formdata.entries()) {
             console.log(`${key}: ${value}`);
         }
+
+        addnewjob(clickeditem,detaillinenumber);
     });
     printbutton.addEventListener("click", function() {
         // Displaying an alert message
@@ -167,7 +251,7 @@ function createdetailline(id, clickeditem){
 
     var input1=document.createElement("input");
     input1.type="text";
-    input1.name="cargolabel";
+    input1.name="label";
     input1.className="lineinput";
     input1.value=clickeditem;
     var input1label=document.createElement("label");
@@ -225,4 +309,77 @@ function createdetailline(id, clickeditem){
     input3label.className="lineinputlabel";
     detaillineform.appendChild(input3label);
     detaillineform.appendChild(input3);
+}
+
+function createjob(jobcontent){
+    const clickeditem=jobcontent;
+    var joblist = document.getElementById("activejobs");
+
+    var activejob = document.createElement("div");
+    activejob.className="activejob";
+    
+    // Create the container div for the first item line
+    const itemLine1 = document.createElement('div');
+    itemLine1.className = 'itemline';
+
+    // Create and append the item title to the first item line
+    const itemTitle1 = document.createElement('p');
+    itemTitle1.className = 'itemtitle';
+    itemTitle1.textContent = jobcontent['customer'];
+    itemLine1.appendChild(itemTitle1);
+    activejob.appendChild(itemLine1);
+
+    // Create and append the standalone item title
+    const itemTitle2 = document.createElement('p');
+    itemTitle2.className = 'itemtitle';
+    itemTitle2.textContent = jobcontent['container'];
+    activejob.appendChild(itemTitle2);
+
+    // Create and append the first horizontal rule
+    const hr1 = document.createElement('hr');
+    activejob.appendChild(hr1);
+
+    // Create the container div for the second item line
+    const itemLine2 = document.createElement('div');
+    itemLine2.className = 'itemline';
+
+    // Create and append the list item (time label) to the second item line
+    const listItem2 = document.createElement('p');
+    listItem2.className = 'listitem';
+    listItem2.textContent = "日期";
+    itemLine2.appendChild(listItem2);
+    
+    // Create and append the list item (time value) to the second item line
+    const listItem3 = document.createElement('p');
+    listItem3.className = 'listitem';
+    listItem3.textContent = jobcontent['date'];
+    itemLine2.appendChild(listItem3);
+
+    // Append the second item line to the document body or a specific container
+    activejob.appendChild(itemLine2);
+
+    // Create and append the second horizontal rule
+    const hr2 = document.createElement('hr');
+    activejob.appendChild(hr2);
+
+    joblist.appendChild(activejob);
+    activejob.addEventListener("click", function() {
+        loaddetail(clickeditem);
+    });
+}
+
+function showloading(){
+    const banterLoader = document.createElement('div');
+    banterLoader.className = 'banter-loader';
+
+    // Loop to create and append each banter-loader__box to the banter-loader
+    for (let i = 0; i < 9; i++) {
+        const box = document.createElement('div');
+        box.className = 'banter-loader__box';
+        banterLoader.appendChild(box);
+    }
+
+    const activejobs = document.getElementById("activejobs");
+    activejobs.innerHTML="";
+    activejobs.appendChild(banterLoader);
 }

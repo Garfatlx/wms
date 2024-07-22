@@ -9,7 +9,10 @@
         <link href="otherstyle.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div><head>WMS</head></div>
+        <div style="display: flex;">
+            <head>WMS</head>
+            <div id="response" style="margin: 0 0 0 300;">sys response</div>
+        </div>
         <hr>
 
         
@@ -41,7 +44,7 @@
         </div>
         <div id="bodyframe" class="bodyframe">
             <div id="activejobs" class="activejobs">
-                <div id="activejob1" class="activejob">
+                <!-- <div id="activejob1" class="activejob">
                     <div class="itemline"><p class="itemtitle">QOT</p><p class="listitem"> 108箱</p></div>
                     
                     <p class="itemtitle">MAEU1234567</p>
@@ -86,8 +89,8 @@
                         <label for="input" class="label">Enter Text</label>
                         <div class="underline"></div>
                       </div>
-                </div>
-                <div class="banter-loader">
+                </div> -->
+                <!-- <div class="banter-loader">
                     <div class="banter-loader__box"></div>
                     <div class="banter-loader__box"></div>
                     <div class="banter-loader__box"></div>
@@ -98,7 +101,7 @@
                     <div class="banter-loader__box"></div>
                     <div class="banter-loader__box"></div>
                     
-                  </div>
+                  </div> -->
             </div>
             
               
@@ -127,8 +130,9 @@
         }
         .activejobs{
             position: relative;
-            display: flex;
-            width: 700;
+            display: inline-flexbox;
+            width: 700px;
+            max-width: 700px;
         }
         .activejob{
             border-width: 1px;
@@ -138,13 +142,15 @@
             margin:6px 6px 6px 6px;
             padding-left:5px;
             padding-right:5px;
-            width: 200px;
-            height: 350px;
+            width: 180;
+            min-width: 180;
+            height: 300px;
             font-size: 16px;
             display: inline-block;
             box-shadow:  0px 5px 15px rgba(0,0,0,0.25);
             transition:0.5s;
             cursor: pointer;
+            position: relative;
         }
         .activejob:hover{
             box-shadow:  0px 5px 15px 8px rgba(0,0,0,0.25);
