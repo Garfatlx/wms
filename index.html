@@ -284,5 +284,36 @@
         .input-container input[type="text"]:focus ~ .underline {
             transform: scaleX(1);
         }
+
+        .inventory-table-header {
+            
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .inventory-table-row {
+           
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            background: rgb(255, 255, 255);
+            border-bottom: 1px solid #ffffff;
+            cursor: pointer;
+        }
+        
+        .inventory-table-row:nth-child(even) {
+            background: rgb(240, 240, 240);
+        }
+        .inventory-table-row:hover {
+            background: rgb(204, 206, 204);
+            transition: 0.5s;
+       }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
     </style>
 </html>

@@ -157,7 +157,11 @@ function addnewjob(clickeditem,detaillinenumber){
         
         addjobline.append("jobid",jobid);
         addjobline.append("container",addjob.get("container"));
+        addjobline.append("customer",addjob.get("customer"));
+        addjobline.append("activity",addjob.get("activity"));
         addjobline.append("date",addjob.get("date"));
+
+        console.log(addjobline.get("inventoryid"));
 
         newaddedjob.overview=newaddedjob.overview+addjobline.get("label")+" "+addjobline.get("pcs")+"件 "+addjobline.get("plt")+"托 "+addjobline.get("note")+"<br>";
         const xhr  = new XMLHttpRequest();  
@@ -170,6 +174,19 @@ function addnewjob(clickeditem,detaillinenumber){
         }
         xhr.responseType="json";
         xhr.send(addjobline);
+
+        if (addjob.get('status') == '完成') {
+            
+            const xhr1  = new XMLHttpRequest();  
+            xhr1.open("POST", "https://garfat.xyz/index.php/home/Wms/updateinventory", true);
+            xhr1.onreadystatechange= () => {
+                if(xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200){
+                    sysresponse.innerHTML=xhr1.response["msg"];
+                }
+            }
+            xhr1.responseType="json";
+            xhr1.send(addjobline);
+        }
 
         
     }
@@ -191,22 +208,66 @@ function printSpecificContent() {
 
 async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
-    // const response = await fetch('https://garfat.xyz/index.php/home/Wms/showinventory', {
-    //     method: 'POST',
-    //     body: searchcreteria,
-    //   });
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+        method: 'POST',
+        body: searchcreteria,
+      });
 
-    // const data = await response.json();
-    // sysresponse.innerHTML=data["msg"];
+    const data = await response.json();
     
-    // var joblist = document.getElementById("activejobs");
-    // joblist.innerHTML="";
-    // for (var i = 0; i < data["data"].length; i++) {
-        
-    // }
+    
+    var activejobs = document.getElementById("activejobs");
+    activejobs.innerHTML="";
+    
+    // Create table element
+    var table = document.createElement("table");
+    table.className = "inventory-table";
+
+    // Create table header
+    var thead = document.createElement("thead");
+    thead.className = "inventory-table-header";
+    var headerRow = document.createElement("tr");
+    var headers = ["库存编号", "箱号/单号", "货物标签", "件数", "托数", "仓库", "区域"];
+    headers.forEach(function(headerText) {
+        var th = document.createElement("th");
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body
+    var tbody = document.createElement("tbody");
+    tbody.className = "inventory-table-body";
+    data['data'].forEach(function(item) {
+        var row = document.createElement("tr");
+        row.className = "inventory-table-row";
+        var columns = [item.inventoryid, item.container,item.label, item.pcs, item.plt, item.locationa, item.locationb];
+        columns.forEach(function(columnText) {
+            var td = document.createElement("td");
+            td.textContent = columnText;
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+
+        row.addEventListener("click", function() {
+            if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
+                detaillinenumber++;
+                createdetailline(detaillinenumber,item);
+                document.getElementById("detailform").appendChild(document.getElementById("addnewitemlinebutton"));
+            }else{
+                alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
+            }
+            
+        });
+    });
+    table.appendChild(tbody);
+
+    // Append table to activejobs element
+    activejobs.appendChild(table);
 }
 async function loaddetail(clickeditem,activity){
-    var detaillinenumber=0;
+    detaillinenumber=0;
 
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML="";
@@ -282,11 +343,11 @@ async function loaddetail(clickeditem,activity){
     var input0=document.createElement("input");
     input0.type="text";
     input0.name="container";
-    input0.id="input";
+    input0.id="containerinput";
     input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['container']:"");
     var input0label=document.createElement("label");
-    input0label.innerHTML="箱号/单号";
+    input0label.innerHTML=activity=="入库"?"箱号/单号":"目的地简称";
     input0label.htmlFor="input";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
@@ -326,6 +387,7 @@ async function loaddetail(clickeditem,activity){
     input0.name="date";
     input0.id="inputdate";
     input0.className="lineinput";
+    input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['date']:"");;
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
@@ -354,6 +416,12 @@ async function loaddetail(clickeditem,activity){
     activityInput.value = clickeditem != '' ? clickeditem['activity'] : activity;
     detailform.appendChild(activityInput);
 
+    var statuslog = document.createElement("div");
+    statuslog.style.display = "none";
+    statuslog.id = "statuslog";
+    statuslog.innerHTML = clickeditem != '' ? clickeditem['status'] : "";
+    detailform.appendChild(statuslog);
+    
     detailform.appendChild(document.createElement("hr"));
     
     //load items
@@ -370,16 +438,17 @@ async function loaddetail(clickeditem,activity){
         
         var items = data["data"];
         if(items!=null){
-            for (var i = 0; i < items.length; i++) {
+            for (var i = detaillinenumber; i < detaillinenumber+items.length; i++) {
                 createdetailline(i+1,items[i]);
             }
-            detaillinenumber=items.length;
+            detaillinenumber=detaillinenumber+items.length;
         }
     }
     
 
     var addnew = document.createElement("button");
     addnew.type="button";
+    addnew.id="addnewitemlinebutton";
     addnew.innerHTML="新增货物信息";
     addnew.className="button";
     
@@ -440,6 +509,11 @@ function createdetailline(id, item){
     input1.name="label";
     input1.className="lineinput";
     input1.value=item!=''?item['label']:'';
+    input1.onblur=function(){
+        var location=getlocation(input1.value);
+        document.getElementById("locationa"+id).value=location[0];
+        document.getElementById("locationb"+id).value=location[1];
+    };
     var input1label=document.createElement("label");
     input1label.innerHTML="货物标签";
     input1label.className="lineinputlabel";
@@ -501,6 +575,55 @@ function createdetailline(id, item){
     input4.name = "id";
     input4.value = item != '' ? item['id'] : '';
     detaillineform.appendChild(input4);
+
+    var linecontrol0=document.createElement("div");
+    linecontrol0.className="linecontrol";
+    var input5 = document.createElement("input");
+    input5.name = "inventoryid";
+    input5.className="lineinput";
+    input5.style.width="120px";
+    var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
+    var datepart=new Date(jobdate);
+    var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
+    var containerpart=document.getElementById("containerinput").value;
+    var last4=containerpart.length>4?containerpart.substr(containerpart.length - 4):containerpart;
+    var inventoryid=""+last4+datestring+id;
+    input5.value = item != '' ? item['inventoryid'] : inventoryid;
+    var input5label=document.createElement("label");
+    input5label.innerHTML="库存编号：";
+    input5label.className="lineinputlabel";
+    linecontrol0.appendChild(input5label);
+    linecontrol0.appendChild(input5);
+
+    var input6 = document.createElement("input");
+    input6.type = "text";
+    input6.id = "locationa"+id;
+    input6.name = "locationa";
+    input6.className = "lineinput";
+    input6.style.width="50px";
+    input6.value = item != '' ? item['locationa'] : '';
+    var input6label = document.createElement("label");
+    input6label.innerHTML = "仓库";
+    input6label.className = "lineinputlabel";
+    linecontrol0.appendChild(input6label);
+    linecontrol0.appendChild(input6);
+
+    var input7 = document.createElement("input");
+    input7.type = "text";
+    input7.id = "locationb"+id;
+    input7.name = "locationb";
+    input7.className = "lineinput";
+    input7.style.width="50px";
+    input7.value = item != '' ? item['locationb'] : '';
+    var input7label = document.createElement("label");
+    input7label.innerHTML = "区域";
+    input7label.className = "lineinputlabel";
+    linecontrol0.appendChild(input7label);
+    linecontrol0.appendChild(input7);
+
+    
+
+    detaillineform.appendChild(linecontrol0);
 }
 
 function createjob(jobcontent){
@@ -656,6 +779,15 @@ function createstatusbar(status){
     detailform.appendChild(statusRadioInput);
 }
 
+function getlocation(ref){
+    if (ref === 'STR1') {
+        return ['1', 'A'];
+    } else if (ref === 'HAJ1') {
+        return ['2', 'B'];
+    } else if (ref === 'WRO5') {
+        return ['3', 'C'];
+    } 
+}
 //get formatted date, targetdate is the number of days from today
 function getformatteddate(targetdate){
     var today = new Date();
