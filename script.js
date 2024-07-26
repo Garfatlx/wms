@@ -5,7 +5,7 @@ window.addEventListener("load", function(){
     }
 
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML=new Date().getTime();
+    sysresponse.innerHTML="check cache";
     
     var searchcreteria = new FormData();
     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
