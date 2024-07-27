@@ -78,6 +78,10 @@
                             <button class="button" id="searchbutton" style="display: inline-block; position: absolute; right: 0px; width: 70;">搜索</button>
                         </div>
                     </form>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <input type="file" id="imageFile" name="imageFile" multiple> <!-- Add the "multiple" attribute to allow multiple file selection -->
+                        <button type="submit">Upload</button>
+                    </form>
                 </div>  
                 <div id="activejobs" class="activejobs"></div>
             </div>

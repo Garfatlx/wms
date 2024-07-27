@@ -359,7 +359,7 @@ async function loaddetail(clickeditem,activity){
     linecontrol0.className="input-container";
     linecontrol0.style.position="absolute";
     linecontrol0.style.right="120px";
-    linecontrol0.style.top="70px";
+    linecontrol0.style.top="57px";
     var inputbottomline=document.createElement("div");
     inputbottomline.className="underline";
     var input0=document.createElement("input");
@@ -375,6 +375,30 @@ async function loaddetail(clickeditem,activity){
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
     linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(inputbottomline);
+
+    var linecontrol0=document.createElement("div");
+    linecontrol0.style.position="absolute";
+    linecontrol0.style.right="120px";
+    linecontrol0.style.top="109px";
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var selectchannel=document.createElement("select");
+    selectchannel.name="channel";
+    selectchannel.id="selectchannel";
+    const cars = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
+        cars.forEach(car => {
+            const option = document.createElement('option');
+            option.value = car;
+            option.text = car;
+            selectchannel.appendChild(option);
+        });
+    var input0label=document.createElement("label");
+    input0label.innerHTML="渠道: ";
+    input0label.htmlFor="selectchannel";
+    detailform.appendChild(linecontrol0);
+    linecontrol0.appendChild(input0label);
+    linecontrol0.appendChild(selectchannel);
     linecontrol0.appendChild(inputbottomline);
 
     createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"));
