@@ -447,7 +447,77 @@ async function loaddetail(clickeditem,activity){
     detailform.appendChild(statuslog);
     
     detailform.appendChild(document.createElement("hr"));
+
+    //upload image block
+    var uploaddiv=document.createElement("div");
+    uploaddiv.className="uploaddiv";
+    for (var i = 1; i <= 5; i++) {
+        var uploadbuttonblock = document.createElement("div");
+        uploadbuttonblock.className="uploadbuttonblock";
+        uploadbuttonblock.id="uploadbuttonblock"+i;
+
+        var uploadbutton = document.createElement("button");
+        uploadbutton.className="container-btn-file";
+        uploadbutton.innerHTML="上传图片"+i;
+
+        var input = document.createElement("input");
+        input.type = "file";
+        input.id = "imgFile"+i;
+        input.name = "imgFile"+i;
+        input.className="file";
+        input.accept = "image/*";
+        input.multiple = false;
+        
+        uploadbutton.appendChild(input);
+        uploadbuttonblock.appendChild(uploadbutton);
+
+        const inumber = i;
+        if (clickeditem != '' && clickeditem['img'+i] != '' && clickeditem['img'+i] != null) {
+            var img = document.createElement("img");
+            img.src = clickeditem['img'+i];
+            img.width = 100;
+            img.height = 100;
+            img.className = "img-preview";
+            uploadbuttonblock.appendChild(img);
+            img.addEventListener("click", function() {
+                window.open(this.src);
+            });
+        }
+        
+        input.addEventListener("change", function() {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function() {
+                    var img = document.createElement("img");
+                    img.src = reader.result;
+                    img.width = 100;
+                    img.height = 100;
+                    img.className = "img-preview";
+                    var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
+                    if (existingImage) {
+                        existingImage.remove();
+                    }
+                    document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
+                };
+                uploadimage(clickeditem['jobid'], file, 'img'+inumber);
+            }
+        });
+        
+        uploaddiv.appendChild(uploadbuttonblock);
+    }
+    itemdetail.appendChild(uploaddiv);
+    itemdetail.appendChild(document.createElement("hr"));
     
+    //add new detail button
+    var addnew = document.createElement("button");
+    addnew.type="button";
+    addnew.id="addnewitemlinebutton";
+    addnew.innerHTML="新增货物信息";
+    addnew.className="button";
+    
+    itemdetail.appendChild(addnew);
     //load items
     if(clickeditem!=""){
         var searchcreteria = new FormData();
@@ -470,13 +540,6 @@ async function loaddetail(clickeditem,activity){
     }
     
 
-    var addnew = document.createElement("button");
-    addnew.type="button";
-    addnew.id="addnewitemlinebutton";
-    addnew.innerHTML="新增货物信息";
-    addnew.className="button";
-    
-    detailform.appendChild(addnew);
     
     //submit button    
     detailform.addEventListener("submit", function (event) {
@@ -500,7 +563,7 @@ async function loaddetail(clickeditem,activity){
     addnew.addEventListener("click", function(){
         detaillinenumber++;
         createdetailline(detaillinenumber,"");
-        detailform.appendChild(addnew);
+        //detailform.appendChild(addnew);
         
     });
     submitbutton.addEventListener("click", function() {
@@ -521,7 +584,7 @@ async function loaddetail(clickeditem,activity){
 }
 
 function createdetailline(id, item){
-    var detailform=document.getElementById("detailform");
+    var detailform=document.getElementById("itemdetail");
 
     var detaillineform=document.createElement("form");
     detaillineform.id="detaillineform"+id;
@@ -739,6 +802,22 @@ function createjob(jobcontent){
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity']);
     });
+}
+
+function uploadimage(jobid, file, field) {
+    var formData = new FormData();
+    formData.append('jobid', jobid);
+    formData.append('field', field);
+    formData.append('file', file);
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/uploadimage', true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            console.log(xhr.response);
+        }
+    };
+    xhr.send(formData);
+    
 }
 
 function showloading(parent){

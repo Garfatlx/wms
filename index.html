@@ -78,10 +78,7 @@
                             <button class="button" id="searchbutton" style="display: inline-block; position: absolute; right: 0px; width: 70;">搜索</button>
                         </div>
                     </form>
-                    <form id="uploadForm" enctype="multipart/form-data">
-                        <input type="file" id="imageFile" name="imageFile" multiple> <!-- Add the "multiple" attribute to allow multiple file selection -->
-                        <button type="submit">Upload</button>
-                    </form>
+                    
                 </div>  
                 <div id="activejobs" class="activejobs"></div>
             </div>
@@ -322,6 +319,59 @@
             width: 100%;
             border-collapse: collapse;
             text-align: center;
+        }
+
+        .container-btn-file {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            background-color: #307750;
+            color: #fff;
+            border-style: none;
+            padding: 4px 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
+            transition: all 250ms;
+            cursor: pointer;
+        }
+        .container-btn-file input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .container-btn-file > svg {
+            margin-right: 1em;
+        }
+        .container-btn-file::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 0;
+            border-radius: 0.5em;
+            background-color: #469b61;
+            z-index: -1;
+            transition: all 350ms;
+        }
+        .container-btn-file:hover::before {
+            width: 100%;
+        }
+        .uploaddiv{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            height: 125px;
+        }
+        .uploadbuttonblock{
+            display: block;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
         }
     </style>
 </html>
