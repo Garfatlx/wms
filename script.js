@@ -458,6 +458,7 @@ async function loaddetail(clickeditem,activity){
 
         var uploadbutton = document.createElement("button");
         uploadbutton.className="container-btn-file";
+        
         uploadbutton.innerHTML="上传图片"+i;
 
         var input = document.createElement("input");
@@ -810,10 +811,10 @@ function uploadimage(jobid, file, field) {
     formData.append('field', field);
     formData.append('file', file);
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/uploadimage', true);
+    xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/saveimg', true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            console.log(xhr.response);
+            sysresponse.innerHTML = xhr.response["msg"];
         }
     };
     xhr.send(formData);

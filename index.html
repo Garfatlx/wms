@@ -53,7 +53,7 @@
                 <div id="searchbox" class="searchbox">
                     <form id="searchform" class="searchform">
                         <div class="linecontrol" style="display: flex;">
-                            <input type="text" class="search-input" name='searchref' placeholder="Search..." />
+                            <input type="text" class="search-input" name='searchref' placeholder="搜索客户、箱号、提货码" />
 
                             <div class="status-radio-input" style="margin-left: 15px; --container_width:160px">
                                 <label id="searchyesterday">
@@ -322,11 +322,11 @@
         }
 
         .container-btn-file {
-            display: flex;
+            /* display: flex;
             position: relative;
             justify-content: center;
             align-items: center;
-            background-color: #307750;
+            background-color: #666666;
             color: #fff;
             border-style: none;
             padding: 4px 4px;
@@ -335,7 +335,20 @@
             z-index: 1;
             box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
             transition: all 250ms;
-            cursor: pointer;
+            cursor: pointer; */
+
+            font-family: inherit;
+            border: none;
+            background: hsl(0deg 0% 75%);
+            box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+            font-size: 12px;
+            letter-spacing: 0;
+            padding: 3px 3px;
+            transition: 0.2s;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            display: flex;
         }
         .container-btn-file input[type="file"] {
             position: absolute;
@@ -347,19 +360,11 @@
         .container-btn-file > svg {
             margin-right: 1em;
         }
-        .container-btn-file::before {
-            content: "";
-            position: absolute;
-            height: 100%;
-            width: 0;
-            border-radius: 0.5em;
-            background-color: #469b61;
-            z-index: -1;
-            transition: all 350ms;
+        .container-btn-file:active {
+            box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+            background: hsl(0, 0%, 88%);
         }
-        .container-btn-file:hover::before {
-            width: 100%;
-        }
+        
         .uploaddiv{
             display: flex;
             justify-content: center;
