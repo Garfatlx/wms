@@ -7,8 +7,10 @@ window.addEventListener("load", function(){
     sysresponse = document.getElementById("response");
     sysresponse.innerHTML="worked?";
     
+    //page fist load
     var searchcreteria = new FormData();
     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+    showjobsearchbox();
     searchjobs(searchcreteria);
 
     
@@ -21,11 +23,165 @@ window.addEventListener("load", function(){
         loaddetail("",'出库');
     });
 
+    
+
+    //select page
+    var currentjobs = document.getElementById("currentjobs");
+    currentjobs.addEventListener("click", function() {
+        var searchcreteria = new FormData();
+        searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+        showjobsearchbox();
+        searchjobs(searchcreteria);
+    });
+    var currentinventory = document.getElementById("currentinventory");
+    currentinventory.addEventListener("click", function() {
+        var searchcreteria = new FormData();
+        showinventorysearchbox();
+        showinventory(searchcreteria);
+    });
+
+    var activitylog = document.getElementById("activitylog");
+    activitylog.addEventListener("click", function() {
+        document.getElementById("activejobs").innerHTML="";
+        showitemsearchbox();
+    });
+
+});
+
+
+
+function searchjobs(searchcreteria){
+    showloading(document.getElementById("activejobs"));
+    
+    console.log(searchcreteria.get("date"));
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                var joblist = document.getElementById("activejobs");
+                joblist.innerHTML="";
+                for (var i = 0; i < xhr.response["data"].length; i++) {
+                    createjob(xhr.response["data"][i]);
+                }
+                sysresponse.innerHTML=xhr.response["msg"];
+            }else{
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="加载失败/没有数据";
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+
+}
+function searchitems(searchcreteria){
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                return xhr.response["data"];
+                sysresponse.innerHTML=xhr.response["msg"];
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+}
+
+function showjobsearchbox(){
+    // Clear previous elements in searchbox
+    const searchbox = document.getElementById('searchbox');
+    searchbox.innerHTML = '';
+    // Create form element
+    const form = document.createElement('form');
+    form.id = 'searchform';
+    form.className = 'searchform';
+
+    // Create div container
+    const divContainer = document.createElement('div');
+    divContainer.className = 'linecontrol';
+    divContainer.style.display = 'flex';
+
+    // Create search input
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'search-input';
+    searchInput.name = 'searchref';
+    searchInput.placeholder = '搜索客户、箱号、提货码';
+    divContainer.appendChild(searchInput);
+
+    // Create status radio input container
+    const statusRadioInput = document.createElement('div');
+    statusRadioInput.className = 'status-radio-input';
+    statusRadioInput.style.marginLeft = '15px';
+    statusRadioInput.style.setProperty('--container_width', '160px');
+
+    // Function to create radio input with label
+    const createRadioInput = (id, value, text, checked = false) => {
+    const label = document.createElement('label');
+    label.id = id;
+
+    const input = document.createElement('input');
+    input.type = 'radio';
+    input.name = 'value-radio';
+    input.id = value;
+    input.value = value;
+    if (checked) input.checked = true;
+
+    const span = document.createElement('span');
+    span.textContent = text;
+
+    label.appendChild(input);
+    label.appendChild(span);
+
+    return label;
+    };
+
+    // Append radio inputs
+    statusRadioInput.appendChild(createRadioInput('searchyesterday', 'value-1', '昨天'));
+    statusRadioInput.appendChild(createRadioInput('searchtoday', 'value-2', '今天', true));
+    statusRadioInput.appendChild(createRadioInput('searchtomorrow', 'value-3', '明天'));
+    statusRadioInput.appendChild(createRadioInput('searchall', 'value-4', '全部'));
+
+    // Append status selection span
+    const statusSelection = document.createElement('span');
+    statusSelection.className = 'status-selection';
+    statusRadioInput.appendChild(statusSelection);
+
+    divContainer.appendChild(statusRadioInput);
+
+    // Create date input
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.className = 'search-input';
+    dateInput.name = 'date';
+    dateInput.style.width = '140px';
+    dateInput.style.marginLeft = '20px';
+    divContainer.appendChild(dateInput);
+
+    // Create search button
+    const searchButton = document.createElement('button');
+    searchButton.className = 'button';
+    searchButton.id = 'searchbutton';
+    searchButton.style.display = 'inline-block';
+    searchButton.style.position = 'absolute';
+    searchButton.style.right = '0px';
+    searchButton.style.width = '70px';
+    searchButton.textContent = '搜索';
+    divContainer.appendChild(searchButton);
+
+    // Append div container to form
+    form.appendChild(divContainer);
+
+    // Append form to body or any other container
+    searchbox.appendChild(form);
+
     //search form
-    var searchform = document.getElementById("searchform");
-    searchform.addEventListener("submit", function (event) {
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
-        var searchcreteria = new FormData(searchform);
+        var searchcreteria = new FormData(form);
         console.log(searchcreteria.get("searchref"));
         console.log(searchcreteria.get("date"));
         if(searchcreteria.get("date")!=""){
@@ -58,62 +214,188 @@ window.addEventListener("load", function(){
         var searchcreteria = new FormData();
         searchjobs(searchcreteria);
     });
+}
 
-    //select page
-    var currentjobs = document.getElementById("currentjobs");
-    currentjobs.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        searchjobs(searchcreteria);
-    });
-    var currentinventory = document.getElementById("currentinventory");
-    currentinventory.addEventListener("click", function() {
-        var searchcreteria = new FormData();
+function showinventorysearchbox(){
+    // Clear previous elements in searchbox
+    const searchbox = document.getElementById('searchbox');
+    searchbox.innerHTML = '';
+
+    // Create form element
+    const form = document.createElement('form');
+    form.id = 'searchform';
+    form.className = 'searchform';
+    // Center align elements
+    form.style.display = 'flex';
+
+    // Create div container
+    const divContainer = document.createElement('div');
+    divContainer.className = 'linecontrol';
+    divContainer.style.display = 'flex';
+
+    // Create search input
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'search-input';
+    searchInput.name = 'searchref';
+    
+    searchInput.style.margin = '10px 0px 0px 0px';
+    searchInput.placeholder = '搜索库存编号、箱号、标签';
+    divContainer.appendChild(searchInput);
+
+    const wareinputDiv=document.createElement("div");
+    wareinputDiv.className="input-container";
+    wareinputDiv.style.margin = '10px 0px 0px 20px';
+    wareinputDiv.style.width = '60px';
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var input0=document.createElement("input");
+    input0.type="text";
+    input0.name="locationa";
+    input0.id="input";
+    var input0label=document.createElement("label");
+    input0label.innerHTML="仓库";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    wareinputDiv.appendChild(input0);
+    wareinputDiv.appendChild(input0label);
+    wareinputDiv.appendChild(inputbottomline);
+    divContainer.appendChild(wareinputDiv);
+
+    const areainputDiv=document.createElement("div");
+    areainputDiv.className="input-container";
+    areainputDiv.style.margin = '10px 0px 0px 20px';
+    areainputDiv.style.width = '60px';
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var input0=document.createElement("input");
+    input0.type="text";
+    input0.name="locationb";
+    input0.id="input";
+    var input0label=document.createElement("label");
+    input0label.innerHTML="区域";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    areainputDiv.appendChild(input0);
+    areainputDiv.appendChild(input0label);
+    areainputDiv.appendChild(inputbottomline);
+    divContainer.appendChild(areainputDiv);
+    
+    // Create search button
+    const searchButton = document.createElement('button');
+    searchButton.className = 'button';
+    searchButton.id = 'searchbutton';
+    searchButton.style.display = 'inline-block';
+    searchButton.style.position = 'absolute';
+    searchButton.style.right = '0px';
+    searchButton.style.width = '70px';
+    searchButton.textContent = '搜索';
+    divContainer.appendChild(searchButton);
+
+    // Append div container to form
+    form.appendChild(divContainer);
+
+    // Append form to body or any other container
+    searchbox.appendChild(form);
+
+    //search form
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var searchcreteria = new FormData(form);
         showinventory(searchcreteria);
     });
 
-});
+}
 
+function showitemsearchbox(){
+    // Clear previous elements in searchbox
+    const searchbox = document.getElementById('searchbox');
+    searchbox.innerHTML = '';
 
+    // Create form element
+    const form = document.createElement('form');
+    form.id = 'searchform';
+    form.className = 'searchform';
+    // Center align elements
+    form.style.display = 'flex';
 
-function searchjobs(searchcreteria){
-    showloading(document.getElementById("activejobs"));
+    // Create div container
+    const divContainer = document.createElement('div');
+    divContainer.className = 'linecontrol';
+    divContainer.style.display = 'flex';
+
+    // Create search input
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'search-input';
+    searchInput.name = 'searchref';
     
-    console.log(searchcreteria.get("date"));
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                var joblist = document.getElementById("activejobs");
-                joblist.innerHTML="";
-                for (var i = 0; i < xhr.response["data"].length; i++) {
-                    createjob(xhr.response["data"][i]);
-                }
-            }else{
-                sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="加载失败/没有数据";
-            }
-        }
-    }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
+    searchInput.style.margin = '10px 0px 0px 0px';
+    searchInput.placeholder = '搜索客户、箱号、标签';
+    divContainer.appendChild(searchInput);
 
-}
-function searchitems(searchcreteria){
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                return xhr.response["data"];
-                sysresponse.innerHTML=xhr.response["msg"];
-            }
-        }
-    }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
-}
+    const wareinputDiv=document.createElement("div");
+    wareinputDiv.className="input-container";
+    wareinputDiv.style.margin = '10px 0px 0px 20px';
+    wareinputDiv.style.width = '100px';
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var input0=document.createElement("input");
+    input0.type="text";
+    input0.name="jobid";
+    input0.id="input";
+    var input0label=document.createElement("label");
+    input0label.innerHTML="任务编号";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    wareinputDiv.appendChild(input0);
+    wareinputDiv.appendChild(input0label);
+    wareinputDiv.appendChild(inputbottomline);
+    divContainer.appendChild(wareinputDiv);
 
+    const areainputDiv=document.createElement("div");
+    areainputDiv.className="input-container";
+    areainputDiv.style.margin = '10px 0px 0px 20px';
+    areainputDiv.style.width = '100px';
+    var inputbottomline=document.createElement("div");
+    inputbottomline.className="underline";
+    var input0=document.createElement("input");
+    input0.type="text";
+    input0.name="inventoryid";
+    input0.id="input";
+    var input0label=document.createElement("label");
+    input0label.innerHTML="库存编号";
+    input0label.htmlFor="input";
+    input0label.className="label";
+    areainputDiv.appendChild(input0);
+    areainputDiv.appendChild(input0label);
+    areainputDiv.appendChild(inputbottomline);
+    divContainer.appendChild(areainputDiv);
+    
+    // Create search button
+    const searchButton = document.createElement('button');
+    searchButton.className = 'button';
+    searchButton.id = 'searchbutton';
+    searchButton.style.display = 'inline-block';
+    searchButton.style.position = 'absolute';
+    searchButton.style.right = '0px';
+    searchButton.style.width = '70px';
+    searchButton.textContent = '搜索';
+    divContainer.appendChild(searchButton);
+
+    // Append div container to form
+    form.appendChild(divContainer);
+
+    // Append form to body or any other container
+    searchbox.appendChild(form);
+
+    //search form
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var searchcreteria = new FormData(form);
+        showitems(searchcreteria);
+    });
+}
 function addnewjob(clickeditem,detaillinenumber){
 
     var addjob = new FormData(document.getElementById("detailform"));
@@ -154,14 +436,18 @@ function addnewjob(clickeditem,detaillinenumber){
     newaddedjob.overview="";
     for (var i = 1; i <= detaillinenumber; i++) {
         var addjobline = new FormData(document.getElementById("detaillineform"+i));
-        
+        if(addjob.get("activity")=="入库"){
+            addjobline.append("container",addjob.get("joblabel"));
+        }else{
+            addjobline.append("label",addjob.get("joblabel"));
+        }
         addjobline.append("jobid",jobid);
-        addjobline.append("container",addjob.get("container"));
         addjobline.append("customer",addjob.get("customer"));
         addjobline.append("activity",addjob.get("activity"));
         addjobline.append("date",addjob.get("date"));
 
         console.log(addjobline.get("inventoryid"));
+        console.log(addjobline);
 
         newaddedjob.overview=newaddedjob.overview+addjobline.get("label")+" "+addjobline.get("pcs")+"件 "+addjobline.get("plt")+"托 "+addjobline.get("note")+"<br>";
         const xhr  = new XMLHttpRequest();  
@@ -169,7 +455,7 @@ function addnewjob(clickeditem,detaillinenumber){
         //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
         xhr.onreadystatechange= () => {
             if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-                // restext.innerHTML=xhr.response["msg"];
+                console.log(xhr.response["msg"]);
             }
         }
         xhr.responseType="json";
@@ -253,13 +539,62 @@ async function showinventory(searchcreteria){
         row.addEventListener("click", function() {
             if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
                 detaillinenumber++;
-                createdetailline(detaillinenumber,item);
-                document.getElementById("detailform").appendChild(document.getElementById("addnewitemlinebutton"));
+                item['id'] = '';
+                createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value);
             }else{
                 alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
             }
             
         });
+    });
+    table.appendChild(tbody);
+
+    // Append table to activejobs element
+    activejobs.appendChild(table);
+}
+async function showitems(searchcreteria){
+    showloading(document.getElementById("activejobs"));
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        method: 'POST',
+        body: searchcreteria,
+      });
+
+    const data = await response.json();
+    
+    
+    var activejobs = document.getElementById("activejobs");
+    activejobs.innerHTML="";
+    
+    // Create table element
+    var table = document.createElement("table");
+    table.className = "inventory-table";
+
+    // Create table header
+    var thead = document.createElement("thead");
+    thead.className = "inventory-table-header";
+    var headerRow = document.createElement("tr");
+    var headers = ["出入库", "客户", "箱号/单号", "货物标签", "件数", "托数", "日期"];
+    headers.forEach(function(headerText) {
+        var th = document.createElement("th");
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table body
+    var tbody = document.createElement("tbody");
+    tbody.className = "inventory-table-body";
+    data['data'].forEach(function(item) {
+        var row = document.createElement("tr");
+        row.className = "inventory-table-row";
+        var columns = [item.activity, item.customer, item.container,item.label, item.pcs, item.plt, item.date];
+        columns.forEach(function(columnText) {
+            var td = document.createElement("td");
+            td.textContent = columnText;
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
     });
     table.appendChild(tbody);
 
@@ -328,7 +663,7 @@ async function loaddetail(clickeditem,activity){
     input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['customer']:"");
     var input0label=document.createElement("label");
-    input0label.innerHTML="工作标签";
+    input0label.innerHTML="客户";
     input0label.htmlFor="input";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
@@ -342,10 +677,10 @@ async function loaddetail(clickeditem,activity){
     inputbottomline.className="underline";
     var input0=document.createElement("input");
     input0.type="text";
-    input0.name="container";
+    input0.name="joblabel";
     input0.id="containerinput";
     input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['container']:"");
+    input0.value=((clickeditem!='')?clickeditem['joblabel']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML=activity=="入库"?"箱号/单号":"目的地简称";
     input0label.htmlFor="input";
@@ -377,29 +712,7 @@ async function loaddetail(clickeditem,activity){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
 
-    var linecontrol0=document.createElement("div");
-    linecontrol0.style.position="absolute";
-    linecontrol0.style.right="120px";
-    linecontrol0.style.top="109px";
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var selectchannel=document.createElement("select");
-    selectchannel.name="channel";
-    selectchannel.id="selectchannel";
-    const cars = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
-        cars.forEach(car => {
-            const option = document.createElement('option');
-            option.value = car;
-            option.text = car;
-            selectchannel.appendChild(option);
-        });
-    var input0label=document.createElement("label");
-    input0label.innerHTML="渠道: ";
-    input0label.htmlFor="selectchannel";
-    detailform.appendChild(linecontrol0);
-    linecontrol0.appendChild(input0label);
-    linecontrol0.appendChild(selectchannel);
-    linecontrol0.appendChild(inputbottomline);
+    
 
     createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"));
 
@@ -436,6 +749,7 @@ async function loaddetail(clickeditem,activity){
 
     var activityInput = document.createElement("input");
     activityInput.type = "hidden";
+    activityInput.id = "jobactivity";
     activityInput.name = "activity";
     activityInput.value = clickeditem != '' ? clickeditem['activity'] : activity;
     detailform.appendChild(activityInput);
@@ -486,6 +800,9 @@ async function loaddetail(clickeditem,activity){
         }
         
         input.addEventListener("change", function() {
+            if (clickeditem == '') {
+                alert("请保存任务后再上传图片");
+            }else{
             var file = this.files[0];
             if (file) {
                 var reader = new FileReader();
@@ -502,7 +819,9 @@ async function loaddetail(clickeditem,activity){
                     }
                     document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
                 };
+                
                 uploadimage(clickeditem['jobid'], file, 'img'+inumber);
+                }
             }
         });
         
@@ -534,7 +853,7 @@ async function loaddetail(clickeditem,activity){
         var items = data["data"];
         if(items!=null){
             for (var i = detaillinenumber; i < detaillinenumber+items.length; i++) {
-                createdetailline(i+1,items[i]);
+                createdetailline(i+1,items[i],activity);
             }
             detaillinenumber=detaillinenumber+items.length;
         }
@@ -563,7 +882,7 @@ async function loaddetail(clickeditem,activity){
     }
     addnew.addEventListener("click", function(){
         detaillinenumber++;
-        createdetailline(detaillinenumber,"");
+        createdetailline(detaillinenumber,"",activity);
         //detailform.appendChild(addnew);
         
     });
@@ -584,7 +903,7 @@ async function loaddetail(clickeditem,activity){
     
 }
 
-function createdetailline(id, item){
+function createdetailline(id, item, activity) {
     var detailform=document.getElementById("itemdetail");
 
     var detaillineform=document.createElement("form");
@@ -594,16 +913,19 @@ function createdetailline(id, item){
 
     var input1=document.createElement("input");
     input1.type="text";
-    input1.name="label";
+    input1.name=activity=="入库"?"label":"container";
     input1.className="lineinput";
-    input1.value=item!=''?item['label']:'';
+    input1.style.width="120px";
+    input1.value=item==''?'':activity=="入库"?item['label']:item['container'];
     input1.onblur=function(){
         var location=getlocation(input1.value);
-        document.getElementById("locationa"+id).value=location[0];
-        document.getElementById("locationb"+id).value=location[1];
+        if(location!=null){
+            document.getElementById("locationa"+id).value=location[0];
+            document.getElementById("locationb"+id).value=location[1];
+        }
     };
     var input1label=document.createElement("label");
-    input1label.innerHTML="货物标签";
+    input1label.innerHTML=activity=="入库"?"货物标签":"箱号/单号";
     input1label.className="lineinputlabel";
     detaillineform.appendChild(input1label);
     detaillineform.appendChild(input1);
@@ -613,7 +935,7 @@ function createdetailline(id, item){
     input2.type="text";
     input2.name="pcs";
     input2.className="lineinput";
-    input2.style.width="50px";
+    input2.style.width="35px";
     input2.value=item!=''?item['pcs']:'';
     var input2label=document.createElement("label");
     input2label.innerHTML="件数";
@@ -625,7 +947,7 @@ function createdetailline(id, item){
     input2.type="text";
     input2.name="plt";
     input2.className="lineinput";
-    input2.style.width="50px";
+    input2.style.width="35px";
     input2.value=item!=''?item['plt']:'';
     var input2label=document.createElement("label");
     input2label.innerHTML="托数";
@@ -633,9 +955,27 @@ function createdetailline(id, item){
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
 
-    detaillineform.appendChild(document.createElement("br"));
     
-    //create an api connection to chatgpt
+    
+    var selectchannel=document.createElement("select");
+    selectchannel.name="channel";
+    selectchannel.id="selectchannel";
+    selectchannel.style.width="100px";
+    const channels = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
+        channels.forEach(channel => {
+            const option = document.createElement('option');
+            option.value = channel;
+            option.text = channel;
+            selectchannel.appendChild(option);
+        });
+    var input0label=document.createElement("label");
+    input0label.innerHTML="渠道";
+    input0label.style.marginLeft="10px";
+    input0label.htmlFor="selectchannel";
+    detaillineform.appendChild(input0label);
+    detaillineform.appendChild(selectchannel);
+
+    detaillineform.appendChild(document.createElement("br"));
     
     var input3=document.createElement("textarea");
     
@@ -715,7 +1055,7 @@ function createdetailline(id, item){
 }
 
 function createjob(jobcontent){
-    var clickeditem=jobcontent;
+    const clickeditem=jobcontent;
     var joblist = document.getElementById("activejobs");
 
     var activejob = document.createElement("div");
@@ -741,7 +1081,7 @@ function createjob(jobcontent){
     // Create and append the standalone item title
     const itemTitle2 = document.createElement('p');
     itemTitle2.className = 'itemtitle';
-    itemTitle2.textContent = jobcontent['container'];
+    itemTitle2.textContent = jobcontent['joblabel'];
     activejob.appendChild(itemTitle2);
 
     // Create and append the first horizontal rule
@@ -814,9 +1154,10 @@ function uploadimage(jobid, file, field) {
     xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/saveimg', true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            sysresponse.innerHTML = xhr.response["msg"];
+            sysresponse.innerHTML = xhr.response['msg'];
         }
     };
+    xhr.responseType = 'json';
     xhr.send(formData);
     
 }
@@ -890,7 +1231,9 @@ function getlocation(ref){
         return ['2', 'B'];
     } else if (ref === 'WRO5') {
         return ['3', 'C'];
-    } 
+    } else{
+        return null;
+    }
 }
 //get formatted date, targetdate is the number of days from today
 function getformatteddate(targetdate){

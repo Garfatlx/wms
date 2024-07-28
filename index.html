@@ -51,7 +51,7 @@
         <div id="bodyframe" class="bodyframe">
             <div id="leftbody" class="leftbody">
                 <div id="searchbox" class="searchbox">
-                    <form id="searchform" class="searchform">
+                    <!-- <form id="searchform" class="searchform">
                         <div class="linecontrol" style="display: flex;">
                             <input type="text" class="search-input" name='searchref' placeholder="搜索客户、箱号、提货码" />
 
@@ -78,7 +78,7 @@
                             <button class="button" id="searchbutton" style="display: inline-block; position: absolute; right: 0px; width: 70;">搜索</button>
                         </div>
                     </form>
-                    
+                     -->
                 </div>  
                 <div id="activejobs" class="activejobs"></div>
             </div>
@@ -132,7 +132,7 @@
             border-width: 1px;
             border-style: solid;
             border-color: light-grey;
-            border-radius: 4px;
+            border-radius: 2px;
             margin:6px 6px 6px 6px;
             padding-left:5px;
             padding-right:5px;
@@ -168,7 +168,7 @@
         }
         .lineinputlabel{
             display: inline-block;
-            margin: 5 5 5 5;
+            margin: 0 0 5 5;
         }
         .jobstatus{
             display: inline-block;
@@ -218,9 +218,25 @@
             display: block;
             width: 500px;
         }
-        .detailineform{
+        .detaillineform{
             display: block;
             width: 100%;
+            margin:0 0 0 0;
+            margin-block-end: 0;
+
+
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(176, 176, 176, 0.25);
+            border-radius: 2px;
+            margin:2px 2px 2px 2px;
+            padding: 5px 5px 5px 5px;
+            width: 500;
+            min-width: 180;
+            display: inline-block;
+            box-shadow:  0px 2px 5px rgba(0,0,0,0.25);
+            transition:0.5s;
+            position: relative;
         }
         .button {
             font-family: inherit;
@@ -266,7 +282,7 @@
             pointer-events: none;
         }
 
-        .input-container input[type="text"]:focus ~ .label, 
+        /* .input-container input[type="text"]:focus ~ .label,  */
         .input-container input[type="text"]:valid ~ .label,
         .input-container input[type="text"]:disabled ~ .label
         {
