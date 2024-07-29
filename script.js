@@ -943,6 +943,10 @@ async function loaddetail(clickeditem,activity){
             buttons[i].disabled = true;
         }
         return;
+
+    }
+    if(access==1){
+        cancelButton.disabled = false;
     }
     addnew.addEventListener("click", function(){
         detaillinenumber++;
