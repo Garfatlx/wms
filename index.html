@@ -55,10 +55,10 @@
                 <div id="activejobs" class="activejobs">
                     <div class="loginblock">
                         <form class="login-form" id="loginform">
-                            <div class="login-title">Welcome,<br><span>sign up to continue</span></div>
-                            <input type="text" placeholder="Email" name="username" class="login-input">
-                            <input type="password" placeholder="Password" name="password" class="login-input">
-                            <button class="login-button-confirm">Let`s go →</button>
+                            <div class="login-title">欢迎,<br><span>登录账号进行操作</span></div>
+                            <input type="text" placeholder="用户名" name="username" class="login-input" value="admin"> 
+                            <input type="password" placeholder="密码" name="password" class="login-input">
+                            <button class="login-button-confirm">登录 →</button>
                         </form>
                     </div>
                 </div>
@@ -450,6 +450,10 @@
             font-weight: 600;
             color: var(--font-color);
             cursor: pointer;
+        }
+        .login-button-confirm:active {
+            box-shadow: 0px 0px var(--main-color);
+            transform: translate(3px, 3px);
         }
     </style>
 </html>
