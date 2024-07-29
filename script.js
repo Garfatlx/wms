@@ -1208,6 +1208,8 @@ function createjob(jobcontent){
     activejob.appendChild(itemLine3);
 
     joblist.appendChild(activejob);
+
+    activejob.classList.add('fadein');
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity']);
     });
