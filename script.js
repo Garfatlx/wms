@@ -927,8 +927,8 @@ async function loaddetail(clickeditem,activity){
     });
 
     if ((clickeditem && clickeditem['status'] === '完成') || access!=1) {
-        var inputs = detailform.getElementsByTagName('input');
-        var textareas = detailform.getElementsByTagName('textarea');
+        var inputs = itemdetail.getElementsByTagName('input');
+        var textareas = itemdetail.getElementsByTagName('textarea');
         var buttons = itemdetail.getElementsByTagName('button');
 
         for (var i = 0; i < inputs.length; i++) {
@@ -946,7 +946,7 @@ async function loaddetail(clickeditem,activity){
 
     }
     if(access==1){
-        cancelButton.disabled = false;
+        cancelButton.removeAttribute("disabled");
     }
     addnew.addEventListener("click", function(){
         detaillinenumber++;
