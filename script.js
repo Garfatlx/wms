@@ -1,18 +1,20 @@
 window.addEventListener("load", function(){
-    var showtest = document.getElementById("showtest");
-    if (showtest) {
-        showtest.innerHTML="load page";
-    }
-
+    
+    access=-1;
     sysresponse = document.getElementById("response");
     sysresponse.innerHTML="worked?";
     
     //page fist load
-    var searchcreteria = new FormData();
-    searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-    showjobsearchbox();
-    searchjobs(searchcreteria);
+    // var searchcreteria = new FormData();
+    // searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+    // showjobsearchbox();
+    // searchjobs(searchcreteria);
 
+    var loginform= document.getElementById("loginform");
+    loginform.addEventListener("submit", function (event) {
+        event.preventDefault();
+        login();
+    });
     
     var newinjobbutton = document.getElementById("newinjobbutton");
     newinjobbutton.addEventListener("click", function() {
@@ -28,32 +30,62 @@ window.addEventListener("load", function(){
     //select page
     var currentjobs = document.getElementById("currentjobs");
     currentjobs.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-        showjobsearchbox();
-        searchjobs(searchcreteria);
+        if(access!=-1){
+            var searchcreteria = new FormData();
+            searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+            showjobsearchbox();
+            searchjobs(searchcreteria);
+        }
     });
     var currentinventory = document.getElementById("currentinventory");
     currentinventory.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        showinventorysearchbox();
-        showinventory(searchcreteria);
+        if(access!=-1){
+            var searchcreteria = new FormData();
+            showinventorysearchbox();
+            showinventory(searchcreteria);
+        }
     });
 
     var activitylog = document.getElementById("activitylog");
     activitylog.addEventListener("click", function() {
-        document.getElementById("activejobs").innerHTML="";
-        showitemsearchbox();
+        if(access!=-1){
+            document.getElementById("activejobs").innerHTML="";
+            showitemsearchbox();
+        }
     });
 
 });
 
-
+function login(){
+    
+    var loginform = new FormData(document.getElementById("loginform"));
+    showloading(document.getElementById("activejobs"));
+    const xhr  = new XMLHttpRequest();
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/finduser", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                sysresponse.innerHTML=xhr.response["msg"];
+                access=xhr.response["data"]["access"];
+                document.getElementById("newinjobbutton").removeAttribute('disabled');
+                document.getElementById("newoutjobbutton").removeAttribute('disabled');
+                var searchcreteria = new FormData();
+                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                showjobsearchbox();
+                searchjobs(searchcreteria);
+            }else{
+                document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
+                
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(loginform);
+}
 
 function searchjobs(searchcreteria){
     showloading(document.getElementById("activejobs"));
     
-    console.log(searchcreteria.get("date"));
     const xhr  = new XMLHttpRequest();  
     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
     xhr.onreadystatechange= () => {
@@ -818,24 +850,23 @@ async function loaddetail(clickeditem,activity){
             if (clickeditem == '') {
                 alert("请保存任务后再上传图片");
             }else{
-            var file = this.files[0];
-            if (file) {
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function() {
-                    var img = document.createElement("img");
-                    img.src = reader.result;
-                    img.width = 100;
-                    img.height = 100;
-                    img.className = "img-preview";
-                    var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
-                    if (existingImage) {
-                        existingImage.remove();
-                    }
-                    document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
-                };
-                
-                uploadimage(clickeditem['jobid'], file, 'img'+inumber);
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function() {
+                        var img = document.createElement("img");
+                        img.src = reader.result;
+                        img.width = 100;
+                        img.height = 100;
+                        img.className = "img-preview";
+                        var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
+                        if (existingImage) {
+                            existingImage.remove();
+                        }
+                        document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
+                    };
+                    uploadimage(clickeditem['jobid'], file, 'img'+inumber);
                 }
             }
         });
@@ -882,9 +913,10 @@ async function loaddetail(clickeditem,activity){
         
     });
 
-    if (clickeditem && clickeditem['status'] === '完成') {
+    if ((clickeditem && clickeditem['status'] === '完成') || access!=1) {
         var inputs = detailform.getElementsByTagName('input');
         var textareas = detailform.getElementsByTagName('textarea');
+        var buttons = itemdetail.getElementsByTagName('button');
 
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = true;
@@ -892,6 +924,10 @@ async function loaddetail(clickeditem,activity){
 
         for (var i = 0; i < textareas.length; i++) {
             textareas[i].disabled = true;
+        }
+
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
         }
         return;
     }

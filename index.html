@@ -23,14 +23,14 @@
         <div id="controlframe" class="controlframe">
             <div class="radio-inputs">
                 <label id="currentjobs">
-                    <input class="radio-input" checked="" type="radio" name="engine">
+                    <input class="radio-input" checked="" type="radio" name="engine" >
                         <span class="radio-tile">
                             
                             <span class="radio-label">当前任务</span>
                         </span>
                 </label>
                 <label id="currentinventory">
-                    <input  class="radio-input" type="radio" name="engine">
+                    <input  class="radio-input" type="radio" name="engine" >
                     <span class="radio-tile">
                         
                         <span class="radio-label">库存清单</span>
@@ -45,42 +45,23 @@
                 </label>
             </div>
             
-            <button class="button" id="newinjobbutton" style="position: absolute; right: 0px;top: 6;">新建入库</button>
-            <button class="button" id="newoutjobbutton" style="position: absolute; right: 96px;top: 6;">新建出库</button>
+            <button class="button" id="newinjobbutton" style="position: absolute; right: 0px;top: 6;" disabled>新建入库</button>
+            <button class="button" id="newoutjobbutton" style="position: absolute; right: 96px;top: 6;" disabled>新建出库</button>
         </div>
         <div id="bodyframe" class="bodyframe">
             <div id="leftbody" class="leftbody">
-                <div id="searchbox" class="searchbox">
-                    <!-- <form id="searchform" class="searchform">
-                        <div class="linecontrol" style="display: flex;">
-                            <input type="text" class="search-input" name='searchref' placeholder="搜索客户、箱号、提货码" />
-
-                            <div class="status-radio-input" style="margin-left: 15px; --container_width:160px">
-                                <label id="searchyesterday">
-                                <input value="value-1" name="value-radio" id="value-1" type="radio" >
-                                <span>昨天</span>
-                                </label>
-                                <label id="searchtoday">
-                                  <input value="value-2" name="value-radio" id="value-2" type="radio" checked="">
-                                <span>今天</span>
-                                </label>
-                                <label id="searchtomorrow">
-                                  <input value="value-3" name="value-radio" id="value-3" type="radio">
-                                <span>明天</span>
-                                </label>
-                                <label id="searchall">
-                                    <input value="value-4" name="value-radio" id="value-4" type="radio">
-                                <span>全部</span>
-                                </label>
-                                <span class="status-selection"></span>
-                            </div>
-                            <input type="date" class="search-input" name="date" style="width: 140px; margin-left: 20px;" />
-                            <button class="button" id="searchbutton" style="display: inline-block; position: absolute; right: 0px; width: 70;">搜索</button>
-                        </div>
-                    </form>
-                     -->
+                <div id="searchbox" class="searchbox">  
                 </div>  
-                <div id="activejobs" class="activejobs"></div>
+                <div id="activejobs" class="activejobs">
+                    <div class="loginblock">
+                        <form class="login-form" id="loginform">
+                            <div class="login-title">Welcome,<br><span>sign up to continue</span></div>
+                            <input type="text" placeholder="Email" name="username" class="login-input">
+                            <input type="password" placeholder="Password" name="password" class="login-input">
+                            <button class="login-button-confirm">Let`s go →</button>
+                        </form>
+                    </div>
+                </div>
             </div>
             <hr>
             <div id="controlpanel" class="controlpanel">
@@ -393,6 +374,82 @@
             justify-content: center;
             align-items: center;
             width: 100px;
+        }
+
+        .loginblock{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .login-form {
+            --input-focus: #2d8cf0;
+            --font-color: #323232;
+            --font-color-sub: #666;
+            --bg-color: #fff;
+            --main-color: #323232;
+            padding: 20px;
+            background: lightgrey;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 20px;
+            border-radius: 5px;
+            border: 2px solid var(--main-color);
+            box-shadow: 4px 4px var(--main-color);
+        }
+
+        .login-title {
+            color: var(--font-color);
+            font-weight: 900;
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .login-title span {
+            color: var(--font-color-sub);
+            font-weight: 600;
+            font-size: 17px;
+        }
+
+        .login-input {
+            width: 250px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid var(--main-color);
+            background-color: var(--bg-color);
+            box-shadow: 4px 4px var(--main-color);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--font-color);
+            padding: 5px 10px;
+            outline: none;
+        }
+
+        .login-input::placeholder {
+            color: var(--font-color-sub);
+            opacity: 0.8;
+        }
+
+        .login-input:focus {
+            border: 2px solid var(--input-focus);
+        }
+
+
+        .login-button-confirm {
+            margin: 50px auto 0 auto;
+            width: 120px;
+            height: 40px;
+            border-radius: 5px;
+            border: 2px solid var(--main-color);
+            background-color: var(--bg-color);
+            box-shadow: 4px 4px var(--main-color);
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--font-color);
+            cursor: pointer;
         }
     </style>
 </html>
