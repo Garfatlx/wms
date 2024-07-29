@@ -520,10 +520,10 @@ function printSpecificContent(clickeditem) {
     if (clickeditem) {
         var printWindow = window.open('', '', 'height=1123,width=794');
         printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:30px}h1{font-size:50px; font-weight:400;}</style>');
+        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:50px;margin:10px 0px 0px 30px}h1{font-size:70px; font-weight:600;}</style>');
         printWindow.document.write('</head><body >');
-        printWindow.document.write('<h1>'+clickeditem['customer']+'</h1><br>');
-        printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1><br>');
+        printWindow.document.write('<h1 style="margin-top:50px">'+clickeditem['customer']+'</h1>');
+        printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1>');
         printWindow.document.write('<hr>');
         printWindow.document.write(clickeditem['date']+'<br>');
         printWindow.document.write(clickeditem['overview']+ '<br>');    
