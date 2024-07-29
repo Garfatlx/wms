@@ -734,18 +734,33 @@ async function loaddetail(clickeditem,activity){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
 
-    var linecontrol0=document.createElement("div");
-    linecontrol0.className="linecontrol";
+    if (activity == '出库') {
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="linecontrol";
+        var input0=document.createElement("textarea");
+        input0.name="deladdress";
+        input0.className="lineinput";
+        input0.value=((clickeditem!='')?clickeditem['deladdress']:"");
+        var input0label=document.createElement("label");
+        input0label.innerHTML="送货地址";
+        input0label.className="lineinputlabel";
+        linecontrol0.appendChild(input0label);
+        linecontrol0.appendChild(input0);
+        detailform.appendChild(linecontrol0);
+    }
+    
     var input0=document.createElement("textarea");
-    input0.name="deladdress";
+    input0.name="ordernote";
     input0.className="lineinput";
-    input0.value=((clickeditem!='')?clickeditem['deladdress']:"");
+    input0.value=((clickeditem!='')?clickeditem['ordernote']:"");
     var input0label=document.createElement("label");
-    input0label.innerHTML="送货地址";
+    input0label.innerHTML="备注";
     input0label.className="lineinputlabel";
-    detailform.appendChild(linecontrol0);
+    input0label.style.margin="0px 0px 0px 20px";
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
+
+    detailform.appendChild(linecontrol0);
 
     var activityInput = document.createElement("input");
     activityInput.type = "hidden";
@@ -1008,6 +1023,7 @@ function createdetailline(id, item, activity) {
     linecontrol0.className="linecontrol";
     var input5 = document.createElement("input");
     input5.name = "inventoryid";
+    input5.disabled = true;
     input5.className="lineinput";
     input5.style.width="120px";
     var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
@@ -1049,9 +1065,9 @@ function createdetailline(id, item, activity) {
     linecontrol0.appendChild(input7label);
     linecontrol0.appendChild(input7);
 
-    
-
     detaillineform.appendChild(linecontrol0);
+
+
 }
 
 function createjob(jobcontent){
