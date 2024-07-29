@@ -691,12 +691,12 @@ async function loaddetail(clickeditem,activity){
     var input0=document.createElement("input");
     input0.type="text";
     input0.name="customer";
-    input0.id="input";
+    input0.id="customerinput";
     input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['customer']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML="客户";
-    input0label.htmlFor="input";
+    input0label.htmlFor="customerinput";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
@@ -711,7 +711,7 @@ async function loaddetail(clickeditem,activity){
     var input0=document.createElement("input");
     input0.type="text";
     input0.name="joblabel";
-    input0.id="containerinput";
+    input0.id="joblabelinput";
     input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['joblabel']:"");
     var input0label=document.createElement("label");
@@ -733,12 +733,12 @@ async function loaddetail(clickeditem,activity){
     var input0=document.createElement("input");
     input0.type="text";
     input0.name="reference";
-    input0.id="input";
+    input0.id="referenceinput";
     input0.required=true;
     input0.value=((clickeditem!='')?clickeditem['reference']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML="提货码";
-    input0label.htmlFor="input";
+    input0label.htmlFor="referenceinput";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
@@ -1066,7 +1066,7 @@ function createdetailline(id, item, activity) {
     var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
     var datepart=new Date(jobdate);
     var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
-    var containerpart=document.getElementById("containerinput").value;
+    var containerpart=document.getElementById("joblabelinput").value;
     var last4=containerpart.length>4?containerpart.substr(containerpart.length - 4):containerpart;
     var inventoryid=""+last4+datestring+id;
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
