@@ -1075,7 +1075,7 @@ function createdetailline(id, item, activity) {
     linecontrol0.className="linecontrol";
     var input5 = document.createElement("input");
     input5.name = "inventoryid";
-    input5.disabled = true;
+    input5.readOnly = true;
     input5.className="lineinput";
     input5.style.width="120px";
     var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
