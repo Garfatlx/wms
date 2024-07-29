@@ -716,7 +716,7 @@ async function loaddetail(clickeditem,activity){
     input0.value=((clickeditem!='')?clickeditem['joblabel']:"");
     var input0label=document.createElement("label");
     input0label.innerHTML=activity=="入库"?"箱号/单号":"目的地简称";
-    input0label.htmlFor="input";
+    input0label.htmlFor="joblabelinput";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
