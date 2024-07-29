@@ -666,6 +666,7 @@ async function loaddetail(clickeditem,activity){
     var cancelButton = document.createElement("button");
     cancelButton.innerHTML = "封存任务";
     cancelButton.className = "button";
+    cancelButton.id = "archivebutton";
     cancelButton.addEventListener("click", function() {
         // Displaying an alert message
         if (confirm("确认封存任务?")) {
@@ -942,11 +943,10 @@ async function loaddetail(clickeditem,activity){
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].disabled = true;
         }
-        return;
-
     }
     if(access==1){
         cancelButton.removeAttribute("disabled");
+        printbutton.removeAttribute("disabled");
     }
     addnew.addEventListener("click", function(){
         detaillinenumber++;
