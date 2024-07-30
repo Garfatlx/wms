@@ -2,7 +2,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="worked?";
+    sysresponse.innerHTML="欢迎";
     
     //page fist load
     // var searchcreteria = new FormData();
@@ -464,8 +464,6 @@ function addnewjob(clickeditem,detaillinenumber){
     xhr.responseType="json";
     xhr.send(addjob);
 
-    var newaddedjob=Object.fromEntries(addjob.entries());
-    newaddedjob.overview="";
     for (var i = 1; i <= detaillinenumber; i++) {
         var addjobline = new FormData(document.getElementById("detaillineform"+i));
         if(addjob.get("activity")=="入库"){
@@ -481,7 +479,6 @@ function addnewjob(clickeditem,detaillinenumber){
         console.log(addjobline.get("inventoryid"));
         console.log(addjobline);
 
-        newaddedjob.overview=newaddedjob.overview+addjobline.get("label")+" "+addjobline.get("pcs")+"件 "+addjobline.get("plt")+"托 "+addjobline.get("note")+"<br>";
         const xhr  = new XMLHttpRequest();  
         xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/additem", true);
         //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
@@ -509,9 +506,7 @@ function addnewjob(clickeditem,detaillinenumber){
         
     }
 
-    if(clickeditem==""){
-        createjob(newaddedjob);
-    }
+    
     
     document.getElementById("itemdetail").innerHTML = "";
 
