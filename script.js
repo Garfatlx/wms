@@ -558,9 +558,13 @@ async function showinventory(searchcreteria){
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
     var headers = ["库存编号", "箱号/单号", "货物标签", "件数", "托数", "仓库", "区域"];
-    headers.forEach(function(headerText) {
+    headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
+        th.addEventListener("click", function() {
+            sortTable(index);
+        });
+
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
@@ -568,6 +572,7 @@ async function showinventory(searchcreteria){
 
     // Create table body
     var tbody = document.createElement("tbody");
+    tbody.id = "inventory-table-body";
     tbody.className = "inventory-table-body";
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
@@ -1313,4 +1318,18 @@ function getformatteddate(targetdate){
     var month = (1 + date.getMonth()).toString().padStart(2, '0');
     var day = date.getDate().toString().padStart(2, '0');
     return year + '-' + month + '-' + day;
+}
+
+function sortTable(columnIndex) {
+    var tbody = document.getElementById('inventory-table-body');
+    var rows = Array.from(tbody.querySelectorAll("tr"));
+    var sortedRows = rows.sort(function(a, b) {
+        var aText = a.children[columnIndex].textContent;
+        var bText = b.children[columnIndex].textContent;
+        return aText.localeCompare(bText, 'zh', { numeric: true });
+    });
+    tbody.innerHTML = "";
+    sortedRows.forEach(function(row) {
+        tbody.appendChild(row);
+    });
 }
