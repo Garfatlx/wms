@@ -141,7 +141,7 @@ function showjobsearchbox(){
     searchInput.type = 'text';
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
-    searchInput.placeholder = '搜索客户、箱号、提货码';
+    searchInput.placeholder = '搜索客户、箱号、提货码、状态';
     divContainer.appendChild(searchInput);
 
     // Create status radio input container
@@ -334,6 +334,9 @@ function showinventorysearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
+        if(searchcreteria.get("searchref")!=""){
+            searchcreteria.set("searchref", searchcreteria.get('searchref').trim());
+        }
         showinventory(searchcreteria);
     });
 
@@ -508,47 +511,7 @@ function addnewjob(clickeditem,detaillinenumber){
             xhr1.send(addjobline);
         }
     }
-    // for (var i = 1; i <= detaillinenumber; i++) {
-    //     var addjobline = new FormData(document.getElementById("detaillineform"+i));
-    //     if(addjob.get("activity")=="入库"){
-    //         addjobline.append("container",addjob.get("joblabel"));
-    //     }else{
-    //         addjobline.append("label",addjob.get("joblabel"));
-    //     }
-    //     addjobline.append("jobid",jobid);
-    //     addjobline.append("customer",addjob.get("customer"));
-    //     addjobline.append("activity",addjob.get("activity"));
-    //     addjobline.append("date",addjob.get("date"));
-
-    //     console.log(addjobline.get("inventoryid"));
-    //     console.log(addjobline);
-
-    //     const xhr  = new XMLHttpRequest();  
-    //     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/additem", true);
-    //     //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
-    //     xhr.onreadystatechange= () => {
-    //         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-    //             console.log(xhr.response["msg"]);
-    //         }
-    //     }
-    //     xhr.responseType="json";
-    //     xhr.send(addjobline);
-
-    //     if (addjob.get('status') == '完成') {
-            
-    //         const xhr1  = new XMLHttpRequest();  
-    //         xhr1.open("POST", "https://garfat.xyz/index.php/home/Wms/updateinventory", true);
-    //         xhr1.onreadystatechange= () => {
-    //             if(xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200){
-    //                 sysresponse.innerHTML=xhr1.response["msg"];
-    //             }
-    //         }
-    //         xhr1.responseType="json";
-    //         xhr1.send(addjobline);
-    //     }
-
-        
-    // }
+    
 
     
     
