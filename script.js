@@ -990,14 +990,14 @@ function createdetailline(id, item, activity) {
     input1.className="lineinput";
     input1.style.width="120px";
     input1.value=item==''?'':activity=="入库"?item['label']:item['container'];
-    input1.onblur=function(){
-        var location=getlocation(input1.value);
-        if(location!=null){
+    // input1.onblur=function(){
+    //     var location=getlocation(input1.value);
+    //     if(location!=null){
             
-            document.getElementById("locationa"+id).value=location[0];
-            document.getElementById("locationb"+id).value=location[1];
-        }
-    };
+    //         document.getElementById("locationa"+id).value=location[0];
+    //         document.getElementById("locationb"+id).value=location[1];
+    //     }
+    // };
     var input1label=document.createElement("label");
     input1label.innerHTML=activity=="入库"?"货物标签":"箱号/单号";
     input1label.className="lineinputlabel";
