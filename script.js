@@ -438,6 +438,11 @@ function addnewjob(clickeditem,detaillinenumber){
     }
     addjob.append("jobid",jobid);
 
+    console.log(addjob.get("date"));
+    if (!addjob.get('date')) {
+        alert('Please set a date');
+        return;
+    }
     // for (let [key, value] of addjob.entries()) {
     //         console.log(`${key}: ${value}`);
     // }
