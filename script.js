@@ -976,6 +976,7 @@ async function loaddetail(clickeditem,activity){
 }
 
 function createdetailline(id, item, activity) {
+    
     var detailform=document.getElementById("itemdetail");
 
     var detaillineform=document.createElement("form");
@@ -992,6 +993,7 @@ function createdetailline(id, item, activity) {
     input1.onblur=function(){
         var location=getlocation(input1.value);
         if(location!=null){
+            
             document.getElementById("locationa"+id).value=location[0];
             document.getElementById("locationb"+id).value=location[1];
         }
@@ -1121,8 +1123,36 @@ function createdetailline(id, item, activity) {
     input7label.className = "lineinputlabel";
     linecontrol0.appendChild(input7label);
     linecontrol0.appendChild(input7);
+    
+    input1.onblur=function(){
+        var location=getlocation(input1.value);
+        if(location!=null){
+            
+            input6.value=location[0];
+            input7.value=location[1];
+        }
+    };
 
     detaillineform.appendChild(linecontrol0);
+
+
+    //!!!!!!!!!
+    // var deleteButton = document.createElement("button");
+    // deleteButton.type = "button";
+    // deleteButton.className = "delete-button";
+    // deleteButton.innerHTML = "Delete";
+    // deleteButton.addEventListener("click", function() {
+    //     detailform.removeChild(detaillineform);
+    //     recalculateDetailLines();
+    // });
+    // detaillineform.appendChild(deleteButton);
+
+    // function recalculateDetailLines() {
+    //     var detailLines = document.getElementsByClassName("detaillineform");
+    //     for (var i = 0; i < detailLines.length; i++) {
+    //         detailLines[i].id = "detaillineform" + (i + 1);
+    //     }
+    // }
 
 
 }
