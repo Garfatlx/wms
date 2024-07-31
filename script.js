@@ -1132,8 +1132,8 @@ function createdetailline(nid, item, activity) {
     var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
     var datepart=new Date(jobdate);
     var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
-    var containerpart=document.getElementById("joblabelinput").value;
-    var time4dig = Math.floor((Date.UTC() % 100000000) / 1000);
+    var containerpart=document.getElementById("joblabelinput").value.trim();
+    var time4dig = Math.floor((Date() % 100000000) / 1000);
     var last4=containerpart.length>4?containerpart.substr(containerpart.length - 4):containerpart;
     var inventoryid=""+last4+datestring+time4dig+id;
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
