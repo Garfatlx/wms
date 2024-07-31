@@ -1148,8 +1148,9 @@ function createdetailline(nid, item, activity, cancelable) {
     if(cancelable){
         var deleteButton = document.createElement("button");
         deleteButton.type = "button";
-        deleteButton.className = "delete-button";
+        deleteButton.className = "button";
         deleteButton.innerHTML = "删除";
+        deleteButton.style.fontSize = "14px";
         deleteButton.style.position = "absolute";
         deleteButton.style.right = "10px";
         deleteButton.style.bottom = "10px";
