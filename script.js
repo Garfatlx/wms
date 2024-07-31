@@ -591,7 +591,7 @@ async function showinventory(searchcreteria){
             if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
                 detaillinenumber++;
                 item['id'] = '';
-                createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value);
+                createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
             }else{
                 alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
             }
@@ -920,7 +920,7 @@ async function loaddetail(clickeditem,activity){
         var items = data["data"];
         if(items!=null){
             for (var i = detaillinenumber; i < detaillinenumber+items.length; i++) {
-                createdetailline(i+1,items[i],activity);
+                createdetailline(i+1,items[i],activity,false);
             }
             detaillinenumber=detaillinenumber+items.length;
         }
@@ -957,7 +957,7 @@ async function loaddetail(clickeditem,activity){
     }
     addnew.addEventListener("click", function(){
         detaillinenumber++;
-        createdetailline(detaillinenumber,"",activity);
+        createdetailline(detaillinenumber,"",activity,true);
         //detailform.appendChild(addnew);
         
     });
@@ -977,7 +977,7 @@ async function loaddetail(clickeditem,activity){
     
 }
 
-function createdetailline(nid, item, activity) {
+function createdetailline(nid, item, activity, cancelable) {
     
     var detailLines = document.getElementsByClassName("detaillineform");
     var id = detailLines.length + 1;
@@ -1145,11 +1145,14 @@ function createdetailline(nid, item, activity) {
 
 
     //!!!!!!!!!
-    if(item==''){
+    if(cancelable){
         var deleteButton = document.createElement("button");
         deleteButton.type = "button";
         deleteButton.className = "delete-button";
         deleteButton.innerHTML = "删除";
+        deleteButton.style.position = "absolute";
+        deleteButton.style.right = "10px";
+        deleteButton.style.bottom = "10px";
         deleteButton.addEventListener("click", function() {
             detaillineform.remove();
         });
