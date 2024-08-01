@@ -909,6 +909,7 @@ async function loaddetail(clickeditem,activity){
     addnew.className="button";
     
     itemdetail.appendChild(addnew);
+    createTooltip(itemdetail, "新增货物信息");
 
     const detaillinelistDiv = document.createElement("div");
     detaillinelistDiv.id = "detaillinelist";
@@ -1398,4 +1399,26 @@ function sortTable(columnIndex) {
     sortedRows.forEach(function(row) {
         tbody.appendChild(row);
     });
+}
+function createTooltip(parent, message){
+    // Create container div
+    const tooltipContainer = document.createElement('div');
+    tooltipContainer.className = 'tooltip-container';
+
+    // Create tooltip text span
+    const tooltipText = document.createElement('span');
+    tooltipText.className = 'tooltip-text';
+    tooltipText.innerHTML = '&#128712';
+
+    // Create tooltip span
+    const tooltip = document.createElement('span');
+    tooltip.className = 'tooltip';
+    tooltip.textContent = message;
+
+    // Append spans to container
+    tooltipContainer.appendChild(tooltipText);
+    tooltipContainer.appendChild(tooltip);
+
+    // Append container to body or any other desired parent element
+    parent.appendChild(tooltipContainer);
 }
