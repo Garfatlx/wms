@@ -272,7 +272,7 @@ function showinventorysearchbox(){
     searchInput.name = 'searchref';
     
     searchInput.style.margin = '10px 0px 0px 0px';
-    searchInput.placeholder = '搜索库存编号、箱号、标签';
+    searchInput.placeholder = '搜索库存编号、箱号、标签、箱唛';
     divContainer.appendChild(searchInput);
 
     const wareinputDiv=document.createElement("div");
@@ -563,7 +563,7 @@ async function showinventory(searchcreteria){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["库存编号", "箱号/单号", "货物标签", "件数", "托数", "仓库", "区域"];
+    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -583,7 +583,7 @@ async function showinventory(searchcreteria){
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
-        var columns = [item.inventoryid, item.container,item.label, item.pcs, item.plt, item.locationa, item.locationb];
+        var columns = [item.customer, item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
