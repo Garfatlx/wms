@@ -2,7 +2,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎";
+    sysresponse.innerHTML="欢迎。如遇版本更新，请按键盘Shift+F5刷新页面。";
     
     //page fist load
     // var searchcreteria = new FormData();
