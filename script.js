@@ -909,7 +909,7 @@ async function loaddetail(clickeditem,activity){
     addnew.className="button";
     
     itemdetail.appendChild(addnew);
-    createTooltip(itemdetail, "新增货物信息");
+    createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。");
 
     const detaillinelistDiv = document.createElement("div");
     detaillinelistDiv.id = "detaillinelist";
