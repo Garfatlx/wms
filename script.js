@@ -1458,13 +1458,17 @@ function sumpcsplt(){
     var pcsInputs = document.getElementById("itemdetail").querySelectorAll("input[name='pcs']");
     var pcsCount = 0;
     pcsInputs.forEach(function(input) {
-        pcsCount += parseInt(input.value);
+        if (input.value) {
+            pcsCount += parseInt(input.value);
+        }
     });
     
     var pltInputs = document.getElementById("itemdetail").querySelectorAll("input[name='plt']");
     var pltCount = 0;
     pltInputs.forEach(function(input) {
-        pltCount += parseInt(input.value);
+        if (input.value) {
+            pltCount += parseInt(input.value);
+        }
     });
     
     const sumcountdiv = document.getElementById("sumcount");
