@@ -911,6 +911,19 @@ async function loaddetail(clickeditem,activity){
     itemdetail.appendChild(addnew);
     createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。");
 
+    const sumcountdiv = document.createElement("div");
+    sumcountdiv.className = "sumcount";
+    sumcountdiv.id = "sumcount";
+
+    // Count all the pcs in the detaillineform
+    var pcsCount = 0;
+    var detaillineform = document.getElementById("detailform");
+    var pcsInputs = detaillineform.querySelectorAll("input[name='pcs']");
+    pcsInputs.forEach(function(input) {
+        pcsCount += parseInt(input.value);
+    });
+
+
     const detaillinelistDiv = document.createElement("div");
     detaillinelistDiv.id = "detaillinelist";
     detaillinelistDiv.className = "detaillinelist";
@@ -1421,4 +1434,23 @@ function createTooltip(parent, message){
 
     // Append container to body or any other desired parent element
     parent.appendChild(tooltipContainer);
+}
+function sumthepcs(){
+    var pcsInputs = document.getElementById("detailform").querySelectorAll("input[name='pcs']");
+    var pcsCount = 0;
+    pcsInputs.forEach(function(input) {
+        pcsCount += parseInt(input.value);
+    });
+    
+    var pltInputs = document.getElementById("detailform").querySelectorAll("input[name='plt']");
+    var pltCount = 0;
+    pltInputs.forEach(function(input) {
+        pltCount += parseInt(input.value);
+    });
+    
+    const sumcountdiv = document.getElementById("sumcount");
+    if (sumcountdiv) {
+        sumcountdiv.innerHTML = "总计: " + pcsCount + "件, " + pltCount + "托";
+    }
+    
 }
