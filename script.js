@@ -1188,6 +1188,8 @@ function createdetailline(nid, item, activity, cancelable) {
         });
         detaillineform.appendChild(deleteButton);
     }
+
+    sumpcsplt();
     // var deleteButton = document.createElement("button");
     // deleteButton.type = "button";
     // deleteButton.className = "delete-button";
@@ -1436,7 +1438,7 @@ function createTooltip(parent, message){
     // Append container to body or any other desired parent element
     parent.appendChild(tooltipContainer);
 }
-function sumthepcs(){
+function sumpcsplt(){
     var pcsInputs = document.getElementById("detailform").querySelectorAll("input[name='pcs']");
     var pcsCount = 0;
     pcsInputs.forEach(function(input) {
