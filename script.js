@@ -1034,7 +1034,7 @@ function createdetailline(nid, item, activity, cancelable) {
     //     }
     // };
     var input1label=document.createElement("label");
-    input1label.innerHTML=activity=="入库"?"货物标签":"箱号/单号";
+    input1label.innerHTML=activity=="入库"?"仓点":"箱号/单号";
     input1label.className="lineinputlabel";
     detaillineform.appendChild(input1label);
     detaillineform.appendChild(input1);
@@ -1049,6 +1049,9 @@ function createdetailline(nid, item, activity, cancelable) {
     var input2label=document.createElement("label");
     input2label.innerHTML="件数";
     input2label.className="lineinputlabel";
+    input2.onblur=function(){
+        sumpcsplt();
+    };
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
 
@@ -1058,13 +1061,14 @@ function createdetailline(nid, item, activity, cancelable) {
     input2.className="lineinput";
     input2.style.width="35px";
     input2.value=item!=''?item['plt']:'';
+    input2.onblur=function(){
+        sumpcsplt();
+    };
     var input2label=document.createElement("label");
     input2label.innerHTML="托数";
     input2label.className="lineinputlabel";
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
-
-    
     
     var selectchannel=document.createElement("select");
     selectchannel.name="channel";
@@ -1085,9 +1089,21 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(selectchannel);
 
     detaillineform.appendChild(document.createElement("br"));
-    
+    var input8=document.createElement("input");
+    input8.type="text";
+    input8.name="marks";
+    input8.className="lineinput";
+    input8.style.width="120px";
+    input8.value=item!=''?item['marks']:'';
+    var input8label=document.createElement("label");
+    input8label.innerHTML="箱唛";
+    input8label.className="lineinputlabel";
+    detaillineform.appendChild(input8label);
+    detaillineform.appendChild(input8);
+
+    detaillineform.appendChild(document.createElement("br"));
+
     var input3=document.createElement("textarea");
-    
     input3.name="fba";
     input3.className="lineinput";
     input3.value=item!=''?item['fba']:'';
