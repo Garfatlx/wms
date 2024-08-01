@@ -905,6 +905,11 @@ async function loaddetail(clickeditem,activity){
     addnew.className="button";
     
     itemdetail.appendChild(addnew);
+
+    const detaillinelistDiv = document.createElement("div");
+    detaillinelistDiv.id = "detaillinelist";
+    detaillinelistDiv.className = "detaillinelist";
+    itemdetail.appendChild(detaillinelistDiv);
     //load items
     if(clickeditem!=""){
         var searchcreteria = new FormData();
@@ -984,12 +989,16 @@ function createdetailline(nid, item, activity, cancelable) {
     while (document.getElementById("detaillineform" + id)) {
         id++;
     }
-    var detailform=document.getElementById("itemdetail");
+    // var detailform=document.getElementById("itemdetail");
+    var detailform = document.getElementById("detaillinelist");
 
     var detaillineform=document.createElement("form");
     detaillineform.id="detaillineform"+id;
     detaillineform.className="detaillineform";
-    detailform.appendChild(detaillineform);
+
+    detailform.insertBefore(detaillineform, detailform.firstChild);
+    // detailform.appendChild(detaillineform);
+
     
     var input1=document.createElement("input");
     input1.type="text";
