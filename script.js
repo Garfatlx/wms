@@ -989,8 +989,8 @@ function createdetailline(nid, item, activity, cancelable) {
     var detaillineform=document.createElement("form");
     detaillineform.id="detaillineform"+id;
     detaillineform.className="detaillineform";
-    detailform.appendChild(detaillineform);
-
+    // detailform.appendChild(detaillineform);
+    detailform.insertBefore(detaillineform, detailform.firstChild);
     var input1=document.createElement("input");
     input1.type="text";
     input1.name=activity=="入库"?"label":"container";
