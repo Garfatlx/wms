@@ -285,6 +285,7 @@ function showinventorysearchbox(){
     input0.type="text";
     input0.name="locationa";
     input0.id="input";
+    input0.style.fontSize = '20px';
     var input0label=document.createElement("label");
     input0label.innerHTML="仓库";
     input0label.htmlFor="input";
@@ -304,6 +305,7 @@ function showinventorysearchbox(){
     input0.type="text";
     input0.name="locationb";
     input0.id="input";
+    input0.style.fontSize = '20px';
     var input0label=document.createElement("label");
     input0label.innerHTML="区域";
     input0label.htmlFor="input";
