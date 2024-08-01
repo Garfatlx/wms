@@ -1014,6 +1014,7 @@ function createdetailline(nid, item, activity, cancelable) {
     var detaillineform=document.createElement("form");
     detaillineform.id="detaillineform"+id;
     detaillineform.className="detaillineform";
+    detaillineform.style.opacity="0";
 
     detailform.insertBefore(detaillineform, detailform.firstChild);
     // detailform.appendChild(detaillineform);
@@ -1206,6 +1207,10 @@ function createdetailline(nid, item, activity, cancelable) {
     }
 
     sumpcsplt();
+
+    setTimeout(() => {
+        detaillineform.style.opacity="1";
+    },1);
     // var deleteButton = document.createElement("button");
     // deleteButton.type = "button";
     // deleteButton.className = "delete-button";
