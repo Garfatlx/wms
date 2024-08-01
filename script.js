@@ -914,6 +914,7 @@ async function loaddetail(clickeditem,activity){
     const sumcountdiv = document.createElement("div");
     sumcountdiv.className = "sumcount";
     sumcountdiv.id = "sumcount";
+    itemdetail.appendChild(sumcountdiv);
 
     // Count all the pcs in the detaillineform
     var pcsCount = 0;
