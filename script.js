@@ -18,11 +18,15 @@ window.addEventListener("load", function(){
     
     var newinjobbutton = document.getElementById("newinjobbutton");
     newinjobbutton.addEventListener("click", function() {
-        loaddetail("",'入库');
+        if(access<1){
+            loaddetail("",'入库');
+        }
     });
     var newoutjobbutton = document.getElementById("newoutjobbutton");
     newoutjobbutton.addEventListener("click", function() {
-        loaddetail("",'出库');
+        if(access<1){
+            loaddetail("",'出库');
+        }
     });
 
     
