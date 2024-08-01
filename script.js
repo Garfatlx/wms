@@ -18,13 +18,13 @@ window.addEventListener("load", function(){
     
     var newinjobbutton = document.getElementById("newinjobbutton");
     newinjobbutton.addEventListener("click", function() {
-        if(access<1){
+        if(access>0){
             loaddetail("",'入库');
         }
     });
     var newoutjobbutton = document.getElementById("newoutjobbutton");
     newoutjobbutton.addEventListener("click", function() {
-        if(access<1){
+        if(access>0){
             loaddetail("",'出库');
         }
     });
