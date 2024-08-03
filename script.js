@@ -1,3 +1,6 @@
+var searchedjobs;
+var access;
+
 window.addEventListener("load", function(){
     
     access=-1;
@@ -97,6 +100,7 @@ function searchjobs(searchcreteria){
             if(xhr.response["error_code"]==0){
                 var joblist = document.getElementById("activejobs");
                 joblist.innerHTML="";
+                searchedjobs=xhr.response["data"];
                 for (var i = 0; i < xhr.response["data"].length; i++) {
                     createjob(xhr.response["data"][i]);
                 }
@@ -215,6 +219,11 @@ function showjobsearchbox(){
     const divContainer1 = document.createElement('div');
     divContainer1.className = 'linecontrol';
     divContainer1.style.display = 'flex';
+    divContainer1.style.marginTop = '10px';
+
+    const noshowcompletedlabel = document.createElement('label');
+    noshowcompletedlabel.className = 'noshowcompletedlabel';
+    noshowcompletedlabel.innerHTML = '只显示未完成   ';
 
     const noshowcompletedswitch = document.createElement('label');
     noshowcompletedswitch.className = 'switch';
@@ -231,6 +240,7 @@ function showjobsearchbox(){
     noshowcompletedswitch.appendChild(noshowcompletedspan1);
     noshowcompletedswitch.appendChild(noshowcompletedspan2);
 
+    divContainer1.appendChild(noshowcompletedlabel);
     divContainer1.appendChild(noshowcompletedswitch);
 
     form.appendChild(divContainer1);
@@ -247,6 +257,7 @@ function showjobsearchbox(){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
         searchjobs(searchcreteria);
+        noshowcompletedinput.checked = false;
     });
 
     //search selected date
@@ -1511,3 +1522,4 @@ function sumpcsplt(){
     }
     
 }
+
