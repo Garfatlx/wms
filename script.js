@@ -211,6 +211,25 @@ function showjobsearchbox(){
     // Append div container to form
     form.appendChild(divContainer);
 
+    //second line
+    const divContainer1 = document.createElement('div');
+    divContainer1.className = 'linecontrol';
+    divContainer1.style.display = 'flex';
+
+    const noshowcompletedswitch = document.createElement('label');
+    noshowcompletedswitch.className = 'switch';
+    const noshowcompletedinput = document.createElement('input');
+    noshowcompletedinput.type = 'checkbox';
+    noshowcompletedinput.id = 'noshowcompleted';
+    const noshowcompletedspan = document.createElement('span');
+    noshowcompletedspan.className = 'slider';
+
+    noshowcompletedswitch.appendChild(noshowcompletedinput);
+    noshowcompletedswitch.appendChild(noshowcompletedspan);
+
+    divContainer1.appendChild(noshowcompletedswitch);
+
+    form.appendChild(divContainer1);
     // Append form to body or any other container
     searchbox.appendChild(form);
 
