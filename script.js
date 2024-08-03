@@ -220,12 +220,16 @@ function showjobsearchbox(){
     noshowcompletedswitch.className = 'switch';
     const noshowcompletedinput = document.createElement('input');
     noshowcompletedinput.type = 'checkbox';
+    noshowcompletedinput.className = 'toggle';
     noshowcompletedinput.id = 'noshowcompleted';
-    const noshowcompletedspan = document.createElement('span');
-    noshowcompletedspan.className = 'slider';
+    const noshowcompletedspan1 = document.createElement('span');
+    noshowcompletedspan1.className = 'slider';
+    const noshowcompletedspan2 = document.createElement('span');
+    noshowcompletedspan2.className = 'card-side';
 
     noshowcompletedswitch.appendChild(noshowcompletedinput);
-    noshowcompletedswitch.appendChild(noshowcompletedspan);
+    noshowcompletedswitch.appendChild(noshowcompletedspan1);
+    noshowcompletedswitch.appendChild(noshowcompletedspan2);
 
     divContainer1.appendChild(noshowcompletedswitch);
 
