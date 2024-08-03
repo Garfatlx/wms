@@ -223,7 +223,8 @@ function showjobsearchbox(){
 
     const noshowcompletedlabel = document.createElement('label');
     noshowcompletedlabel.className = 'noshowcompletedlabel';
-    noshowcompletedlabel.innerHTML = '只显示未完成   ';
+    nowshowcompletedlabel.style.marginLeft = '10px';
+    noshowcompletedlabel.innerHTML = '只显示未完成';
 
     const noshowcompletedswitch = document.createElement('label');
     noshowcompletedswitch.className = 'switch';
@@ -240,8 +241,9 @@ function showjobsearchbox(){
     noshowcompletedswitch.appendChild(noshowcompletedspan1);
     noshowcompletedswitch.appendChild(noshowcompletedspan2);
 
-    divContainer1.appendChild(noshowcompletedlabel);
+    
     divContainer1.appendChild(noshowcompletedswitch);
+    divContainer1.appendChild(noshowcompletedlabel);
 
     form.appendChild(divContainer1);
     // Append form to body or any other container
@@ -266,23 +268,42 @@ function showjobsearchbox(){
         var searchcreteria = new FormData();
         searchcreteria.append("date", getformatteddate(-1)+" 23:59:59");
         searchjobs(searchcreteria);
+        noshowcompletedinput.checked = false;
     });
     var searchtoday = document.getElementById("searchtoday");
     searchtoday.addEventListener("click", function() {
         var searchcreteria = new FormData();
         searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
         searchjobs(searchcreteria);
+        noshowcompletedinput.checked = false;
     });
     var searchtomorrow = document.getElementById("searchtomorrow");
     searchtomorrow.addEventListener("click", function() {
         var searchcreteria = new FormData();
         searchcreteria.append("date", getformatteddate(1)+" 23:59:59");
         searchjobs(searchcreteria);
+        noshowcompletedinput.checked = false;
     });
     var searchall = document.getElementById("searchall");
     searchall.addEventListener("click", function() {
         var searchcreteria = new FormData();
         searchjobs(searchcreteria);
+        noshowcompletedinput.checked = false;
+    });
+
+    noshowcompletedinput.addEventListener("change", function() {
+        if (this.checked) {
+            document.getElementById("activejobs").innerHTML = "";
+            var filteredJobs = searchedjobs.filter(job => job.status != '完成');
+            for (var i = 0; i < filteredJobs.length; i++) {
+                createjob(filteredJobs[i]);
+            }
+        }else{
+            document.getElementById("activejobs").innerHTML = "";
+            for (var i = 0; i < searchedjobs.length; i++) {
+                createjob(searchedjobs[i]);
+            }
+        }
     });
 }
 
