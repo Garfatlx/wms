@@ -223,7 +223,7 @@ function showjobsearchbox(){
 
     const noshowcompletedlabel = document.createElement('label');
     noshowcompletedlabel.className = 'noshowcompletedlabel';
-    nowshowcompletedlabel.style.marginLeft = '10px';
+    noshowcompletedlabel.style.marginLeft = '10px';
     noshowcompletedlabel.innerHTML = '只显示未完成';
 
     const noshowcompletedswitch = document.createElement('label');
