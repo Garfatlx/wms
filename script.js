@@ -1567,5 +1567,10 @@ function printcmr(clickeditem){
     img.src = 'http://ljb2-utility.stor.sinaapp.com/CMR%20template.jpg';
     img.width = 794;
     img.height = 1123;
+    img.style.position = 'absolute';
+    img.style.top = '0';
+    img.style.left = '0';
+    img.style.zIndex = '-1';
+    
     printWindow.document.body.appendChild(img);
 }
