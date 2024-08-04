@@ -728,6 +728,7 @@ async function loaddetail(clickeditem,activity){
     //control   bar
     var controlbar=document.createElement("div");
     controlbar.className="controlbar";
+    detailform.appendChild(controlbar);
     var submitbutton=document.createElement("button");
     submitbutton.innerHTML="保存";
     submitbutton.className="button";
@@ -756,10 +757,17 @@ async function loaddetail(clickeditem,activity){
     var printbutton=document.createElement("button");
     printbutton.innerHTML="打印操作单 &#x1F5B6";
     printbutton.className="button";
-    detailform.appendChild(controlbar);
+    printbutton.style.marginLeft = '10px';
+
+    
+    var printcmrbutton=document.createElement("button");
+    printcmrbutton.innerHTML="打印CMR &#x1F5B6";
+    printcmrbutton.className="button";
+    
     controlbar.appendChild(submitbutton);
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
+    controlbar.appendChild(printcmrbutton);
 
     var titleLine = document.createElement("div");
     titleLine.className = "detailtitle";
@@ -1056,6 +1064,10 @@ async function loaddetail(clickeditem,activity){
     printbutton.addEventListener("click", function() {
         // Displaying an alert message
         printSpecificContent(clickeditem);
+    });
+    printcmrbutton.addEventListener("click", function() {
+        // Displaying an alert message
+        printcmr(clickeditem);
     });
     
 }
@@ -1544,3 +1556,16 @@ function sumpcsplt(){
     
 }
 
+function printcmr(clickeditem){
+    var printWindow = window.open('', '', 'height=1123,width=794');
+        printWindow.document.write('<html><head><title>打印操作单</title>');
+        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:50px 0px 0px 30px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write('</body></html>');
+
+    const img = document.createElement('img');
+    img.src = 'http://ljb2-utility.stor.sinaapp.com/CMR%20template.jpg';
+    img.width = 794;
+    img.height = 1123;
+    printWindow.document.body.appendChild(img);
+}
