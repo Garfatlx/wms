@@ -1051,14 +1051,14 @@ async function loaddetail(clickeditem,activity){
                         if(!json[i]['label']){
                             break;
                         }
-                        xlsfba = (typeof json[i]['fba'] == 'undefined')?xlsfba:xlsfba+json[i]['fba']+";";
-                        xlspcs = (typeof json[i]['pcs'] == 'undefined')?xlspcs:xlspcs+Number(json[i]['pcs']);
-                        xlscbm = (typeof json[i]['cbm'] == 'undefined')?xlscbm:xlscbm+Number(json[i]['cbm']);
-                        xlskgs = (typeof json[i]['kgs'] == 'undefined')?xlskgs:xlskgs+Number(json[i]['kgs']);
-                        xlsnote = (typeof json[i]['note'] == 'undefined')?xlsnote:xlsnote+json[i]['note'] + ";";    
+                        xlsfba = (!json[i]['fba'])?xlsfba:xlsfba+json[i]['fba']+";";
+                        xlspcs = (!json[i]['pcs'])?xlspcs:xlspcs+Number(json[i]['pcs']);
+                        xlscbm = (!json[i]['cbm'])?xlscbm:xlscbm+Number(json[i]['cbm']);
+                        xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
+                        xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
                         
-                        if(typeof json[i+1]['label'] == 'undefined' || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                            var xlsmarks = (typeof json[i]['marks'] == 'undefined')?"":json[i]['marks'];
+                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                            var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
                             j=j+1;
                             var inventoryid=constructinventoryid(j);
                             var xlsitem={   "label":json[i]['label'],
