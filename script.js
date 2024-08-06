@@ -841,7 +841,7 @@ async function loaddetail(clickeditem,activity){
         linecontrol0.className="input-container";
         linecontrol0.style.position="absolute";
         linecontrol0.style.right="120px";
-        linecontrol0.style.top="75px";
+        linecontrol0.style.top="90px";
         var inputbottomline=document.createElement("div");
         inputbottomline.className="underline";
         var input0=document.createElement("input");
