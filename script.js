@@ -814,28 +814,29 @@ async function loaddetail(clickeditem,activity){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
 
-    var linecontrol0=document.createElement("div");
-    linecontrol0.className="input-container";
-    linecontrol0.style.position="absolute";
-    linecontrol0.style.right="120px";
-    linecontrol0.style.top="57px";
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var input0=document.createElement("input");
-    input0.type="text";
-    input0.name="reference";
-    input0.id="referenceinput";
-    input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['reference']:"");
-    var input0label=document.createElement("label");
-    input0label.innerHTML="提货码";
-    input0label.htmlFor="referenceinput";
-    input0label.className="label";
-    detailform.appendChild(linecontrol0);
-    linecontrol0.appendChild(input0);
-    linecontrol0.appendChild(input0label);
-    linecontrol0.appendChild(inputbottomline);
-
+    if(activity=="出库"){
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="input-container";
+        linecontrol0.style.position="absolute";
+        linecontrol0.style.right="120px";
+        linecontrol0.style.top="57px";
+        var inputbottomline=document.createElement("div");
+        inputbottomline.className="underline";
+        var input0=document.createElement("input");
+        input0.type="text";
+        input0.name="reference";
+        input0.id="referenceinput";
+        input0.required=true;
+        input0.value=((clickeditem!='')?clickeditem['reference']:"");
+        var input0label=document.createElement("label");
+        input0label.innerHTML="提货码";
+        input0label.htmlFor="referenceinput";
+        input0label.className="label";
+        detailform.appendChild(linecontrol0);
+        linecontrol0.appendChild(input0);
+        linecontrol0.appendChild(input0label);
+        linecontrol0.appendChild(inputbottomline);
+    }
     
 
     createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"));
