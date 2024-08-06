@@ -1654,7 +1654,7 @@ function readxls(){
             var sheet = workbook.Sheets[workbook.SheetNames[0]];
             var json = XLSX.utils.sheet_to_json(sheet, {header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
             console.log(json);
-        };
+            console.log(json[7]['label']);
     };
     input.click();
 }
