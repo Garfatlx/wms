@@ -1020,16 +1020,20 @@ async function loaddetail(clickeditem,activity){
         importfromxlsinput.accept = '.xls,.xlsx';
         importfromxlsinput.onchange = function() {
             var file = this.files[0];
-            var reader = new FileReader();
-            reader.readAsArrayBuffer(file);
-            reader.onload = function(e) {
-                var data = new Uint8Array(reader.result);
-                var workbook = XLSX.read(data, {type: 'array'});
-                var sheet = workbook.Sheets[workbook.SheetNames[0]];
-                var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
+            if (file) {
+                var json=readxls(file, ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]);
                 console.log(json);
-                console.log(json[7]['label']);
-            };
+            }
+            // var reader = new FileReader();
+            // reader.readAsArrayBuffer(file);
+            // reader.onload = function(e) {
+            //     var data = new Uint8Array(reader.result);
+            //     var workbook = XLSX.read(data, {type: 'array'});
+            //     var sheet = workbook.Sheets[workbook.SheetNames[0]];
+            //     var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
+            //     console.log(json);
+            //     console.log(json[7]['label']);
+            // };
         };
 
     }
@@ -1641,22 +1645,16 @@ function printcmr(clickeditem){
 
     printWindow.document.body.appendChild(img);
 }
-function readxls(){
-    var input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.xls,.xlsx';
-    input.onchange = function() {
-        var file = this.files[0];
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = function(e) {
-            var data = new Uint8Array(reader.result);
-            var workbook = XLSX.read(data, {type: 'array'});
-            var sheet = workbook.Sheets[workbook.SheetNames[0]];
-            var json = XLSX.utils.sheet_to_json(sheet, {header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
-            console.log(json);
-            console.log(json[7]);
-        };
-    input.click();
-    }
+function readxls(file,headers){
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = function(e) {
+        var data = new Uint8Array(reader.result);
+        var workbook = XLSX.read(data, {type: 'array'});
+        var sheet = workbook.Sheets[workbook.SheetNames[0]];
+        var json = XLSX.utils.sheet_to_json(sheet, {header: headers});
+        return json;
+    };
+    
+    
 }
