@@ -1021,7 +1021,8 @@ async function loaddetail(clickeditem,activity){
         importfromxlsinput.onchange = function() {
             var file = this.files[0];
             if (file) {
-                console.log(file.name);
+                const joblable=file.name.replace(/\.[^/.]+$/, "");
+                console.log(joblable);
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(file);
                 reader.onload = function(e) {
