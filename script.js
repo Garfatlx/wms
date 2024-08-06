@@ -1021,6 +1021,7 @@ async function loaddetail(clickeditem,activity){
         importfromxlsinput.onchange = function() {
             var file = this.files[0];
             if (file) {
+                console.log(file.name);
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(file);
                 reader.onload = function(e) {
@@ -1030,7 +1031,7 @@ async function loaddetail(clickeditem,activity){
                     var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
                     console.log(json);
                     console.log(json[7]['label']);
-                    console.log(workbook.names);
+                    
                 };
             }
         };
