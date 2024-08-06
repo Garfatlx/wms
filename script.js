@@ -1345,6 +1345,14 @@ function createjob(jobcontent){
 
     var activejob = document.createElement("div");
     activejob.className="activejob";
+    if(jobcontent['status']=="完成"){
+        activejob.style.boxShadow="0px 5px 15px rgba(34, 253, 82, 0.25)";
+        
+    }
+    if(jobcontent['status']=="排队中" && jobcontent['status']=="作业中"){
+        activejob.style.boxShadow="0px 5px 15px rgba(202, 255, 58, 0.25)";
+    }
+
     
     // Create the container div for the first item line
     const itemLine1 = document.createElement('div');
