@@ -841,7 +841,7 @@ async function loaddetail(clickeditem,activity){
         linecontrol0.className="input-container";
         linecontrol0.style.position="absolute";
         linecontrol0.style.right="120px";
-        linecontrol0.style.top="90px";
+        linecontrol0.style.top="95px";
         var inputbottomline=document.createElement("div");
         inputbottomline.className="underline";
         var input0=document.createElement("input");
@@ -1652,7 +1652,7 @@ function readxls(){
             var data = new Uint8Array(reader.result);
             var workbook = XLSX.read(data, {type: 'array'});
             var sheet = workbook.Sheets[workbook.SheetNames[0]];
-            var json = XLSX.utils.sheet_to_json(sheet);
+            var json = XLSX.utils.sheet_to_json(sheet, {header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
             console.log(json);
         };
     };
