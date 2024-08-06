@@ -1046,19 +1046,23 @@ async function loaddetail(clickeditem,activity){
                     var xlscbm=0;
                     var xlskgs=0;
                     var xlsnote="";
+                    var j=0;
                     for (var i = 5; i < json.length; i++) {
                         if(json[i]['label']==""){
                             break;
                         }
-                        xlsfba = xlsfba+json[i]['fba']+";";
-                        xlspcs = xlspcs+Number(json[i]['pcs']);
-                        xlscbm = xlscbm+Number(json[i]['cbm']);
-                        xlskgs = xlskgs+Number(json[i]['kgs']);
-                        xlsnote = xlsnote+json[i]['note'] + ";";
-                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                            
+                        xlsfba = (typeof json[i]['fba'] == 'undefined')?xlsfba:xlsfba+json[i]['fba']+";";
+                        xlspcs = (typeof json[i]['pcs'] == 'undefined')?xlspcs:xlspcs+Number(json[i]['pcs']);
+                        xlscbm = (typeof json[i]['cbm'] == 'undefined')?xlscbm:xlscbm+Number(json[i]['cbm']);
+                        xlskgs = (typeof json[i]['kgs'] == 'undefined')?xlskgs:xlskgs+Number(json[i]['kgs']);
+                        xlsnote = (typeof json[i]['note'] == 'undefined')?xlsnote:xlsnote+json[i]['note'] + ";";    
+                        
+                        if(typeof json[i+1]['label'] == 'undefined' || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                            var xlsmarks = (typeof json[i]['marks'] == 'undefined')?"":json[i]['marks'];
+                            j=j+1;
+                            var inventoryid=constructinventoryid(j);
                             var xlsitem={   "label":json[i]['label'],
-                                            "marks":json[i]['marks'],
+                                            "marks":xlsmarks,
                                             "deladdress":json[i]['deladdress'],
                                             "fba":xlsfba,
                                             "pcs":xlspcs,
@@ -1068,9 +1072,8 @@ async function loaddetail(clickeditem,activity){
                                             "plt":0,
                                             "locationa":"",
                                             "locationb":"",
-                                            "marks":json[i]['marks'],
                                             "channel":json[i]['channel'],
-                                            "inventoryid":"",
+                                            "inventoryid":inventoryid,
                                         };
                             detaillinenumber++;
                             createdetailline(detaillinenumber,xlsitem,"入库",true);
