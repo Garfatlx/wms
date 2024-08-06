@@ -836,6 +836,29 @@ async function loaddetail(clickeditem,activity){
         linecontrol0.appendChild(input0);
         linecontrol0.appendChild(input0label);
         linecontrol0.appendChild(inputbottomline);
+
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="input-container";
+        linecontrol0.style.position="absolute";
+        linecontrol0.style.right="120px";
+        linecontrol0.style.top="75px";
+        var inputbottomline=document.createElement("div");
+        inputbottomline.className="underline";
+        var input0=document.createElement("input");
+        input0.type="text";
+        input0.name="orderid";
+        input0.id="referenceinput";
+        input0.required=true;
+        input0.value=((clickeditem!='')?clickeditem['orderid']:"");
+        var input0label=document.createElement("label");
+        input0label.innerHTML="订单号";
+        input0label.htmlFor="referenceinput";
+        input0label.className="label";
+        detailform.appendChild(linecontrol0);
+        linecontrol0.appendChild(input0);
+        linecontrol0.appendChild(input0label);
+        linecontrol0.appendChild(inputbottomline);
+
     }
     
 
