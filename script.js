@@ -1021,19 +1021,18 @@ async function loaddetail(clickeditem,activity){
         importfromxlsinput.onchange = function() {
             var file = this.files[0];
             if (file) {
-                var json=readxls(file, ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]);
-                console.log(json);
+                var reader = new FileReader();
+                reader.readAsArrayBuffer(file);
+                reader.onload = function(e) {
+                    var data = new Uint8Array(reader.result);
+                    var workbook = XLSX.read(data, {type: 'array'});
+                    var sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
+                    console.log(json);
+                    console.log(json[7]['label']);
+                    console.log(workbook.names);
+                };
             }
-            // var reader = new FileReader();
-            // reader.readAsArrayBuffer(file);
-            // reader.onload = function(e) {
-            //     var data = new Uint8Array(reader.result);
-            //     var workbook = XLSX.read(data, {type: 'array'});
-            //     var sheet = workbook.Sheets[workbook.SheetNames[0]];
-            //     var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
-            //     console.log(json);
-            //     console.log(json[7]['label']);
-            // };
         };
 
     }
