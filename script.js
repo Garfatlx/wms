@@ -975,10 +975,12 @@ async function loaddetail(clickeditem,activity){
     addnew.innerHTML="新增货物信息";
     addnew.className="button";
     itemdetail.appendChild(addnew);
-    
+
     if (clickeditem == '' && activity== '入库') {
         var importfromxls = document.createElement("button");
-        importfromxls.className="button";
+        importfromxls.className="container-btn-file";
+        importfromxls.style.fontSize = '14px';
+        importfromxls.style.padding = '5px 10px';
         // importfromxls.className="container-btn-file";
         importfromxls.innerHTML="从Excel导入";
 
