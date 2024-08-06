@@ -981,6 +981,7 @@ async function loaddetail(clickeditem,activity){
         importfromxls.className="container-btn-file";
         importfromxls.style.fontSize = '14px';
         importfromxls.style.padding = '5px 10px';
+        importfromxls.style.display = 'inline-flex';
         // importfromxls.className="container-btn-file";
         importfromxls.innerHTML="从Excel导入";
 
