@@ -1346,11 +1346,11 @@ function createjob(jobcontent){
     var activejob = document.createElement("div");
     activejob.className="activejob";
     if(jobcontent['status']=="完成"){
-        activejob.style.backgroundColor="rgba(34, 253, 82, 0.5)";
+        activejob.style.backgroundColor="rgba(86, 218, 74, 0.3)";
         
     }
     if(jobcontent['status']=="排队中" || jobcontent['status']=="作业中"){
-        activejob.style.backgroundColor="rgba(202, 255, 58, 0.5)";
+        activejob.style.backgroundColor="rgba(202, 255, 58, 0.3)";
     }
 
     
