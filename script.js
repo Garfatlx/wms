@@ -974,8 +974,39 @@ async function loaddetail(clickeditem,activity){
     addnew.id="addnewitemlinebutton";
     addnew.innerHTML="新增货物信息";
     addnew.className="button";
-    
     itemdetail.appendChild(addnew);
+    
+    if (clickeditem == '' && activity== '入库') {
+        var importfromxls = document.createElement("button");
+        importfromxls.className="button";
+        // importfromxls.className="container-btn-file";
+        importfromxls.innerHTML="从Excel导入";
+
+        var importfromxlsinput = document.createElement("input");
+        importfromxlsinput.type = "file";
+        importfromxlsinput.id = "importfromxls";
+        importfromxlsinput.name = "importfromxls";
+        importfromxlsinput.className="file";
+        importfromxlsinput.multiple = false;
+        importfromxls.appendChild(importfromxlsinput);
+        itemdetail.appendChild(importfromxls);
+        importfromxlsinput.accept = '.xls,.xlsx';
+        importfromxlsinput.onchange = function() {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onload = function(e) {
+                var data = new Uint8Array(reader.result);
+                var workbook = XLSX.read(data, {type: 'array'});
+                var sheet = workbook.Sheets[workbook.SheetNames[0]];
+                var json = XLSX.utils.sheet_to_json(sheet);
+                console.log(json);
+            };
+        };
+
+    }
+    
+    
     createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。");
 
     const sumcountdiv = document.createElement("div");
@@ -1573,4 +1604,22 @@ function printcmr(clickeditem){
     img.style.zIndex = '-1';
 
     printWindow.document.body.appendChild(img);
+}
+function readxls(){
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xls,.xlsx';
+    input.onchange = function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = function(e) {
+            var data = new Uint8Array(reader.result);
+            var workbook = XLSX.read(data, {type: 'array'});
+            var sheet = workbook.Sheets[workbook.SheetNames[0]];
+            var json = XLSX.utils.sheet_to_json(sheet);
+            console.log(json);
+        };
+    };
+    input.click();
 }
