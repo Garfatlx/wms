@@ -1026,8 +1026,9 @@ async function loaddetail(clickeditem,activity){
                 var data = new Uint8Array(reader.result);
                 var workbook = XLSX.read(data, {type: 'array'});
                 var sheet = workbook.Sheets[workbook.SheetNames[0]];
-                var json = XLSX.utils.sheet_to_json(sheet);
+                var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
                 console.log(json);
+                console.log(json[7]['label']);
             };
         };
 
@@ -1654,7 +1655,8 @@ function readxls(){
             var sheet = workbook.Sheets[workbook.SheetNames[0]];
             var json = XLSX.utils.sheet_to_json(sheet, {header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
             console.log(json);
-            console.log(json[7]['label']);
-    };
+            console.log(json[7]);
+        };
     input.click();
+    }
 }
