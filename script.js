@@ -1055,7 +1055,8 @@ async function loaddetail(clickeditem,activity){
                         xlscbm = xlscbm+Number(json[i]['cbm']);
                         xlskgs = xlskgs+Number(json[i]['kgs']);
                         xlsnote = xlsnote+json[i]['note'] + ";";
-                        if(json[i]['label']!=json[i+1]['label']){
+                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label' || json[i]['marks']!=json[i+1]['marks']]){
+                            
                             var xlsitem={   "label":json[i]['label'],
                                             "marks":json[i]['marks'],
                                             "deladdress":json[i]['deladdress'],
@@ -1064,6 +1065,12 @@ async function loaddetail(clickeditem,activity){
                                             "cbm":xlscbm,
                                             "kgs":xlskgs,
                                             "note":xlsnote,
+                                            "plt":0,
+                                            "locationa":"",
+                                            "locationb":"",
+                                            "marks":json[i]['marks'],
+                                            "channel":json[i]['channel'],
+                                            "inventoryid":"",
                                         };
                             detaillinenumber++;
                             createdetailline(detaillinenumber,xlsitem,"入库",true);
@@ -1203,14 +1210,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input1.className="lineinput";
     input1.style.width="120px";
     input1.value=item==''?'':activity=="入库"?item['label']:item['container'];
-    // input1.onblur=function(){
-    //     var location=getlocation(input1.value);
-    //     if(location!=null){
-            
-    //         document.getElementById("locationa"+id).value=location[0];
-    //         document.getElementById("locationb"+id).value=location[1];
-    //     }
-    // };
+    
     var input1label=document.createElement("label");
     input1label.innerHTML=activity=="入库"?"仓点":"箱号/单号";
     input1label.className="lineinputlabel";
@@ -1314,13 +1314,14 @@ function createdetailline(nid, item, activity, cancelable) {
     input5.readOnly = true;
     input5.className="lineinput";
     input5.style.width="120px";
-    var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
-    var datepart=new Date(jobdate);
-    var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
-    var containerpart=document.getElementById("joblabelinput").value.trim();
-    var time4dig = Math.floor((Date.now() % 100000000) / 10000);
-    var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
-    var inventoryid=""+last4+datestring+time4dig+id;
+    // var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
+    // var datepart=new Date(jobdate);
+    // var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
+    // var containerpart=document.getElementById("joblabelinput").value.trim();
+    // var time4dig = Math.floor((Date.now() % 100000000) / 10000);
+    // var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
+    // var inventoryid=""+last4+datestring+time4dig+id;
+    var inventoryid = constructinventoryid(id);
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
     var input5label=document.createElement("label");
     input5label.innerHTML="库存编号：";
@@ -1389,22 +1390,7 @@ function createdetailline(nid, item, activity, cancelable) {
         detaillineform.style.opacity="1";
         detaillineform.style.height="145px";
     },1);
-    // var deleteButton = document.createElement("button");
-    // deleteButton.type = "button";
-    // deleteButton.className = "delete-button";
-    // deleteButton.innerHTML = "Delete";
-    // deleteButton.addEventListener("click", function() {
-    //     detailform.removeChild(detaillineform);
-    //     recalculateDetailLines();
-    // });
-    // detaillineform.appendChild(deleteButton);
-
-    // function recalculateDetailLines() {
-    //     var detailLines = document.getElementsByClassName("detaillineform");
-    //     for (var i = 0; i < detailLines.length; i++) {
-    //         detailLines[i].id = "detaillineform" + (i + 1);
-    //     }
-    // }
+    
 
 
 }
@@ -1699,4 +1685,15 @@ function readxls(file,headers){
     };
     
     
+}
+
+function constructinventoryid(i){
+    var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
+    var datepart=new Date(jobdate);
+    var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
+    var containerpart=document.getElementById("joblabelinput").value.trim();
+    var time4dig = Math.floor((Date.now() % 100000000) / 10000);
+    var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
+    var inventoryid=""+last4+datestring+time4dig+i;
+    return inventoryid;
 }
