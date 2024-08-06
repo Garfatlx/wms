@@ -1030,9 +1030,50 @@ async function loaddetail(clickeditem,activity){
                     var workbook = XLSX.read(data, {type: 'array'});
                     var sheet = workbook.Sheets[workbook.SheetNames[0]];
                     var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
-                    console.log(json);
-                    console.log(json[7]['label']);
-                    
+                    // creat job info
+                    var xlsclickeditem = {  "joblabel":joblable,
+                                            "customer":document.getElementsByName("customer")[0].value,
+                                            "date":document.getElementById("inputdate").value,
+                                            "activity":"入库",
+                                            "status":"预报",
+                                            "ordernote":document.getElementsByName("ordernote")[0].value,
+                                        };
+                    loaddetail(xlsclickeditem,"入库");
+
+                    //create detail lines
+                    var xlsfba="";
+                    var xlspcs=0;
+                    var xlscbm=0;
+                    var xlskgs=0;
+                    var xlsnote="";
+                    for (var i = 7; i <= json.length; i++) {
+                        if(json[i]['label']==""){
+                            break;
+                        }
+                        xlsfba = xlsfba+json[i]['fba']+";";
+                        xlspcs = xlspcs+Number(json[i]['pcs']);
+                        xlscbm = xlscbm+Number(json[i]['cbm']);
+                        xlskgs = xlskgs+Number(json[i]['kgs']);
+                        xlsnote = xlsnote+json[i]['note'] + ";";
+                        if(json[i]['label']!=json[i+1]['label']){
+                            var xlsitem={   "label":json[i]['label'],
+                                            "marks":json[i]['marks'],
+                                            "deladdress":json[i]['deladdress'],
+                                            "fba":xlsfba,
+                                            "pcs":xlspcs,
+                                            "cbm":xlscbm,
+                                            "kgs":xlskgs,
+                                            "note":xlsnote,
+                                        };
+                            detaillinenumber++;
+                            createdetailline(detaillinenumber,xlsitem,"入库",true);
+                            xlsfba="";
+                            xlspcs=0;
+                            xlscbm=0;
+                            xlskgs=0;
+                            xlsnote="";
+                        }
+                    }
                 };
             }
         };
