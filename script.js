@@ -1048,7 +1048,7 @@ async function loaddetail(clickeditem,activity){
                     var xlsnote="";
                     var j=0;
                     for (var i = 5; i < json.length; i++) {
-                        if(typeof json[i]['label'] == 'undefined'){
+                        if(!json[i]['label']){
                             break;
                         }
                         xlsfba = (typeof json[i]['fba'] == 'undefined')?xlsfba:xlsfba+json[i]['fba']+";";
