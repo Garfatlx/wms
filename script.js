@@ -1282,6 +1282,18 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input8label);
     detaillineform.appendChild(input8);
 
+    var input9=document.createElement("input");
+    input9.type="text";
+    input9.name="requirement";
+    input9.className="lineinput";
+    input9.style.width="160px";
+    input9.value=item!=''?item['requirement']:'';
+    var input9label=document.createElement("label");
+    input9label.innerHTML="要求";
+    input9label.className="lineinputlabel";
+    detaillineform.appendChild(input9label);
+    detaillineform.appendChild(input9);
+
     detaillineform.appendChild(document.createElement("br"));
 
     var input3=document.createElement("textarea");
