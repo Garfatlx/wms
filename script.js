@@ -551,6 +551,7 @@ function addnewjob(clickeditem,detaillinenumber){
         console.log(addjobline.get('inventoryid'));
         console.log(addjobline);
 
+        console.log(addjobline.get('createtime'));
         const xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/additem', true);
         //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
