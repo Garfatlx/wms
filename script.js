@@ -765,10 +765,19 @@ async function loaddetail(clickeditem,activity){
     printcmrbutton.innerHTML="打印CMR &#x1F5B6";
     printcmrbutton.className="button";
     
+    var closebutton=document.createElement("button");
+    closebutton.innerHTML="✕";
+    closebutton.className="button";
+    closebutton.style.marginLeft = '40px';
+    closebutton.addEventListener("click", function() {
+        itemdetail.innerHTML="";
+    });
+
     controlbar.appendChild(submitbutton);
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
+    controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
     titleLine.className = "detailtitle";
