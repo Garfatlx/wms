@@ -1322,6 +1322,12 @@ function createdetailline(nid, item, activity, cancelable) {
     input4.value = item != '' ? item['id'] : '';
     detaillineform.appendChild(input4);
 
+    var input10 = document.createElement("input");
+    input10.type = "hidden";
+    input10.name = "createtime";
+    input10.value = item != '' ? item['createtime'] : Date.now();
+    detaillineform.appendChild(input10);
+
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
     var input5 = document.createElement("input");
