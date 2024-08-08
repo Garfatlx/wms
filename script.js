@@ -1288,7 +1288,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input9.name="requirement";
     input9.className="lineinput";
     input9.style.width="160px";
-    input9.value=item!=''?item['requirement']:'';
+    input9.value=item!=''?(item['requirement']?item['requirement']:''):'';
     var input9label=document.createElement("label");
     input9label.innerHTML="要求";
     input9label.className="lineinputlabel";
