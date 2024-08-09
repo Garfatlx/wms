@@ -500,7 +500,7 @@ function addnewjob(clickeditem,detaillinenumber){
     if(clickeditem==""){
         jobid = new Date().getTime();
     }else{
-        if (clickeditem['jobid'] == '') {
+        if (!clickeditem['jobid']) {
             jobid = new Date().getTime();
         }else{
         jobid = clickeditem['jobid'];
@@ -1056,7 +1056,7 @@ async function loaddetail(clickeditem,activity){
                                             "activity":"入库",
                                             "status":"预报",
                                             "ordernote":document.getElementsByName("ordernote")[0].value,
-                                            "id":"",
+                                            
                                         };
                     loaddetail(xlsclickeditem,"入库");
 
