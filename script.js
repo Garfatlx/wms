@@ -725,6 +725,11 @@ async function loaddetail(clickeditem,activity){
     detailform.id="detailform";
     detailform.className="detailform";
     itemdetail.appendChild(detailform);
+
+    detailform.addEventListener("submit", function (event) {
+        event.preventDefault();
+        
+    });
     
     //control   bar
     var controlbar=document.createElement("div");
@@ -1101,7 +1106,7 @@ async function loaddetail(clickeditem,activity){
     }
     
     
-    createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。");
+    createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。");
 
     const sumcountdiv = document.createElement("div");
     sumcountdiv.className = "sumcount";
@@ -1145,10 +1150,7 @@ async function loaddetail(clickeditem,activity){
 
     
     //submit button    
-    detailform.addEventListener("submit", function (event) {
-        event.preventDefault();
-        
-    });
+    
 
     if ((clickeditem && clickeditem['status'] === '完成') || access!=1) {
         var inputs = itemdetail.getElementsByTagName('input');
