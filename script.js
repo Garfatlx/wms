@@ -1089,6 +1089,8 @@ async function loaddetail(clickeditem,activity){
                                             "locationb":"",
                                             "channel":json[i]['channel'],
                                             "inventoryid":inventoryid,
+                                            "id":"",
+                                            "createtime": Date.now(),
                                         };
                             detaillinenumber++;
                             createdetailline(detaillinenumber,xlsitem,"入库",true);
