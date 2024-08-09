@@ -500,7 +500,11 @@ function addnewjob(clickeditem,detaillinenumber){
     if(clickeditem==""){
         jobid = new Date().getTime();
     }else{
-        jobid = clickeditem['jobid'];
+        if (clickeditem['jobid'] == '') {
+            jobid = new Date().getTime();
+        }else{
+            jobid = clickeditem['jobid'];
+        }
     }
     addjob.append("jobid",jobid);
 
