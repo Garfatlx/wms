@@ -1402,7 +1402,7 @@ function createdetailline(nid, item, activity, cancelable) {
         var  input11label= document.createElement("label");
         input11label.innerHTML = "客户";
         input11label.className = "lineinputlabel";
-        input11label.style.display=activity=="出库"? (item['customer']?"none":"flex"):"none";
+        input11label.style.display=activity=="出库"? (item['customer']?"none":"inline-block"):"none";
         linecontrol0.appendChild(input11label);
         linecontrol0.appendChild(input11);
     
