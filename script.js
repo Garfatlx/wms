@@ -1845,24 +1845,24 @@ async function showactivitydetail(activity){
     function createActivityDetailItem(label, value) {
         const detailpargraph = document.createElement('p');
         detailpargraph.className = 'detailpargraph';
-        detailpargraph.textContent = label + ': ' + value;
+        detailpargraph.textContent = label  + value;
         activitydetail.appendChild(detailpargraph);
     }
     createActivityDetailItem('可以使用任务编号在“当前任务”标签中搜索任务详细信息。', '');
-    createActivityDetailItem('任务编号', activity['jobid']);
-    createActivityDetailItem('库存编号', activity['inventoryid']);
-    createActivityDetailItem('客户', activity['customer']);
-    createActivityDetailItem('日期', activity['date']);
-    createActivityDetailItem('活动', activity['activity']);
-    createActivityDetailItem('箱号', activity['container']);
-    createActivityDetailItem('件数', activity['pcs']);
-    createActivityDetailItem('托数', activity['plt']);
-    createActivityDetailItem('渠道', activity['channel']);
-    createActivityDetailItem('箱唛', activity['marks']);
-    createActivityDetailItem('仓点', activity['label']);
-    createActivityDetailItem('要求', activity['requirement']);
-    createActivityDetailItem('FBA', activity['fba']);
-    createActivityDetailItem('备注', activity['note']);
+    createActivityDetailItem('任务编号: ', activity['jobid']);
+    createActivityDetailItem('库存编号: ', activity['inventoryid']);
+    createActivityDetailItem('客户: ', activity['customer']);
+    createActivityDetailItem('日期: ', activity['date']);
+    createActivityDetailItem('活动: ', activity['activity']);
+    createActivityDetailItem('箱号: ', activity['container']);
+    createActivityDetailItem('件数: ', activity['pcs']);
+    createActivityDetailItem('托数: ', activity['plt']);
+    createActivityDetailItem('渠道: ', activity['channel']);
+    createActivityDetailItem('箱唛: ', activity['marks']);
+    createActivityDetailItem('仓点: ', activity['label']);
+    createActivityDetailItem('要求: ', activity['requirement']);
+    createActivityDetailItem('FBA: ', activity['fba']);
+    createActivityDetailItem('备注: ', activity['note']);
     
     var searchcreteria = new FormData();
     searchcreteria.append("jobid",activity['jobid']);
