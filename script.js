@@ -1392,6 +1392,7 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(input7label);
     linecontrol0.appendChild(input7);
     
+    detaillineform.appendChild(linecontrol0);
     
         var input11 = document.createElement("input");
         input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
@@ -1418,7 +1419,7 @@ function createdetailline(nid, item, activity, cancelable) {
         }
     };
 
-    detaillineform.appendChild(linecontrol0);
+    
 
 
     //!!!!!!!!!
