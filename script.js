@@ -1272,17 +1272,39 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
     
-    var selectchannel=document.createElement("select");
+    // var selectchannel=document.createElement("select");
+    // selectchannel.name="channel";
+    // selectchannel.id="selectchannel";
+    // selectchannel.style.width="100px";
+    // const channels = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
+    //     channels.forEach(channel => {
+    //         const option = document.createElement('option');
+    //         option.value = channel;
+    //         option.text = channel;
+    //         selectchannel.appendChild(option);
+    //     });
+    // var input0label=document.createElement("label");
+    // input0label.innerHTML="渠道";
+    // input0label.style.marginLeft="10px";
+    // input0label.htmlFor="selectchannel";
+    // detaillineform.appendChild(input0label);
+    // detaillineform.appendChild(selectchannel);
+
+    var selectchannel=document.createElement("input");
+    selectchannel.type="text";
     selectchannel.name="channel";
-    selectchannel.id="selectchannel";
+    selectchannel.list="channels";
+    selectchannel.className="lineinput";
     selectchannel.style.width="100px";
+    selectchannel.value=item['channel']?item['channel']:'';
+    var datalist=document.createElement("datalist");
+    datalist.id="channels";
     const channels = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
-        channels.forEach(channel => {
-            const option = document.createElement('option');
-            option.value = channel;
-            option.text = channel;
-            selectchannel.appendChild(option);
-        });
+    channels.forEach(channel => {
+        const option = document.createElement('option');
+        option.value = channel;
+        datalist.appendChild(option);
+    });
     var input0label=document.createElement("label");
     input0label.innerHTML="渠道";
     input0label.style.marginLeft="10px";
