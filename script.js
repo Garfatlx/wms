@@ -1182,6 +1182,7 @@ async function loaddetail(clickeditem,activity){
         cancelButton.removeAttribute("disabled");
         printbutton.removeAttribute("disabled");
     }
+    closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
         detaillinenumber++;
         createdetailline(detaillinenumber,"",activity,true);
