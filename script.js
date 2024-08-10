@@ -1403,8 +1403,8 @@ function createdetailline(nid, item, activity, cancelable) {
         input11label.innerHTML = "客户";
         input11label.className = "lineinputlabel";
         input11label.style.display=activity=="出库"? (item['customer']?"none":"inline-block"):"none";
-        linecontrol0.appendChild(input11label);
-        linecontrol0.appendChild(input11);
+        detaillineform.appendChild(input11label);
+        detaillineform.appendChild(input11);
     
     
 
