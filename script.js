@@ -1295,7 +1295,7 @@ function createdetailline(nid, item, activity, cancelable) {
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
     selectchannel.name="channel";
-    selectchannel.list="channels";
+    selectchannel.setAttribute('list', 'cityname');
     selectchannel.className="lineinput";
     selectchannel.style.width="100px";
     selectchannel.value=item['channel']?item['channel']:'';
@@ -1307,7 +1307,6 @@ function createdetailline(nid, item, activity, cancelable) {
         option.value = channel;
         datalist.appendChild(option);
     });
-    
     var input0label=document.createElement("label");
     input0label.innerHTML="渠道";
     input0label.style.marginLeft="10px";
