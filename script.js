@@ -629,7 +629,7 @@ async function showinventory(searchcreteria){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["客户", "渠道", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
+    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -649,7 +649,7 @@ async function showinventory(searchcreteria){
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
-        var columns = [item.customer, item.channel,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
+        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
@@ -1811,7 +1811,7 @@ async function showinventorydetail(inventory){
     createInventoryDetailItem('库存编号', inventory['inventoryid']);
     createInventoryDetailItem('客户', inventory['customer']);
     createInventoryDetailItem('箱号/单号', inventory['container']);
-    createInventoryDetailItem('货物', inventory['label']);
+    createInventoryDetailItem('仓点', inventory['label']);
     createInventoryDetailItem('箱唛', inventory['marks']);
     createInventoryDetailItem('渠道', inventory['channel']);
     createInventoryDetailItem('件数', inventory['pcs']);
