@@ -1315,6 +1315,7 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input0label);
     detaillineform.appendChild(selectchannel);
     detaillineform.appendChild(datalist);
+    document.body.appendChild(datalist);
 
     detaillineform.appendChild(document.createElement("br"));
     var input8=document.createElement("input");
