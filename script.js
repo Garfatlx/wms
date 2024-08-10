@@ -663,7 +663,8 @@ async function showinventory(searchcreteria){
                 item['id'] = '';
                 createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
             }else{
-                alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
+                showinventorydetail(item);
+                // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
             }
             
         });
@@ -780,7 +781,7 @@ async function loaddetail(clickeditem,activity){
     closebutton.innerHTML="✕";
     closebutton.className="button";
     closebutton.style.marginLeft = '40px';
-    closebutton.style.padding = '5px 5px 5px 5px';
+    closebutton.style.padding = '5px 5px 5px 8px';
     closebutton.addEventListener("click", function() {
         itemdetail.innerHTML="";
     });
@@ -1779,4 +1780,50 @@ function constructinventoryid(i){
     var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
     var inventoryid=""+last4+datestring+time4dig+i;
     return inventoryid;
+}
+
+async function showinventorydetail(inventory){
+    // var searchcreteria = new FormData();
+    // searchcreteria.append("id",id);
+    // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+    //     method: 'POST',
+    //     body: searchcreteria,
+    //   });
+
+    // const data = await response.json();
+
+    // var inventory = data["data"][0];
+
+    const itemdetail = document.getElementById("itemdetail");
+    itemdetail.innerHTML = "";
+    
+    var inventorydetail = document.createElement("div");
+    inventorydetail.className="inventorydetail";
+    itemdetail.appendChild(inventorydetail);
+
+    function createInventoryDetailItem(label, value) {
+        const detailpargraph = document.createElement('p');
+        detailpargraph.className = 'detailpargraph';
+        detailpargraph.textContent = label + ': ' + value;
+        inventorydetail.appendChild(detailpargraph);
+    }
+
+    createInventoryDetailItem('库存编号', inventory['inventoryid']);
+    createInventoryDetailItem('客户', inventory['customer']);
+    createInventoryDetailItem('箱号/单号', inventory['container']);
+    createInventoryDetailItem('货物', inventory['label']);
+    createInventoryDetailItem('箱唛', inventory['marks']);
+    createInventoryDetailItem('渠道', inventory['channel']);
+    createInventoryDetailItem('件数', inventory['pcs']);
+    createInventoryDetailItem('托数', inventory['plt']);
+    createInventoryDetailItem('要求', inventory['requirement']);
+    createInventoryDetailItem('FBA', inventory['fba']);
+    createInventoryDetailItem('备注', inventory['note']);
+    createInventoryDetailItem('创建时间', inventory['createtime']);
+    createInventoryDetailItem('仓库', inventory['locationa']);
+    createInventoryDetailItem('区域', inventory['locationb']);
+
+
+
+
 }
