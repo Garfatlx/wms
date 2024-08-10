@@ -1295,7 +1295,7 @@ function createdetailline(nid, item, activity, cancelable) {
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
     selectchannel.name="channel";
-    selectchannel.setAttribute('list', 'cityname');
+    selectchannel.setAttribute('list', 'channels');
     selectchannel.className="lineinput";
     selectchannel.style.width="100px";
     selectchannel.value=item['channel']?item['channel']:'';
