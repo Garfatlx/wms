@@ -780,8 +780,7 @@ async function loaddetail(clickeditem,activity){
     closebutton.innerHTML="✕";
     closebutton.className="button";
     closebutton.style.marginLeft = '40px';
-    closebutton.style.width = '30px';
-    closebutton.style.height = '30px';
+    closebutton.style.padding = '5px 5px';
     closebutton.addEventListener("click", function() {
         itemdetail.innerHTML="";
     });
