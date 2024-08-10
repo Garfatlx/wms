@@ -548,7 +548,9 @@ function addnewjob(clickeditem,detaillinenumber){
             addjobline.append('label', addjob.get('joblabel'));
         }
         addjobline.append('jobid', jobid);
-        addjobline.append('customer', addjob.get('customer'));
+        if(addjobline.get('customer')==""){
+            addjobline.append('customer', addjob.get('customer'));
+        }
         addjobline.append('activity', addjob.get('activity'));
         addjobline.append('date', addjob.get('date'));
 
@@ -1347,6 +1349,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input10.value = item != '' ? item['createtime'] : Date.now();
     detaillineform.appendChild(input10);
 
+    
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
     var input5 = document.createElement("input");
@@ -1354,13 +1357,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input5.readOnly = true;
     input5.className="lineinput";
     input5.style.width="120px";
-    // var jobdate=document.getElementById("inputdate").value==''?new Date():document.getElementById("inputdate").value;
-    // var datepart=new Date(jobdate);
-    // var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
-    // var containerpart=document.getElementById("joblabelinput").value.trim();
-    // var time4dig = Math.floor((Date.now() % 100000000) / 10000);
-    // var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
-    // var inventoryid=""+last4+datestring+time4dig+id;
+    
     var inventoryid = constructinventoryid(id);
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
     var input5label=document.createElement("label");
@@ -1395,6 +1392,23 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(input7label);
     linecontrol0.appendChild(input7);
     
+    
+        var input11 = document.createElement("input");
+        input11.type = activity=="出库"? (item['cusotmer']?"hidden":"text"):"hidden";
+        input11.name = "customer";
+        input11.className = "lineinput";
+        input11.style.width="70px";
+        input11.value = item != '' ? item['customer'] : '';
+        var  input11label= document.createElement("label");
+        input11label.innerHTML = "客户";
+        input11label.className = "lineinputlabel";
+        input11label.style.display=activity=="出库"? (item['cusotmer']?"none":"block"):"none";
+        linecontrol0.appendChild(input11label);
+        linecontrol0.appendChild(input11);
+    
+    
+
+
     input1.onblur=function(){
         var location=getlocation(input1.value);
         if(location!=null){
