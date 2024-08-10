@@ -253,8 +253,6 @@ function showjobsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
-        console.log(searchcreteria.get("searchref"));
-        console.log(searchcreteria.get("date"));
         if(searchcreteria.get("date")!=""){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
@@ -715,6 +713,16 @@ async function showitems(searchcreteria){
             var td = document.createElement("td");
             td.textContent = columnText;
             row.appendChild(td);
+
+            row.addEventListener("click", function() {
+                if(document.getElementById("detailform")!=null){
+                    alert("关闭当前任务后，点击出入库记录将显示详细信息。");
+                }else{
+                    showactivitydetail(item);
+                    // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
+                }
+                
+            });
         });
         tbody.appendChild(row);
     });
@@ -1826,4 +1834,46 @@ async function showinventorydetail(inventory){
 
 
 
+}
+async function showactivitydetail(activity){
+    var itemdetail = document.getElementById("itemdetail");
+    itemdetail.innerHTML = "";
+    var activitydetail = document.createElement("div");
+    activitydetail.className="activitydetail";
+    itemdetail.appendChild(activitydetail);
+
+    function createActivityDetailItem(label, value) {
+        const detailpargraph = document.createElement('p');
+        detailpargraph.className = 'detailpargraph';
+        detailpargraph.textContent = label + ': ' + value;
+        activitydetail.appendChild(detailpargraph);
+    }
+    createActivityDetailItem('可以使用任务编号在“当前任务”标签中搜索任务详细信息。', '');
+    createActivityDetailItem('任务编号', activity['jobid']);
+    createActivityDetailItem('库存编号', activity['inventoryid']);
+    createActivityDetailItem('客户', activity['customer']);
+    createActivityDetailItem('日期', activity['date']);
+    createActivityDetailItem('活动', activity['activity']);
+    createActivityDetailItem('箱号', activity['container']);
+    createActivityDetailItem('件数', activity['pcs']);
+    createActivityDetailItem('托数', activity['plt']);
+    createActivityDetailItem('渠道', activity['channel']);
+    createActivityDetailItem('箱唛', activity['marks']);
+    createActivityDetailItem('仓点', activity['label']);
+    createActivityDetailItem('要求', activity['requirement']);
+    createActivityDetailItem('FBA', activity['fba']);
+    createActivityDetailItem('备注', activity['note']);
+    
+    var searchcreteria = new FormData();
+    searchcreteria.append("activity",activity['jobid']);
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+        method: 'POST',
+        body: searchcreteria,
+      });
+
+    const data = await response.json();
+    var job = data["data"][0];
+    createActivityDetailItem('任务状态', job['status']);
+    createjob(job,activitydetail);
+    
 }
