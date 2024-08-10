@@ -544,13 +544,13 @@ function addnewjob(clickeditem,detaillinenumber){
         const addjobline = new FormData(detaillineForms[i]);
         if (addjob.get('activity') == '入库') {
             addjobline.append('container', addjob.get('joblabel'));
+            addjobline.set('customer', addjob.get('customer'));
         } else {
+
             addjobline.append('label', addjob.get('joblabel'));
         }
         addjobline.append('jobid', jobid);
-        if(addjobline.get('customer')==""){
-            addjobline.append('customer', addjob.get('customer'));
-        }
+        
         addjobline.append('activity', addjob.get('activity'));
         addjobline.append('date', addjob.get('date'));
 
@@ -1394,20 +1394,20 @@ function createdetailline(nid, item, activity, cancelable) {
 
     
     
-        var input11 = document.createElement("input");
-        input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
-        input11.name = "customer";
-        input11.className = "lineinput";
-        input11.style.width="50px";
-        input11.value = item != '' ? item['customer'] : '';
-        var  input11label= document.createElement("label");
-        input11label.innerHTML = "客户";
-        input11label.className = "lineinputlabel";
-        input11label.style.display=activity=="出库"? (item['customer']?"none":"inline-block"):"none";
-        linecontrol0.appendChild(input11label);
-        linecontrol0.appendChild(input11);
-    
-        detaillineform.appendChild(linecontrol0);
+    var input11 = document.createElement("input");
+    input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
+    input11.name = "customer";
+    input11.className = "lineinput";
+    input11.style.width="50px";
+    input11.value = item['customer'] ? item['customer'] : '';
+    var  input11label= document.createElement("label");
+    input11label.innerHTML = "客户";
+    input11label.className = "lineinputlabel";
+    input11label.style.display=activity=="出库"? (item['customer']?"none":"inline-block"):"none";
+    linecontrol0.appendChild(input11label);
+    linecontrol0.appendChild(input11);
+
+    detaillineform.appendChild(linecontrol0);
 
 
     input1.onblur=function(){
