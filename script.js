@@ -1819,7 +1819,7 @@ async function showinventorydetail(inventory){
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
-    createInventoryDetailItem('创建时间', inventory['createtime']);
+    createInventoryDetailItem('创建时间', inventory['date']);
     createInventoryDetailItem('仓库', inventory['locationa']);
     createInventoryDetailItem('区域', inventory['locationb']);
 
