@@ -98,11 +98,11 @@ function searchjobs(searchcreteria){
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
-                var joblist = document.getElementById("activejobs");
-                joblist.innerHTML="";
+                document.getElementById("activejobs").innerHTML="";
+                
                 searchedjobs=xhr.response["data"];
                 for (var i = 0; i < xhr.response["data"].length; i++) {
-                    createjob(xhr.response["data"][i]);
+                    createjob(xhr.response["data"][i],document.getElementById("activejobs"));
                 }
                 sysresponse.innerHTML=xhr.response["msg"];
             }else{
@@ -296,12 +296,12 @@ function showjobsearchbox(){
             document.getElementById("activejobs").innerHTML = "";
             var filteredJobs = searchedjobs.filter(job => job.status != '完成');
             for (var i = 0; i < filteredJobs.length; i++) {
-                createjob(filteredJobs[i]);
+                createjob(filteredJobs[i],document.getElementById("activejobs"));
             }
         }else{
             document.getElementById("activejobs").innerHTML = "";
             for (var i = 0; i < searchedjobs.length; i++) {
-                createjob(searchedjobs[i]);
+                createjob(searchedjobs[i],document.getElementById("activejobs"));
             }
         }
     });
@@ -1479,7 +1479,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
 }
 
-function createjob(jobcontent){
+function createjob(jobcontent,parentdiv){
     const clickeditem=jobcontent;
     var joblist = document.getElementById("activejobs");
 
@@ -1572,7 +1572,7 @@ function createjob(jobcontent){
     itemLine3.appendChild(listItem4);
     activejob.appendChild(itemLine3);
 
-    joblist.appendChild(activejob);
+    parentdiv.appendChild(activejob);
 
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity']);
