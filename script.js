@@ -1865,7 +1865,7 @@ async function showactivitydetail(activity){
     createActivityDetailItem('备注', activity['note']);
     
     var searchcreteria = new FormData();
-    searchcreteria.append("activity",activity['jobid']);
+    searchcreteria.append("jobid",activity['jobid']);
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
         method: 'POST',
         body: searchcreteria,
