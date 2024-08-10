@@ -1305,13 +1305,14 @@ function createdetailline(nid, item, activity, cancelable) {
         option.value = channel;
         datalist.appendChild(option);
     });
-    detaillineform.appendChild(datalist);
+    
     var input0label=document.createElement("label");
     input0label.innerHTML="渠道";
     input0label.style.marginLeft="10px";
     input0label.htmlFor="selectchannel";
     detaillineform.appendChild(input0label);
     detaillineform.appendChild(selectchannel);
+    detaillineform.appendChild(datalist);
 
     detaillineform.appendChild(document.createElement("br"));
     var input8=document.createElement("input");
