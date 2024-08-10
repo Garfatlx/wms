@@ -1299,7 +1299,7 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.value=item['channel']?item['channel']:'';
     var datalist=document.createElement("datalist");
     datalist.id="channels";
-    const channels = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
+    const channels = ['海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
     channels.forEach(channel => {
         const option = document.createElement('option');
         option.value = channel;
