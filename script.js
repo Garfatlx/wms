@@ -1356,7 +1356,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input5.name = "inventoryid";
     input5.readOnly = true;
     input5.className="lineinput";
-    input5.style.width="120px";
+    input5.style.width="110px";
     
     var inventoryid = constructinventoryid(id);
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
@@ -1371,7 +1371,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input6.id = "locationa"+id;
     input6.name = "locationa";
     input6.className = "lineinput";
-    input6.style.width="50px";
+    input6.style.width="40px";
     input6.value = item != '' ? item['locationa'] : '';
     var input6label = document.createElement("label");
     input6label.innerHTML = "仓库";
@@ -1384,30 +1384,30 @@ function createdetailline(nid, item, activity, cancelable) {
     input7.id = "locationb"+id;
     input7.name = "locationb";
     input7.className = "lineinput";
-    input7.style.width="50px";
+    input7.style.width="40px";
     input7.value = item != '' ? item['locationb'] : '';
     var input7label = document.createElement("label");
     input7label.innerHTML = "区域";
     input7label.className = "lineinputlabel";
     linecontrol0.appendChild(input7label);
     linecontrol0.appendChild(input7);
+
     
-    detaillineform.appendChild(linecontrol0);
     
         var input11 = document.createElement("input");
         input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
         input11.name = "customer";
         input11.className = "lineinput";
-        input11.style.width="70px";
+        input11.style.width="50px";
         input11.value = item != '' ? item['customer'] : '';
         var  input11label= document.createElement("label");
         input11label.innerHTML = "客户";
         input11label.className = "lineinputlabel";
         input11label.style.display=activity=="出库"? (item['customer']?"none":"inline-block"):"none";
-        detaillineform.appendChild(input11label);
-        detaillineform.appendChild(input11);
+        linecontrol0.appendChild(input11label);
+        linecontrol0.appendChild(input11);
     
-    
+        detaillineform.appendChild(linecontrol0);
 
 
     input1.onblur=function(){
