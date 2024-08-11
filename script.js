@@ -1214,7 +1214,7 @@ async function loaddetail(clickeditem,activity){
     });
     printcmrbutton.addEventListener("click", function() {
         // Displaying an alert message
-        printcmr(clickeditem);
+        printcmr(clickeditem,items);
     });
     
 }
@@ -1747,7 +1747,7 @@ function sumpcsplt(){
     
 }
 
-function printcmr(clickeditem){
+function printcmr(clickeditem,items){
     var printWindow = window.open('', '', 'height=1123,width=794');
         printWindow.document.write('<html><head>');
         printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
@@ -1762,8 +1762,20 @@ function printcmr(clickeditem){
     img.style.top = '0';
     img.style.left = '0';
     img.style.zIndex = '-1';
-
     printWindow.document.body.appendChild(img);
+
+    const itemsdiv = document.createElement('div');
+    itemsdiv.style.position = 'absolute';
+    itemsdiv.style.top = '600';
+    itemsdiv.style.left = '10';
+    itemsdiv.style.width = '700';
+    itemsdiv.style.height = '400';
+    itemsdiv.style.overflow = 'hide';
+    itemsdiv.style.zIndex = '1';
+    itemsdiv.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(itemsdiv);
+
 }
 function readxls(file,headers){
     var reader = new FileReader();
@@ -1873,7 +1885,7 @@ async function showactivitydetail(activity){
 
     const data = await response.json();
     var job = data["data"][0];
-    createActivityDetailItem('任务状态', job['status']);
+    createActivityDetailItem('任务状态', job['status'] +"  任务状态不是“完成”时，出入动作信息将不会被记录到库存。");
     createjob(job,activitydetail);
     
 }
