@@ -1014,14 +1014,14 @@ async function loaddetail(clickeditem,activity){
         
                                 // Set canvas dimensions proportional to the image
                                 if (width > height) {
-                                    if (width > 1000) {
-                                        height *= 1000 / width;
-                                        width = 1000;
+                                    if (width > 2000) {
+                                        height *= 2000 / width;
+                                        width = 2000;
                                     }
                                 } else {
-                                    if (height > 1000) {
-                                        width *= 1000 / height;
-                                        height = 1000;
+                                    if (height > 2000) {
+                                        width *= 2000 / height;
+                                        height = 2000;
                                     }
                                 }
                                 canvas.width = width;
@@ -1031,7 +1031,7 @@ async function loaddetail(clickeditem,activity){
                                 ctx.drawImage(img, 0, 0, width, height);
         
                                 // Get the compressed image data
-                                var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.9); // Adjust quality as needed
+                                var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.95); // Adjust quality as needed
         
                                 // Create an image element with the compressed data
                                 var compressedImg = document.createElement("img");
