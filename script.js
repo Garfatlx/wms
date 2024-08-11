@@ -1781,6 +1781,7 @@ function printcmr(clickeditem,items){
         itemdiv.style.width = '100%';
         if(item['pcs']>0){
             const itemheader = document.createElement('div');
+            itemheader.contentEditable = true;
             if(item['plt']>0){  
                 itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
             }else{
@@ -1789,8 +1790,8 @@ function printcmr(clickeditem,items){
             itemheader.style.marginRight = '5px';
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
-            const itemfba = document.createElement('textarea');
-            itemfba.style.border = 'none';
+            const itemfba = document.createElement('div');
+            itemfba.contentEditable = true;
             itemfba.style.fontSize = '10px';
             itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
             itemdiv.appendChild(itemfba);
