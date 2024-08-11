@@ -1867,9 +1867,10 @@ function printcmr(clickeditem,items){
     sealnumber.style.width = '200px';
     sealnumber.style.height = '50px';
     sealnumber.style.zIndex = '1';
+    sealnumber.style.display = 'flex';
     const input = document.createElement('input');
     input.type = 'text';
-    input.style.width = '250px';
+    input.style.width = '100px';
     input.style.height = '20px';
     input.style.fontSize = '14px';
     input.style.border = 'none';
