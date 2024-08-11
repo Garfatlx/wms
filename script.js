@@ -1825,7 +1825,7 @@ function printcmr(clickeditem,items){
     totalpcs.style.height = '80px';
     totalpcs.style.zIndex = '1';
     totalpcs.style.border = '1px solid black';
-    totalpcs.textContent = items.reduce((sum, item) => sum + item.pcs, 0);
+    totalpcs.textContent = items.reduce((sum, item) => sum + Number(item.pcs), 0);
 
     printWindow.document.body.appendChild(totalpcs);
 
