@@ -1799,7 +1799,7 @@ function printcmr(clickeditem,items){
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
     deladdress.style.border = '1px solid black';
-    deladdress.innerHTML = clickeditem['deladdress'];
+    deladdress.innerHTML = clickeditem['deladdress'].replace(/\n/g, '<br>');;
 
     printWindow.document.body.appendChild(deladdress);
 
