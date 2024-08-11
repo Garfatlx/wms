@@ -1840,9 +1840,9 @@ function printcmr(clickeditem,items){
     //issue city
     const issuecity = document.createElement('div');
     issuecity.style.position = 'absolute';
-    issuecity.style.top = '800px';
-    issuecity.style.left = '90px';
-    issuecity.style.width = '100px';
+    issuecity.style.top = '900px';
+    issuecity.style.left = '110px';
+    issuecity.style.width = '120px';
     issuecity.style.height = '20px';
     issuecity.style.zIndex = '1';
     issuecity.style.border = '1px solid black';
@@ -1852,8 +1852,8 @@ function printcmr(clickeditem,items){
     //issue date
     const issuedate = document.createElement('div');
     issuedate.style.position = 'absolute';
-    issuedate.style.top = '800px';
-    issuedate.style.left = '400px';
+    issuedate.style.top = '900px';
+    issuedate.style.left = '300px';
     issuedate.style.width = '100px';
     issuedate.style.height = '20px';
     issuedate.style.zIndex = '1';
