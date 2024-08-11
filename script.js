@@ -798,6 +798,7 @@ async function loaddetail(clickeditem,activity){
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
+    createTooltip(controlbar, '如内容有更新，请先保存任务再打印操作单。');
     controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
@@ -1877,36 +1878,6 @@ function printcmr(clickeditem,items){
     sealnumber.innerHTML = 'Seal Number: ';
     
     printWindow.document.body.appendChild(sealnumber);
-
-    // const input = document.createElement('input');
-    // input.type = 'text';
-    // input.style.width = '250px';
-    // input.style.height = '20px';
-    // input.style.position = 'absolute';
-    // input.style.top = '700px';
-    // input.style.left = '40px';
-    // input.placeholder = 'Please Type Seal Number here. Press "Enter" to confirm.';
-    // input.style.zIndex = '1';
-    // input.style.border = '1px solid black';
-    // input.style.padding = '2px';
-    // input.style.fontSize = '12px';
-    // printWindow.document.body.appendChild(input);
-    // input.addEventListener('keydown', function(event) {
-    //     if (event.key === 'Enter') {
-    //         const sealNumber = input.value;
-    //         const sealNumberText = document.createElement('div');
-    //         sealNumberText.style.position = 'absolute';
-    //         sealNumberText.style.top = '700px';
-    //         sealNumberText.style.left = '40px';
-    //         sealNumberText.style.width = '200px';
-    //         sealNumberText.style.height = '50px';
-    //         sealNumberText.style.zIndex = '1';
-    //         sealNumberText.innerHTML = 'Seal Number: <br>' + sealNumber;
-
-    //         printWindow.document.body.replaceChild(sealNumberText, input);
-    //     }
-    // });
-
      
     //issue city
     const issuecity = document.createElement('div');
