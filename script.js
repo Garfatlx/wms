@@ -1775,13 +1775,14 @@ function printcmr(clickeditem,items){
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.fontSize = '11px';
+    itemsdiv.contentEditable = true;
     items.forEach(function(item) {
         const itemdiv = document.createElement('div');
         itemdiv.style.display = 'flex';
         itemdiv.style.width = '100%';
         if(item['pcs']>0){
             const itemheader = document.createElement('div');
-            itemheader.contentEditable = true;
+            // itemheader.contentEditable = true;
             if(item['plt']>0){  
                 itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
             }else{
@@ -1791,7 +1792,7 @@ function printcmr(clickeditem,items){
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
             const itemfba = document.createElement('div');
-            itemfba.contentEditable = true;
+            // itemfba.contentEditable = true;
             itemfba.style.fontSize = '10px';
             itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
             itemdiv.appendChild(itemfba);
@@ -1809,6 +1810,7 @@ function printcmr(clickeditem,items){
     ordernumber.style.width = '300px';
     ordernumber.style.height = '50px';
     ordernumber.style.zIndex = '1';
+    ordernumber.contentEditable = true;
     if(clickeditem['orderid']){
         ordernumber.innerHTML = clickeditem['orderid'] + ' <br>' ;
     }
@@ -1827,6 +1829,7 @@ function printcmr(clickeditem,items){
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
     deladdress.style.fontSize = '11px';
+    deladdress.contentEditable = true;
     deladdress.innerHTML = clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
 
     printWindow.document.body.appendChild(deladdress);
@@ -1839,6 +1842,7 @@ function printcmr(clickeditem,items){
     deladdresscity.style.width = '360px';
     deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
+    deladdresscity.contentEditable = true;
     deladdresscity.textContent = clickeditem['delcity']?clickeditem['delcity']:'';
 
     printWindow.document.body.appendChild(deladdresscity);
@@ -1851,6 +1855,7 @@ function printcmr(clickeditem,items){
     totalpcs.style.width = '70px';
     totalpcs.style.height = '80px';
     totalpcs.style.zIndex = '1';
+    totalpcs.contentEditable = true;
     var totalpcscount = items.reduce((sum, item) => sum + Number(item.pcs), 0);
     var totalpltcount = items.reduce((sum, item) => sum + Number(item.plt), 0);
     if(totalpltcount>0){
@@ -1868,20 +1873,9 @@ function printcmr(clickeditem,items){
     sealnumber.style.width = '200px';
     sealnumber.style.height = '50px';
     sealnumber.style.zIndex = '1';
-    sealnumber.style.display = 'flex';
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.style.width = '100px';
-    input.style.height = '20px';
-    input.style.fontSize = '14px';
-    input.style.border = 'none';
-    const inputlabel = document.createElement('label');
-    inputlabel.innerHTML = 'Seal Number: ';
-    inputlabel.style.fontSize = '14px';
-    inputlabel.style.marginRight = '5px';
-    inputlabel.style.fontWeight = 'bold';
-    sealnumber.appendChild(inputlabel);
-    sealnumber.appendChild(input);
+    sealnumber.contentEditable = true;
+    sealnumber.innerHTML = 'Seal Number: ';
+    
     printWindow.document.body.appendChild(sealnumber);
 
     // const input = document.createElement('input');
