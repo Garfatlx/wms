@@ -788,7 +788,7 @@ async function loaddetail(clickeditem,activity){
     var closebutton=document.createElement("button");
     closebutton.innerHTML="✕";
     closebutton.className="button";
-    closebutton.style.marginLeft = '5px';
+    closebutton.style.marginLeft = '30px';
     closebutton.style.padding = '5px 5px 5px 8px';
     closebutton.addEventListener("click", function() {
         itemdetail.innerHTML="";
@@ -798,7 +798,6 @@ async function loaddetail(clickeditem,activity){
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
-    createTooltip(controlbar, '如内容有更新，请先保存任务再打印操作单。');
     controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
