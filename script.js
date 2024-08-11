@@ -1781,11 +1781,11 @@ function printcmr(clickeditem,items){
         itemdiv.style.width = '100%';
         if(item['pcs']>0){
             const itemheader = document.createElement('div');
-            itemheader.textContent = item['container'] + ' ' + item['pcs']+ 'CTNS '+(item['plt']>0?item['plt']+'PLT  ':'')+' ';
+            itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS '+(item['plt']>0?item['plt']+'PLT  ':'')+' ';
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
             const itemfba = document.createElement('div');
-            itemfba.textContent = item['fba'].replace(/\n;/g, ' ');
+            itemfba.innerHTML = item['fba'].replace(/\n;/g, ' ');
             itemdiv.appendChild(itemfba);
             itemsdiv.appendChild(itemdiv);
         }
