@@ -1031,7 +1031,7 @@ async function loaddetail(clickeditem,activity){
                                 ctx.drawImage(img, 0, 0, width, height);
         
                                 // Get the compressed image data
-                                var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality as needed
+                                var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.9); // Adjust quality as needed
         
                                 // Create an image element with the compressed data
                                 var compressedImg = document.createElement("img");
