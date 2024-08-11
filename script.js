@@ -1786,6 +1786,7 @@ function printcmr(clickeditem,items){
     ordernumber.style.height = '50px';
     ordernumber.style.zIndex = '1';
     ordernumber.style.border = '1px solid black';
+    ordernumber.textContent = clickeditem['orderid'] + ' ; ' + clickeditem['reference'];
     
     printWindow.document.body.appendChild(ordernumber);
 
@@ -1798,6 +1799,7 @@ function printcmr(clickeditem,items){
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
     deladdress.style.border = '1px solid black';
+    deladdress.textContent = clickeditem['deladdress'];
 
     printWindow.document.body.appendChild(deladdress);
 
@@ -1810,6 +1812,7 @@ function printcmr(clickeditem,items){
     deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
     deladdresscity.style.border = '1px solid black';
+    deladdresscity.textContent = clickeditem['delcity'];
 
     printWindow.document.body.appendChild(deladdresscity);
 
@@ -1822,6 +1825,7 @@ function printcmr(clickeditem,items){
     totalpcs.style.height = '80px';
     totalpcs.style.zIndex = '1';
     totalpcs.style.border = '1px solid black';
+    totalpcs.textContent = items.reduce((sum, item) => sum + item.pcs, 0);
 
     printWindow.document.body.appendChild(totalpcs);
 
@@ -1846,6 +1850,7 @@ function printcmr(clickeditem,items){
     issuecity.style.height = '20px';
     issuecity.style.zIndex = '1';
     issuecity.style.border = '1px solid black';
+    issuecity.textContent = 'Gronsveld';
 
     printWindow.document.body.appendChild(issuecity);
 
@@ -1858,6 +1863,7 @@ function printcmr(clickeditem,items){
     issuedate.style.height = '20px';
     issuedate.style.zIndex = '1';
     issuedate.style.border = '1px solid black';
+    issuedate.textContent = getformatteddate(0);
 
     printWindow.document.body.appendChild(issuedate);
 
