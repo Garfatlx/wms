@@ -1748,7 +1748,7 @@ function sumpcsplt(){
 }
 
 function printcmr(clickeditem,items){
-    var printWindow = window.open('', '', 'height=1123,width=794');
+    var printWindow = window.open('', '', 'height=1123px,width=794px');
         printWindow.document.write('<html><head>');
         printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
@@ -1766,10 +1766,10 @@ function printcmr(clickeditem,items){
 
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
-    itemsdiv.style.top = '600';
-    itemsdiv.style.left = '10';
-    itemsdiv.style.width = '700';
-    itemsdiv.style.height = '400';
+    itemsdiv.style.top = '400px';
+    itemsdiv.style.left = '10px';
+    itemsdiv.style.width = '600px';
+    itemsdiv.style.height = '300px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.border = '1px solid black';
