@@ -5,7 +5,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。如遇版本更新，请按键盘Shift+F5刷新页面。";
+    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。";
     
     //page fist load
     // var searchcreteria = new FormData();
@@ -1860,48 +1860,58 @@ function printcmr(clickeditem,items){
     printWindow.document.body.appendChild(totalpcs);
 
     //seal number
-    // const sealnumber = document.createElement('div');
-    // sealnumber.style.position = 'absolute';
-    // sealnumber.style.top = '700px';
-    // sealnumber.style.left = '40px';
-    // sealnumber.style.width = '200px';
-    // sealnumber.style.height = '50px';
-    // sealnumber.style.zIndex = '1';
-    // sealnumber.innerHTML = 'Seal Number: <br>';
-    
-    
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.style.width = '160px';
-        input.style.height = '20px';
-        input.style.position = 'absolute';
-        input.style.top = '700px';
-        input.style.left = '40px';
-        input.placeholder = 'Please Type Seal Number';
-        input.style.zIndex = '1';
-        input.style.border = '1px solid black';
-        input.style.padding = '2px';
-        input.style.fontSize = '12px';
-        printWindow.document.body.appendChild(input);
-        input.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                const sealNumber = input.value;
-                const sealNumberText = document.createElement('div');
-                sealNumberText.style.position = 'absolute';
-                sealNumberText.style.top = '760px';
-                sealNumberText.style.left = '40px';
-                sealNumberText.style.width = '200px';
-                sealNumberText.style.height = '50px';
-                sealNumberText.style.zIndex = '1';
-                sealNumberText.innerHTML = 'Seal Number: <br>' + sealNumber;
+    const sealnumber = document.createElement('div');
+    sealnumber.style.position = 'absolute';
+    sealnumber.style.top = '700px';
+    sealnumber.style.left = '40px';
+    sealnumber.style.width = '200px';
+    sealnumber.style.height = '50px';
+    sealnumber.style.zIndex = '1';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.style.width = '250px';
+    input.style.height = '20px';
+    input.style.fontSize = '14px';
+    input.style.border = 'none';
+    const inputlabel = document.createElement('label');
+    inputlabel.innerHTML = 'Seal Number: ';
+    inputlabel.style.fontSize = '14px';
+    inputlabel.style.marginRight = '5px';
+    inputlabel.style.fontWeight = 'bold';
+    sealnumber.appendChild(inputlabel);
+    sealnumber.appendChild(input);
+    printWindow.document.body.appendChild(sealnumber);
 
-                printWindow.document.body.replaceChild(sealNumberText, input);
-            }
-        });
+    // const input = document.createElement('input');
+    // input.type = 'text';
+    // input.style.width = '250px';
+    // input.style.height = '20px';
+    // input.style.position = 'absolute';
+    // input.style.top = '700px';
+    // input.style.left = '40px';
+    // input.placeholder = 'Please Type Seal Number here. Press "Enter" to confirm.';
+    // input.style.zIndex = '1';
+    // input.style.border = '1px solid black';
+    // input.style.padding = '2px';
+    // input.style.fontSize = '12px';
+    // printWindow.document.body.appendChild(input);
+    // input.addEventListener('keydown', function(event) {
+    //     if (event.key === 'Enter') {
+    //         const sealNumber = input.value;
+    //         const sealNumberText = document.createElement('div');
+    //         sealNumberText.style.position = 'absolute';
+    //         sealNumberText.style.top = '700px';
+    //         sealNumberText.style.left = '40px';
+    //         sealNumberText.style.width = '200px';
+    //         sealNumberText.style.height = '50px';
+    //         sealNumberText.style.zIndex = '1';
+    //         sealNumberText.innerHTML = 'Seal Number: <br>' + sealNumber;
+
+    //         printWindow.document.body.replaceChild(sealNumberText, input);
+    //     }
+    // });
 
      
-    // printWindow.document.body.appendChild(sealnumber);
-
     //issue city
     const issuecity = document.createElement('div');
     issuecity.style.position = 'absolute';
