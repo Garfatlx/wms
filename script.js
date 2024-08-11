@@ -1774,6 +1774,21 @@ function printcmr(clickeditem,items){
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.border = '1px solid black';
+    itemsdiv.style.fontSize = '11px';
+    items.forEach(function(item) {
+        const itemdiv = document.createElement('div');
+        itemdiv.style.display = 'flex';
+        itemdiv.style.width = '100%';
+        if(item['pcs']>0){
+            const itemheader = document.createElement('div');
+            itemheader.textContent = item['container'] + ' ' + item['pcs']+ 'CTNS '+(item['plt']>0?item['plt']+'PLT  ':'')+' ';
+            itemheader.style.fontWeight = 'bold';
+            itemdiv.appendChild(itemheader);
+            const itemfba = document.createElement('div');
+            itemfba.textContent = item['fba'].replace(/\n;/g, ' ');
+            itemdiv.appendChild(itemfba);
+        }
+    });
 
     printWindow.document.body.appendChild(itemsdiv);
 
@@ -1799,6 +1814,7 @@ function printcmr(clickeditem,items){
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
     deladdress.style.border = '1px solid black';
+    deladdress.style.fontSize = '11px';
     deladdress.innerHTML = clickeditem['deladdress'].replace(/\n/g, '<br>');;
 
     printWindow.document.body.appendChild(deladdress);
