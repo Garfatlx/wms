@@ -1860,28 +1860,29 @@ function printcmr(clickeditem,items){
     printWindow.document.body.appendChild(totalpcs);
 
     //seal number
-    const sealnumber = document.createElement('div');
-    sealnumber.style.position = 'absolute';
-    sealnumber.style.top = '700px';
-    sealnumber.style.left = '40px';
-    sealnumber.style.width = '200px';
-    sealnumber.style.height = '50px';
-    sealnumber.style.zIndex = '1';
-    sealnumber.innerHTML = 'Seal Number: <br>';
+    // const sealnumber = document.createElement('div');
+    // sealnumber.style.position = 'absolute';
+    // sealnumber.style.top = '700px';
+    // sealnumber.style.left = '40px';
+    // sealnumber.style.width = '200px';
+    // sealnumber.style.height = '50px';
+    // sealnumber.style.zIndex = '1';
+    // sealnumber.innerHTML = 'Seal Number: <br>';
     
-    sealnumber.addEventListener('click', function() {
+    
         const input = document.createElement('input');
         input.type = 'text';
-        input.style.width = '150px';
+        input.style.width = '160px';
         input.style.height = '20px';
         input.style.position = 'absolute';
         input.style.top = '700px';
-        input.style.left = '60px';
+        input.style.left = '40px';
+        input.placeholder = 'Please Type Seal Number';
         input.style.zIndex = '1';
         input.style.border = '1px solid black';
         input.style.padding = '2px';
         input.style.fontSize = '12px';
-
+        printWindow.document.body.appendChild(input);
         input.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 const sealNumber = input.value;
@@ -1898,9 +1899,8 @@ function printcmr(clickeditem,items){
             }
         });
 
-        printWindow.document.body.replaceChild(input, sealnumber);
-    });
-    printWindow.document.body.appendChild(sealnumber);
+     
+    // printWindow.document.body.appendChild(sealnumber);
 
     //issue city
     const issuecity = document.createElement('div');
