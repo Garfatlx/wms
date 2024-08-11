@@ -1789,7 +1789,8 @@ function printcmr(clickeditem,items){
             itemheader.style.marginRight = '5px';
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
-            const itemfba = document.createElement('div');
+            const itemfba = document.createElement('textarea');
+            itemfba.style.border = 'none';
             itemfba.style.fontSize = '10px';
             itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
             itemdiv.appendChild(itemfba);
@@ -1807,7 +1808,6 @@ function printcmr(clickeditem,items){
     ordernumber.style.width = '300px';
     ordernumber.style.height = '50px';
     ordernumber.style.zIndex = '1';
-    ordernumber.style.border = '1px solid black';
     if(clickeditem['orderid']){
         ordernumber.innerHTML = clickeditem['orderid'] + ' <br>' ;
     }
