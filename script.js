@@ -1782,10 +1782,11 @@ function printcmr(clickeditem,items){
         if(item['pcs']>0){
             const itemheader = document.createElement('div');
             itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
+            itemheader.style.marginRight = '5px';
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
             const itemfba = document.createElement('div');
-            itemfba.innerHTML = item['fba'].replace(/\n;/g, ' ');
+            itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
             itemdiv.appendChild(itemfba);
             itemsdiv.appendChild(itemdiv);
         }
@@ -1816,7 +1817,7 @@ function printcmr(clickeditem,items){
     deladdress.style.zIndex = '1';
     deladdress.style.border = '1px solid black';
     deladdress.style.fontSize = '11px';
-    deladdress.innerHTML = clickeditem['deladdress'].replace(/\n/g, '<br>');;
+    deladdress.innerHTML = clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
 
     printWindow.document.body.appendChild(deladdress);
 
@@ -1829,7 +1830,7 @@ function printcmr(clickeditem,items){
     deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
     deladdresscity.style.border = '1px solid black';
-    deladdresscity.textContent = clickeditem['delcity'];
+    deladdresscity.textContent = clickeditem['delcity']?clickeditem['delcity']:'';
 
     printWindow.document.body.appendChild(deladdresscity);
 
