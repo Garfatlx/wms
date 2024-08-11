@@ -1906,6 +1906,7 @@ function printcmr(clickeditem,items){
     printWindow.document.body.appendChild(ordernumber);
 
     //del address
+    var deladdressfull=getaddress(clickeditem['joblabel']);
     const deladdress = document.createElement('div');
     deladdress.style.position = 'absolute';
     deladdress.style.top = '196px';
@@ -1915,7 +1916,7 @@ function printcmr(clickeditem,items){
     deladdress.style.zIndex = '1';
     deladdress.style.fontSize = '11px';
     deladdress.contentEditable = true;
-    deladdress.innerHTML = clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
+    deladdress.innerHTML = deladdressfull?deladdressfull[0]:clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
 
     printWindow.document.body.appendChild(deladdress);
 
@@ -1928,7 +1929,7 @@ function printcmr(clickeditem,items){
     deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
     deladdresscity.contentEditable = true;
-    deladdresscity.textContent = clickeditem['delcity']?clickeditem['delcity']:'';
+    deladdresscity.textContent = deladdressfull?deladdressfull[1]:clickeditem['delcity']?clickeditem['delcity']:'';
 
     printWindow.document.body.appendChild(deladdresscity);
 
@@ -2099,4 +2100,35 @@ async function showactivitydetail(activity){
     createActivityDetailItem('任务状态', job['status'] +"  任务状态不是“完成”时，出入动作信息将不会被记录到库存。");
     createjob(job,activitydetail);
     
+}
+
+function getaddress(reforigin){
+   const ref = reforigin.trim().toUpperCase();
+    if (ref === 'STR1') {
+        return ['STR1 <br>Im Buchbusch 1, DE-75177', 'Pforzheim, Baden-Württemberg, Germany'];
+    } else if (ref === 'HAJ1') {
+        return ['HAJ1 <br>Zur Alten Molkerei 1, DE-38350', 'Helmstedt, Lower Saxony, Germany'];
+    } else if (ref === 'WRO5') {
+        return ['Finsterwalder Transport und Logistik GmbH <br>Schieferstraße 16,  DE-06126', 'Halle (saale), Germany'];
+    } else if (ref === 'DTM2') {
+        return ['3', 'C'];
+    } else if (ref === 'DTM1') {
+        return ['DTM1 <br>Raiffeisenstraße 1, DE-59368', 'Werne, Nordrhein-Westfalen, Germany'];
+    }else if (ref === 'LEJ3') {
+        return ['LEJ3 <br>Bielefelder Straße 9, DE-39171', 'Suelzetal, Saxony-Anhalt, Germany']; 
+    }else if (ref === 'DPD') {
+        return ["DPD Belgium Depot<br>Rue de l'Arbe Saint-Michel 99, 4400 Flémalle", 'Flémalle, Belgium']; 
+    }else if (ref === 'XSC1') {
+        return ['XSC1<br>Hans-Geiger-Strasse 7, DE-67661', 'Kaiserslautern, Rhineland-Palatinate, Germany']; 
+    }else{
+        return null;
+    }
+    
+    // else if (ref === 'XPO1') {
+    //     return ['3', 'C']; 
+    // }else if (ref === 'DHL PAKET') {
+    //     return ['3', 'C']; 
+    // }else if (ref === 'STR2') {
+    //     return ['3', 'C']; 
+    // }
 }
