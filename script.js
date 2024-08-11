@@ -1764,17 +1764,30 @@ function printcmr(clickeditem,items){
     img.style.zIndex = '-1';
     printWindow.document.body.appendChild(img);
 
+    //items
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
-    itemsdiv.style.top = '400px';
-    itemsdiv.style.left = '10px';
-    itemsdiv.style.width = '600px';
-    itemsdiv.style.height = '300px';
+    itemsdiv.style.top = '440px';
+    itemsdiv.style.left = '39px';
+    itemsdiv.style.width = '640px';
+    itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.border = '1px solid black';
 
     printWindow.document.body.appendChild(itemsdiv);
+
+    //order number
+    const ordernumber = document.createElement('div');
+    ordernumber.style.position = 'absolute';
+    ordernumber.style.top = '100px';
+    ordernumber.style.left = '300px';
+    ordernumber.style.width = '200px';
+    ordernumber.style.height = '50px';
+    ordernumber.style.zIndex = '1';
+    ordernumber.style.border = '1px solid black';
+    
+    printWindow.document.body.appendChild(ordernumber);
 
 }
 function readxls(file,headers){
