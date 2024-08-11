@@ -1768,7 +1768,7 @@ function printcmr(clickeditem,items){
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
     itemsdiv.style.top = '440px';
-    itemsdiv.style.left = '39px';
+    itemsdiv.style.left = '40px';
     itemsdiv.style.width = '640px';
     itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
@@ -1780,14 +1780,38 @@ function printcmr(clickeditem,items){
     //order number
     const ordernumber = document.createElement('div');
     ordernumber.style.position = 'absolute';
-    ordernumber.style.top = '100px';
-    ordernumber.style.left = '300px';
-    ordernumber.style.width = '200px';
+    ordernumber.style.top = '340px';
+    ordernumber.style.left = '420px';
+    ordernumber.style.width = '300px';
     ordernumber.style.height = '50px';
     ordernumber.style.zIndex = '1';
     ordernumber.style.border = '1px solid black';
     
     printWindow.document.body.appendChild(ordernumber);
+
+    //del address
+    const deladdress = document.createElement('div');
+    deladdress.style.position = 'absolute';
+    deladdress.style.top = '100px';
+    deladdress.style.left = '40px';
+    deladdress.style.width = '330px';
+    deladdress.style.height = '50px';
+    deladdress.style.zIndex = '1';
+    deladdress.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(deladdress);
+
+    //del address city
+    const deladdresscity = document.createElement('div');
+    deladdresscity.style.position = 'absolute';
+    deladdresscity.style.top = '200px';
+    deladdresscity.style.left = '40px';
+    deladdresscity.style.width = '330px';
+    deladdresscity.style.height = '50px';
+    deladdresscity.style.zIndex = '1';
+    deladdresscity.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(deladdresscity);
 
 }
 function readxls(file,headers){
