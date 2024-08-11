@@ -1816,9 +1816,9 @@ function printcmr(clickeditem,items){
     //total pcs
     const totalpcs = document.createElement('div');
     totalpcs.style.position = 'absolute';
-    totalpcs.style.top = '400px';
-    totalpcs.style.left = '670px';
-    totalpcs.style.width = '50px';
+    totalpcs.style.top = '470px';
+    totalpcs.style.left = '690px';
+    totalpcs.style.width = '70px';
     totalpcs.style.height = '80px';
     totalpcs.style.zIndex = '1';
     totalpcs.style.border = '1px solid black';
@@ -1828,7 +1828,7 @@ function printcmr(clickeditem,items){
     //seal number
     const sealnumber = document.createElement('div');
     sealnumber.style.position = 'absolute';
-    sealnumber.style.top = '780px';
+    sealnumber.style.top = '700px';
     sealnumber.style.left = '40px';
     sealnumber.style.width = '200px';
     sealnumber.style.height = '50px';
@@ -1836,6 +1836,30 @@ function printcmr(clickeditem,items){
     sealnumber.style.border = '1px solid black';
 
     printWindow.document.body.appendChild(sealnumber);
+
+    //issue city
+    const issuecity = document.createElement('div');
+    issuecity.style.position = 'absolute';
+    issuecity.style.top = '800px';
+    issuecity.style.left = '90px';
+    issuecity.style.width = '100px';
+    issuecity.style.height = '20px';
+    issuecity.style.zIndex = '1';
+    issuecity.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(issuecity);
+
+    //issue date
+    const issuedate = document.createElement('div');
+    issuedate.style.position = 'absolute';
+    issuedate.style.top = '800px';
+    issuedate.style.left = '400px';
+    issuedate.style.width = '100px';
+    issuedate.style.height = '20px';
+    issuedate.style.zIndex = '1';
+    issuedate.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(issuedate);
 
 }
 function readxls(file,headers){
