@@ -1792,9 +1792,9 @@ function printcmr(clickeditem,items){
     //del address
     const deladdress = document.createElement('div');
     deladdress.style.position = 'absolute';
-    deladdress.style.top = '100px';
+    deladdress.style.top = '196px';
     deladdress.style.left = '40px';
-    deladdress.style.width = '330px';
+    deladdress.style.width = '360px';
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
     deladdress.style.border = '1px solid black';
@@ -1804,14 +1804,38 @@ function printcmr(clickeditem,items){
     //del address city
     const deladdresscity = document.createElement('div');
     deladdresscity.style.position = 'absolute';
-    deladdresscity.style.top = '200px';
+    deladdresscity.style.top = '275px';
     deladdresscity.style.left = '40px';
-    deladdresscity.style.width = '330px';
-    deladdresscity.style.height = '50px';
+    deladdresscity.style.width = '360px';
+    deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
     deladdresscity.style.border = '1px solid black';
 
     printWindow.document.body.appendChild(deladdresscity);
+
+    //total pcs
+    const totalpcs = document.createElement('div');
+    totalpcs.style.position = 'absolute';
+    totalpcs.style.top = '400px';
+    totalpcs.style.left = '670px';
+    totalpcs.style.width = '50px';
+    totalpcs.style.height = '80px';
+    totalpcs.style.zIndex = '1';
+    totalpcs.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(totalpcs);
+
+    //seal number
+    const sealnumber = document.createElement('div');
+    sealnumber.style.position = 'absolute';
+    sealnumber.style.top = '780px';
+    sealnumber.style.left = '40px';
+    sealnumber.style.width = '200px';
+    sealnumber.style.height = '50px';
+    sealnumber.style.zIndex = '1';
+    sealnumber.style.border = '1px solid black';
+
+    printWindow.document.body.appendChild(sealnumber);
 
 }
 function readxls(file,headers){
