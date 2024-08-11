@@ -1770,11 +1770,10 @@ function printcmr(clickeditem,items){
     itemsdiv.style.position = 'absolute';
     itemsdiv.style.top = '440px';
     itemsdiv.style.left = '40px';
-    itemsdiv.style.width = '640px';
+    itemsdiv.style.width = '635px';
     itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
-    itemsdiv.style.border = '1px solid black';
     itemsdiv.style.fontSize = '11px';
     items.forEach(function(item) {
         const itemdiv = document.createElement('div');
@@ -1875,8 +1874,10 @@ function printcmr(clickeditem,items){
         input.type = 'text';
         input.style.width = '150px';
         input.style.height = '20px';
-        input.style.marginTop = '5px';
-        input.style.marginBottom = '5px';
+        input.style.position = 'absolute';
+        input.style.top = '700px';
+        input.style.left = '60px';
+        input.style.zIndex = '1';
         input.style.border = '1px solid black';
         input.style.padding = '2px';
         input.style.fontSize = '12px';
