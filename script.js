@@ -993,30 +993,115 @@ async function loaddetail(clickeditem,activity){
             });
         }
         
+        //!!!!!!!!!!!!!!
         input.addEventListener("change", function() {
             if (clickeditem == '') {
                 alert("请保存任务后再上传图片");
-            }else{
+            } else {
                 var file = this.files[0];
                 if (file) {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = function() {
-                        var img = document.createElement("img");
-                        img.src = reader.result;
-                        img.width = 100;
-                        img.height = 100;
-                        img.className = "img-preview";
-                        var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
-                        if (existingImage) {
-                            existingImage.remove();
-                        }
-                        document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
-                    };
-                    uploadimage(clickeditem['jobid'], file, 'img'+inumber);
+                    if (file.size > 1048576) { // 1MB in bytes
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function(event) {
+                            var img = new Image();
+                            img.src = event.target.result;
+                            img.onload = function() {
+                                var canvas = document.createElement("canvas");
+                                var ctx = canvas.getContext("2d");
+                                var width = img.width;
+                                var height = img.height;
+        
+                                // Set canvas dimensions proportional to the image
+                                if (width > height) {
+                                    if (width > 1000) {
+                                        height *= 1000 / width;
+                                        width = 1000;
+                                    }
+                                } else {
+                                    if (height > 1000) {
+                                        width *= 1000 / height;
+                                        height = 1000;
+                                    }
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+        
+                                // Draw the image on the canvas
+                                ctx.drawImage(img, 0, 0, width, height);
+        
+                                // Get the compressed image data
+                                var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality as needed
+        
+                                // Create an image element with the compressed data
+                                var compressedImg = document.createElement("img");
+                                compressedImg.src = compressedDataUrl;
+                                compressedImg.width = 100;
+                                compressedImg.height = 100;
+                                compressedImg.className = "img-preview";
+                                var existingImage = document.getElementById('uploadbuttonblock' + inumber).querySelector('.img-preview');
+                                if (existingImage) {
+                                    existingImage.remove();
+                                }
+                                document.getElementById('uploadbuttonblock' + inumber).appendChild(compressedImg);
+        
+                                // Convert data URL to Blob for upload
+                                var byteString = atob(compressedDataUrl.split(',')[1]);
+                                var mimeString = compressedDataUrl.split(',')[0].split(':')[1].split(';')[0];
+                                var ab = new ArrayBuffer(byteString.length);
+                                var ia = new Uint8Array(ab);
+                                for (var i = 0; i < byteString.length; i++) {
+                                    ia[i] = byteString.charCodeAt(i);
+                                }
+                                var compressedFile = new Blob([ab], { type: mimeString });
+        
+                                uploadimage(clickeditem['jobid'], compressedFile, 'img' + inumber);
+                            };
+                        };
+                    } else {
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function() {
+                            var img = document.createElement("img");
+                            img.src = reader.result;
+                            img.width = 100;
+                            img.height = 100;
+                            img.className = "img-preview";
+                            var existingImage = document.getElementById('uploadbuttonblock' + inumber).querySelector('.img-preview');
+                            if (existingImage) {
+                                existingImage.remove();
+                            }
+                            document.getElementById('uploadbuttonblock' + inumber).appendChild(img);
+                        };
+                        uploadimage(clickeditem['jobid'], file, 'img' + inumber);
+                    }
                 }
             }
         });
+        // input.addEventListener("change", function() {
+        //     if (clickeditem == '') {
+        //         alert("请保存任务后再上传图片");
+        //     }else{
+        //         var file = this.files[0];
+        //         if (file) {
+        //             var reader = new FileReader();
+        //             reader.readAsDataURL(file);
+        //             reader.onload = function() {
+        //                 var img = document.createElement("img");
+        //                 img.src = reader.result;
+        //                 img.width = 100;
+        //                 img.height = 100;
+        //                 img.className = "img-preview";
+        //                 var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
+        //                 if (existingImage) {
+        //                     existingImage.remove();
+        //                 }
+        //                 document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
+        //             };
+        //             uploadimage(clickeditem['jobid'], file, 'img'+inumber);
+        //         }
+        //     }
+        // });
         
         uploaddiv.appendChild(uploadbuttonblock);
     }
