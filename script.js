@@ -1191,6 +1191,7 @@ async function loaddetail(clickeditem,activity){
     if(access==1){
         cancelButton.removeAttribute("disabled");
         printbutton.removeAttribute("disabled");
+        printcmrbutton.removeAttribute("disabled");
     }
     closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
@@ -1781,11 +1782,16 @@ function printcmr(clickeditem,items){
         itemdiv.style.width = '100%';
         if(item['pcs']>0){
             const itemheader = document.createElement('div');
-            itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
+            if(item['plt']>0){  
+                itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
+            }else{
+                itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
+            }
             itemheader.style.marginRight = '5px';
             itemheader.style.fontWeight = 'bold';
             itemdiv.appendChild(itemheader);
             const itemfba = document.createElement('div');
+            itemfba.style.fontSize = '10px';
             itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
             itemdiv.appendChild(itemfba);
             itemsdiv.appendChild(itemdiv);
@@ -1803,7 +1809,12 @@ function printcmr(clickeditem,items){
     ordernumber.style.height = '50px';
     ordernumber.style.zIndex = '1';
     ordernumber.style.border = '1px solid black';
-    ordernumber.textContent = clickeditem['orderid'] + ' ; ' + clickeditem['reference'];
+    if(clickeditem['orderid']){
+        ordernumber.innerHTML = clickeditem['orderid'] + ' <br>' ;
+    }
+    if(clickeditem['reference']){
+        ordernumber.innerHTML = ordernumber.innerHTML + clickeditem['reference'];
+    }
     
     printWindow.document.body.appendChild(ordernumber);
 
@@ -1815,7 +1826,6 @@ function printcmr(clickeditem,items){
     deladdress.style.width = '360px';
     deladdress.style.height = '50px';
     deladdress.style.zIndex = '1';
-    deladdress.style.border = '1px solid black';
     deladdress.style.fontSize = '11px';
     deladdress.innerHTML = clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
 
@@ -1829,7 +1839,6 @@ function printcmr(clickeditem,items){
     deladdresscity.style.width = '360px';
     deladdresscity.style.height = '22px';
     deladdresscity.style.zIndex = '1';
-    deladdresscity.style.border = '1px solid black';
     deladdresscity.textContent = clickeditem['delcity']?clickeditem['delcity']:'';
 
     printWindow.document.body.appendChild(deladdresscity);
@@ -1842,10 +1851,13 @@ function printcmr(clickeditem,items){
     totalpcs.style.width = '70px';
     totalpcs.style.height = '80px';
     totalpcs.style.zIndex = '1';
-    totalpcs.style.border = '1px solid black';
     var totalpcscount = items.reduce((sum, item) => sum + Number(item.pcs), 0);
-    totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS';
-
+    var totalpltcount = items.reduce((sum, item) => sum + Number(item.plt), 0);
+    if(totalpltcount>0){
+        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS<br>'+totalpltcount + 'PLTS';
+    }else{
+        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS';
+    }
     printWindow.document.body.appendChild(totalpcs);
 
     //seal number
@@ -1856,8 +1868,37 @@ function printcmr(clickeditem,items){
     sealnumber.style.width = '200px';
     sealnumber.style.height = '50px';
     sealnumber.style.zIndex = '1';
-    sealnumber.style.border = '1px solid black';
+    sealnumber.innerHTML = 'Seal Number: <br>';
+    
+    sealnumber.addEventListener('click', function() {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.style.width = '150px';
+        input.style.height = '20px';
+        input.style.marginTop = '5px';
+        input.style.marginBottom = '5px';
+        input.style.border = '1px solid black';
+        input.style.padding = '2px';
+        input.style.fontSize = '12px';
 
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const sealNumber = input.value;
+                const sealNumberText = document.createElement('div');
+                sealNumberText.style.position = 'absolute';
+                sealNumberText.style.top = '760px';
+                sealNumberText.style.left = '40px';
+                sealNumberText.style.width = '200px';
+                sealNumberText.style.height = '50px';
+                sealNumberText.style.zIndex = '1';
+                sealNumberText.innerHTML = 'Seal Number: <br>' + sealNumber;
+
+                printWindow.document.body.replaceChild(sealNumberText, input);
+            }
+        });
+
+        printWindow.document.body.replaceChild(input, sealnumber);
+    });
     printWindow.document.body.appendChild(sealnumber);
 
     //issue city
@@ -1868,7 +1909,6 @@ function printcmr(clickeditem,items){
     issuecity.style.width = '120px';
     issuecity.style.height = '20px';
     issuecity.style.zIndex = '1';
-    issuecity.style.border = '1px solid black';
     issuecity.textContent = 'Gronsveld';
 
     printWindow.document.body.appendChild(issuecity);
@@ -1881,7 +1921,6 @@ function printcmr(clickeditem,items){
     issuedate.style.width = '100px';
     issuedate.style.height = '20px';
     issuedate.style.zIndex = '1';
-    issuedate.style.border = '1px solid black';
     issuedate.textContent = getformatteddate(0);
 
     printWindow.document.body.appendChild(issuedate);
