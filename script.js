@@ -1787,6 +1787,7 @@ function printcmr(clickeditem,items){
             const itemfba = document.createElement('div');
             itemfba.textContent = item['fba'].replace(/\n;/g, ' ');
             itemdiv.appendChild(itemfba);
+            itemsdiv.appendChild(itemdiv);
         }
     });
 
