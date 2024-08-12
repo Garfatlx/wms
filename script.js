@@ -1173,8 +1173,8 @@ async function loaddetail(clickeditem,activity){
                         xlscbm = (!json[i]['cbm'])?xlscbm:xlscbm+Number(json[i]['cbm']);
                         xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
                         xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
-                        
-                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                        //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label']){
                             var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
                             j=j+1;
                             var inventoryid=constructinventoryid(j);
