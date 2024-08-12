@@ -1156,7 +1156,7 @@ async function loaddetail(clickeditem,activity){
                                             
                                         };
                     loaddetail(xlsclickeditem,"入库");
-
+                                        console.log(json);
                     //create detail lines
                     var xlsfba="";
                     var xlspcs=0;
