@@ -1174,7 +1174,7 @@ async function loaddetail(clickeditem,activity){
                         xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
                         xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
                         //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                        if((json[i+1]['label'] && json[i]['label']!=json[i+1]['label'] )|| (json[i]['hold']=="是" && json[i+1]['hold']=='是')){
+                        if((json[i+1]['label'] && json[i]['label']!=json[i+1]['label'] )|| (json[i]['hold']=="是" || json[i+1]['hold']=='是')){
                             var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
 
                             j=j+1;
