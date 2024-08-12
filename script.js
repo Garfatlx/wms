@@ -1145,7 +1145,7 @@ async function loaddetail(clickeditem,activity){
                     var data = new Uint8Array(reader.result);
                     var workbook = XLSX.read(data, {type: 'array'});
                     var sheet = workbook.Sheets[workbook.SheetNames[0]];
-                    var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
+                    var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","hold","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
                     // creat job info
                     var xlsclickeditem = {  "joblabel":joblable,
                                             "customer":document.getElementsByName("customer")[0].value,
@@ -1164,7 +1164,7 @@ async function loaddetail(clickeditem,activity){
                     var xlskgs=0;
                     var xlsnote="";
                     var j=0;
-                    for (var i = 5; i < json.length; i++) {
+                    for (var i = 1; i < json.length; i++) {
                         if(!json[i]['label']){
                             break;
                         }
@@ -1174,8 +1174,9 @@ async function loaddetail(clickeditem,activity){
                         xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
                         xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
                         //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                        if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label']){
+                        if(!json[i+1]['label'] && json[i]['label']!=json[i+1]['label']){
                             var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
+
                             j=j+1;
                             var inventoryid=constructinventoryid(j);
                             var xlsitem={   "label":json[i]['label'],
