@@ -2111,7 +2111,7 @@ function getaddress(reforigin){
     } else if (ref === 'WRO5') {
         return ['Finsterwalder Transport und Logistik GmbH <br>Schieferstraße 16,  DE-06126', 'Halle (saale), Germany'];
     } else if (ref === 'DTM2') {
-        return ['3', 'C'];
+        return ['DTM2<br>Kaltbandstrasse 4, DE-44145', 'Dortmund, North Rhine-Westphalia, Germany'];
     } else if (ref === 'DTM1') {
         return ['DTM1 <br>Raiffeisenstraße 1, DE-59368', 'Werne, Nordrhein-Westfalen, Germany'];
     }else if (ref === 'LEJ3') {
@@ -2120,15 +2120,19 @@ function getaddress(reforigin){
         return ["DPD Belgium Depot<br>Rue de l'Arbe Saint-Michel 99, 4400 Flémalle", 'Flémalle, Belgium']; 
     }else if (ref === 'XSC1') {
         return ['XSC1<br>Hans-Geiger-Strasse 7, DE-67661', 'Kaiserslautern, Rhineland-Palatinate, Germany']; 
+    }else if (ref === 'CDG7') {
+        return ['CDG7<br>1 Av. Alain Boucher, FR-60300', 'Senlis, Oise, France'];
+    }else if (ref === 'XOR1') {
+        return ['XOR1<br>2449 Rue Denis Papin, FR-77550', 'Réau, France'];
+    }else if (ref === 'STR2') {
+        return ['STR2<br>Oggenhauser Hauptstrasse 151, DE-89522', 'Heidenheim an der Brenz, Bayern, Germany'];
+    }else if (ref === 'XPO1') {
+        return ['Slam Sp.z.o.o<br>Am Zeugamt 4, DE-04758', 'Oschatz, Germany']; 
+    }else if (ref === 'DHL PAKET') {
+        return ['DHL Freight Hagen<br>Dolomitstraße 20, DE-58099', 'Hagen, Germany']; 
     }else{
         return null;
     }
     
-    // else if (ref === 'XPO1') {
-    //     return ['3', 'C']; 
-    // }else if (ref === 'DHL PAKET') {
-    //     return ['3', 'C']; 
-    // }else if (ref === 'STR2') {
-    //     return ['3', 'C']; 
-    // }
+    
 }
