@@ -1472,7 +1472,8 @@ function createdetailline(nid, item, activity, cancelable) {
     var input10 = document.createElement("input");
     input10.type = "hidden";
     input10.name = "createtime";
-    input10.value = item != '' ? item['createtime'] : Date.now();
+    var timeorder=(Math.floor(Date.now()/1000)%1000000)*10;
+    input10.value =timeorder + id;
     detaillineform.appendChild(input10);
 
     
