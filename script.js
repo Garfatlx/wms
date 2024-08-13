@@ -741,6 +741,7 @@ async function loaddetail(clickeditem,activity){
         sysresponse.innerHTML="请在新窗口中操作。";
     }else{
         var itemdetail = document.getElementById("itemdetail");
+        sysresponse.innerHTML=viewportwidth;
     }
     
     itemdetail.innerHTML="";
