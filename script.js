@@ -1174,7 +1174,7 @@ async function loaddetail(clickeditem,activity){
                     var xlskgs=0;
                     var xlsnote="";
                     var j=0;
-                    for (var i = 1; i < json.length; i++) {
+                    for (var i = 1; i < json.length-1; i++) {
                         if(!json[i]['label']){
                             break;
                         }
