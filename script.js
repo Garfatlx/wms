@@ -735,7 +735,7 @@ async function loaddetail(clickeditem,activity){
     detaillinenumber=0;
 
     const viewportwidth = window.innerWidth;
-    if(viewportwidth<450){
+    if(viewportwidth<480){
         const popupwindow=window.open("","_blank","width=400,height=800");
         var itemdetail=popupwindow.document.body;  
         sysresponse.innerHTML="请在新窗口中操作。";
