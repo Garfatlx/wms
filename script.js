@@ -1863,7 +1863,7 @@ function printcmr(clickeditem,items){
     itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
-    itemsdiv.style.fontSize = '11px';
+    itemsdiv.style.fontSize = '10px';
     itemsdiv.contentEditable = true;
     items.forEach(function(item) {
         const itemdiv = document.createElement('div');
@@ -1882,7 +1882,7 @@ function printcmr(clickeditem,items){
             itemdiv.appendChild(itemheader);
             const itemfba = document.createElement('div');
             // itemfba.contentEditable = true;
-            itemfba.style.fontSize = '10px';
+            itemfba.style.fontSize = '7px';
             itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
             itemdiv.appendChild(itemfba);
             itemsdiv.appendChild(itemdiv);
