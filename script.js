@@ -734,15 +734,8 @@ async function showitems(searchcreteria){
 async function loaddetail(clickeditem,activity){
     detaillinenumber=0;
 
-    const viewportwidth = window.innerWidth;
-    if(viewportwidth<480){
-        const popupwindow=window.open("","_blank","width=400,height=800");
-        var itemdetail=popupwindow.document.body;  
-        sysresponse.innerHTML="请在新窗口中操作。";
-    }else{
-        var itemdetail = document.getElementById("itemdetail");
-        sysresponse.innerHTML=viewportwidth;
-    }
+    
+    var itemdetail = document.getElementById("itemdetail");
     
     itemdetail.innerHTML="";
     var detailform=document.createElement("form");
