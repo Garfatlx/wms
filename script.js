@@ -1472,7 +1472,7 @@ function createdetailline(nid, item, activity, cancelable) {
     var input10 = document.createElement("input");
     input10.type = "hidden";
     input10.name = "createtime";
-    var timeorder=(Math.floor(Date.now()/1000)%1000000)*10;
+    var timeorder=(Math.floor(Date.now()/1000)%100000000)*10;
     input10.value =timeorder + id;
     detaillineform.appendChild(input10);
 
@@ -1857,7 +1857,7 @@ function printcmr(clickeditem,items){
     //items
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
-    itemsdiv.style.top = '440px';
+    itemsdiv.style.top = '437px';
     itemsdiv.style.left = '40px';
     itemsdiv.style.width = '635px';
     itemsdiv.style.height = '250px';
