@@ -734,7 +734,14 @@ async function showitems(searchcreteria){
 async function loaddetail(clickeditem,activity){
     detaillinenumber=0;
 
-    var itemdetail = document.getElementById("itemdetail");
+    const viewportwidth = window.innerWidth;
+    if(viewportwidth<450){
+        const popupwindow=window.open("","_blank","width=400,height=800");
+        var itemdetail=popupwindow.document.body;  
+    }else{
+        var itemdetail = document.getElementById("itemdetail");
+    }
+    
     itemdetail.innerHTML="";
     var detailform=document.createElement("form");
     detailform.id="detailform";
