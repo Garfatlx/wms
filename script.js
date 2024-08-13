@@ -1883,7 +1883,7 @@ function printcmr(clickeditem,items){
             const itemfba = document.createElement('div');
             // itemfba.contentEditable = true;
             itemfba.style.fontSize = '10px';
-            itemfba.innerHTML = item['fba'].replace(/[\n;]/g, ' ');
+            itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
             itemdiv.appendChild(itemfba);
             itemsdiv.appendChild(itemdiv);
         }
