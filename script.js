@@ -1256,7 +1256,7 @@ async function loaddetail(clickeditem,activity){
 
         const data = await response.json();
         sysresponse.innerHTML=data["msg"];
-        
+        console.log("add items");
         var items = data["data"];
         if(items!=null){
             for (var i = 0; i < items.length; i++) {
