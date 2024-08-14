@@ -1259,7 +1259,7 @@ async function loaddetail(clickeditem,activity){
         console.log("add items");
         var items = data["data"];
         if(items!=null){
-            for (var i = items.length-1; i >=0 ; i++) {
+            for (var i = items.length-1; i >=0 ; i--) {
                 createdetailline(i+1,items[i],activity,false);
             }
             detaillinenumber=detaillinenumber+items.length;
