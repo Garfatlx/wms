@@ -1344,7 +1344,7 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(numbercount);
     var index = 0;
     for(const detailLine of detailLines){
-        detailLine.getElementsByClassName("numbercunt")[0].innerHTML = detailLines.length - index;
+        detailLine.getElementsByClassName("numbercount")[0].innerHTML = detailLines.length - index;
         index++;
     }
     
