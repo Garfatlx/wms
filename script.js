@@ -551,6 +551,7 @@ function addnewjob(clickeditem,detaillinenumber){
         
         addjobline.append('activity', addjob.get('activity'));
         addjobline.append('date', addjob.get('date'));
+        addjobline.append('status', addjob.get('status'));
 
         console.log(addjobline.get('inventoryid'));
         console.log(addjobline);
