@@ -1347,7 +1347,7 @@ function createdetailline(nid, item, activity, cancelable) {
     createorder.className="createorder";
     createorder.style.border="none";
     createorder.style.width="20px";
-    createorder.style.readOnly=true;
+    createorder.readOnly=true;
     createorder.value=detailLines.length;
     detaillineform.appendChild(createorder);
     
