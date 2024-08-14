@@ -1342,10 +1342,14 @@ function createdetailline(nid, item, activity, cancelable) {
     detailform.insertBefore(detaillineform, detailform.firstChild);
     // detailform.appendChild(detaillineform);
 
-    var numbercount=document.createElement("div");
-    numbercount.className="numbercount";
-    numbercount.innerHTML=detailLines.length;
-    detaillineform.appendChild(numbercount);
+    var createorder=document.createElement("input");
+    createorder.name="createorder";
+    createorder.className="createorder";
+    createorder.style.border="none";
+    createorder.style.width="20px";
+    createorder.style.readOnly=true;
+    createorder.value=detailLines.length;
+    detaillineform.appendChild(createorder);
     
     
     
@@ -1577,7 +1581,7 @@ function createdetailline(nid, item, activity, cancelable) {
             const detailLines = document.getElementsByClassName("detaillineform");
             var index = 0;
             for(const detailLine of detailLines){
-                detailLine.getElementsByClassName("numbercount")[0].innerHTML = detailLines.length - index;
+                detailLine.getElementsByClassName("createorder")[0].value = detailLines.length - index;
                 index++;
             }
         });
@@ -1636,25 +1640,27 @@ function createjob(jobcontent,parentdiv){
     // Create and append the first horizontal rule
     const hr1 = document.createElement('hr');
     activejob.appendChild(hr1);
+    if(jobcontent['activity']=="出库"){
     // reference line
-    const itemLine4 = document.createElement('div');
-    itemLine4.className = 'itemline';
+        const itemLine4 = document.createElement('div');
+        itemLine4.className = 'itemline';
 
-    // Create and append the list item (time label) to the second item line
-    const listItem5 = document.createElement('p');
-    listItem5.className = 'listitem';
-    listItem5.textContent = "提货码: ";
-    itemLine4.appendChild(listItem5);
-    
-    // Create and append the list item (time value) to the second item line
-    const listItem6 = document.createElement('p');
-    listItem6.className = 'listitem';
-    listItem6.textContent = jobcontent['reference'];
-    itemLine4.appendChild(listItem6);
+        // Create and append the list item (time label) to the second item line
+        
+        const listItem5 = document.createElement('p');
+        listItem5.className = 'listitem';
+        listItem5.textContent = "提货码: ";
+        itemLine4.appendChild(listItem5);
+        
+        // Create and append the list item (time value) to the second item line
+        const listItem6 = document.createElement('p');
+        listItem6.className = 'listitem';
+        listItem6.textContent = jobcontent['reference'];
+        itemLine4.appendChild(listItem6);
 
-    // Append the second item line to the document body or a specific container
-    activejob.appendChild(itemLine4);
-
+        // Append the second item line to the document body or a specific container
+        activejob.appendChild(itemLine4);
+    }
     // Create the container div for the second item line
     const itemLine2 = document.createElement('div');
     itemLine2.className = 'itemline';
