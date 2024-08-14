@@ -1339,6 +1339,12 @@ function createdetailline(nid, item, activity, cancelable) {
     detailform.insertBefore(detaillineform, detailform.firstChild);
     // detailform.appendChild(detaillineform);
 
+    var numbercunt=document.createElement("div");
+    numbercunt.className="numbercunt";
+    forEach(document.getElementsByClassName("detaillineform"), function(element, index) {
+        element.getElementsByClassName("numbercunt")[0].innerHTML=detailLines.length-index;
+    });
+    detaillineform.appendChild(numbercunt);
     
     var input1=document.createElement("input");
     input1.type="text";
