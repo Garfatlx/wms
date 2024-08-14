@@ -1341,12 +1341,9 @@ function createdetailline(nid, item, activity, cancelable) {
 
     var numbercount=document.createElement("div");
     numbercount.className="numbercount";
+    numbercount.innerHTML=detailLines.length+1;
     detaillineform.appendChild(numbercount);
-    var index = 0;
-    for(const detailLine of detailLines){
-        detailLine.getElementsByClassName("numbercount")[0].innerHTML = detailLines.length - index;
-        index++;
-    }
+    
     
     
     var input1=document.createElement("input");
@@ -1418,7 +1415,7 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.name="channel";
     selectchannel.setAttribute('list', 'channels');
     selectchannel.className="lineinput";
-    selectchannel.style.width="100px";
+    selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
     
     var input0label=document.createElement("label");
@@ -1574,6 +1571,12 @@ function createdetailline(nid, item, activity, cancelable) {
         deleteButton.style.bottom = "10px";
         deleteButton.addEventListener("click", function() {
             detaillineform.remove();
+            const detailLines = document.getElementsByClassName("detaillineform");
+            var index = 0;
+            for(const detailLine of detailLines){
+                detailLine.getElementsByClassName("numbercount")[0].innerHTML = detailLines.length - index;
+                index++;
+            }
         });
         detaillineform.appendChild(deleteButton);
     }
