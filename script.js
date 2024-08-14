@@ -1339,14 +1339,15 @@ function createdetailline(nid, item, activity, cancelable) {
     detailform.insertBefore(detaillineform, detailform.firstChild);
     // detailform.appendChild(detaillineform);
 
-    var numbercunt=document.createElement("div");
-    numbercunt.className="numbercunt";
+    var numbercount=document.createElement("div");
+    numbercount.className="numbercount";
+    detaillineform.appendChild(numbercount);
     var index = 0;
     for(const detailLine of detailLines){
         detailLine.getElementsByClassName("numbercunt")[0].innerHTML = detailLines.length - index;
         index++;
     }
-    detaillineform.appendChild(numbercunt);
+    
     
     var input1=document.createElement("input");
     input1.type="text";
