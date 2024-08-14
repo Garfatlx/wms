@@ -1341,9 +1341,11 @@ function createdetailline(nid, item, activity, cancelable) {
 
     var numbercunt=document.createElement("div");
     numbercunt.className="numbercunt";
-    forEach(document.getElementsByClassName("detaillineform"), function(element, index) {
-        element.getElementsByClassName("numbercunt")[0].innerHTML=detailLines.length-index;
-    });
+    var index = 0;
+    for(const detailLine of detailLines){
+        detailLine.getElementsByClassName("numbercunt")[0].innerHTML = detailLines.length - index;
+        index++;
+    }
     detaillineform.appendChild(numbercunt);
     
     var input1=document.createElement("input");
