@@ -606,7 +606,7 @@ function printSpecificContent(clickeditem) {
 
     var totalHeight = 2000;
     var baseFontSize = 45;
-    while (totalHeight>1100 && baseFontSize>20) {
+    while (totalHeight>1050 && baseFontSize>20) {
         printWindow.document.body.innerHTML = '';
         // Create a temporary element to measure text height
         var headerfontsize = baseFontSize + 20;
@@ -643,7 +643,7 @@ function printSpecificContent(clickeditem) {
         totalHeight = tempElement.offsetHeight;
         
         // Adjust the font size based on the number of lines
-        if (totalHeight > 1100) {
+        if (totalHeight > 1050) {
             baseFontSize = baseFontSize-5;
         } 
     }
