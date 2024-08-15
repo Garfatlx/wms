@@ -1952,7 +1952,7 @@ function printcmr(clickeditem,items){
     itemsdiv.style.fontSize = '10px';
     itemsdiv.contentEditable = true;
     printWindow.document.body.appendChild(itemsdiv);
-    while(baseheight>250 && baseFontSize>8){
+    while(baseheight>250 && baseFontSize>7){
         itemsdiv.innerHTML = '';
         items.forEach(function(item) {
             const itemdiv = document.createElement('div');
