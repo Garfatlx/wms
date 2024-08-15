@@ -1939,7 +1939,7 @@ function printcmr(clickeditem,items){
     printWindow.document.body.appendChild(img);
 
     //items
-    var baseFontSize = 15;
+    var baseFontSize = 14;
     var baseheight = 260;
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
@@ -1972,7 +1972,7 @@ function printcmr(clickeditem,items){
                 itemdiv.appendChild(itemheader);
                 const itemfba = document.createElement('div');
                 var fbafontsize = baseFontSize - 3;
-                itemfba.style.fontSize = '7px';
+                itemfba.style.fontSize = fbafontsize + 'px';
                 itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
                 itemdiv.appendChild(itemfba);
                 itemsdiv.appendChild(itemdiv);
