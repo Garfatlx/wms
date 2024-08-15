@@ -588,12 +588,13 @@ function addnewjob(clickeditem,detaillinenumber){
 
 }
 function printSpecificContent(clickeditem) {
+    
     if (clickeditem) {
         var printWindow = window.open('', '', 'height=1123,width=794');
         
         
         printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:' + baseFontSize + 'px;margin:50px 0px 0px 30px}h1{font-size:' + (baseFontSize + 20) + 'px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('<style>body{font-family: Arial, sans-serif;margin:50px 0px 0px 30px}h1{font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
         printWindow.document.write('</body></html>');
         // printWindow.document.close();
@@ -608,18 +609,34 @@ function printSpecificContent(clickeditem) {
     while (totalHeight>1100 && baseFontSize>20) {
         printWindow.document.body.innerHTML = '';
         // Create a temporary element to measure text height
+        var headerfontsize = baseFontSize + 20;
         var tempElement = document.createElement('div');
         tempElement.style.position = 'absolute';
-        tempElement.style.visibility = 'hidden';
         tempElement.style.fontFamily = 'Arial, sans-serif';
-        tempElement.style.fontSize = '45px';
         tempElement.style.width = '794px';
-        tempElement.innerHTML = '<h1>' + clickeditem['customer'] + '</h1>' +
-                                '<h1>' + clickeditem['joblabel'] + '</h1>' +
-                                '<hr>' +
-                                clickeditem['date'] + '<br>' +
-                                clickeditem['overview'] + '<br>' +
-                                clickeditem['ordernote'];
+        tempElement.style.fontSize = baseFontSize + 'px';
+        var temph1 = document.createElement('h1');
+        temph1.style.fontSize = headerfontsize + 'px';
+        temph1.textContent = clickeditem['customer'];
+        tempElement.appendChild(temph1);
+        var temph1 = document.createElement('h1');
+        temph1.style.fontSize = headerfontsize + 'px';
+        temph1.textContent = clickeditem['joblabel'];
+        tempElement.appendChild(temph1);
+        var hr = document.createElement('hr');
+        tempElement.appendChild(hr);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.textContent = clickeditem['date'];
+        tempElement.appendChild(p);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.textContent = clickeditem['overview'];
+        tempElement.appendChild(p);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.textContent = clickeditem['ordernote'];
+        tempElement.appendChild(p);
         printWindow.document.body.appendChild(tempElement);
         
         // Measure the height of the temporary element
