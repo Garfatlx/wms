@@ -694,7 +694,7 @@ async function showitems(searchcreteria){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["出入库", "客户", "箱号/单号", "货物标签", "件数", "托数", "日期"];
+    var headers = ["出入库", ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期"];
     headers.forEach(function(headerText) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -709,7 +709,7 @@ async function showitems(searchcreteria){
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
-        var columns = [item.activity, item.customer, item.container,item.label, item.pcs, item.plt, item.date];
+        var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
