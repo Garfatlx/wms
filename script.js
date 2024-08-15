@@ -1881,7 +1881,7 @@ function printcmr(clickeditem,items){
     //items
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
-    itemsdiv.style.top = '410px';
+    itemsdiv.style.top = '385px';
     itemsdiv.style.left = '40px';
     itemsdiv.style.width = '635px';
     itemsdiv.style.height = '250px';
@@ -1918,7 +1918,7 @@ function printcmr(clickeditem,items){
     //order number
     const ordernumber = document.createElement('div');
     ordernumber.style.position = 'absolute';
-    ordernumber.style.top = '315px';
+    ordernumber.style.top = '290px';
     ordernumber.style.left = '420px';
     ordernumber.style.width = '300px';
     ordernumber.style.height = '50px';
@@ -1937,7 +1937,7 @@ function printcmr(clickeditem,items){
     var deladdressfull=getaddress(clickeditem['joblabel']);
     const deladdress = document.createElement('div');
     deladdress.style.position = 'absolute';
-    deladdress.style.top = '170px';
+    deladdress.style.top = '145px';
     deladdress.style.left = '40px';
     deladdress.style.width = '360px';
     deladdress.style.height = '50px';
@@ -1951,7 +1951,7 @@ function printcmr(clickeditem,items){
     //del address city
     const deladdresscity = document.createElement('div');
     deladdresscity.style.position = 'absolute';
-    deladdresscity.style.top = '250px';
+    deladdresscity.style.top = '227px';
     deladdresscity.style.left = '40px';
     deladdresscity.style.width = '360px';
     deladdresscity.style.height = '22px';
@@ -1995,7 +1995,7 @@ function printcmr(clickeditem,items){
     //issue city
     const issuecity = document.createElement('div');
     issuecity.style.position = 'absolute';
-    issuecity.style.top = '905px';
+    issuecity.style.top = '900px';
     issuecity.style.left = '110px';
     issuecity.style.width = '120px';
     issuecity.style.height = '20px';
@@ -2007,7 +2007,7 @@ function printcmr(clickeditem,items){
     //issue date
     const issuedate = document.createElement('div');
     issuedate.style.position = 'absolute';
-    issuedate.style.top = '905px';
+    issuedate.style.top = '900px';
     issuedate.style.left = '300px';
     issuedate.style.width = '100px';
     issuedate.style.height = '20px';
