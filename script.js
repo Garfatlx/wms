@@ -716,12 +716,12 @@ async function showitems(searchcreteria){
             row.appendChild(td);
 
             row.addEventListener("click", function() {
-                if(document.getElementById("detailform")!=null){
-                    alert("关闭当前任务后，点击出入库记录将显示详细信息。");
-                }else{
+                // if(document.getElementById("detailform")!=null){
+                //     alert("关闭当前任务后，点击出入库记录将显示详细信息。");
+                // }else{
                     showactivitydetail(item);
                     // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
-                }
+                // }
                 
             });
         });
@@ -1204,7 +1204,7 @@ async function loaddetail(clickeditem,activity){
                                             "plt":0,
                                             "locationa":"",
                                             "locationb":"",
-                                            "channel":json[i]['channel'],
+                                            "channel":json[i]['hold']=="是"?"拦截暂扣":json[i]['channel'],
                                             "inventoryid":inventoryid,
                                             "id":"",
                                             "createtime": Date.now(),
