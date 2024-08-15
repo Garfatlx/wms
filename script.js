@@ -590,14 +590,49 @@ function addnewjob(clickeditem,detaillinenumber){
 function printSpecificContent(clickeditem) {
     if (clickeditem) {
         var printWindow = window.open('', '', 'height=1123,width=794');
+        
+        var totalHeight = 2000;
+        while (totalHeight<1100 && adjustedFontSize>20) {
+            // Create a temporary element to measure text height
+            var tempElement = document.createElement('div');
+            tempElement.style.position = 'absolute';
+            tempElement.style.visibility = 'hidden';
+            tempElement.style.fontFamily = 'Arial, sans-serif';
+            tempElement.style.fontSize = '45px';
+            tempElement.style.width = '794px';
+            tempElement.innerHTML = '<h1>' + clickeditem['customer'] + '</h1>' +
+                                    '<h1>' + clickeditem['joblabel'] + '</h1>' +
+                                    '<hr>' +
+                                    clickeditem['date'] + '<br>' +
+                                    clickeditem['overview'] + '<br>' +
+                                    clickeditem['ordernote'];
+            document.body.appendChild(tempElement);
+            
+            // Measure the height of the temporary element
+            totalHeight = tempElement.offsetHeight;
+            
+            // Calculate the number of lines
+            var lineHeight = 45; // Assuming a line height of 45px
+            var numberOfLines = Math.ceil(totalHeight / lineHeight);
+            
+            // Remove the temporary element
+            document.body.removeChild(tempElement);
+            
+            // Adjust the font size based on the number of lines
+            var baseFontSize = 45;
+            var adjustedFontSize = baseFontSize;
+            if (totalHeight > 1100) {
+                adjustedFontSize = adjustedFontSize-5;
+            } 
+        }
         printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:50px 0px 0px 30px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:' + adjustedFontSize + 'px;margin:50px 0px 0px 30px}h1{font-size:' + (adjustedFontSize + 20) + 'px; font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
-        printWindow.document.write('<h1>'+clickeditem['customer']+'</h1>');
-        printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1>');
+        printWindow.document.write('<h1>' + clickeditem['customer'] + '</h1>');
+        printWindow.document.write('<h1>' + clickeditem['joblabel'] + '</h1>');
         printWindow.document.write('<hr>');
-        printWindow.document.write(clickeditem['date']+'<br>');
-        printWindow.document.write(clickeditem['overview']+ '<br>');    
+        printWindow.document.write(clickeditem['date'] + '<br>');
+        printWindow.document.write(clickeditem['overview'] + '<br>');    
         printWindow.document.write(clickeditem['ordernote']); 
         printWindow.document.write('</body></html>');
         // printWindow.document.close();
@@ -605,6 +640,23 @@ function printSpecificContent(clickeditem) {
     } else {
         console.error('Element with ID ' + elementId + ' not found.');
     }
+    // if (clickeditem) {
+    //     var printWindow = window.open('', '', 'height=1123,width=794');
+    //     printWindow.document.write('<html><head><title>打印操作单</title>');
+    //     printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:50px 0px 0px 30px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+    //     printWindow.document.write('</head><body >');
+    //     printWindow.document.write('<h1>'+clickeditem['customer']+'</h1>');
+    //     printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1>');
+    //     printWindow.document.write('<hr>');
+    //     printWindow.document.write(clickeditem['date']+'<br>');
+    //     printWindow.document.write(clickeditem['overview']+ '<br>');    
+    //     printWindow.document.write(clickeditem['ordernote']); 
+    //     printWindow.document.write('</body></html>');
+    //     // printWindow.document.close();
+    //     printWindow.print();
+    // } else {
+    //     console.error('Element with ID ' + elementId + ' not found.');
+    // }
 }
 
 async function showinventory(searchcreteria){
