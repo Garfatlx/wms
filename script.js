@@ -593,7 +593,7 @@ function printSpecificContent(clickeditem) {
         
         var totalHeight = 2000;
         var baseFontSize = 45;
-        while (totalHeight<1100 && adjustedFontSize>20) {
+        while (totalHeight<1100 && baseFontSize>20) {
             // Create a temporary element to measure text height
             var tempElement = document.createElement('div');
             tempElement.style.position = 'absolute';
@@ -620,14 +620,12 @@ function printSpecificContent(clickeditem) {
             document.body.removeChild(tempElement);
             
             // Adjust the font size based on the number of lines
-            
-            var adjustedFontSize = baseFontSize;
             if (totalHeight > 1100) {
-                adjustedFontSize = adjustedFontSize-5;
+                baseFontSize = baseFontSize-5;
             } 
         }
         printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:' + adjustedFontSize + 'px;margin:50px 0px 0px 30px}h1{font-size:' + (adjustedFontSize + 20) + 'px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:' + baseFontSize + 'px;margin:50px 0px 0px 30px}h1{font-size:' + (baseFontSize + 20) + 'px; font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
         printWindow.document.write('<h1>' + clickeditem['customer'] + '</h1>');
         printWindow.document.write('<h1>' + clickeditem['joblabel'] + '</h1>');
