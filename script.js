@@ -598,7 +598,7 @@ function printSpecificContent(clickeditem) {
         printWindow.document.write('</head><body >');
         printWindow.document.write('</body></html>');
         // printWindow.document.close();
-        printWindow.print();
+        
     } else {
         console.error('Element with ID ' + elementId + ' not found.');
         return;
@@ -647,6 +647,7 @@ function printSpecificContent(clickeditem) {
             baseFontSize = baseFontSize-5;
         } 
     }
+    printWindow.print();
     // if (clickeditem) {
     //     var printWindow = window.open('', '', 'height=1123,width=794');
     //     printWindow.document.write('<html><head><title>打印操作单</title>');
