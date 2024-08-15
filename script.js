@@ -1939,41 +1939,52 @@ function printcmr(clickeditem,items){
     printWindow.document.body.appendChild(img);
 
     //items
+    var baseFontSize = 15;
+    var baseheight = 260;
     const itemsdiv = document.createElement('div');
     itemsdiv.style.position = 'absolute';
     itemsdiv.style.top = '385px';
     itemsdiv.style.left = '40px';
     itemsdiv.style.width = '635px';
-    itemsdiv.style.height = '250px';
+    // itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.fontSize = '10px';
     itemsdiv.contentEditable = true;
-    items.forEach(function(item) {
-        const itemdiv = document.createElement('div');
-        itemdiv.style.display = 'flex';
-        itemdiv.style.width = '100%';
-        if(item['pcs']>0){
-            const itemheader = document.createElement('div');
-            // itemheader.contentEditable = true;
-            if(item['plt']>0){  
-                itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
-            }else{
-                itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
-            }
-            itemheader.style.marginRight = '5px';
-            itemheader.style.fontWeight = 'bold';
-            itemdiv.appendChild(itemheader);
-            const itemfba = document.createElement('div');
-            // itemfba.contentEditable = true;
-            itemfba.style.fontSize = '7px';
-            itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
-            itemdiv.appendChild(itemfba);
-            itemsdiv.appendChild(itemdiv);
-        }
-    });
-
     printWindow.document.body.appendChild(itemsdiv);
+    while(baseheight>250 && baseFontSize>8){
+        itemsdiv.innerHTML = '';
+        items.forEach(function(item) {
+            const itemdiv = document.createElement('div');
+            itemdiv.style.display = 'flex';
+            itemdiv.style.marginBottom = '3px';
+            itemdiv.style.width = '100%';
+            if(item['pcs']>0){
+                const itemheader = document.createElement('div');
+                if(item['plt']>0){  
+                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
+                }else{
+                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
+                }
+                itemheader.style.marginRight = '5px';
+                itemheader.style.fontWeight = 'bold';
+                itemheader.style.fontSize = baseFontSize + 'px';
+                itemdiv.appendChild(itemheader);
+                const itemfba = document.createElement('div');
+                var fbafontsize = baseFontSize - 3;
+                itemfba.style.fontSize = '7px';
+                itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
+                itemdiv.appendChild(itemfba);
+                itemsdiv.appendChild(itemdiv);
+            }
+        });
+        baseheight = itemsdiv.clientHeight;
+        baseFontSize = baseFontSize - 2;
+
+    }
+    
+
+    
 
     //order number
     const ordernumber = document.createElement('div');
