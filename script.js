@@ -544,7 +544,8 @@ function addnewjob(clickeditem,detaillinenumber){
             addjobline.append('container', addjob.get('joblabel'));
             addjobline.set('customer', addjob.get('customer'));
         } else {
-
+            
+            addjobline.append('orderid', addjob.get('orderid'));
             addjobline.append('label', addjob.get('joblabel'));
         }
         addjobline.append('jobid', jobid);
