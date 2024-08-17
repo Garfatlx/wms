@@ -1249,7 +1249,8 @@ async function loaddetail(clickeditem,activity){
                             break;
                         }
                         var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
-                        var itemref = json[i]['仓点']+holdmark;
+                        var channelmark = json[i]['渠道']?json[i]['渠道']:"";
+                        var itemref = json[i]['仓点']+holdmark+channelmark;
                         var index = concludeitem.findIndex(item => item['itemref'] == itemref);
                         if (index == -1) {
                             concludeitem.push({
@@ -1263,6 +1264,8 @@ async function loaddetail(clickeditem,activity){
                                 "cbm": json[i]['CMB（立方数）'] ? Number(json[i]['CMB（立方数）']) : 0,
                                 "kgs": json[i]['Weight KG（重量）'] ? Number(json[i]['Weight KG（重量）']) : 0,
                                 "note": json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "",
+                                "channel": json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
+                                "plt": 0,
                                 "locationa": "",
                                 "locationb": "",
                                 "channel": holdmark,
