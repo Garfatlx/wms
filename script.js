@@ -1221,16 +1221,79 @@ async function loaddetail(clickeditem,activity){
                     var sheet = workbook.Sheets[workbook.SheetNames[0]];
                     
                     //copystart here
-                    // var orijson = XLSX.utils.sheet_to_json(sheet,{header: 1});
-                    // var headers = orijson[0].map(header => header.trim());
-                    // var json = orijson.slice(1).map(row => {
-                    //     var newRow = {};
-                    //     headers.forEach((header, index) => {
-                    //         newRow[header] = row[index];
-                    //     });
-                    //     return newRow;
-                    // });
-                    // console.log(json);
+                    var orijson = XLSX.utils.sheet_to_json(sheet,{header: 1});
+                    var headers = orijson[0].map(header => header.trim());
+                    var json = orijson.slice(1).map(row => {
+                        var newRow = {};
+                        headers.forEach((header, index) => {
+                            newRow[header] = row[index];
+                        });
+                        return newRow;
+                    });
+                    console.log(json);
+                    // creat job info
+                    var xlsclickeditem = {  "joblabel":joblable,
+                                            "customer":document.getElementsByName("customer")[0].value,
+                                            "date":document.getElementById("inputdate").value,
+                                            "activity":"入库",
+                                            "status":"预报",
+                                            "ordernote":document.getElementsByName("ordernote")[0].value,
+                                            
+                                        };
+                    loaddetail(xlsclickeditem,"入库");
+                    //read detail infor
+
+                    //create detail lines
+                    var xlsfba="";
+                    var xlspcs=0;
+                    var xlscbm=0;
+                    var xlskgs=0;
+                    var xlsnote="";
+                    var j=0;
+                    for (var i = 1; i < json.length; i++) {
+                        if(!json[i]['仓点']){
+                            break;
+                        }
+                        xlsfba = (!json[i]['BOL List （货物FBA号码）'])?xlsfba:xlsfba+json[i]['BOL List （货物FBA号码）']+";";
+                        xlspcs = (!json[i]['Carton Count（箱数）'])?xlspcs:xlspcs+Number(json[i]['Carton Count（箱数）']);
+                        xlscbm = (!json[i]['CMB（立方数）'])?xlscbm:xlscbm+Number(json[i]['CMB（立方数）']);
+                        xlskgs = (!json[i]['Weight KG（重量）'])?xlskgs:xlskgs+Number(json[i]['Weight KG（重量）']);
+                        xlsnote = (!json[i]['备注（打托要求/拼车/换标/其他）'])?xlsnote:xlsnote+json[i]['备注（打托要求/拼车/换标/其他）'] + ";";    
+                        //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                        if(i==json.length-1 || !json[i+1]['仓点'] || json[i]['仓点']!=json[i+1]['仓点'] || (json[i]['拦截暂扣']=="是" || json[i+1]['拦截暂扣']=='是')){
+                            var xlsmarks = (!json[i]['单号/箱唛'])?"":json[i]['单号/箱唛'];
+
+                            j=j+1;
+                            var inventoryid=constructinventoryid(j);
+                            var xlsitem={   "label":json[i]['仓点'],
+                                            "marks":xlsmarks,
+                                            "deladdress":json[i]['Delivery Address （派送地址）'],
+                                            "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
+                                            "fba":xlsfba,
+                                            "pcs":xlspcs,
+                                            "cbm":xlscbm,
+                                            "kgs":xlskgs,
+                                            "note":xlsnote,
+                                            "plt":0,
+                                            "locationa":"",
+                                            "locationb":"",
+                                            "channel":json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
+                                            "inventoryid":inventoryid,
+                                            "id":"",
+                                            "createtime": Date.now(),
+                                        };
+                            detaillinenumber++;
+                            createdetailline(detaillinenumber,xlsitem,"入库",true);
+                            xlsfba="";
+                            xlspcs=0;
+                            xlscbm=0;
+                            xlskgs=0;
+                            xlsnote="";
+                        }
+                    }
+
+
+                    // var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","hold","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
                     // // creat job info
                     // var xlsclickeditem = {  "joblabel":joblable,
                     //                         "customer":document.getElementsByName("customer")[0].value,
@@ -1277,7 +1340,7 @@ async function loaddetail(clickeditem,activity){
                     //                         "plt":0,
                     //                         "locationa":"",
                     //                         "locationb":"",
-                    //                         "channel":json[i]['hold']=="是"?"拦截暂扣":json[i]['Vendor Name   （供应商名称）'],
+                    //                         "channel":json[i]['hold']=="是"?"拦截暂扣":json[i]['channel'],
                     //                         "inventoryid":inventoryid,
                     //                         "id":"",
                     //                         "createtime": Date.now(),
@@ -1291,69 +1354,6 @@ async function loaddetail(clickeditem,activity){
                     //         xlsnote="";
                     //     }
                     // }
-
-
-                    var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","hold","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
-                    // creat job info
-                    var xlsclickeditem = {  "joblabel":joblable,
-                                            "customer":document.getElementsByName("customer")[0].value,
-                                            "date":document.getElementById("inputdate").value,
-                                            "activity":"入库",
-                                            "status":"预报",
-                                            "ordernote":document.getElementsByName("ordernote")[0].value,
-                                            
-                                        };
-                    loaddetail(xlsclickeditem,"入库");
-                    //read detail infor
-
-                    //create detail lines
-                    var xlsfba="";
-                    var xlspcs=0;
-                    var xlscbm=0;
-                    var xlskgs=0;
-                    var xlsnote="";
-                    var j=0;
-                    for (var i = 1; i < json.length; i++) {
-                        if(!json[i]['label']){
-                            break;
-                        }
-                        xlsfba = (!json[i]['fba'])?xlsfba:xlsfba+json[i]['fba']+";";
-                        xlspcs = (!json[i]['pcs'])?xlspcs:xlspcs+Number(json[i]['pcs']);
-                        xlscbm = (!json[i]['cbm'])?xlscbm:xlscbm+Number(json[i]['cbm']);
-                        xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
-                        xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
-                        //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                        if(i==json.length-1 || !json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (json[i]['hold']=="是" || json[i+1]['hold']=='是')){
-                            var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
-
-                            j=j+1;
-                            var inventoryid=constructinventoryid(j);
-                            var xlsitem={   "label":json[i]['label'],
-                                            "marks":xlsmarks,
-                                            "deladdress":json[i]['deladdress'],
-                                            "requirement":json[i]['hold']=="是"?"拦截暂扣":"",
-                                            "fba":xlsfba,
-                                            "pcs":xlspcs,
-                                            "cbm":xlscbm,
-                                            "kgs":xlskgs,
-                                            "note":xlsnote,
-                                            "plt":0,
-                                            "locationa":"",
-                                            "locationb":"",
-                                            "channel":json[i]['hold']=="是"?"拦截暂扣":json[i]['channel'],
-                                            "inventoryid":inventoryid,
-                                            "id":"",
-                                            "createtime": Date.now(),
-                                        };
-                            detaillinenumber++;
-                            createdetailline(detaillinenumber,xlsitem,"入库",true);
-                            xlsfba="";
-                            xlspcs=0;
-                            xlscbm=0;
-                            xlskgs=0;
-                            xlsnote="";
-                        }
-                    }
                 };
             }
         };
