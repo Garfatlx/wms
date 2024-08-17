@@ -1664,12 +1664,13 @@ function createdetailline(nid, item, activity, cancelable) {
 
     var linecontrol=document.createElement("div");
     linecontrol.className="linecontrol";
+    linecontrol.style.margin="0px";
     var input12=document.createElement("input");
     input12.name="kgs";
     input12.type="text";
     input12.id="kgs"+id;
     input12.className="lineinput";
-    input12.style.width="35px";
+    input12.style.width="50px";
     input12.value=item['kgs']?item['kgs']:'';
     var input12label=document.createElement("label");
     input12label.innerHTML="重量";
@@ -1684,7 +1685,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input13.type="text";
     input13.id="cbm"+id;
     input13.className="lineinput";
-    input13.style.width="35px";
+    input13.style.width="50px";
     input13.value=item['cbm']?item['cbm']:'';
     var input13label=document.createElement("label");
     input13label.innerHTML="体积";
@@ -1693,7 +1694,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input13label.htmlFor=input13;
     linecontrol.appendChild(input13label);
     linecontrol.appendChild(input13);
-    
+
     detaillineform.appendChild(linecontrol);
 
     var input4 = document.createElement("input");
@@ -1712,6 +1713,7 @@ function createdetailline(nid, item, activity, cancelable) {
     
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
+    linecontrol0.style.margin="0px";
     var input5 = document.createElement("input");
     input5.name = "inventoryid";
     input5.readOnly = true;
@@ -1808,7 +1810,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
     setTimeout(() => {
         detaillineform.style.opacity="1";
-        detaillineform.style.height="145px";
+        detaillineform.style.height="158px";
     },1);
     
 
