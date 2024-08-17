@@ -523,69 +523,119 @@ function addnewjob(clickeditem,detaillinenumber){
         }
     }
     
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/addjob", true);
-    //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                sysresponse.innerHTML=xhr.response["msg"];
-            }
-            
-        }
-    }
-    xhr.responseType="json";
-    xhr.send(addjob);
+    // new code start here
+    return new Promise((resolve, reject) => {
+        // Array to hold all HTTP request promises
+        let httpRequests = [];
 
-    const detaillineForms = document.getElementsByClassName('detaillineform');
-    for (let i = 0; i < detaillineForms.length; i++) {
-        const addjobline = new FormData(detaillineForms[i]);
-        if (addjob.get('activity') == '入库') {
-            addjobline.append('container', addjob.get('joblabel'));
-            addjobline.set('customer', addjob.get('customer'));
-        } else {
-            
-            addjobline.append('orderid', addjob.get('orderid'));
-            addjobline.append('label', addjob.get('joblabel'));
-        }
-        addjobline.append('jobid', jobid);
+        // Example HTTP request using fetch (replace with actual HTTP requests)
+        httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
+            method: 'POST',
+            body: addjob,
+        }));
         
-        addjobline.append('activity', addjob.get('activity'));
-        addjobline.append('date', addjob.get('date'));
-        addjobline.append('status', addjob.get('status'));
-
-        console.log(addjobline.get('inventoryid'));
-        console.log(addjobline);
-
-        console.log(addjobline.get('createtime'));
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/additem', true);
-        //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                console.log(xhr.response['msg']);
+        const detaillineForms = document.getElementsByClassName('detaillineform');
+        for (let i = 0; i < detaillineForms.length; i++) {
+            const addjobline = new FormData(detaillineForms[i]);
+            if (addjob.get('activity') == '入库') {
+                addjobline.append('container', addjob.get('joblabel'));
+                addjobline.set('customer', addjob.get('customer'));
+            } else {
+                addjobline.append('orderid', addjob.get('orderid'));
+                addjobline.append('label', addjob.get('joblabel'));
             }
-        };
-        xhr.responseType = 'json';
-        xhr.send(addjobline);
+            addjobline.append('jobid', jobid);
+            
+            addjobline.append('activity', addjob.get('activity'));
+            addjobline.append('date', addjob.get('date'));
+            addjobline.append('status', addjob.get('status'));
 
-        if (addjob.get('status') == '完成') {
-            const xhr1 = new XMLHttpRequest();
-            xhr1.open('POST', 'https://garfat.xyz/index.php/home/Wms/updateinventory', true);
-            xhr1.onreadystatechange = () => {
-                if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
-                    sysresponse.innerHTML = xhr1.response['msg'];
-                }
-            };
-            xhr1.responseType = 'json';
-            xhr1.send(addjobline);
+            httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
+                method: 'POST',
+                body: addjobline,
+            }));
+            
+            if (addjob.get('status') == '完成') {
+                httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                    method: 'POST',
+                    body: addjobline,
+                }));
+            }
         }
-    }
-    
+        document.getElementById("itemdetail").innerHTML = "";
+        // Wait for all HTTP requests to complete
+        Promise.all(httpRequests)
+            .then(responses => {
+                // All HTTP requests are completed
+                resolve();
+            })
+            .catch(error => {
+                // Handle any errors
+                reject(error);
+            });
+    });
 
+    //Original code
+    // const xhr  = new XMLHttpRequest();  
+    // xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/addjob", true);
+    // //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+    // xhr.onreadystatechange= () => {
+    //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+    //         if(xhr.response["error_code"]==0){
+    //             sysresponse.innerHTML=xhr.response["msg"];
+    //         }
+            
+    //     }
+    // }
+    // xhr.responseType="json";
+    // xhr.send(addjob);
+
+    // const detaillineForms = document.getElementsByClassName('detaillineform');
+    // for (let i = 0; i < detaillineForms.length; i++) {
+    //     const addjobline = new FormData(detaillineForms[i]);
+    //     if (addjob.get('activity') == '入库') {
+    //         addjobline.append('container', addjob.get('joblabel'));
+    //         addjobline.set('customer', addjob.get('customer'));
+    //     } else {
+            
+    //         addjobline.append('orderid', addjob.get('orderid'));
+    //         addjobline.append('label', addjob.get('joblabel'));
+    //     }
+    //     addjobline.append('jobid', jobid);
+        
+    //     addjobline.append('activity', addjob.get('activity'));
+    //     addjobline.append('date', addjob.get('date'));
+    //     addjobline.append('status', addjob.get('status'));
+
+    //     console.log(addjobline.get('inventoryid'));
+    //     console.log(addjobline);
+
+    //     console.log(addjobline.get('createtime'));
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/additem', true);
+    //     //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+    //     xhr.onreadystatechange = () => {
+    //         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+    //             console.log(xhr.response['msg']);
+    //         }
+    //     };
+    //     xhr.responseType = 'json';
+    //     xhr.send(addjobline);
+
+    //     if (addjob.get('status') == '完成') {
+    //         const xhr1 = new XMLHttpRequest();
+    //         xhr1.open('POST', 'https://garfat.xyz/index.php/home/Wms/updateinventory', true);
+    //         xhr1.onreadystatechange = () => {
+    //             if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
+    //                 sysresponse.innerHTML = xhr1.response['msg'];
+    //             }
+    //         };
+    //         xhr1.responseType = 'json';
+    //         xhr1.send(addjobline);
+    //     }
+    // }
     
-    
-    document.getElementById("itemdetail").innerHTML = "";
+    // document.getElementById("itemdetail").innerHTML = "";
 
 }
 function printSpecificContent(clickeditem) {
@@ -793,7 +843,7 @@ async function showitems(searchcreteria){
     // Append table to activejobs element
     activejobs.appendChild(table);
 }
-async function loaddetail(clickeditem,activity){
+async function loaddetail(clickeditem,activity,thisjobdiv){
     detaillinenumber=0;
 
     
@@ -1915,7 +1965,7 @@ function createjob(jobcontent,parentdiv){
     parentdiv.appendChild(activejob);
 
     activejob.addEventListener("click", function() {
-        loaddetail(clickeditem,clickeditem['activity']);
+        loaddetail(clickeditem,clickeditem['activity'],activejob);
     });
 }
 
