@@ -1662,6 +1662,39 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input3label);
     detaillineform.appendChild(input3);
 
+    var linecontrol=document.createElement("div");
+    linecontrol.className="linecontrol";
+    var input12=document.createElement("input");
+    input12.name="kgs";
+    input12.type="text";
+    input12.id="kgs"+id;
+    input12.className="lineinput";
+    input12.style.width="35px";
+    input12.value=item['kgs']?item['kgs']:'';
+    var input12label=document.createElement("label");
+    input12label.innerHTML="重量";
+    input12label.htmlFor=input12.id;
+    input12label.className="lineinputlabel";
+    input12label.htmlFor=input12;
+    linecontrol.appendChild(input12label);
+    linecontrol.appendChild(input12);
+
+    var input13=document.createElement("input");
+    input13.name="cbm";
+    input13.type="text";
+    input13.id="cbm"+id;
+    input13.className="lineinput";
+    input13.style.width="35px";
+    input13.value=item['cbm']?item['cbm']:'';
+    var input13label=document.createElement("label");
+    input13label.innerHTML="体积";
+    input13label.htmlFor=input13.id;
+    input13label.className="lineinputlabel";
+    input13label.htmlFor=input13;
+    linecontrol.appendChild(input13label);
+    linecontrol.appendChild(input13);
+
+
     var input4 = document.createElement("input");
     input4.type = "hidden";
     input4.name = "id";
@@ -1683,7 +1716,6 @@ function createdetailline(nid, item, activity, cancelable) {
     input5.readOnly = true;
     input5.className="lineinput";
     input5.style.width="110px";
-    
     var inventoryid = constructinventoryid(id);
     input5.value = item != '' ? item['inventoryid'] : inventoryid;
     var input5label=document.createElement("label");
