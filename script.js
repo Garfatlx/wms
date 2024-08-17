@@ -107,7 +107,8 @@ function searchjobs(searchcreteria){
                 sysresponse.innerHTML=xhr.response["msg"];
             }else{
                 sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="加载失败/没有数据";
+                document.getElementById("activejobs").innerHTML="";
+                sysresponse.innerHTML="没有找到任务。";
             }
         }
     }
