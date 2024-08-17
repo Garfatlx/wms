@@ -1246,7 +1246,7 @@ async function loaddetail(clickeditem,activity){
                     var j=0;
                     for (var i = 0; i < json.length; i++) {
                         if(!json[i]['仓点']){
-                            break;
+                            break; 
                         }
                         var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
                         var channelmark = json[i]['渠道']?json[i]['渠道']:"";
@@ -1262,7 +1262,7 @@ async function loaddetail(clickeditem,activity){
                                 "fba": json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "",
                                 "pcs": json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0,
                                 "cbm": json[i]['CMB（立方数）'] ? Number(json[i]['CMB（立方数）']) : 0,
-                                "kgs": json[i]['Weight KG（重量）'] ? Number(json[i]['Weight KG（重量）']) : 0,
+                                "kgs": (json[i]['Weight KG（重量）']&& !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量）']) : 0,
                                 "note": json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "",
                                 "channel": json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
                                 "plt": 0,
@@ -2392,4 +2392,17 @@ function getaddress(reforigin){
     }
     
     
+}
+
+function checkitem(array,key){
+    if(!array[key]){
+        return false;
+    }
+    if(typeof(array[key])=="undefined"){
+        return false;
+    }
+    if(array[key]==null){
+        return false;
+    }
+    return true;
 }
