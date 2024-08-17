@@ -1243,6 +1243,7 @@ async function loaddetail(clickeditem,activity){
                     loaddetail(xlsclickeditem,"入库");
                     //read detail infor
                     var concludeitem=[];
+                    var j=0;
                     for (var i = 0; i < json.length; i++) {
                         if(!json[i]['仓点']){
                             break;
@@ -1269,6 +1270,7 @@ async function loaddetail(clickeditem,activity){
                                 "id": "",
                                 "createtime": Date.now(),
                             });
+                            j++;
                         } else {
                             concludeitem[index].fba += json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "";
                             concludeitem[index].pcs += json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0;
