@@ -495,16 +495,16 @@ function showitemsearchbox(){
 function addnewjob(clickeditem,detaillinenumber){
 
     var addjob = new FormData(document.getElementById("detailform"));
-    if(clickeditem==""){
-        jobid = new Date().getTime();
-    }else{
-        if (!clickeditem['jobid']) {
-            jobid = new Date().getTime();
-        }else{
-        jobid = clickeditem['jobid'];
-        }
-    }
-    addjob.append("jobid",jobid);
+    // if(clickeditem==""){
+    //     jobid = new Date().getTime();
+    // }else{
+    //     if (!clickeditem['jobid']) {
+    //         jobid = new Date().getTime();
+    //     }else{
+    //     jobid = clickeditem['jobid'];
+    //     }
+    // }
+    // addjob.append("jobid",jobid);
 
     console.log(addjob.get("date"));
     if (!addjob.get('date')) {
@@ -544,8 +544,8 @@ function addnewjob(clickeditem,detaillinenumber){
                 addjobline.append('orderid', addjob.get('orderid'));
                 addjobline.append('label', addjob.get('joblabel'));
             }
-            addjobline.append('jobid', jobid);
-            
+            // addjobline.append('jobid', jobid);
+            addjobline.append('jobid', addjob.get('jobid'));
             addjobline.append('activity', addjob.get('activity'));
             addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
@@ -1079,6 +1079,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     statuslog.id = "statuslog";
     statuslog.innerHTML = clickeditem != '' ? clickeditem['status'] : "";
     detailform.appendChild(statuslog);
+
+    var jobid = document.createElement("input");
+    jobid.type = "hidden";
+    jobid.name = "jobid";
+    jobid.value = clickeditem['jobid'] ? clickeditem['jobid'] : new Date().getTime();
+    detailform.appendChild(jobid);
     
     detailform.appendChild(document.createElement("hr"));
 
