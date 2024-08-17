@@ -1270,7 +1270,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             var file = this.files[0];
             if (file) {
                 const joblable=file.name.replace(/\.[^/.]+$/, "");
-                console.log(joblable);
                 var reader = new FileReader();
                 reader.readAsArrayBuffer(file);
                 reader.onload = function(e) {
@@ -1288,7 +1287,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                         });
                         return newRow;
                     });
-                    console.log(json);
                     // creat job info
                     var xlsclickeditem = {  "joblabel":joblable,
                                             "customer":document.getElementsByName("customer")[0].value,
@@ -1497,7 +1495,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
 
         const data = await response.json();
         sysresponse.innerHTML=data["msg"];
-        console.log("add items");
         var items = data["data"];
         if(items!=null){
             for(var i=items.length-1;i>=0;i--){
@@ -1558,7 +1555,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             });
             const data = await response.json();
             const newaddedjob = data["data"][0];
-            console.log(newaddedjob);
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
             }else{
@@ -1567,7 +1563,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             }
         })
         .catch(function(){
-            console.log(newaddedjob);
             sysresponse.innerHTML="任务保存失败";
         });
 
