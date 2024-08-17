@@ -1550,10 +1550,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             });
             const data = await response.json();
             const newaddedjob = data["data"][0];
-            if(thisjobdiv){   
-                createjob(newaddedjob,activeJobs);
+            if(thisjobdiv){
+                createjob(newaddedjob,activeJobs,thisjobdiv);   
+                
             }else{
-                createjob(newaddedjob,activeJobs,thisjobdiv);
+                
+                createjob(newaddedjob,activeJobs);
             }
         })
         .catch(function(){
@@ -1982,7 +1984,7 @@ function createjob(jobcontent,parentdiv,replacement){
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity'],activejob);
     });
-    
+
     if(replacement){
         replacement.replaceWith(activejob);
     }else{
