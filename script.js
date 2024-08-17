@@ -1537,12 +1537,26 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         
     });
     submitbutton.addEventListener("click", function() {
-        var inputform=document.getElementById("detailform");
-        var formdata=new FormData(inputform);
-        // for (let [key, value] of formdata.entries()) {
-        //     console.log(`${key}: ${value}`);
-        // }
-        addnewjob(clickeditem,detaillinenumber);
+        // var inputform=document.getElementById("detailform");
+        
+        const activeJobs = document.getElementById("activejobs");
+        activeJobs.removeChild(thisjobdiv);
+        addnewjob(clickeditem,detaillinenumber).then(function(){
+            sysresponse.innerHTML="任务保存成功";
+            var searchnewadded = new FormData();
+            searchnewadded.append("jobid",clickeditem['jobid']);
+            const response = fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+                method: 'POST',
+                body: searchnewadded,
+            });
+            const data = response.json();
+            const newaddedjob = data["data"][0];
+            createjob(newaddedjob,activeJobs,thisjobdiv);
+        })
+        .catch(function(){
+            sysresponse.innerHTML="任务保存失败";
+        });
+
 
     });
     printbutton.addEventListener("click", function() {
@@ -1867,7 +1881,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
 }
 
-function createjob(jobcontent,parentdiv){
+function createjob(jobcontent,parentdiv,replacement){
     const clickeditem=jobcontent;
     var joblist = document.getElementById("activejobs");
 
@@ -1962,8 +1976,11 @@ function createjob(jobcontent,parentdiv){
     itemLine3.appendChild(listItem4);
     activejob.appendChild(itemLine3);
 
-    parentdiv.appendChild(activejob);
-
+    if(replacement){
+        replacement.replaceWith(activejob);
+    }else{
+        parentdiv.appendChild(activejob);
+    }
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity'],activejob);
     });
