@@ -1552,6 +1552,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             });
             const data = await response.json();
             const newaddedjob = data["data"][0];
+            console.log(newaddedjob);
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
             }else{
