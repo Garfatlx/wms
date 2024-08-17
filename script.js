@@ -1220,7 +1220,7 @@ async function loaddetail(clickeditem,activity){
                     var workbook = XLSX.read(data, {type: 'array'});
                     var sheet = workbook.Sheets[workbook.SheetNames[0]];
                     
-                    //copystart here
+                    //copystart here use header name as indicator
                     var orijson = XLSX.utils.sheet_to_json(sheet,{header: 1});
                     var headers = orijson[0].map(header => header.trim());
                     var json = orijson.slice(1).map(row => {
@@ -1242,56 +1242,98 @@ async function loaddetail(clickeditem,activity){
                                         };
                     loaddetail(xlsclickeditem,"入库");
                     //read detail infor
-
-                    //create detail lines
-                    var xlsfba="";
-                    var xlspcs=0;
-                    var xlscbm=0;
-                    var xlskgs=0;
-                    var xlsnote="";
-                    var j=0;
-                    for (var i = 1; i < json.length; i++) {
+                    var concludeitem=[];
+                    for (var i = 0; i < json.length; i++) {
                         if(!json[i]['仓点']){
                             break;
                         }
-                        xlsfba = (!json[i]['BOL List （货物FBA号码）'])?xlsfba:xlsfba+json[i]['BOL List （货物FBA号码）']+";";
-                        xlspcs = (!json[i]['Carton Count（箱数）'])?xlspcs:xlspcs+Number(json[i]['Carton Count（箱数）']);
-                        xlscbm = (!json[i]['CMB（立方数）'])?xlscbm:xlscbm+Number(json[i]['CMB（立方数）']);
-                        xlskgs = (!json[i]['Weight KG（重量）'])?xlskgs:xlskgs+Number(json[i]['Weight KG（重量）']);
-                        xlsnote = (!json[i]['备注（打托要求/拼车/换标/其他）'])?xlsnote:xlsnote+json[i]['备注（打托要求/拼车/换标/其他）'] + ";";    
-                        //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                        if(i==json.length-1 || !json[i+1]['仓点'] || json[i]['仓点']!=json[i+1]['仓点'] || (json[i]['拦截暂扣']=="是" || json[i+1]['拦截暂扣']=='是')){
-                            var xlsmarks = (!json[i]['单号/箱唛'])?"":json[i]['单号/箱唛'];
-
-                            j=j+1;
-                            var inventoryid=constructinventoryid(j);
-                            var xlsitem={   "label":json[i]['仓点'],
-                                            "marks":xlsmarks,
-                                            "deladdress":json[i]['Delivery Address （派送地址）'],
-                                            "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
-                                            "fba":xlsfba,
-                                            "pcs":xlspcs,
-                                            "cbm":xlscbm,
-                                            "kgs":xlskgs,
-                                            "note":xlsnote,
-                                            "plt":0,
-                                            "locationa":"",
-                                            "locationb":"",
-                                            "channel":json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
-                                            "inventoryid":inventoryid,
-                                            "id":"",
-                                            "createtime": Date.now(),
-                                        };
-                            detaillinenumber++;
-                            createdetailline(detaillinenumber,xlsitem,"入库",true);
-                            xlsfba="";
-                            xlspcs=0;
-                            xlscbm=0;
-                            xlskgs=0;
-                            xlsnote="";
+                        var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
+                        var itemref = json[i]['仓点']+holdmark;
+                        var index = concludeitem.findIndex(item => item['itemref'] == itemref);
+                        if (index == -1) {
+                            concludeitem.push({
+                                "itemref": itemref,
+                                "label": json[i]['仓点'],
+                                "marks": json[i]['单号/箱唛'] ? json[i]['单号/箱唛'] : "",
+                                "deladdress": json[i]['Delivery Address （派送地址）'] ? json[i]['Delivery Address （派送地址）'] : "",
+                                "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
+                                "fba": json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "",
+                                "pcs": json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0,
+                                "cbm": json[i]['CMB（立方数）'] ? Number(json[i]['CMB（立方数）']) : 0,
+                                "kgs": json[i]['Weight KG（重量）'] ? Number(json[i]['Weight KG（重量）']) : 0,
+                                "note": json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "",
+                                "locationa": "",
+                                "locationb": "",
+                                "channel": holdmark,
+                                "inventoryid": constructinventoryid(j),
+                                "id": "",
+                                "createtime": Date.now(),
+                            });
+                        } else {
+                            concludeitem[index].fba += json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "";
+                            concludeitem[index].pcs += json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0;
+                            concludeitem[index].cbm += json[i]['CMB（立方数）'] ? Number(json[i]['CMB（立方数']) : 0;
+                            concludeitem[index].kgs += json[i]['Weight KG（重量）'] ? Number(json[i]['Weight KG（重量']) : 0;
+                            concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
                     }
+                    console.log(concludeitem);
+                    for (var i = 0; i < concludeitem.length; i++) {
+                        detaillinenumber++;
+                        createdetailline(i,concludeitem[i],"入库",true);
+                    }
 
+                    //create detail lines
+
+                    // var xlsfba="";
+                    // var xlspcs=0;
+                    // var xlscbm=0;
+                    // var xlskgs=0;
+                    // var xlsnote="";
+                    // var j=0;
+                    // for (var i = 0; i < json.length; i++) {
+                    //     if(!json[i]['仓点']){
+                    //         break;
+                    //     }
+                    //     xlsfba = (!json[i]['BOL List （货物FBA号码）'])?xlsfba:xlsfba+json[i]['BOL List （货物FBA号码）']+";";
+                    //     xlspcs = (!json[i]['Carton Count（箱数）'])?xlspcs:xlspcs+Number(json[i]['Carton Count（箱数）']);
+                    //     xlscbm = (!json[i]['CMB（立方数）'])?xlscbm:xlscbm+Number(json[i]['CMB（立方数）']);
+                    //     xlskgs = (!json[i]['Weight KG（重量）'])?xlskgs:xlskgs+Number(json[i]['Weight KG（重量）']);
+                    //     xlsnote = (!json[i]['备注（打托要求/拼车/换标/其他）'])?xlsnote:xlsnote+json[i]['备注（打托要求/拼车/换标/其他）'] + ";";    
+                    //     //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
+                    //     if(i==json.length-1 || !json[i+1]['仓点'] || json[i]['仓点']!=json[i+1]['仓点'] || (json[i]['拦截暂扣']=="是" || json[i+1]['拦截暂扣']=='是')){
+                    //         var xlsmarks = (!json[i]['单号/箱唛'])?"":json[i]['单号/箱唛'];
+
+                    //         j=j+1;
+                    //         var inventoryid=constructinventoryid(j);
+                    //         var xlsitem={   "label":json[i]['仓点'],
+                    //                         "marks":xlsmarks,
+                    //                         "deladdress":json[i]['Delivery Address （派送地址）'],
+                    //                         "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
+                    //                         "fba":xlsfba,
+                    //                         "pcs":xlspcs,
+                    //                         "cbm":xlscbm,
+                    //                         "kgs":xlskgs,
+                    //                         "note":xlsnote,
+                    //                         "plt":0,
+                    //                         "locationa":"",
+                    //                         "locationb":"",
+                    //                         "channel":json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
+                    //                         "inventoryid":inventoryid,
+                    //                         "id":"",
+                    //                         "createtime": Date.now(),
+                    //                     };
+                    //         detaillinenumber++;
+                    //         createdetailline(detaillinenumber,xlsitem,"入库",true);
+                    //         xlsfba="";
+                    //         xlspcs=0;
+                    //         xlscbm=0;
+                    //         xlskgs=0;
+                    //         xlsnote="";
+                    //     }
+                    // }
+
+                    //use column position as indicator
 
                     // var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","hold","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
                     // // creat job info
