@@ -1693,7 +1693,8 @@ function createdetailline(nid, item, activity, cancelable) {
     input13label.htmlFor=input13;
     linecontrol.appendChild(input13label);
     linecontrol.appendChild(input13);
-
+    
+    detaillineform.appendChild(linecontrol);
 
     var input4 = document.createElement("input");
     input4.type = "hidden";
