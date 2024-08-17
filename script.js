@@ -1979,14 +1979,16 @@ function createjob(jobcontent,parentdiv,replacement){
     itemLine3.appendChild(listItem4);
     activejob.appendChild(itemLine3);
 
+    activejob.addEventListener("click", function() {
+        loaddetail(clickeditem,clickeditem['activity'],activejob);
+    });
+    
     if(replacement){
         replacement.replaceWith(activejob);
     }else{
         parentdiv.appendChild(activejob);
     }
-    activejob.addEventListener("click", function() {
-        loaddetail(clickeditem,clickeditem['activity'],activejob);
-    });
+    
 }
 
 function uploadimage(jobid, file, field) {
