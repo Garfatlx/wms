@@ -1670,10 +1670,10 @@ function createdetailline(nid, item, activity, cancelable) {
     input12.type="text";
     input12.id="kgs"+id;
     input12.className="lineinput";
-    input12.style.width="50px";
+    input12.style.width="80px";
     input12.value=item['kgs']?item['kgs']:'';
     var input12label=document.createElement("label");
-    input12label.innerHTML="重量";
+    input12label.innerHTML="重量(KG):";
     input12label.htmlFor=input12.id;
     input12label.className="lineinputlabel";
     input12label.htmlFor=input12;
@@ -1685,10 +1685,10 @@ function createdetailline(nid, item, activity, cancelable) {
     input13.type="text";
     input13.id="cbm"+id;
     input13.className="lineinput";
-    input13.style.width="50px";
+    input13.style.width="80px";
     input13.value=item['cbm']?item['cbm']:'';
     var input13label=document.createElement("label");
-    input13label.innerHTML="体积";
+    input13label.innerHTML="体积(CBM):";
     input13label.htmlFor=input13.id;
     input13label.className="lineinputlabel";
     input13label.htmlFor=input13;
