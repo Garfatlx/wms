@@ -1541,15 +1541,15 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         
         const activeJobs = document.getElementById("activejobs");
         activeJobs.removeChild(thisjobdiv);
-        addnewjob(clickeditem,detaillinenumber).then(function(){
+        addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
             var searchnewadded = new FormData();
             searchnewadded.append("jobid",clickeditem['jobid']);
-            const response = fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
                 method: 'POST',
                 body: searchnewadded,
             });
-            const data = response.json();
+            const data = await response.json();
             const newaddedjob = data["data"][0];
             createjob(newaddedjob,activeJobs,thisjobdiv);
         })
