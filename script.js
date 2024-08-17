@@ -1991,8 +1991,10 @@ function createjob(jobcontent,parentdiv,replacement){
 
     if(replacement){
         replacement.replaceWith(activejob);
+        activejob.classList.add("fade-in");
     }else{
         parentdiv.appendChild(activejob);
+        activejob.classList.add("fade-in");
     }
     
 }
