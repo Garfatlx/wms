@@ -1540,7 +1540,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         // var inputform=document.getElementById("detailform");
         
         const activeJobs = document.getElementById("activejobs");
-        activeJobs.removeChild(thisjobdiv);
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
             var searchnewadded = new FormData();
@@ -1551,7 +1550,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             });
             const data = await response.json();
             const newaddedjob = data["data"][0];
-            createjob(newaddedjob,activeJobs,thisjobdiv);
+            if(thisjobdiv){   
+                createjob(newaddedjob,activeJobs);
+            }else{
+                createjob(newaddedjob,activeJobs,thisjobdiv);
+            }
         })
         .catch(function(){
             sysresponse.innerHTML="任务保存失败";
