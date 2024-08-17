@@ -1551,7 +1551,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
             var searchnewadded = new FormData();
-            searchnewadded.append("jobid",clickeditem['jobid']);
+            searchnewadded.append("jobid",jobid.value);
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
                 method: 'POST',
                 body: searchnewadded,
