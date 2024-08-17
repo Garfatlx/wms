@@ -1560,6 +1560,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             }
         })
         .catch(function(){
+            console.log(newaddedjob);
             sysresponse.innerHTML="任务保存失败";
         });
 
