@@ -1278,7 +1278,7 @@ async function loaddetail(clickeditem,activity){
                             concludeitem[index].fba += json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "";
                             concludeitem[index].pcs += json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0;
                             concludeitem[index].cbm += json[i]['CMB（立方数）'] ? Number(json[i]['CMB（立方数']) : 0;
-                            concludeitem[index].kgs += json[i]['Weight KG（重量）'] ? Number(json[i]['Weight KG（重量']) : 0;
+                            concludeitem[index].kgs += (json[i]['Weight KG（重量）']&& !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量']) : 0;
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
                     }
