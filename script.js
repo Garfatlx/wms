@@ -571,6 +571,8 @@ function addnewjob(clickeditem,detaillinenumber){
             })
             .catch(error => {
                 // Handle any errors
+                console.log(error);
+                console.log(addjobline.get('label'));
                 reject(error);
             });
     });
@@ -1552,7 +1554,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             const newaddedjob = data["data"][0];
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
-                
             }else{
                 
                 createjob(newaddedjob,activeJobs);
