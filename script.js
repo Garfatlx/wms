@@ -2547,6 +2547,14 @@ function showinventorymap(currentinventory){
     mapwindow.document.write('</body></html>');
 
     const form = document.createElement('form');
+    const submitbutton = document.createElement('button');
+    submitbutton.type = 'submit';
+    submitbutton.className = 'button';
+    submitbutton.innerHTML = '提交';
+    submitbutton.style.fontSize = '14px';
+    submitbutton.style.padding = '5px 5px';
+
+    form.appendChild(submitbutton);
 
     const warehouseA = document.createElement('div');
     warehouseA.className = 'warA';
@@ -2611,6 +2619,11 @@ function showinventorymap(currentinventory){
         asileright.className = 'asileright';
         warAright.appendChild(asileright);
 
+        const asilelabel = document.createElement('div');
+        asilelabel.className = 'asilelabel';
+        asilelabel.innerHTML = asileid;
+        asileright.appendChild(asilelabel);
+
         for(var j=21;j>=0;j--){
             var idrow="0"+(2-Math.floor(j/11));
             var idcolumn=j%11+1<10?"0"+(j%11+1):j%11+1;
@@ -2635,5 +2648,10 @@ function showinventorymap(currentinventory){
         }
     }
 
-
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
+        const selectedLocationString = selectedLocations.join(', ');
+        alert('已选择的库存位置: ' + selectedLocationString);
+    });
 }
