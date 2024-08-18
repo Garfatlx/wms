@@ -2595,7 +2595,7 @@ function showinventorymap(currentinventory){
             skuinputlabel.innerHTML = j%12;
             sku.appendChild(skuinput);
             sku.appendChild(skuinputlabel);
-            warAright.appendChild(sku);
+            asileleft.appendChild(sku);
         }
     }
 
@@ -2627,7 +2627,7 @@ function showinventorymap(currentinventory){
             skuinputlabel.innerHTML = j%11;
             sku.appendChild(skuinput);
             sku.appendChild(skuinputlabel);
-            warAright.appendChild(sku);
+            asileright.appendChild(sku);
         }
     }
 
