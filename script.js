@@ -2603,7 +2603,6 @@ function showinventorymap(currentinventory){
         var asileid=i<10?"AR0"+i:"AR"+i;
         const asileright = document.createElement('div');
         asileright.className = 'asileright';
-        asileright.innerHTML = asileid;
         warAright.appendChild(asileright);
 
         for(var j=1;j<=22;j++){
