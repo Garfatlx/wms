@@ -72,6 +72,9 @@ body {
     user-select: none; 
 }
 
+.sku input[type="checkbox"] {
+    display: none;
+}
 .skuinput {
     display: none;
 }
@@ -81,10 +84,10 @@ body {
     width: 100%;
     height: 100%;
 }
-/* .sku:has(input:checked) {
+.sku:has(input:checked) {
     background-color: #74e690;
     opacity: 1;
-} */
+}
 
 .passway {
     width: 100px;
