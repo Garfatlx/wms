@@ -217,9 +217,10 @@ function showjobsearchbox(){
     searchButton.className = 'button';
     searchButton.id = 'searchbutton';
     searchButton.style.display = 'inline-block';
-    searchButton.style.position = 'absolute';
-    searchButton.style.right = '0px';
-    searchButton.style.width = '70px';
+    // searchButton.style.position = 'absolute';
+    // searchButton.style.right = '0px';
+    // searchButton.style.width = '70px';
+    searchButton.style.marginLeft = '20px';
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
