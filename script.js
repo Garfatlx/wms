@@ -410,14 +410,14 @@ function showinventorysearchbox(){
     inventorymapbutton.style.alignSelf = 'center';
     inventorymapbutton.textContent = '库存地图';
     inventorymapbutton.disabled = true;
-    searchbox.appendChild(inventorymapbutton);
+    
 
     // Append div container to form
     form.appendChild(divContainer);
 
     // Append form to body or any other container
     searchbox.appendChild(form);
-
+    searchbox.appendChild(inventorymapbutton);
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
