@@ -398,6 +398,7 @@ function showinventorysearchbox(){
     searchButton.id = 'searchbutton';
     searchButton.style.display = 'inline-block';
     searchButton.style.marginLeft = '20px';
+    searchButton.style.alignSelf = 'center';
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
@@ -406,9 +407,10 @@ function showinventorysearchbox(){
     inventorymapbutton.id = 'inventorymapbutton';
     inventorymapbutton.style.display = 'inline-block';
     inventorymapbutton.style.justifySelf = 'flex-end';
+    inventorymapbutton.style.alignSelf = 'center';
     inventorymapbutton.textContent = '库存地图';
     inventorymapbutton.disabled = true;
-    divContainer.appendChild(inventorymapbutton);
+    searchbox.appendChild(inventorymapbutton);
 
     // Append div container to form
     form.appendChild(divContainer);
