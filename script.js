@@ -796,7 +796,7 @@ async function showinventory(searchcreteria){
                 item['id'] = '';
                 createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
             }else{
-                showinventorydetail(item);
+                showinventorydetail(item,this);
                 // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
             }
             
@@ -2364,7 +2364,7 @@ function constructinventoryid(i){
     return inventoryid;
 }
 
-async function showinventorydetail(inventory){
+async function showinventorydetail(inventory,thisrow){
     // var searchcreteria = new FormData();
     // searchcreteria.append("id",id);
     // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
@@ -2405,7 +2405,34 @@ async function showinventorydetail(inventory){
     createInventoryDetailItem('仓库', inventory['locationa']);
     createInventoryDetailItem('区域', inventory['locationb']);
 
+    inventorydetail.appendChild(document.createElement('br'));
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.className = 'button';
+    deleteButton.innerHTML = '删除';
+    deleteButton.style.fontSize = '14px';
+    deleteButton.style.padding = '5px 5px';
 
+    inventorydetail.appendChild(deleteButton);
+
+    deleteButton.addEventListener('click', async function() {
+        const confirmDelete = confirm('确定删除库存编号 ' + inventory['inventoryid'] + ' ?');
+        if (confirmDelete) {
+            const deletecreteria = new FormData();
+            deletecreteria.append('id', inventory['id']);
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/deleteinventory', {
+                method: 'POST',
+                body: deletecreteria,
+            });
+            const data = await response.json();
+
+            if (data['status'] === 'success') {
+                alert('库存编号 ' + inventory['inventoryid'] + ' 已删除');
+                itemdetail.innerHTML = '';
+                thisrow.remove();
+            }
+        }
+    });
 
 
 }
