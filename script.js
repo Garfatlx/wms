@@ -401,6 +401,15 @@ function showinventorysearchbox(){
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
+    const inventorymapbutton = document.createElement('button');
+    inventorymapbutton.className = 'button';
+    inventorymapbutton.id = 'inventorymapbutton';
+    inventorymapbutton.style.display = 'inline-block';
+    inventorymapbutton.style.justifySelf = 'flex-end';
+    inventorymapbutton.textContent = '库存地图';
+    inventorymapbutton.disabled = true;
+    divContainer.appendChild(inventorymapbutton);
+
     // Append div container to form
     form.appendChild(divContainer);
 
@@ -415,6 +424,10 @@ function showinventorysearchbox(){
             searchcreteria.set("searchref", searchcreteria.get('searchref').trim());
         }
         showinventory(searchcreteria);
+    });
+
+    inventorymapbutton.addEventListener("click", function() {
+        showinventorymap();
     });
 
 }
@@ -743,6 +756,9 @@ function printSpecificContent(clickeditem) {
 
 async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    const showinventorymap = document.getElementById('inventorymapbutton');
+    showinventorymap.disabled = true;
+    
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
         body: searchcreteria,
@@ -750,7 +766,7 @@ async function showinventory(searchcreteria){
 
     const data = await response.json();
     
-    
+    showinventorymap.disabled = false;
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
     
