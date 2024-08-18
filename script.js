@@ -2549,7 +2549,7 @@ function showinventorymap(currentinventory){
 
     const warehouseA = document.createElement('div');
     warehouseA.className = 'warA';
-
+    mapwindow.document.body.appendChild(form);
     form.appendChild(warehouseA);
 
     const warAleft = document.createElement('div');
@@ -2562,7 +2562,7 @@ function showinventorymap(currentinventory){
     const warAright = document.createElement('div');
     warAright.className = 'warAright';
 
-    mapwindow.document.body.appendChild(warehouseA);
+    
     warehouseA.appendChild(warAleft);
     warehouseA.appendChild(passway);
     warehouseA.appendChild(warAright);
