@@ -2545,8 +2545,12 @@ function showinventorymap(currentinventory){
     mapwindow.document.write('</head><body>');
     mapwindow.document.write('</body></html>');
 
+    const form = document.createElement('form');
+
     const warehouseA = document.createElement('div');
     warehouseA.className = 'warA';
+
+    form.appendChild(warehouseA);
 
     const warAleft = document.createElement('div');
     warAleft.className = 'warAleft';
@@ -2563,10 +2567,13 @@ function showinventorymap(currentinventory){
     warehouseA.appendChild(passway);
     warehouseA.appendChild(warAright);
 
-    passway.addEventListener('click', function() {
-        console.log('passway clicked');
-        mapwindow.console.log('passway clicked in map');
-    });
+    for(var i=1;i<=20;i++){
+        const asileleft = document.createElement('div');
+        asileleft.className = 'asileleft';
+        asileleft.innerHTML = i<10?"AL0"+i:"AL"+i;
+        warAleft.appendChild(asileleft);
+        
+    }
 
 
 }

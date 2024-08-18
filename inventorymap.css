@@ -19,8 +19,8 @@ body {
 }
 .asileleft {
     display: grid;
-    grid-template-columns: repeat(12, 30px);
-    grid-template-rows: repeat(2, 30px);
+    grid-template-columns: repeat(12, 20px);
+    grid-template-rows: repeat(2, 20px);
     grid-gap: 5px;
     justify-content: center;
     align-content: center;
@@ -35,8 +35,8 @@ body {
 }
 .asileright {
     display: grid;
-    grid-template-columns: repeat(11, 30px);
-    grid-template-rows: repeat(2, 30px);
+    grid-template-columns: repeat(11, 20px);
+    grid-template-rows: repeat(2, 20px);
     grid-gap: 5px;
     justify-content: center;
     align-content: center;
@@ -59,8 +59,8 @@ body {
     margin: 0 auto;
 }
 .sku {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     font-size: 15px;
     font-weight: bold;
     border: solid 1px #000;
@@ -68,10 +68,26 @@ body {
     align-items: center;
     justify-content: center;
     opacity: 0.4;
+    z-index: 1;
+    user-select: none; 
 }
 .sku:hover {
     opacity: 1;
 }
+.skuinput {
+    display: none;
+}
+.skulabel {
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.sku:has(input:checked) {
+    background-color: #74e690;
+    opacity: 1;
+}
+
 .passway {
     width: 100px;
     height: 500px;
