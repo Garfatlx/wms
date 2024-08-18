@@ -269,7 +269,7 @@ function showjobsearchbox(){
         if(searchcreteria.get("date")!=""){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
-        if(Array.from(searchcreteria.entries()).length==0){
+        if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")==""){
             alert("请输入搜索条件。");
         }else{
             searchjobs(searchcreteria);
@@ -397,9 +397,7 @@ function showinventorysearchbox(){
     searchButton.className = 'button';
     searchButton.id = 'searchbutton';
     searchButton.style.display = 'inline-block';
-    searchButton.style.position = 'absolute';
-    searchButton.style.right = '0px';
-    searchButton.style.width = '70px';
+    searchButton.style.marginLeft = '20px';
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
@@ -494,9 +492,7 @@ function showitemsearchbox(){
     searchButton.className = 'button';
     searchButton.id = 'searchbutton';
     searchButton.style.display = 'inline-block';
-    searchButton.style.position = 'absolute';
-    searchButton.style.right = '0px';
-    searchButton.style.width = '70px';
+    searchButton.style.marginLeft = '20px';
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
@@ -510,7 +506,7 @@ function showitemsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
-        if(Array.from(searchcreteria.entries()).length==0){
+        if(searchcreteria.get("searchref")!="" && searchcreteria.get("jobid")!="" && searchcreteria.get("inventoryid")!=""){
             alert("请输入搜索条件。");
         }else{
             showitems(searchcreteria);
