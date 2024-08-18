@@ -2540,8 +2540,9 @@ function checkitem(array,key){
 
 function showinventorymap(currentinventory){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
-    mapwindow.document.write('<link href="inventorymap.css" rel="stylesheet" type="text/css">');
+    mapwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
     mapwindow.document.write('</head><body>');
     mapwindow.document.write('</body></html>');
 
