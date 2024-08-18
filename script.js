@@ -2586,7 +2586,6 @@ function showinventorymap(currentinventory){
             skuinput.name = 'inventoryloc';
             skuinput.id = skuid;
             skuinput.className = 'skuinput';
-            skuinput.style.display = 'none';
             skuinput.value = skuid;
             skuinput.disabled = false;
             const skuinputlabel = document.createElement('label');
