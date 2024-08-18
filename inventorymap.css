@@ -85,7 +85,7 @@ body {
     height: 100%;
 }
 .sku:has(input:checked) {
-    background-color: #74e690;
+    background-color: #3b9452;
     opacity: 1;
 }
 

@@ -2558,7 +2558,7 @@ function showinventorymap(currentinventory){
 
     const passway = document.createElement('div');
     passway.className = 'passway';
-    passway.innerHTML = '通道';
+    passway.innerHTML = '';
 
     const warAright = document.createElement('div');
     warAright.className = 'warAright';
@@ -2575,9 +2575,14 @@ function showinventorymap(currentinventory){
         asileleft.className = 'asileleft';
         warAleft.appendChild(asileleft);
 
-        for(var j=1;j<=24;j++){
-            var idrow="0"+Math.ceil(j/12);
-            var idcolumn=j%12<10?"0"+j%12:j%12;
+        const asilelabel = document.createElement('div');
+        asilelabel.className = 'asilelabel';
+        asilelabel.innerHTML = asileid;
+        asileleft.appendChild(asilelabel);
+
+        for(var j=0;j<24;j++){
+            var idrow="0"+(Math.floor(j/12)+1);
+            var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
             var skuid=asileid+idrow+idcolumn;
 
             const sku = document.createElement('div');
@@ -2592,7 +2597,7 @@ function showinventorymap(currentinventory){
             const skuinputlabel = document.createElement('label');
             skuinputlabel.htmlFor = skuid;
             skuinputlabel.className = 'skulabel';
-            skuinputlabel.innerHTML = j%12;
+            skuinputlabel.innerHTML = j%12+1;
             sku.appendChild(skuinput);
             sku.appendChild(skuinputlabel);
             asileleft.appendChild(sku);
@@ -2606,9 +2611,9 @@ function showinventorymap(currentinventory){
         asileright.className = 'asileright';
         warAright.appendChild(asileright);
 
-        for(var j=1;j<=22;j++){
-            var idrow="0"+Math.ceil(j/11);
-            var idcolumn=j%11<10?"0"+j%11:j%11;
+        for(var j=21;j>=0;j--){
+            var idrow="0"+(2-Math.floor(j/11));
+            var idcolumn=j%11+1<10?"0"+(j%11+1):j%11+1;
             var skuid=asileid+idrow+idcolumn;
 
             const sku = document.createElement('div');
@@ -2623,7 +2628,7 @@ function showinventorymap(currentinventory){
             const skuinputlabel = document.createElement('label');
             skuinputlabel.htmlFor = skuid;
             skuinputlabel.className = 'skulabel';
-            skuinputlabel.innerHTML = j%11;
+            skuinputlabel.innerHTML = j%11+1;
             sku.appendChild(skuinput);
             sku.appendChild(skuinputlabel);
             asileright.appendChild(sku);
