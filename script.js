@@ -154,6 +154,7 @@ function showjobsearchbox(){
     const divContainer = document.createElement('div');
     divContainer.className = 'linecontrol';
     divContainer.style.display = 'flex';
+    divContainer.style.flexWrap = 'wrap';
 
     // Create search input
     const searchInput = document.createElement('input');
@@ -268,8 +269,7 @@ function showjobsearchbox(){
         if(searchcreteria.get("date")!=""){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
-        console.log(searchcreteria.length);
-        if(searchcreteria.keys().length==0){
+        if(Array.from(searchcreteria.entries()).length==0){
             alert("请输入搜索条件。");
         }else{
             searchjobs(searchcreteria);
@@ -340,6 +340,7 @@ function showinventorysearchbox(){
     const divContainer = document.createElement('div');
     divContainer.className = 'linecontrol';
     divContainer.style.display = 'flex';
+    divContainer.style.flexWrap = 'wrap';
 
     // Create search input
     const searchInput = document.createElement('input');
@@ -436,6 +437,7 @@ function showitemsearchbox(){
     const divContainer = document.createElement('div');
     divContainer.className = 'linecontrol';
     divContainer.style.display = 'flex';
+    divContainer.style.flexWrap = 'wrap';
 
     // Create search input
     const searchInput = document.createElement('input');
@@ -508,10 +510,10 @@ function showitemsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
-        if(searchcreteria.keys().length==0){
+        if(Array.from(searchcreteria.entries()).length==0){
             alert("请输入搜索条件。");
         }else{
-        showitems(searchcreteria);
+            showitems(searchcreteria);
         }
     });
 }
