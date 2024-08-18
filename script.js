@@ -2572,7 +2572,6 @@ function showinventorymap(currentinventory){
         var asileid=i<10?"AL0"+i:"AL"+i;
         const asileleft = document.createElement('div');
         asileleft.className = 'asileleft';
-        asileleft.innerHTML = asileid;
         warAleft.appendChild(asileleft);
 
         for(var j=1;j<=24;j++){
