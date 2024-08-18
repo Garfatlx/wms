@@ -2365,17 +2365,7 @@ function constructinventoryid(i){
 }
 
 async function showinventorydetail(inventory,thisrow){
-    // var searchcreteria = new FormData();
-    // searchcreteria.append("id",id);
-    // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
-    //     method: 'POST',
-    //     body: searchcreteria,
-    //   });
-
-    // const data = await response.json();
-
-    // var inventory = data["data"][0];
-
+   
     const itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML = "";
     
@@ -2426,10 +2416,11 @@ async function showinventorydetail(inventory,thisrow){
             });
             const data = await response.json();
 
-            if (data['status'] === 'success') {
+            if (data['error_code'] == 0) {
                 alert('库存编号 ' + inventory['inventoryid'] + ' 已删除');
-                itemdetail.innerHTML = '';
                 thisrow.remove();
+                itemdetail.innerHTML = '';
+                
             }
         }
     });
