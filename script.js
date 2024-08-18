@@ -2547,6 +2547,7 @@ function showinventorymap(currentinventory){
     mapwindow.document.write('</body></html>');
 
     const form = document.createElement('form');
+    form.style.display='block';
     const submitbutton = document.createElement('button');
     submitbutton.type = 'submit';
     submitbutton.className = 'button';
@@ -2652,6 +2653,7 @@ function showinventorymap(currentinventory){
         event.preventDefault();
         const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
         const selectedLocationString = selectedLocations.join(', ');
+        mapwindow.close();
         alert('已选择的库存位置: ' + selectedLocationString);
     });
 }
