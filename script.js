@@ -2567,12 +2567,68 @@ function showinventorymap(currentinventory){
     warehouseA.appendChild(passway);
     warehouseA.appendChild(warAright);
 
-    for(var i=1;i<=20;i++){
+    //Warehouse A left side
+    for(var i=1;i<=10;i++){
+        var asileid=i<10?"AL0"+i:"AL"+i;
         const asileleft = document.createElement('div');
         asileleft.className = 'asileleft';
-        asileleft.innerHTML = i<10?"AL0"+i:"AL"+i;
+        asileleft.innerHTML = asileid;
         warAleft.appendChild(asileleft);
-        
+
+        for(var j=1;j<=24;j++){
+            var idrow="0"+Math.ceil(j/12);
+            var idcolumn=j%12<10?"0"+j%12:j%12;
+            var skuid=asileid+idrow+idcolumn;
+
+            const sku = document.createElement('div');
+            sku.className = 'sku';
+            const skuinput = document.createElement('input');
+            skuinput.type = 'checkbox';
+            skuinput.name = 'inventoryloc';
+            skuinput.id = skuid;
+            skuinput.className = 'skuinput';
+            skuinput.value = skuid;
+            skuinput.disabled = false;
+            const skuinputlabel = document.createElement('label');
+            skuinputlabel.htmlFor = skuid;
+            skuinputlabel.className = 'skulabel';
+            skuinputlabel.innerHTML = j%12;
+            sku.appendChild(skuinput);
+            sku.appendChild(skuinputlabel);
+            warAright.appendChild(sku);
+        }
+    }
+
+    //Warehouse A right side
+    for(var i=1;i<=20;i++){
+        var asileid=i<10?"AR0"+i:"AR"+i;
+        const asileright = document.createElement('div');
+        asileright.className = 'asileright';
+        asileright.innerHTML = asileid;
+        warAright.appendChild(asileright);
+
+        for(var j=1;j<=22;j++){
+            var idrow="0"+Math.ceil(j/11);
+            var idcolumn=j%11<10?"0"+j%11:j%11;
+            var skuid=asileid+idrow+idcolumn;
+
+            const sku = document.createElement('div');
+            sku.className = 'sku';
+            const skuinput = document.createElement('input');
+            skuinput.type = 'checkbox';
+            skuinput.name = 'inventoryloc';
+            skuinput.id = skuid;
+            skuinput.className = 'skuinput';
+            skuinput.value = skuid;
+            skuinput.disabled = false;
+            const skuinputlabel = document.createElement('label');
+            skuinputlabel.htmlFor = skuid;
+            skuinputlabel.className = 'skulabel';
+            skuinputlabel.innerHTML = j%11;
+            sku.appendChild(skuinput);
+            sku.appendChild(skuinputlabel);
+            warAright.appendChild(sku);
+        }
     }
 
 
