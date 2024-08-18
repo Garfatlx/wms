@@ -71,9 +71,7 @@ body {
     z-index: 1;
     user-select: none; 
 }
-.sku:hover {
-    opacity: 1;
-}
+
 .skuinput {
     display: none;
 }
@@ -94,4 +92,7 @@ body {
     background-color: #ffffff;
     margin: 0 auto;
     border: solid 1px #838383;
+}
+.sku:hover {
+    opacity: 1;
 }
