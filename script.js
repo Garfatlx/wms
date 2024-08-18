@@ -335,6 +335,7 @@ function showinventorysearchbox(){
     form.className = 'searchform';
     // Center align elements
     form.style.display = 'flex';
+    form.style.margin="0px 0px 0px 0px";
 
     // Create div container
     const divContainer = document.createElement('div');
