@@ -267,8 +267,13 @@ function showjobsearchbox(){
         if(searchcreteria.get("date")!=""){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
-        searchjobs(searchcreteria);
-        noshowcompletedinput.checked = false;
+        if(searchcreteria.keys().length==0){
+            alert("请输入搜索条件。");
+        }else{
+            searchjobs(searchcreteria);
+            noshowcompletedinput.checked = false;
+        }
+        
     });
 
     //search selected date
@@ -295,9 +300,10 @@ function showjobsearchbox(){
     });
     var searchall = document.getElementById("searchall");
     searchall.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        searchjobs(searchcreteria);
-        noshowcompletedinput.checked = false;
+        sysresponse.innerHTML="搜索全部任务功能暂时关闭。";
+        // var searchcreteria = new FormData();
+        // searchjobs(searchcreteria);
+        // noshowcompletedinput.checked = false;
     });
 
     noshowcompletedinput.addEventListener("change", function() {
@@ -500,7 +506,11 @@ function showitemsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
+        if(searchcreteria.keys().length==0){
+            alert("请输入搜索条件。");
+        }else{
         showitems(searchcreteria);
+        }
     });
 }
 function addnewjob(clickeditem,detaillinenumber){
