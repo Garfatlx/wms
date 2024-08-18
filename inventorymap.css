@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.warA {
+    display: inline-grid;
+    grid-template-columns: auto 100px auto;
+    grid-template-rows: auto;
+    grid-gap: 5px;
+    justify-content: start;
+    align-content: start;
+    justify-items: start;
+    align-items: start;
+    margin: 0 auto;
+    border: solid 1px #000;
+}
+.warAleft {
+    display: inline-block;
+    justify-self: start;
+}
+.asileleft {
+    display: grid;
+    grid-template-columns: repeat(12, 30px);
+    grid-template-rows: repeat(2, 30px);
+    grid-gap: 5px;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    margin: 10px 5px;
+    position: relative;
+}
+.warAright {
+    display: inline-block;
+    justify-self: end;
+}
+.asileright {
+    display: grid;
+    grid-template-columns: repeat(11, 30px);
+    grid-template-rows: repeat(2, 30px);
+    grid-gap: 5px;
+    justify-content: center;
+    align-content: center;
+    justify-items: center;
+    align-items: center;
+    margin: 0 auto;
+    justify-self: end;
+    margin: 10px 5px;
+    position: relative;
+}
+.asilelabel {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: #52a767;
+    opacity: 0.6;
+    z-index: -1;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+.sku {
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    font-weight: bold;
+    border: solid 1px #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+}
+.sku:hover {
+    opacity: 1;
+}
+.passway {
+    width: 100px;
+    height: 500px;
+    background-color: #ffffff;
+    margin: 0 auto;
+    border: solid 1px #838383;
+}

@@ -1,5 +1,6 @@
 var searchedjobs;
 var access;
+var searchedinventory;
 
 window.addEventListener("load", function(){
     
@@ -2537,6 +2538,35 @@ function checkitem(array,key){
     return true;
 }
 
-function showinventorymap(){
+function showinventorymap(currentinventory){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
+    mapwindow.document.write('<html><head>');
+    mapwindow.document.write('<link href="inventorymap.css" rel="stylesheet" type="text/css">');
+    mapwindow.document.write('</head><body>');
+    mapwindow.document.write('</body></html>');
+
+    const warehouseA = document.createElement('div');
+    warehouseA.className = 'warA';
+
+    const warAleft = document.createElement('div');
+    warAleft.className = 'warAleft';
+
+    const passway = document.createElement('div');
+    passway.className = 'passway';
+    passway.innerHTML = '通道';
+
+    const warAright = document.createElement('div');
+    warAright.className = 'warAright';
+
+    mapwindow.document.body.appendChild(warehouseA);
+    warehouseA.appendChild(warAleft);
+    warehouseA.appendChild(passway);
+    warehouseA.appendChild(warAright);
+
+    passway.addEventListener('click', function() {
+        console.log('passway clicked');
+        mapwindow.console.log('passway clicked in map');
+    });
+
+
 }
