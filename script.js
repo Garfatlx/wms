@@ -268,6 +268,7 @@ function showjobsearchbox(){
         if(searchcreteria.get("date")!=""){
             searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
         }
+        console.log(searchcreteria.length);
         if(searchcreteria.keys().length==0){
             alert("请输入搜索条件。");
         }else{
