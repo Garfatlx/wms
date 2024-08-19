@@ -356,7 +356,7 @@ function showinventorysearchbox(){
     searchInput.name = 'searchref';
     
     searchInput.style.margin = '10px 0px 0px 0px';
-    searchInput.placeholder = '搜索库存编号、箱号、标签、箱唛';
+    searchInput.placeholder = '搜索箱号、仓点、箱唛、FBA';
     divContainer.appendChild(searchInput);
 
     const wareinputDiv=document.createElement("div");
@@ -550,8 +550,40 @@ function showitemsearchbox(){
     // Append div container to form
     form.appendChild(divContainer);
 
+    const reportform = document.createElement('form');
+    reportform.id = 'reportform';
+    reportform.className = 'reportform';
+    reportform.style.display = 'flex';
+    reportform.style.margin = '10px 0px 0px 0px';
+
+    // Create date input
+    const startdateInput = document.createElement('input');
+    startdateInput.type = 'date';
+    startdateInput.className = 'search-input';
+    startdateInput.name = 'startdate';
+    startdateInput.style.width = '140px';
+    startdateInput.style.marginLeft = '0px';
+    reportform.appendChild(startdateInput);
+    reportform.appendChild(document.createTextNode('---'));
+    const enddateInput = document.createElement('input');
+    enddateInput.type = 'date';
+    enddateInput.className = 'search-input';
+    enddateInput.name = 'enddate';
+    enddateInput.style.width = '140px';
+    enddateInput.style.marginLeft = '0px';
+    reportform.appendChild(enddateInput);
+
+    const reportButton = document.createElement('button');
+    reportButton.className = 'button';
+    reportButton.id = 'reportbutton';
+    reportButton.style.display = 'inline-block';
+    reportButton.style.marginLeft = '20px';
+    reportButton.textContent = '报表';
+    reportform.appendChild(reportButton);
+
     // Append form to body or any other container
     searchbox.appendChild(form);
+    searchbox.appendChild(reportform);
 
     //search form
     form.addEventListener("submit", function (event) {
@@ -563,6 +595,16 @@ function showitemsearchbox(){
             showitems(searchcreteria);
         }
     });
+    reportform.addEventListener("submit", function (event) {
+        event.preventDefault();
+        alert("功能开发中。");
+        // var searchcreteria = new FormData(reportform);
+        // if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
+        //     showreport(searchcreteria);
+        // }else{
+        //     alert("请输入搜索条件。");
+        // }
+    }
 }
 function addnewjob(clickeditem,detaillinenumber){
 
@@ -813,56 +855,6 @@ async function showinventory(searchcreteria){
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
     
-    // Create table element
-    // var table = document.createElement("table");
-    // table.className = "inventory-table";
-
-    // // Create table header
-    // var thead = document.createElement("thead");
-    // thead.className = "inventory-table-header";
-    // var headerRow = document.createElement("tr");
-    // var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
-    // headers.forEach(function(headerText, index) {
-    //     var th = document.createElement("th");
-    //     th.textContent = headerText;
-    //     th.addEventListener("click", function() {
-    //         sortTable(index);
-    //     });
-
-    //     headerRow.appendChild(th);
-    // });
-    // thead.appendChild(headerRow);
-    // table.appendChild(thead);
-
-    // // Create table body
-    // var tbody = document.createElement("tbody");
-    // tbody.id = "inventory-table-body";
-    // tbody.className = "inventory-table-body";
-    // data['data'].forEach(function(item) {
-    //     var row = document.createElement("tr");
-    //     row.className = "inventory-table-row";
-    //     var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
-    //     columns.forEach(function(columnText) {
-    //         var td = document.createElement("td");
-    //         td.textContent = columnText;
-    //         row.appendChild(td);
-    //     });
-    //     tbody.appendChild(row);
-
-    //     row.addEventListener("click", function() {
-    //         if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
-    //             detaillinenumber++;
-    //             item['id'] = '';
-    //             createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
-    //         }else{
-    //             showinventorydetail(item,this);
-    //             // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
-    //         }
-            
-    //     });
-    // });
-    // table.appendChild(tbody);
-
     // Append table to activejobs element
     const table = createinventorytable(data['data']);
     activejobs.appendChild(table);
