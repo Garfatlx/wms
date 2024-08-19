@@ -434,12 +434,9 @@ function showinventorysearchbox(){
         }
         // showinventory(searchcreteria);
 
-        var tbody = document.getElementById('inventory-table-body');
-        var filteredRows = filterinventory(searchcreteria);
-        tbody.innerHTML = "";
-        filteredRows.forEach(function(row) {
-            tbody.appendChild(row);
-        });
+        const activeJobs = document.getElementById('activejobs');
+        activeJobs.innerHTML = '';
+        activeJobs.appendChild(createinventorytable(filterinventory(searchcreteria)));
         
     });
 
