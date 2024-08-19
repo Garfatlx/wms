@@ -1564,6 +1564,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         cancelButton.removeAttribute("disabled");
         printbutton.removeAttribute("disabled");
         printcmrbutton.removeAttribute("disabled");
+        var fileInputs = itemdetail.getElementsByClassName("file");
+        for (var i = 0; i < fileInputs.length; i++) {
+            fileInputs[i].removeAttribute("disabled");
+        }
     }
     closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
