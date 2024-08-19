@@ -562,7 +562,7 @@ function showitemsearchbox(){
     startdateInput.className = 'search-input';
     startdateInput.name = 'startdate';
     startdateInput.style.width = '140px';
-    startdateInput.style.marginLeft = '0px';
+    startdateInput.style.marginRight = '5px';
     reportform.appendChild(startdateInput);
     reportform.appendChild(document.createTextNode(' 至 '));
     const enddateInput = document.createElement('input');
@@ -570,7 +570,7 @@ function showitemsearchbox(){
     enddateInput.className = 'search-input';
     enddateInput.name = 'enddate';
     enddateInput.style.width = '140px';
-    enddateInput.style.marginLeft = '0px';
+    enddateInput.style.marginLeft = '5px';
     reportform.appendChild(enddateInput);
 
     const reportButton = document.createElement('button');
@@ -597,13 +597,14 @@ function showitemsearchbox(){
     });
     reportform.addEventListener("submit", function (event) {
         event.preventDefault();
-        alert("功能开发中。");
-        // var searchcreteria = new FormData(reportform);
-        // if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
-        //     showreport(searchcreteria);
-        // }else{
-        //     alert("请输入搜索条件。");
-        // }
+    });
+    reportButton.addEventListener("click", function() {
+        var searchcreteria = new FormData(reportform);
+        if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
+            showreport(searchcreteria);
+        }else{
+            alert("请输入开始、结束日期。");
+        }
     });
 }
 function addnewjob(clickeditem,detaillinenumber){
