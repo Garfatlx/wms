@@ -2662,7 +2662,12 @@ function showinventorymap(currentinventory,activity){
             });
         }
     });
-
+    if (activity === "") {
+        const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true;
+        });
+    }
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
