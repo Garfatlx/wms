@@ -427,8 +427,40 @@ function showinventorysearchbox(){
         if(searchcreteria.get("searchref")!=""){
             searchcreteria.set("searchref", searchcreteria.get('searchref').trim());
         }
-        showinventory(searchcreteria);
+        // showinventory(searchcreteria);
+
+        var tbody = document.getElementById('inventory-table-body');
+        var filteredRows = filterinventory(searchcreteria);
+        tbody.innerHTML = "";
+        filteredRows.forEach(function(row) {
+            tbody.appendChild(row);
+        });
+        
     });
+
+    function filterinventory(searchcreteria) {
+        if (!searchcreteria || Array.from(searchcreteria.keys()).length === 0) {
+            return searchedinventory;
+        }
+        return searchedinventory.filter(inventory => {
+            if (searchcreteria.get('searchref')) {
+                const searchref = searchcreteria.get('searchref').toLowerCase();
+                if (inventory.label.toLowerCase().includes(searchref) ||
+                    inventory.container.toLowerCase().includes(searchref) ||
+                    inventory.fba.toLowerCase().includes(searchref) ||
+                    inventory.marks.toLowerCase().includes(searchref)) {
+                    return true;
+                }
+            }
+            if (searchcreteria.get('locationa') && inventory.locationa.toLowerCase().includes(searchcreteria.get('locationa').toLowerCase())) {
+                return true;
+            }
+            if (searchcreteria.get('locationb') && inventory.locationb.toLowerCase().includes(searchcreteria.get('locationb').toLowerCase())) {
+                return true;
+            }
+            return false;
+        });
+    }
 
     inventorymapbutton.addEventListener("click", function() {
         showinventorymap(searchedinventory);
