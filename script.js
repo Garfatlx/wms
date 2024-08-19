@@ -942,6 +942,9 @@ async function showitems(searchcreteria){
     headers.forEach(function(headerText) {
         var th = document.createElement("th");
         th.textContent = headerText;
+        th.addEventListener("click", function() {
+            sortTable(index);
+        });
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
