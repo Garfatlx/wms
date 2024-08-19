@@ -817,6 +817,61 @@ async function showinventory(searchcreteria){
     activejobs.innerHTML="";
     
     // Create table element
+    // var table = document.createElement("table");
+    // table.className = "inventory-table";
+
+    // // Create table header
+    // var thead = document.createElement("thead");
+    // thead.className = "inventory-table-header";
+    // var headerRow = document.createElement("tr");
+    // var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
+    // headers.forEach(function(headerText, index) {
+    //     var th = document.createElement("th");
+    //     th.textContent = headerText;
+    //     th.addEventListener("click", function() {
+    //         sortTable(index);
+    //     });
+
+    //     headerRow.appendChild(th);
+    // });
+    // thead.appendChild(headerRow);
+    // table.appendChild(thead);
+
+    // // Create table body
+    // var tbody = document.createElement("tbody");
+    // tbody.id = "inventory-table-body";
+    // tbody.className = "inventory-table-body";
+    // data['data'].forEach(function(item) {
+    //     var row = document.createElement("tr");
+    //     row.className = "inventory-table-row";
+    //     var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
+    //     columns.forEach(function(columnText) {
+    //         var td = document.createElement("td");
+    //         td.textContent = columnText;
+    //         row.appendChild(td);
+    //     });
+    //     tbody.appendChild(row);
+
+    //     row.addEventListener("click", function() {
+    //         if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
+    //             detaillinenumber++;
+    //             item['id'] = '';
+    //             createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
+    //         }else{
+    //             showinventorydetail(item,this);
+    //             // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
+    //         }
+            
+    //     });
+    // });
+    // table.appendChild(tbody);
+
+    // Append table to activejobs element
+    const table = createinventorytable(data['data']);
+    activejobs.appendChild(table);
+}
+function createinventorytable(data){
+
     var table = document.createElement("table");
     table.className = "inventory-table";
 
@@ -841,7 +896,7 @@ async function showinventory(searchcreteria){
     var tbody = document.createElement("tbody");
     tbody.id = "inventory-table-body";
     tbody.className = "inventory-table-body";
-    data['data'].forEach(function(item) {
+    data.forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
         var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
@@ -865,9 +920,7 @@ async function showinventory(searchcreteria){
         });
     });
     table.appendChild(tbody);
-
-    // Append table to activejobs element
-    activejobs.appendChild(table);
+    return table;
 }
 async function showitems(searchcreteria){
     showloading(document.getElementById("activejobs"));
