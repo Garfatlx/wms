@@ -604,7 +604,7 @@ function showitemsearchbox(){
         // }else{
         //     alert("请输入搜索条件。");
         // }
-    }
+    });
 }
 function addnewjob(clickeditem,detaillinenumber){
 
