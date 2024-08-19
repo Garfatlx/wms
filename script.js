@@ -1,6 +1,7 @@
 var searchedjobs;
 var access;
 var searchedinventory;
+var latestActionToken;
 
 window.addEventListener("load", function(){
     
@@ -1517,6 +1518,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     itemdetail.appendChild(detaillinelistDiv);
     //load items
     if(clickeditem!=""){
+        const actionToken = Symbol();
+        latestActionToken = actionToken;
         var searchcreteria = new FormData();
         searchcreteria.append("jobid",clickeditem['jobid']);
         const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
@@ -1525,6 +1528,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
           });
 
         const data = await response.json();
+        if (latestActionToken !== actionToken) {
+            return;
+        }
         sysresponse.innerHTML=data["msg"];
         var items = data["data"];
         if(items!=null){
