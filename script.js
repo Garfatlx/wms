@@ -450,10 +450,10 @@ function showinventorysearchbox(){
         return searchedinventory.filter(inventory => {
             if (searchcreteria.get('searchref')) {
                 const searchref = searchcreteria.get('searchref').toLowerCase();
-                if (inventory.label.toLowerCase().includes(searchref) ||
-                    inventory.container.toLowerCase().includes(searchref) ||
-                    inventory.fba.toLowerCase().includes(searchref) ||
-                    inventory.marks.toLowerCase().includes(searchref)) {
+                if ((inventory.label && inventory.label.toLowerCase().includes(searchref)) ||
+                    (inventory.container && inventory.container.toLowerCase().includes(searchref)) ||
+                    (inventory.fba && inventory.fba.toLowerCase().includes(searchref)) ||
+                    (inventory.marks && inventory.marks.toLowerCase().includes(searchref))) {
                     return true;
                 }
             }
