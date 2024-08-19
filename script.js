@@ -554,7 +554,7 @@ function showitemsearchbox(){
     reportform.id = 'reportform';
     reportform.className = 'reportform';
     reportform.style.display = 'flex';
-    reportform.style.margin = '10px 0px 0px 0px';
+    reportform.style.margin = '0px 0px 0px 0px';
 
     // Create date input
     const startdateInput = document.createElement('input');
@@ -564,7 +564,7 @@ function showitemsearchbox(){
     startdateInput.style.width = '140px';
     startdateInput.style.marginLeft = '0px';
     reportform.appendChild(startdateInput);
-    reportform.appendChild(document.createTextNode('---'));
+    reportform.appendChild(document.createTextNode(' 至 '));
     const enddateInput = document.createElement('input');
     enddateInput.type = 'date';
     enddateInput.className = 'search-input';
