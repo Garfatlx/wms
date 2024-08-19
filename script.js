@@ -1338,7 +1338,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                             break; 
                         }
                         var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
-                        var channelmark = json[i]['渠道']?json[i]['渠道']:"";
+                        var channelmark = json[i]['Vendor Name（供应商名称）']?json[i]['Vendor Name（供应商名称）']:"";
                         var itemref = json[i]['仓点']+holdmark+channelmark;
                         var index = concludeitem.findIndex(item => item['itemref'] == itemref);
                         if (index == -1) {
