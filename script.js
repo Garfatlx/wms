@@ -1333,6 +1333,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                     //read detail infor
                     var concludeitem=[];
                     var j=0;
+                    console.log(json);
                     for (var i = 0; i < json.length; i++) {
                         if(!json[i]['仓点']){
                             break; 
