@@ -2651,14 +2651,16 @@ function showinventorymap(currentinventory,activity){
     }
 
     currentinventory.forEach(inventory => {
-        const locations = inventory['inventoryloc'].split(',');
-        locations.forEach(loc => {
-            const location = mapwindow.document.getElementById('div' + loc.trim());
-            if (location) {
-                location.style.backgroundColor = 'grey';
-                location.querySelector('input').disabled = true;
-            }
-        });
+        if(inventory['inventoryloc']){
+            const locations = inventory['inventoryloc'].split(',');
+            locations.forEach(loc => {
+                const location = mapwindow.document.getElementById('div' + loc.trim());
+                if (location) {
+                    location.style.backgroundColor = 'grey';
+                    location.querySelector('input').disabled = true;
+                }
+            });
+        }
     });
 
     form.addEventListener('submit', function(event) {
