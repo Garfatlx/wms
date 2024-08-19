@@ -1,6 +1,7 @@
 var searchedjobs;
 var access;
 var searchedinventory;
+var latestActionToken;
 
 window.addEventListener("load", function(){
     
@@ -103,12 +104,16 @@ function login(){
 
 function searchjobs(searchcreteria){
     showloading(document.getElementById("activejobs"));
-    
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
     const xhr  = new XMLHttpRequest();  
     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
+                if (actionToken !== latestActionToken) {
+                    return;
+                }
                 document.getElementById("activejobs").innerHTML="";
                 
                 searchedjobs=xhr.response["data"];
@@ -792,6 +797,8 @@ function printSpecificContent(clickeditem) {
 
 async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
     const showinventorymap = document.getElementById('inventorymapbutton');
     showinventorymap.disabled = true;
     
@@ -801,6 +808,9 @@ async function showinventory(searchcreteria){
       });
 
     const data = await response.json();
+    if (actionToken !== latestActionToken) {
+        return;
+    }
     searchedinventory = data['data'];
     showinventorymap.disabled = false;
     var activejobs = document.getElementById("activejobs");
@@ -861,13 +871,17 @@ async function showinventory(searchcreteria){
 }
 async function showitems(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
         method: 'POST',
         body: searchcreteria,
       });
 
     const data = await response.json();
-    
+    if (actionToken !== latestActionToken) {
+        return;
+    }
     
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
@@ -1549,6 +1563,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     itemdetail.appendChild(detaillinelistDiv);
     //load items
     if(clickeditem!=""){
+        const actionToken = Symbol();
+        latestActionToken = actionToken;
         var searchcreteria = new FormData();
         searchcreteria.append("jobid",clickeditem['jobid']);
         const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
@@ -1557,6 +1573,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
           });
 
         const data = await response.json();
+        if (latestActionToken !== actionToken) {
+            return;
+        }
         sysresponse.innerHTML=data["msg"];
         var items = data["data"];
         if(items!=null){
