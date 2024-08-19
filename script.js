@@ -441,7 +441,7 @@ function showinventorysearchbox(){
     });
 
     function filterinventory(searchcreteria) {
-        if (!searchcreteria || Array.from(searchcreteria.keys()).length === 0) {
+        if (!searchcreteria || Array.from(searchcreteria.keys()).length === 0 || Array.from(searchcreteria.values()).every(value => value === "")) {
             return searchedinventory;
         }
         return searchedinventory.filter(inventory => {
