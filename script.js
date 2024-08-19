@@ -431,7 +431,7 @@ function showinventorysearchbox(){
     });
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap();
+        showinventorymap(searchedinventory);
     });
 
 }
@@ -769,7 +769,7 @@ async function showinventory(searchcreteria){
       });
 
     const data = await response.json();
-    
+    searchedinventory = data['data'];
     showinventorymap.disabled = false;
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
@@ -2538,7 +2538,7 @@ function checkitem(array,key){
     return true;
 }
 
-function showinventorymap(currentinventory){
+function showinventorymap(currentinventory,activity){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
@@ -2596,6 +2596,7 @@ function showinventorymap(currentinventory){
 
             const sku = document.createElement('div');
             sku.className = 'sku';
+            sku.id = "div"+skuid;
             const skuinput = document.createElement('input');
             skuinput.type = 'checkbox';
             skuinput.name = 'inventoryloc';
@@ -2649,11 +2650,22 @@ function showinventorymap(currentinventory){
         }
     }
 
+    currentinventory.forEach(inventory => {
+        const locations = inventory['inventoryloc'].split(',');
+        locations.forEach(loc => {
+            const location = mapwindow.document.getElementById('div' + loc.trim());
+            if (location) {
+                location.style.backgroundColor = 'grey';
+                location.querySelector('input').disabled = true;
+            }
+        });
+    });
+
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
-        const selectedLocationString = selectedLocations.join(', ');
+        const selectedLocationString = selectedLocations.join(',');
         mapwindow.close();
-        alert('已选择的库存位置: ' + selectedLocationString);
+        console.log(selectedLocationString);
     });
 }
