@@ -554,6 +554,7 @@ function showitemsearchbox(){
     reportform.id = 'reportform';
     reportform.className = 'reportform';
     reportform.style.display = 'flex';
+    reportform.style.width = '100%';
     reportform.style.margin = '0px 0px 0px 0px';
 
     // Create date input
@@ -939,7 +940,7 @@ async function showitems(searchcreteria){
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
     var headers = ["出入库", ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期"];
-    headers.forEach(function(headerText) {
+    headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
         th.addEventListener("click", function() {
