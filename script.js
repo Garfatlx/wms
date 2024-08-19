@@ -1333,7 +1333,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                     //read detail infor
                     var concludeitem=[];
                     var j=0;
-                    console.log(json);
                     for (var i = 0; i < json.length; i++) {
                         if(!json[i]['仓点']){
                             break; 
@@ -1371,7 +1370,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
                     }
-                    console.log(concludeitem);
                     for (var i = 0; i < concludeitem.length; i++) {
                         detaillinenumber++;
                         createdetailline(i,concludeitem[i],"入库",true);
