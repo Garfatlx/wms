@@ -600,6 +600,7 @@ function showitemsearchbox(){
     });
     reportButton.addEventListener("click", function() {
         var searchcreteria = new FormData(reportform);
+        searchcreteria.append("status", "完成");
         if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
             showitems(searchcreteria);
         }else{
