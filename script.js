@@ -1358,7 +1358,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                                 "plt": 0,
                                 "locationa": "",
                                 "locationb": "",
-                                "channel": holdmark,
                                 "inventoryid": constructinventoryid(j),
                                 "id": "",
                                 "createtime": Date.now(),
