@@ -622,6 +622,7 @@ async function addnewjob(clickeditem,detaillinenumber){
         body: checkingjob,
     });
     const data = await response.json();
+    console.log(data);
     if (data['data'].length > 0 && data['data'][0].status == '完成') {
         alert('任务已完成，无法修改');
         return;
