@@ -1057,6 +1057,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
+    controlbar.appendChild(printlabelbutton);
     controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
