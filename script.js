@@ -615,6 +615,7 @@ async function addnewjob(clickeditem,detaillinenumber){
     
     //check whether this job is already finished
     const checkingjob = new FormData();
+    console.log(addjob.get('jobid'));
     checkingjob.append("jobid", addjob.get('jobid'));
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
         method: 'POST',
