@@ -2542,6 +2542,12 @@ function printinventorylabel(content){
         line3.className = 'line';
         line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
         pagediv.appendChild(line3);
+
+        const qrcodecontainer = document.createElement('div');
+        qrcodecontainer.className = 'qrcodecontainer';
+        // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
+        new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/searchinventory?inventoryid="+item['inventoryid']);
+        pagediv.appendChild(qrcodecontainer);
     });
     
 
