@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WMS-Garfat</title>
+        
+    </head>
+    <body>
+        <h1>Redirecting...</h1>
+        <div id="content">
+        </div>
+    </body>
+    <script>
+        var url = window.location.href;
+        var urlParams = new URLSearchParams(url);
+        var inventoryid = urlParams.get('inventoryid');
+        document.getElementById('content').innerHTML = "Recevied inventory id:"+inventoryid;
+    </script>
+    <style type="text/css">
+          
+    </style>
+</html>
