@@ -2542,8 +2542,6 @@ function printinventorylabel(content){
         line3.className = 'line';
         line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
         pagediv.appendChild(line3);
-        
-        label.appendChild(labelTitle);
     });
     
 
