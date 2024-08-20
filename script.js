@@ -609,19 +609,11 @@ function showitemsearchbox(){
         }
     });
 }
-function addnewjob(clickeditem,detaillinenumber){
+async function addnewjob(clickeditem,detaillinenumber){
 
     var addjob = new FormData(document.getElementById("detailform"));
-    // if(clickeditem==""){
-    //     jobid = new Date().getTime();
-    // }else{
-    //     if (!clickeditem['jobid']) {
-    //         jobid = new Date().getTime();
-    //     }else{
-    //     jobid = clickeditem['jobid'];
-    //     }
-    // }
-    // addjob.append("jobid",jobid);
+    
+
 
     console.log(addjob.get("date"));
     if (!addjob.get('date')) {
