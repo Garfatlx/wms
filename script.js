@@ -613,7 +613,18 @@ async function addnewjob(clickeditem,detaillinenumber){
 
     var addjob = new FormData(document.getElementById("detailform"));
     
-
+    //check whether this job is already finished
+    const checkingjob = new FormData();
+    checkingjob.append("jobid", addjob.get('jobid'));
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+        method: 'POST',
+        body: checkingjob,
+    });
+    const data = await response.json();
+    if (data['data'].length > 0 && data['data'][0].status == '完成') {
+        alert('任务已完成，无法修改');
+        return;
+    }
 
     console.log(addjob.get("date"));
     if (!addjob.get('date')) {
