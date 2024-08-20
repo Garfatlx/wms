@@ -1031,14 +1031,18 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     });
     
     var printbutton=document.createElement("button");
-    printbutton.innerHTML="打印操作单 &#x1F5B6";
+    printbutton.innerHTML="&#x1F5B6 操作单";
     printbutton.className="button";
     printbutton.style.marginLeft = '10px';
 
     
     var printcmrbutton=document.createElement("button");
-    printcmrbutton.innerHTML="打印CMR &#x1F5B6";
+    printcmrbutton.innerHTML="&#x1F5B6 CMR";
     printcmrbutton.className="button";
+
+    var printlabelbutton=document.createElement("button");
+    printlabelbutton.innerHTML="&#x1F5B6 标签";
+    printlabelbutton.className="button";
     
     var closebutton=document.createElement("button");
     closebutton.innerHTML="✕";
@@ -1339,30 +1343,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                 }
             }
         });
-        // input.addEventListener("change", function() {
-        //     if (clickeditem == '') {
-        //         alert("请保存任务后再上传图片");
-        //     }else{
-        //         var file = this.files[0];
-        //         if (file) {
-        //             var reader = new FileReader();
-        //             reader.readAsDataURL(file);
-        //             reader.onload = function() {
-        //                 var img = document.createElement("img");
-        //                 img.src = reader.result;
-        //                 img.width = 100;
-        //                 img.height = 100;
-        //                 img.className = "img-preview";
-        //                 var existingImage = document.getElementById('uploadbuttonblock'+inumber).querySelector('.img-preview');
-        //                 if (existingImage) {
-        //                     existingImage.remove();
-        //                 }
-        //                 document.getElementById('uploadbuttonblock'+inumber).appendChild(img);
-        //             };
-        //             uploadimage(clickeditem['jobid'], file, 'img'+inumber);
-        //         }
-        //     }
-        // });
+        
         
         uploaddiv.appendChild(uploadbuttonblock);
     }
@@ -1471,119 +1452,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                         createdetailline(i,concludeitem[i],"入库",true);
                     }
 
-                    //create detail lines
-
-                    // var xlsfba="";
-                    // var xlspcs=0;
-                    // var xlscbm=0;
-                    // var xlskgs=0;
-                    // var xlsnote="";
-                    // var j=0;
-                    // for (var i = 0; i < json.length; i++) {
-                    //     if(!json[i]['仓点']){
-                    //         break;
-                    //     }
-                    //     xlsfba = (!json[i]['BOL List （货物FBA号码）'])?xlsfba:xlsfba+json[i]['BOL List （货物FBA号码）']+";";
-                    //     xlspcs = (!json[i]['Carton Count（箱数）'])?xlspcs:xlspcs+Number(json[i]['Carton Count（箱数）']);
-                    //     xlscbm = (!json[i]['CMB（立方数）'])?xlscbm:xlscbm+Number(json[i]['CMB（立方数）']);
-                    //     xlskgs = (!json[i]['Weight KG（重量）'])?xlskgs:xlskgs+Number(json[i]['Weight KG（重量）']);
-                    //     xlsnote = (!json[i]['备注（打托要求/拼车/换标/其他）'])?xlsnote:xlsnote+json[i]['备注（打托要求/拼车/换标/其他）'] + ";";    
-                    //     //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                    //     if(i==json.length-1 || !json[i+1]['仓点'] || json[i]['仓点']!=json[i+1]['仓点'] || (json[i]['拦截暂扣']=="是" || json[i+1]['拦截暂扣']=='是')){
-                    //         var xlsmarks = (!json[i]['单号/箱唛'])?"":json[i]['单号/箱唛'];
-
-                    //         j=j+1;
-                    //         var inventoryid=constructinventoryid(j);
-                    //         var xlsitem={   "label":json[i]['仓点'],
-                    //                         "marks":xlsmarks,
-                    //                         "deladdress":json[i]['Delivery Address （派送地址）'],
-                    //                         "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
-                    //                         "fba":xlsfba,
-                    //                         "pcs":xlspcs,
-                    //                         "cbm":xlscbm,
-                    //                         "kgs":xlskgs,
-                    //                         "note":xlsnote,
-                    //                         "plt":0,
-                    //                         "locationa":"",
-                    //                         "locationb":"",
-                    //                         "channel":json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
-                    //                         "inventoryid":inventoryid,
-                    //                         "id":"",
-                    //                         "createtime": Date.now(),
-                    //                     };
-                    //         detaillinenumber++;
-                    //         createdetailline(detaillinenumber,xlsitem,"入库",true);
-                    //         xlsfba="";
-                    //         xlspcs=0;
-                    //         xlscbm=0;
-                    //         xlskgs=0;
-                    //         xlsnote="";
-                    //     }
-                    // }
-
-                    //use column position as indicator
-
-                    // var json = XLSX.utils.sheet_to_json(sheet,{header: ["channel","marks","hold","label","deladdress","fba","pcs","cbm","ctnperpcs","kgs","po","note"]});
-                    // // creat job info
-                    // var xlsclickeditem = {  "joblabel":joblable,
-                    //                         "customer":document.getElementsByName("customer")[0].value,
-                    //                         "date":document.getElementById("inputdate").value,
-                    //                         "activity":"入库",
-                    //                         "status":"预报",
-                    //                         "ordernote":document.getElementsByName("ordernote")[0].value,
-                                            
-                    //                     };
-                    // loaddetail(xlsclickeditem,"入库");
-                    // //read detail infor
-
-                    // //create detail lines
-                    // var xlsfba="";
-                    // var xlspcs=0;
-                    // var xlscbm=0;
-                    // var xlskgs=0;
-                    // var xlsnote="";
-                    // var j=0;
-                    // for (var i = 1; i < json.length; i++) {
-                    //     if(!json[i]['label']){
-                    //         break;
-                    //     }
-                    //     xlsfba = (!json[i]['fba'])?xlsfba:xlsfba+json[i]['fba']+";";
-                    //     xlspcs = (!json[i]['pcs'])?xlspcs:xlspcs+Number(json[i]['pcs']);
-                    //     xlscbm = (!json[i]['cbm'])?xlscbm:xlscbm+Number(json[i]['cbm']);
-                    //     xlskgs = (!json[i]['kgs'])?xlskgs:xlskgs+Number(json[i]['kgs']);
-                    //     xlsnote = (!json[i]['note'])?xlsnote:xlsnote+json[i]['note'] + ";";    
-                    //     //if(!json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (!json[i]['marks'] && json[i]['marks']!=json[i+1]['marks'] )){
-                    //     if(i==json.length-1 || !json[i+1]['label'] || json[i]['label']!=json[i+1]['label'] || (json[i]['hold']=="是" || json[i+1]['hold']=='是')){
-                    //         var xlsmarks = (!json[i]['marks'])?"":json[i]['marks'];
-
-                    //         j=j+1;
-                    //         var inventoryid=constructinventoryid(j);
-                    //         var xlsitem={   "label":json[i]['label'],
-                    //                         "marks":xlsmarks,
-                    //                         "deladdress":json[i]['deladdress'],
-                    //                         "requirement":json[i]['hold']=="是"?"拦截暂扣":"",
-                    //                         "fba":xlsfba,
-                    //                         "pcs":xlspcs,
-                    //                         "cbm":xlscbm,
-                    //                         "kgs":xlskgs,
-                    //                         "note":xlsnote,
-                    //                         "plt":0,
-                    //                         "locationa":"",
-                    //                         "locationb":"",
-                    //                         "channel":json[i]['hold']=="是"?"拦截暂扣":json[i]['channel'],
-                    //                         "inventoryid":inventoryid,
-                    //                         "id":"",
-                    //                         "createtime": Date.now(),
-                    //                     };
-                    //         detaillinenumber++;
-                    //         createdetailline(detaillinenumber,xlsitem,"入库",true);
-                    //         xlsfba="";
-                    //         xlspcs=0;
-                    //         xlscbm=0;
-                    //         xlskgs=0;
-                    //         xlsnote="";
-                    //     }
-                    // }
+                    
                 };
             }
         };
@@ -1711,6 +1580,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     printcmrbutton.addEventListener("click", function() {
         // Displaying an alert message
         printcmr(clickeditem,items);
+    });
+    printlabelbutton.addEventListener("click", function() {
+        // Displaying an alert message
+        printinventorylabel(items);
     });
     
 }
@@ -2641,6 +2514,39 @@ function checkitem(array,key){
     return true;
 }
 
+function printinventorylabel(content){
+    var printWindow = window.open('', '', 'height=1123px,width=794px');
+    printWindow.document.write('<html><head>');
+    printWindow.document.write('<link href="labelprintpage.css?v=' + timestamp + '" rel="stylesheet" type="text/css">');
+    printWindow.document.write('</head><body >');
+    printWindow.document.write('</body></html>');
+
+    content.forEach(function(item) {
+        const pagediv = document.createElement('div');
+        pagediv.className = 'pagediv';
+        printWindow.document.body.appendChild(pagediv);
+
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.innerHTML = item['container'];
+        pagediv.appendChild(line);
+
+        const line2 = document.createElement('div');
+        line2.className = 'line';
+        line2.innerHTML = item['label']+"  "+ item['date'];
+        pagediv.appendChild(line2);
+
+        const line3 = document.createElement('div');
+        line3.className = 'line';
+        line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
+        pagediv.appendChild(line3);
+        
+        label.appendChild(labelTitle);
+    });
+    
+
+    printWindow.print();
+}
 function showinventorymap(currentinventory,activity){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
