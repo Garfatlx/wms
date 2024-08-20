@@ -613,6 +613,21 @@ async function addnewjob(clickeditem,detaillinenumber){
 
     var addjob = new FormData(document.getElementById("detailform"));
     
+    if (!addjob.get('date')) {
+        alert('Please set a date');
+        return;
+    }
+
+    if (addjob.get('status') == '完成') {
+        if (confirm("确认任务已完成?")) {
+            // Code to execute if user confirms update
+        } else {
+            // Code to execute if user cancels update
+            return;
+        }
+    }
+
+    
     //check whether this job is already finished
     var checkingjob = new FormData();
     checkingjob.append("jobid", addjob.get('jobid'));
@@ -621,26 +636,9 @@ async function addnewjob(clickeditem,detaillinenumber){
         body: checkingjob,
     });
     const data = await response.json();
-    console.log(data);
     if (data['data'] && data['data'][0].status == '完成') {
         alert('任务已完成，无法修改');
         return;
-    }
-
-    if (!addjob.get('date')) {
-        alert('Please set a date');
-        return;
-    }
-    // for (let [key, value] of addjob.entries()) {
-    //         console.log(`${key}: ${value}`);
-    // }
-    if (addjob.get('status') == '完成') {
-        if (confirm("确认任务已完成?")) {
-            // Code to execute if user confirms update
-        } else {
-            // Code to execute if user cancels update
-            return;
-        }
     }
     
     // new code start here
