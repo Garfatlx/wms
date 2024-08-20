@@ -614,23 +614,23 @@ async function addnewjob(clickeditem,detaillinenumber){
     var addjob = new FormData(document.getElementById("detailform"));
     
     //check whether this job is already finished
-    // const checkingjob = new FormData();
-    // console.log(addjob.get('jobid'));
-    // checkingjob.append("jobid", addjob.get('jobid'));
-    // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-    //     method: 'POST',
-    //     body: checkingjob,
-    // });
-    // const data = await response.json();
-    // if (data['data'].length > 0 && data['data'][0].status == '完成') {
-    //     alert('任务已完成，无法修改');
-    //     return;
-    // }
+    const checkingjob = new FormData();
+    console.log(addjob.get('jobid'));
+    checkingjob.append("jobid", addjob.get('jobid'));
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+        method: 'POST',
+        body: checkingjob,
+    });
+    const data = await response.json();
+    if (data['data'].length > 0 && data['data'][0].status == '完成') {
+        alert('任务已完成，无法修改');
+        return;
+    }
 
-    // if (!addjob.get('date')) {
-    //     alert('Please set a date');
-    //     return;
-    // }
+    if (!addjob.get('date')) {
+        alert('Please set a date');
+        return;
+    }
     // for (let [key, value] of addjob.entries()) {
     //         console.log(`${key}: ${value}`);
     // }
