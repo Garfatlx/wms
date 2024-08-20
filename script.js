@@ -954,6 +954,7 @@ async function showitems(searchcreteria){
     // Create table body
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
+    tbody.id = "inventory-table-body";
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
