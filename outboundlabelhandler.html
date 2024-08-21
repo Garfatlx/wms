@@ -26,7 +26,7 @@
         itemsearchcreteria.append("inventoryid",inventoryid);
         itemsearchcreteria.append("date", new Date().toISOString().split('T')[0]);
         itemsearchcreteria.append("activity","出库");
-
+        console.log(itemsearchcreteria.get("date"));
         const xhr1  = new XMLHttpRequest();
         xhr1.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
         xhr1.onreadystatechange= () => {
