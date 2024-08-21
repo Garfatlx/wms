@@ -54,6 +54,7 @@
                                 }
                             }else{
                                 document.getElementById("activejobs").innerHTML="没有找到任务。";
+                                console.log(xhr.response["error_message"]);
                             }
                         }
                     }
