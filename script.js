@@ -758,86 +758,6 @@ async function addnewjob(clickeditem,detaillinenumber){
     // document.getElementById("itemdetail").innerHTML = "";
 
 }
-function printSpecificContent(clickeditem) {
-    
-    if (clickeditem) {
-        var printWindow = window.open('', '', 'height=1123,width=794');
-        
-        
-        printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif;margin:50px 0px 0px 30px}h1{font-weight:600;margin:0 0 0 0;}</style>');
-        printWindow.document.write('</head><body >');
-        printWindow.document.write('</body></html>');
-        // printWindow.document.close();
-        
-    } else {
-        console.error('Element with ID ' + elementId + ' not found.');
-        return;
-    }
-
-    var totalHeight = 2000;
-    var baseFontSize = 45;
-    while (totalHeight>1050 && baseFontSize>20) {
-        printWindow.document.body.innerHTML = '';
-        // Create a temporary element to measure text height
-        var headerfontsize = baseFontSize + 20;
-        var tempElement = document.createElement('div');
-        tempElement.style.position = 'absolute';
-        tempElement.style.fontFamily = 'Arial, sans-serif';
-        tempElement.style.width = '794px';
-        tempElement.style.fontSize = baseFontSize + 'px';
-        var temph1 = document.createElement('h1');
-        temph1.style.fontSize = headerfontsize + 'px';
-        temph1.innerHTML = clickeditem['customer'];
-        tempElement.appendChild(temph1);
-        var temph1 = document.createElement('h1');
-        temph1.style.fontSize = headerfontsize + 'px';
-        temph1.innerHTML = clickeditem['joblabel'];
-        tempElement.appendChild(temph1);
-        var hr = document.createElement('hr');
-        tempElement.appendChild(hr);
-        var p = document.createElement('p');
-        p.style.fontSize = baseFontSize + 'px';
-        p.innerHTML = clickeditem['date'];
-        tempElement.appendChild(p);
-        var p = document.createElement('p');
-        p.style.fontSize = baseFontSize + 'px';
-        p.innerHTML = clickeditem['overview'];
-        tempElement.appendChild(p);
-        var p = document.createElement('p');
-        p.style.fontSize = baseFontSize + 'px';
-        p.innerHTML = clickeditem['ordernote'];
-        tempElement.appendChild(p);
-        printWindow.document.body.appendChild(tempElement);
-        
-        // Measure the height of the temporary element
-        totalHeight = tempElement.offsetHeight;
-        
-        // Adjust the font size based on the number of lines
-        if (totalHeight > 1050) {
-            baseFontSize = baseFontSize-5;
-        } 
-    }
-    printWindow.print();
-    // if (clickeditem) {
-    //     var printWindow = window.open('', '', 'height=1123,width=794');
-    //     printWindow.document.write('<html><head><title>打印操作单</title>');
-    //     printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:50px 0px 0px 30px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
-    //     printWindow.document.write('</head><body >');
-    //     printWindow.document.write('<h1>'+clickeditem['customer']+'</h1>');
-    //     printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1>');
-    //     printWindow.document.write('<hr>');
-    //     printWindow.document.write(clickeditem['date']+'<br>');
-    //     printWindow.document.write(clickeditem['overview']+ '<br>');    
-    //     printWindow.document.write(clickeditem['ordernote']); 
-    //     printWindow.document.write('</body></html>');
-    //     // printWindow.document.close();
-    //     printWindow.print();
-    // } else {
-    //     console.error('Element with ID ' + elementId + ' not found.');
-    // }
-}
-
 async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
@@ -2169,174 +2089,6 @@ function sumpcsplt(){
     }
     
 }
-
-function printcmr(clickeditem,items){
-    var printWindow = window.open('', '', 'height=1123px,width=794px');
-        printWindow.document.write('<html><head>');
-        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif; font-size:14px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
-        printWindow.document.write('</head><body >');
-        printWindow.document.write('</body></html>');
-
-    const img = document.createElement('img');
-    img.src = 'http://ljb2-utility.stor.sinaapp.com/CMR%20template.jpg';
-    img.width = 794;
-    img.height = 1050;
-    img.style.position = 'absolute';
-    img.style.top = '0';
-    img.style.left = '0';
-    img.style.zIndex = '-1';
-    printWindow.document.body.appendChild(img);
-
-    //items
-    var baseFontSize = 14;
-    var baseheight = 260;
-    const itemsdiv = document.createElement('div');
-    itemsdiv.style.position = 'absolute';
-    itemsdiv.style.top = '385px';
-    itemsdiv.style.left = '40px';
-    itemsdiv.style.width = '635px';
-    // itemsdiv.style.height = '250px';
-    itemsdiv.style.overflow = 'hide';
-    itemsdiv.style.zIndex = '1';
-    itemsdiv.style.fontSize = '10px';
-    itemsdiv.contentEditable = true;
-    printWindow.document.body.appendChild(itemsdiv);
-    while(baseheight>250 && baseFontSize>7){
-        itemsdiv.innerHTML = '';
-        items.forEach(function(item) {
-            const itemdiv = document.createElement('div');
-            itemdiv.style.display = 'flex';
-            itemdiv.style.marginBottom = '3px';
-            itemdiv.style.width = '100%';
-            if(item['pcs']>0){
-                const itemheader = document.createElement('div');
-                if(item['plt']>0){  
-                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
-                }else{
-                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
-                }
-                itemheader.style.marginRight = '5px';
-                itemheader.style.fontWeight = 'bold';
-                itemheader.style.fontSize = baseFontSize + 'px';
-                itemdiv.appendChild(itemheader);
-                const itemfba = document.createElement('div');
-                var fbafontsize = baseFontSize - 3;
-                itemfba.style.fontSize = fbafontsize + 'px';
-                itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
-                itemdiv.appendChild(itemfba);
-                itemsdiv.appendChild(itemdiv);
-            }
-        });
-        baseheight = itemsdiv.clientHeight;
-        baseFontSize = baseFontSize - 2;
-
-    }
-    
-
-    
-
-    //order number
-    const ordernumber = document.createElement('div');
-    ordernumber.style.position = 'absolute';
-    ordernumber.style.top = '290px';
-    ordernumber.style.left = '420px';
-    ordernumber.style.width = '300px';
-    ordernumber.style.height = '50px';
-    ordernumber.style.zIndex = '1';
-    ordernumber.contentEditable = true;
-    if(clickeditem['orderid']){
-        ordernumber.innerHTML = clickeditem['orderid'] + ' <br>' ;
-    }
-    if(clickeditem['reference']){
-        ordernumber.innerHTML = ordernumber.innerHTML + clickeditem['reference'];
-    }
-    
-    printWindow.document.body.appendChild(ordernumber);
-
-    //del address
-    var deladdressfull=getaddress(clickeditem['joblabel']);
-    const deladdress = document.createElement('div');
-    deladdress.style.position = 'absolute';
-    deladdress.style.top = '145px';
-    deladdress.style.left = '40px';
-    deladdress.style.width = '360px';
-    deladdress.style.height = '50px';
-    deladdress.style.zIndex = '1';
-    deladdress.style.fontSize = '11px';
-    deladdress.contentEditable = true;
-    deladdress.innerHTML = deladdressfull?deladdressfull[0]:clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
-
-    printWindow.document.body.appendChild(deladdress);
-
-    //del address city
-    const deladdresscity = document.createElement('div');
-    deladdresscity.style.position = 'absolute';
-    deladdresscity.style.top = '227px';
-    deladdresscity.style.left = '40px';
-    deladdresscity.style.width = '360px';
-    deladdresscity.style.height = '22px';
-    deladdresscity.style.zIndex = '1';
-    deladdresscity.contentEditable = true;
-    deladdresscity.textContent = deladdressfull?deladdressfull[1]:clickeditem['delcity']?clickeditem['delcity']:'';
-
-    printWindow.document.body.appendChild(deladdresscity);
-
-    //total pcs
-    const totalpcs = document.createElement('div');
-    totalpcs.style.position = 'absolute';
-    totalpcs.style.top = '470px';
-    totalpcs.style.left = '690px';
-    totalpcs.style.width = '70px';
-    totalpcs.style.height = '80px';
-    totalpcs.style.zIndex = '1';
-    totalpcs.contentEditable = true;
-    var totalpcscount = items.reduce((sum, item) => sum + Number(item.pcs), 0);
-    var totalpltcount = items.reduce((sum, item) => sum + Number(item.plt), 0);
-    if(totalpltcount>0){
-        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS<br>'+totalpltcount + 'PLTS';
-    }else{
-        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS';
-    }
-    printWindow.document.body.appendChild(totalpcs);
-
-    //seal number
-    const sealnumber = document.createElement('div');
-    sealnumber.style.position = 'absolute';
-    sealnumber.style.top = '700px';
-    sealnumber.style.left = '40px';
-    sealnumber.style.width = '200px';
-    sealnumber.style.height = '50px';
-    sealnumber.style.zIndex = '1';
-    sealnumber.contentEditable = true;
-    sealnumber.innerHTML = 'Seal Number: ';
-    
-    printWindow.document.body.appendChild(sealnumber);
-     
-    //issue city
-    const issuecity = document.createElement('div');
-    issuecity.style.position = 'absolute';
-    issuecity.style.top = '900px';
-    issuecity.style.left = '110px';
-    issuecity.style.width = '120px';
-    issuecity.style.height = '20px';
-    issuecity.style.zIndex = '1';
-    issuecity.textContent = 'Gronsveld';
-
-    printWindow.document.body.appendChild(issuecity);
-
-    //issue date
-    const issuedate = document.createElement('div');
-    issuedate.style.position = 'absolute';
-    issuedate.style.top = '900px';
-    issuedate.style.left = '300px';
-    issuedate.style.width = '100px';
-    issuedate.style.height = '20px';
-    issuedate.style.zIndex = '1';
-    issuedate.textContent = getformatteddate(0);
-
-    printWindow.document.body.appendChild(issuedate);
-
-}
 function readxls(file,headers){
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
@@ -2515,7 +2267,252 @@ function checkitem(array,key){
     }
     return true;
 }
+function printcmr(clickeditem,items){
+    var printWindow = window.open('', '', 'height=1123px,width=794px');
+        printWindow.document.write('<html><head>');
+        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif; font-size:14px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write('</body></html>');
 
+    const img = document.createElement('img');
+    img.src = 'http://ljb2-utility.stor.sinaapp.com/CMR%20template.jpg';
+    img.width = 794;
+    img.height = 1050;
+    img.style.position = 'absolute';
+    img.style.top = '0';
+    img.style.left = '0';
+    img.style.zIndex = '-1';
+    printWindow.document.body.appendChild(img);
+
+    //items
+    var baseFontSize = 14;
+    var baseheight = 260;
+    const itemsdiv = document.createElement('div');
+    itemsdiv.style.position = 'absolute';
+    itemsdiv.style.top = '385px';
+    itemsdiv.style.left = '40px';
+    itemsdiv.style.width = '635px';
+    // itemsdiv.style.height = '250px';
+    itemsdiv.style.overflow = 'hide';
+    itemsdiv.style.zIndex = '1';
+    itemsdiv.style.fontSize = '10px';
+    itemsdiv.contentEditable = true;
+    printWindow.document.body.appendChild(itemsdiv);
+    while(baseheight>250 && baseFontSize>7){
+        itemsdiv.innerHTML = '';
+        items.forEach(function(item) {
+            const itemdiv = document.createElement('div');
+            itemdiv.style.display = 'flex';
+            itemdiv.style.marginBottom = '3px';
+            itemdiv.style.width = '100%';
+            if(item['pcs']>0){
+                const itemheader = document.createElement('div');
+                if(item['plt']>0){  
+                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ' + item['plt'] + 'PLTS';
+                }else{
+                    itemheader.innerHTML = item['container'] + ' ' + item['pcs']+ 'CTNS ';
+                }
+                itemheader.style.marginRight = '5px';
+                itemheader.style.fontWeight = 'bold';
+                itemheader.style.fontSize = baseFontSize + 'px';
+                itemdiv.appendChild(itemheader);
+                const itemfba = document.createElement('div');
+                var fbafontsize = baseFontSize - 3;
+                itemfba.style.fontSize = fbafontsize + 'px';
+                itemfba.innerHTML = item['fba'].replace(/[\n;,]/g, ' ');
+                itemdiv.appendChild(itemfba);
+                itemsdiv.appendChild(itemdiv);
+            }
+        });
+        baseheight = itemsdiv.clientHeight;
+        baseFontSize = baseFontSize - 2;
+
+    }
+    
+
+    
+
+    //order number
+    const ordernumber = document.createElement('div');
+    ordernumber.style.position = 'absolute';
+    ordernumber.style.top = '290px';
+    ordernumber.style.left = '420px';
+    ordernumber.style.width = '300px';
+    ordernumber.style.height = '50px';
+    ordernumber.style.zIndex = '1';
+    ordernumber.contentEditable = true;
+    if(clickeditem['orderid']){
+        ordernumber.innerHTML = clickeditem['orderid'] + ' <br>' ;
+    }
+    if(clickeditem['reference']){
+        ordernumber.innerHTML = ordernumber.innerHTML + clickeditem['reference'];
+    }
+    
+    printWindow.document.body.appendChild(ordernumber);
+
+    //del address
+    var deladdressfull=getaddress(clickeditem['joblabel']);
+    const deladdress = document.createElement('div');
+    deladdress.style.position = 'absolute';
+    deladdress.style.top = '145px';
+    deladdress.style.left = '40px';
+    deladdress.style.width = '360px';
+    deladdress.style.height = '50px';
+    deladdress.style.zIndex = '1';
+    deladdress.style.fontSize = '11px';
+    deladdress.contentEditable = true;
+    deladdress.innerHTML = deladdressfull?deladdressfull[0]:clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
+
+    printWindow.document.body.appendChild(deladdress);
+
+    //del address city
+    const deladdresscity = document.createElement('div');
+    deladdresscity.style.position = 'absolute';
+    deladdresscity.style.top = '227px';
+    deladdresscity.style.left = '40px';
+    deladdresscity.style.width = '360px';
+    deladdresscity.style.height = '22px';
+    deladdresscity.style.zIndex = '1';
+    deladdresscity.contentEditable = true;
+    deladdresscity.textContent = deladdressfull?deladdressfull[1]:clickeditem['delcity']?clickeditem['delcity']:'';
+
+    printWindow.document.body.appendChild(deladdresscity);
+
+    //total pcs
+    const totalpcs = document.createElement('div');
+    totalpcs.style.position = 'absolute';
+    totalpcs.style.top = '470px';
+    totalpcs.style.left = '690px';
+    totalpcs.style.width = '70px';
+    totalpcs.style.height = '80px';
+    totalpcs.style.zIndex = '1';
+    totalpcs.contentEditable = true;
+    var totalpcscount = items.reduce((sum, item) => sum + Number(item.pcs), 0);
+    var totalpltcount = items.reduce((sum, item) => sum + Number(item.plt), 0);
+    if(totalpltcount>0){
+        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS<br>'+totalpltcount + 'PLTS';
+    }else{
+        totalpcs.innerHTML = 'Total: <br>'+totalpcscount + 'CTNS';
+    }
+    printWindow.document.body.appendChild(totalpcs);
+
+    //seal number
+    const sealnumber = document.createElement('div');
+    sealnumber.style.position = 'absolute';
+    sealnumber.style.top = '700px';
+    sealnumber.style.left = '40px';
+    sealnumber.style.width = '200px';
+    sealnumber.style.height = '50px';
+    sealnumber.style.zIndex = '1';
+    sealnumber.contentEditable = true;
+    sealnumber.innerHTML = 'Seal Number: ';
+    
+    printWindow.document.body.appendChild(sealnumber);
+     
+    //issue city
+    const issuecity = document.createElement('div');
+    issuecity.style.position = 'absolute';
+    issuecity.style.top = '900px';
+    issuecity.style.left = '110px';
+    issuecity.style.width = '120px';
+    issuecity.style.height = '20px';
+    issuecity.style.zIndex = '1';
+    issuecity.textContent = 'Gronsveld';
+
+    printWindow.document.body.appendChild(issuecity);
+
+    //issue date
+    const issuedate = document.createElement('div');
+    issuedate.style.position = 'absolute';
+    issuedate.style.top = '900px';
+    issuedate.style.left = '300px';
+    issuedate.style.width = '100px';
+    issuedate.style.height = '20px';
+    issuedate.style.zIndex = '1';
+    issuedate.textContent = getformatteddate(0);
+
+    printWindow.document.body.appendChild(issuedate);
+
+}
+function printSpecificContent(clickeditem) {
+    
+    if (clickeditem) {
+        var printWindow = window.open('', '', 'height=1123,width=794');
+        
+        
+        printWindow.document.write('<html><head><title>打印操作单</title>');
+        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif;margin:50px 0px 0px 30px}h1{font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('</head><body >');
+        printWindow.document.write('</body></html>');
+        // printWindow.document.close();
+        
+    } else {
+        console.error('Element with ID ' + elementId + ' not found.');
+        return;
+    }
+
+    var totalHeight = 2000;
+    var baseFontSize = 45;
+    while (totalHeight>1050 && baseFontSize>20) {
+        printWindow.document.body.innerHTML = '';
+        // Create a temporary element to measure text height
+        var headerfontsize = baseFontSize + 20;
+        var tempElement = document.createElement('div');
+        tempElement.style.position = 'absolute';
+        tempElement.style.fontFamily = 'Arial, sans-serif';
+        tempElement.style.width = '794px';
+        tempElement.style.fontSize = baseFontSize + 'px';
+        var temph1 = document.createElement('h1');
+        temph1.style.fontSize = headerfontsize + 'px';
+        temph1.innerHTML = clickeditem['customer'];
+        tempElement.appendChild(temph1);
+        var temph1 = document.createElement('h1');
+        temph1.style.fontSize = headerfontsize + 'px';
+        temph1.innerHTML = clickeditem['joblabel'];
+        tempElement.appendChild(temph1);
+        var hr = document.createElement('hr');
+        tempElement.appendChild(hr);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.innerHTML = clickeditem['date'];
+        tempElement.appendChild(p);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.innerHTML = clickeditem['overview'];
+        tempElement.appendChild(p);
+        var p = document.createElement('p');
+        p.style.fontSize = baseFontSize + 'px';
+        p.innerHTML = clickeditem['ordernote'];
+        tempElement.appendChild(p);
+        printWindow.document.body.appendChild(tempElement);
+        
+        // Measure the height of the temporary element
+        totalHeight = tempElement.offsetHeight;
+        
+        // Adjust the font size based on the number of lines
+        if (totalHeight > 1050) {
+            baseFontSize = baseFontSize-5;
+        } 
+    }
+    printWindow.print();
+    // if (clickeditem) {
+    //     var printWindow = window.open('', '', 'height=1123,width=794');
+    //     printWindow.document.write('<html><head><title>打印操作单</title>');
+    //     printWindow.document.write('<style>body{font-family: Arial, sans-serif; font-size:45px;margin:50px 0px 0px 30px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+    //     printWindow.document.write('</head><body >');
+    //     printWindow.document.write('<h1>'+clickeditem['customer']+'</h1>');
+    //     printWindow.document.write('<h1>'+clickeditem['joblabel']+'</h1>');
+    //     printWindow.document.write('<hr>');
+    //     printWindow.document.write(clickeditem['date']+'<br>');
+    //     printWindow.document.write(clickeditem['overview']+ '<br>');    
+    //     printWindow.document.write(clickeditem['ordernote']); 
+    //     printWindow.document.write('</body></html>');
+    //     // printWindow.document.close();
+    //     printWindow.print();
+    // } else {
+    //     console.error('Element with ID ' + elementId + ' not found.');
+    // }
+}
 function printinventorylabel(content){
     var timestamp = new Date().getTime();
     var printWindow = window.open('', '', 'height=750px,width=1000px');
@@ -2530,19 +2527,43 @@ function printinventorylabel(content){
         printWindow.document.body.appendChild(pagediv);
 
         const line = document.createElement('div');
+        line.style.fontSize = '70px';
+        line.style.fontWeight = '800';
         line.className = 'line';
-        line.innerHTML = item['container'];
         pagediv.appendChild(line);
+        const secondline = document.createElement('div');
+        secondline.style.display = 'flex';
+        secondline.style.width = '100%';
+        secondline.style.justifyContent = 'space-between';
+        secondline.style.alignItems = 'center';
+        pagediv.appendChild(secondline);
+        const secleft = document.createElement('div');
+        secleft.style.display = 'flex';
+        secleft.style.width = '80%';
+        secleft.style.flexDirection = 'column';
+        secleft.style.justifyContent = 'center';
+        secleft.style.alignItems = 'center';
+        secondline.appendChild(secleft);
+        const secright = document.createElement('div');
+        secright.style.display = 'flex';
+        secright.style.width = '20%';
+        secright.style.flexDirection = 'column';
+        secright.style.justifyContent = 'center';
+        secright.style.alignItems = 'center';
+        secondline.appendChild(secright);
+
+        line.innerHTML = item['container'];
+        secleft.appendChild(line);
 
         const line2 = document.createElement('div');
         line2.className = 'line';
         line2.innerHTML = item['label']+"  "+ item['date'];
-        pagediv.appendChild(line2);
+        secleft.appendChild(line2);
 
         const line3 = document.createElement('div');
         line3.className = 'line';
         line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
-        pagediv.appendChild(line3);
+        secleft.appendChild(line3);
 
         const qrcodecontainer = document.createElement('div');
         qrcodecontainer.className = 'qrcodecontainer';
@@ -2555,7 +2576,7 @@ function printinventorylabel(content){
             colorLight: "#ffffff",
         };
         new QRCode(qrcodecontainer, qrCodeOptions);
-        pagediv.appendChild(qrcodecontainer);
+        secright.appendChild(qrcodecontainer);
     });
     
 
