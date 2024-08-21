@@ -29,9 +29,9 @@
                     var jobids = xhr1.response["data"].map(function(item) {
                         return item['jobid'];
                     });
+                    console.log(jobids);
                     var jobsearchcreteria = new FormData();
-                    jobsearchcreteria.append("jobids",JSON.stringify(jobids));
-                    console.log(jobsearchcreteria.get("jobids"));
+                    jobsearchcreteria.append("jobids",jobids);
                     const xhr  = new XMLHttpRequest();  
                     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
                     xhr.onreadystatechange= () => {
