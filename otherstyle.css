@@ -489,16 +489,16 @@
   stroke: lime;
 }
 
-#cbx:checked + .check svg {
+.cbxcontainer input:checked + .check svg {
   stroke: lime;
 }
 
-#cbx:checked + .check svg path {
+.cbxcontainer input:checked + .check svg path {
   stroke-dashoffset: 60;
   transition: all 0.3s linear;
 }
 
-#cbx:checked + .check svg polyline {
+.cbxcontainer input:checked + .check svg polyline {
   stroke-dashoffset: 42;
   transition: all 0.2s linear;
   transition-delay: 0.15s;
