@@ -64,7 +64,7 @@
                                 }
                             }else{
                                 document.getElementById("activejobs").innerHTML="没有找到任务。";
-                                console.log(xhr.response["error_message"]);
+                                console.log(xhr.response["msg"]);
                             }
                         }
                     }
@@ -72,7 +72,7 @@
                     xhr.send(jobsearchcreteria);
                 }else{
                     document.getElementById("activejobs").innerHTML="没有找到任务条目。";
-                    console.log(xhr1.response["error_message"]);
+                    console.log(xhr1.response["msg"]);
                 }
             }
         }
@@ -189,11 +189,12 @@
                     jobselect.append("checked",1);
                     console.log(jobselect.get("jobid"));
                     console.log(jobselect.get("inventoryid"));
+
                     const xhr  = new XMLHttpRequest();
                     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/updateitemfromoutjob", true);
                     xhr.onreadystatechange= () => {
                         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-                            alert(xhr.response["msg"]);
+                            alert(xhr.response['msg']);
                         }
                     }
                     xhr.responseType="json";
