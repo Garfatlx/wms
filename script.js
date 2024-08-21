@@ -2553,7 +2553,7 @@ function printinventorylabel(content){
         secondline.appendChild(secright);
 
         line.innerHTML = item['container'];
-        secleft.appendChild(line);
+        pagediv.appendChild(line);
 
         const line2 = document.createElement('div');
         line2.className = 'line';
