@@ -24,7 +24,12 @@
         
         var itemsearchcreteria = new FormData();
         itemsearchcreteria.append("inventoryid",inventoryid);
-        itemsearchcreteria.append("date", new Date().toISOString().split('T')[0]);
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const day = String(date.getDate()).padStart(2, '0');
+        const localDate = `${year}-${month}-${day}`;
+        itemsearchcreteria.append("date", localDate);
         itemsearchcreteria.append("activity","出库");
         console.log(itemsearchcreteria.get("date"));
         const xhr1  = new XMLHttpRequest();
