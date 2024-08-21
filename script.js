@@ -1754,7 +1754,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
     detaillineform.appendChild(linecontrol0);
 
-    const checkeddiv=createcheckbox("checked"+id,"checked",item['checked']);
+    const checkeddiv=createcheckbox("checked"+id,"checked",true);
     checkeddiv.style.position="absolute";
     checkeddiv.style.right="10px";
     checkeddiv.style.top="10px";
