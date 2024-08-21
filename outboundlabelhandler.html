@@ -31,15 +31,12 @@
                     });
                     console.log(jobids);
                     var jobsearchcreteria = new FormData();
-                    jobsearchcreteria.append("jobids",jobids);
+                    jobsearchcreteria.append("jobid",jobids);
                     const xhr  = new XMLHttpRequest();  
                     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
                     xhr.onreadystatechange= () => {
                         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
                             if(xhr.response["error_code"]==0){
-                                if (actionToken !== latestActionToken) {
-                                    return;
-                                }
                                 document.getElementById("activejobs").innerHTML="";
                                 searchedjobs=xhr.response["data"];
                                 for (var i = 0; i < xhr.response["data"].length; i++) {
