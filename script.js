@@ -2546,7 +2546,14 @@ function printinventorylabel(content){
         const qrcodecontainer = document.createElement('div');
         qrcodecontainer.className = 'qrcodecontainer';
         // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
-        new QRCode(qrcodecontainer, "https://oath-stone.com/outboundlabelhandler?inventoryid="+item['inventoryid']);
+        const qrCodeOptions = {
+            text: "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid'],
+            width: 80,
+            height: 80,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+        };
+        new QRCode(qrcodecontainer, qrCodeOptions);
         pagediv.appendChild(qrcodecontainer);
     });
     
