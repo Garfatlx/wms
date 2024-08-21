@@ -2548,8 +2548,8 @@ function printinventorylabel(content){
         // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
         const qrCodeOptions = {
             text: "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid'],
-            width: 80,
-            height: 80,
+            width: 128,
+            height: 128,
             colorDark: "#000000",
             colorLight: "#ffffff",
         };
