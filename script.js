@@ -2518,7 +2518,7 @@ function checkitem(array,key){
 
 function printinventorylabel(content){
     var timestamp = new Date().getTime();
-    var printWindow = window.open('', '', 'height=750px,width=500px');
+    var printWindow = window.open('', '', 'height=750px,width=1000px');
     printWindow.document.write('<html><head>');
     printWindow.document.write('<link href="labelprintpage.css?v=' + timestamp + '" rel="stylesheet" type="text/css">');
     printWindow.document.write('</head><body >');
