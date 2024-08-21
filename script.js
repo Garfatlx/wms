@@ -1592,13 +1592,7 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
     
-    var input0label=document.createElement("label");
-    input0label.innerHTML="渠道";
-    input0label.style.marginLeft="10px";
-    input0label.htmlFor="selectchannel";
-    detaillineform.appendChild(input0label);
-    detaillineform.appendChild(selectchannel);
-
+    
     detaillineform.appendChild(document.createElement("br"));
     var input8=document.createElement("input");
     input8.type="text";
@@ -1623,6 +1617,13 @@ function createdetailline(nid, item, activity, cancelable) {
     input9label.className="lineinputlabel";
     detaillineform.appendChild(input9label);
     detaillineform.appendChild(input9);
+
+    var input0label=document.createElement("label");
+    input0label.innerHTML="渠道";
+    input0label.style.marginLeft="10px";
+    input0label.htmlFor="selectchannel";
+    detaillineform.appendChild(input0label);
+    detaillineform.appendChild(selectchannel);
 
     detaillineform.appendChild(document.createElement("br"));
 
@@ -1754,10 +1755,10 @@ function createdetailline(nid, item, activity, cancelable) {
 
     detaillineform.appendChild(linecontrol0);
 
-    const checkeddiv=createcheckbox("checked"+id,"checked",true);
+    const checkeddiv=createcheckbox("checked"+id,"checked",item['checked']);
     checkeddiv.style.position="absolute";
-    checkeddiv.style.right="10px";
-    checkeddiv.style.top="10px";
+    checkeddiv.style.right="7px";
+    checkeddiv.style.top="7px";
     detaillineform.appendChild(checkeddiv);
 
     input1.onblur=function(){
