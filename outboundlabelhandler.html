@@ -157,9 +157,15 @@
             activejob.appendChild(itemLine3);
 
             activejob.addEventListener("click", function() {
-                
             });
 
+            if(replacement){
+                replacement.replaceWith(activejob);
+                activejob.classList.add("fade-in");
+            }else{
+                parentdiv.appendChild(activejob);
+                activejob.classList.add("fade-in");
+            }
             
         }
     </script>
@@ -218,6 +224,13 @@
             position: absolute;
             right: 5;
             top: 2;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </html>
