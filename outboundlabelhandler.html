@@ -157,16 +157,9 @@
             activejob.appendChild(itemLine3);
 
             activejob.addEventListener("click", function() {
-                loaddetail(clickeditem,clickeditem['activity'],activejob);
+                
             });
 
-            if(replacement){
-                replacement.replaceWith(activejob);
-                activejob.classList.add("fade-in");
-            }else{
-                parentdiv.appendChild(activejob);
-                activejob.classList.add("fade-in");
-            }
             
         }
     </script>
@@ -200,6 +193,31 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+        .listitem{
+            margin: 0 0 0 0;
+            display: inline;
+            font-size: 16px;
+        }
+        .itemtitle{
+            font-size: 18px;
+            font-weight: bold;
+            display:block;
+            margin: 0 0 0 0;
+        }
+        .itemline{
+            display: inline-block;
+            width: 100%;
+        }
+        .lineinputlabel{
+            display: inline-block;
+            margin: 0 0 5 5;
+        }
+        .jobstatus{
+            display: inline-block;
+            position: absolute;
+            right: 5;
+            top: 2;
         }
     </style>
 </html>
