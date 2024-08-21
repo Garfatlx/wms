@@ -15,7 +15,6 @@
         var urlObj = new URL(url);
         var urlParams = new URLSearchParams(urlObj.search);
         var inventoryid = urlParams.get('inventoryid');
-        document.getElementById('content').innerHTML = 'Inventory ID: ' + inventoryid;
         
         var itemsearchcreteria = new FormData();
         itemsearchcreteria.append("inventoryid",inventoryid);
