@@ -1756,7 +1756,7 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(linecontrol0);
 
     console.log(item['checked']);
-    const checkeddiv=createcheckbox("checked"+id,"checked",item['checked']);
+    const checkeddiv=createcheckbox("checked"+id,"checked",item['checked'],detaillineform);
     checkeddiv.style.position="absolute";
     checkeddiv.style.right="10px";
     checkeddiv.style.top="7px";
@@ -2707,7 +2707,7 @@ function showinventorymap(currentinventory,activity){
     });
 }
 
-function createcheckbox(id,name,checked){
+function createcheckbox(id,name,checked,parent){
     // Create container div
     const container = document.createElement('div');
     container.className = 'cbxcontainer';
@@ -2750,6 +2750,14 @@ function createcheckbox(id,name,checked){
     // Append input and label to container
     container.appendChild(input);
     container.appendChild(label);
+
+    input.addEventListener('change', function() {
+        if (input.checked) {
+            parent.style.boxShadow = '0px 0px 6px 3px rgb(85 161 40 / 100%);';
+        } else {
+            parent.style.boxShadow = '0px 0px 6px 3px rgba(0,0,0,0.25)';
+        }
+    });
 
     return container;
 }
