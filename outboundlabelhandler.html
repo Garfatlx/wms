@@ -182,6 +182,8 @@
                     jobselect.append("pcs",document.getElementById("pcs").value);
                     jobselect.append("plt",document.getElementById("plt").value);
                     jobselect.append("checked",1);
+                    console.log(jobselect.get("jobid"));
+                    console.log(jobselect.get("inventoryid"));
                     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/updateitemfromoutjob", true);
                     xhr.onreadystatechange= () => {
                         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
