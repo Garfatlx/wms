@@ -1583,26 +1583,6 @@ function createdetailline(nid, item, activity, cancelable) {
     input2label.className="lineinputlabel";
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
-    
-    // var selectchannel=document.createElement("select");
-    // selectchannel.name="channel";
-    // selectchannel.id="selectchannel";
-    // selectchannel.style.width="100px";
-    // selectchannel.className="lineinput";
-    // selectchannel.value=item['channel']?item['channel']:'';
-    // const channels = ['','海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
-    //     channels.forEach(channel => {
-    //         const option = document.createElement('option');
-    //         option.value = channel;
-    //         option.text = channel;
-    //         selectchannel.appendChild(option);
-    //     });
-    // var input0label=document.createElement("label");
-    // input0label.innerHTML="渠道";
-    // input0label.style.marginLeft="10px";
-    // input0label.htmlFor="selectchannel";
-    // detaillineform.appendChild(input0label);
-    // detaillineform.appendChild(selectchannel);
 
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
@@ -1774,6 +1754,11 @@ function createdetailline(nid, item, activity, cancelable) {
 
     detaillineform.appendChild(linecontrol0);
 
+    const checkeddiv=createcheckbox("checked"+id,"checked",item['checked']);
+    checkeddiv.style.position="absolute";
+    checkeddiv.style.right="10px";
+    checkeddiv.style.top="10px";
+    detaillineform.appendChild(checkeddiv);
 
     input1.onblur=function(){
         var location=getlocation(input1.value);
@@ -1783,9 +1768,6 @@ function createdetailline(nid, item, activity, cancelable) {
             input7.value=location[1];
         }
     };
-
-    
-
 
     //!!!!!!!!!
     if(cancelable){
@@ -2522,62 +2504,66 @@ function printinventorylabel(content){
     printWindow.document.write('</body></html>');
 
     content.forEach(function(item) {
-        const pagediv = document.createElement('div');
-        pagediv.className = 'pagediv';
-        printWindow.document.body.appendChild(pagediv);
+        var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
 
-        const line = document.createElement('div');
-        line.style.fontSize = '70px';
-        line.style.fontWeight = '800';
-        line.className = 'line';
-        line.innerHTML = item['container'];
-        pagediv.appendChild(line);
-        const secondline = document.createElement('div');
-        secondline.style.display = 'flex';
-        secondline.style.width = '100%';
-        secondline.style.justifyContent = 'space-between';
-        secondline.style.alignItems = 'center';
-        pagediv.appendChild(secondline);
-        const secleft = document.createElement('div');
-        secleft.style.display = 'flex';
-        secleft.style.width = '80%';
-        secleft.style.flexDirection = 'column';
-        secleft.style.justifyContent = 'center';
-        secleft.style.alignItems = 'center';
-        secondline.appendChild(secleft);
-        const secright = document.createElement('div');
-        secright.style.display = 'flex';
-        secright.style.width = '20%';
-        secright.style.flexDirection = 'column';
-        secright.style.justifyContent = 'center';
-        secright.style.alignItems = 'center';
-        secondline.appendChild(secright);
+        for(var i=0;i<pagenumbers;i++){
+            const pagediv = document.createElement('div');
+            pagediv.className = 'pagediv';
+            printWindow.document.body.appendChild(pagediv);
 
-        const line2 = document.createElement('div');
-        line2.className = 'line';
-        line2.innerHTML = item['label']+"  "+ item['date'];
-        secleft.appendChild(line2);
+            const line = document.createElement('div');
+            line.style.fontSize = '70px';
+            line.style.fontWeight = '800';
+            line.className = 'line';
+            line.innerHTML = item['container'];
+            pagediv.appendChild(line);
+            const secondline = document.createElement('div');
+            secondline.style.display = 'flex';
+            secondline.style.width = '100%';
+            secondline.style.justifyContent = 'space-between';
+            secondline.style.alignItems = 'center';
+            pagediv.appendChild(secondline);
+            const secleft = document.createElement('div');
+            secleft.style.display = 'flex';
+            secleft.style.width = '80%';
+            secleft.style.flexDirection = 'column';
+            secleft.style.justifyContent = 'center';
+            secleft.style.alignItems = 'center';
+            secondline.appendChild(secleft);
+            const secright = document.createElement('div');
+            secright.style.display = 'flex';
+            secright.style.width = '20%';
+            secright.style.flexDirection = 'column';
+            secright.style.justifyContent = 'center';
+            secright.style.alignItems = 'center';
+            secondline.appendChild(secright);
 
-        const line3 = document.createElement('div');
-        line3.className = 'line';
-        line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
-        secleft.appendChild(line3);
+            const line2 = document.createElement('div');
+            line2.className = 'line';
+            line2.innerHTML = item['label']+"  "+ item['date'];
+            secleft.appendChild(line2);
 
-        const qrcodecontainer = document.createElement('div');
-        qrcodecontainer.className = 'qrcodecontainer';
-        // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
-        const qrCodeOptions = {
-            text: "https://oath-stone.com/outboundlabelhandler?inventoryid=" + item['inventoryid'],
-            width: 128,
-            height: 128,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-        };
-        new QRCode(qrcodecontainer, qrCodeOptions);
-        secright.appendChild(qrcodecontainer);
+            const line3 = document.createElement('div');
+            line3.className = 'line';
+            line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
+            secleft.appendChild(line3);
+
+            const qrcodecontainer = document.createElement('div');
+            qrcodecontainer.className = 'qrcodecontainer';
+            // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
+            const qrCodeOptions = {
+                text: "https://oath-stone.com/outboundlabelhandler?inventoryid=" + item['inventoryid'],
+                width: 128,
+                height: 128,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+            };
+            new QRCode(qrcodecontainer, qrCodeOptions);
+            secright.appendChild(qrcodecontainer);
+        }
     });
     
-
+    
     printWindow.print();
 }
 function showinventorymap(currentinventory,activity){
@@ -2717,4 +2703,50 @@ function showinventorymap(currentinventory,activity){
         mapwindow.close();
         console.log(selectedLocationString);
     });
+}
+
+function createcheckbox(id,name,checked){
+    // Create container div
+    const container = document.createElement('div');
+    container.className = 'cbxcontainer';
+
+    // Create input element
+    const input = document.createElement('input');
+    input.style.display = 'none';
+    input.id = id;
+    input.name = name;
+    input.checked = checked;
+    input.type = 'checkbox';
+
+    // Create label element
+    const label = document.createElement('label');
+    label.className = 'check';
+    label.htmlFor = id;
+
+    // Create SVG element
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 18 18');
+    svg.setAttribute('height', '25px');
+    svg.setAttribute('width', '25px');
+
+    // Create path element
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z');
+
+    // Create polyline element
+    const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    polyline.setAttribute('points', '1 9 7 14 15 4');
+
+    // Append path and polyline to SVG
+    svg.appendChild(path);
+    svg.appendChild(polyline);
+
+    // Append SVG to label
+    label.appendChild(svg);
+
+    // Append input and label to container
+    container.appendChild(input);
+    container.appendChild(label);
+
+    return container;
 }
