@@ -2753,9 +2753,9 @@ function createcheckbox(id,name,checked,parent){
 
     input.addEventListener('change', function() {
         if (input.checked) {
-            parent.style.boxShadow = '0px 0px 6px 3px rgb(85,161,40,1);';
+            parent.style.boxShadow = '0px 0px 6px 3px rgba(85,161,40,1);';
         } else {
-            parent.style.boxShadow = '0px 0px 6px 3px rgba(0,0,0,0.25)';
+            parent.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.25)';
         }
     });
 
