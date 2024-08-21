@@ -1,5 +1,6 @@
 @page {
     size: A5 landscape;
+    margin:0;
 }
 .pagediv {
     page-break-after: always;

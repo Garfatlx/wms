@@ -765,7 +765,7 @@ function printSpecificContent(clickeditem) {
         
         
         printWindow.document.write('<html><head><title>打印操作单</title>');
-        printWindow.document.write('<style>@page {size: A4 portrait;}body{font-family: Arial, sans-serif;margin:50px 0px 0px 30px}h1{font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif;margin:50px 0px 0px 30px}h1{font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
         printWindow.document.write('</body></html>');
         // printWindow.document.close();
@@ -2173,7 +2173,7 @@ function sumpcsplt(){
 function printcmr(clickeditem,items){
     var printWindow = window.open('', '', 'height=1123px,width=794px');
         printWindow.document.write('<html><head>');
-        printWindow.document.write('<style>@page {size: A4 portrait;}body{font-family: Arial, sans-serif; font-size:14px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
+        printWindow.document.write('<style>@page {size: A4 portrait;margin:0;}body{font-family: Arial, sans-serif; font-size:14px;margin:0px 0px 0px 0px}h1{font-size:65px; font-weight:600;margin:0 0 0 0;}</style>');
         printWindow.document.write('</head><body >');
         printWindow.document.write('</body></html>');
 
