@@ -2725,9 +2725,9 @@ function createcheckbox(id,name,checked){
 
     // Create SVG element
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 18 18');
-    svg.setAttribute('height', '25px');
-    svg.setAttribute('width', '25px');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('height', '20px');
+    svg.setAttribute('width', '20px');
 
     // Create path element
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
