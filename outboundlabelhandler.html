@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Redirecting...</h1>
-        <div id="content">
+        <div id="activejobs" class="activejobs">
         </div>
     </body>
     <script>
@@ -16,8 +16,194 @@
         var urlParams = new URLSearchParams(urlObj.search);
         var inventoryid = urlParams.get('inventoryid');
         document.getElementById('content').innerHTML = 'Inventory ID: ' + inventoryid;
+        
+        var itemsearchcreteria = new FormData();
+        itemsearchcreteria.append("inventoryid",inventoryid);
+        itemsearchcreteria.append("date", new Date().toISOString().split('T')[0]);
+        itemsearchcreteria.append("activity","出库");
+
+        const xhr1  = new XMLHttpRequest();
+        xhr1.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
+        xhr1.onreadystatechange= () => {
+            if(xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200){
+                if(xhr1.response["error_code"]==0){
+                    var jobids = xhr1.response["data"].map(function(item) {
+                        return item['jobid'];
+                    });
+                    var jobsearchcreteria = new FormData();
+                    jobsearchcreteria.append("jobids",JSON.stringify(jobids));
+                    console.log(jobsearchcreteria.get("jobids"));
+                    const xhr  = new XMLHttpRequest();  
+                    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+                    xhr.onreadystatechange= () => {
+                        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                            if(xhr.response["error_code"]==0){
+                                if (actionToken !== latestActionToken) {
+                                    return;
+                                }
+                                document.getElementById("activejobs").innerHTML="";
+                                searchedjobs=xhr.response["data"];
+                                for (var i = 0; i < xhr.response["data"].length; i++) {
+                                    createjob(xhr.response["data"][i],document.body);
+                                }
+                            }else{
+                                document.getElementById("activejobs").innerHTML="没有找到任务。";
+                            }
+                        }
+                    }
+                    xhr.responseType="json";
+                    xhr.send(jobsearchcreteria);
+                }else{
+                    document.getElementById("activejobs").innerHTML="没有找到任务。";
+                }
+            }
+        }
+        xhr1.responseType="json";
+        xhr1.send(inventoryid);
+
+        
+
+
+
+        function createjob(jobcontent,parentdiv,replacement){
+            const clickeditem=jobcontent;
+            var joblist = document.getElementById("activejobs");
+
+            var activejob = document.createElement("div");
+            activejob.className="activejob";
+            if(jobcontent['status']=="完成"){
+                activejob.style.backgroundColor="rgba(86, 218, 74, 0.3)";
+                
+            }
+            if(jobcontent['status']=="排队中" || jobcontent['status']=="作业中"){
+                activejob.style.backgroundColor="rgba(202, 255, 58, 0.3)";
+            }
+
+            
+            // Create the container div for the first item line
+            const itemLine1 = document.createElement('div');
+            itemLine1.className = 'itemline';
+
+            // Create and append the item title to the first item line
+            const itemTitle1 = document.createElement('p');
+            itemTitle1.className = 'itemtitle';
+            itemTitle1.textContent = jobcontent['customer'];
+            itemLine1.appendChild(itemTitle1);
+            activejob.appendChild(itemLine1);
+
+            //create the container div for the status
+            const jobstatus = document.createElement('div');
+            jobstatus.className = 'jobstatus';
+            jobstatus.textContent = jobcontent['status'];
+            activejob.appendChild(jobstatus);
+
+            // Create and append the standalone item title
+            const itemTitle2 = document.createElement('p');
+            itemTitle2.className = 'itemtitle';
+            itemTitle2.textContent = jobcontent['joblabel'];
+            activejob.appendChild(itemTitle2);
+
+            // Create and append the first horizontal rule
+            const hr1 = document.createElement('hr');
+            activejob.appendChild(hr1);
+            if(jobcontent['activity']=="出库"){
+            // reference line
+                const itemLine4 = document.createElement('div');
+                itemLine4.className = 'itemline';
+
+                // Create and append the list item (time label) to the second item line
+                
+                const listItem5 = document.createElement('p');
+                listItem5.className = 'listitem';
+                listItem5.textContent = "提货码: ";
+                itemLine4.appendChild(listItem5);
+                
+                // Create and append the list item (time value) to the second item line
+                const listItem6 = document.createElement('p');
+                listItem6.className = 'listitem';
+                listItem6.textContent = jobcontent['reference'];
+                itemLine4.appendChild(listItem6);
+
+                // Append the second item line to the document body or a specific container
+                activejob.appendChild(itemLine4);
+            }
+            // Create the container div for the second item line
+            const itemLine2 = document.createElement('div');
+            itemLine2.className = 'itemline';
+
+            // Create and append the list item (time label) to the second item line
+            const listItem2 = document.createElement('p');
+            listItem2.className = 'listitem';
+            listItem2.textContent = "日期:";
+            itemLine2.appendChild(listItem2);
+            // Append the second item line to the document body or a specific container
+            activejob.appendChild(itemLine2);
+            
+            // Create and append the list item (time value) to the second item line
+            const listItem3 = document.createElement('p');
+            listItem3.className = 'listitem';
+            listItem3.textContent = jobcontent['date'];
+            itemLine2.appendChild(listItem3);
+
+        
+
+            // Create and append the second horizontal rule
+            const hr2 = document.createElement('hr');
+            activejob.appendChild(hr2);
+
+            // Create the container div for the third item line
+            const itemLine3 = document.createElement('div');
+            itemLine3.className = 'itemline';
+            const listItem4 = document.createElement('div');
+            listItem4.className = 'listitem';
+            listItem4.innerHTML = jobcontent['overview'];
+            itemLine3.appendChild(listItem4);
+            activejob.appendChild(itemLine3);
+
+            activejob.addEventListener("click", function() {
+                loaddetail(clickeditem,clickeditem['activity'],activejob);
+            });
+
+            if(replacement){
+                replacement.replaceWith(activejob);
+                activejob.classList.add("fade-in");
+            }else{
+                parentdiv.appendChild(activejob);
+                activejob.classList.add("fade-in");
+            }
+            
+        }
     </script>
     <style type="text/css">
-          
+        .activejobs{
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            width: 100%;
+            min-width: 350px;
+            height: calc(100vh - 145px);
+            overflow: auto;
+        }
+          .activejob{
+            border-width: 1px;
+            border-style: solid;
+            border-color: light-grey;
+            border-radius: 2px;
+            margin:6px 6px 6px 6px;
+            padding-left:5px;
+            padding-right:5px;
+            width: 350;
+            min-width: 220;
+            height: 300px;
+            font-size: 18px;
+            display: inline-block;
+            box-shadow:  0px 5px 15px rgba(0,0,0,0.25);
+            transition:0.5s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
     </style>
 </html>
