@@ -1535,6 +1535,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         cancelButton.removeAttribute("disabled");
         printbutton.removeAttribute("disabled");
         printcmrbutton.removeAttribute("disabled");
+        printlabelbutton.removeAttribute("disabled");
         var fileInputs = itemdetail.getElementsByClassName("file");
         for (var i = 0; i < fileInputs.length; i++) {
             fileInputs[i].removeAttribute("disabled");
@@ -2517,7 +2518,7 @@ function checkitem(array,key){
 
 function printinventorylabel(content){
     var timestamp = new Date().getTime();
-    var printWindow = window.open('', '', 'height=1123px,width=794px');
+    var printWindow = window.open('', '', 'height=15cm,width=10cm');
     printWindow.document.write('<html><head>');
     printWindow.document.write('<link href="labelprintpage.css?v=' + timestamp + '" rel="stylesheet" type="text/css">');
     printWindow.document.write('</head><body >');
