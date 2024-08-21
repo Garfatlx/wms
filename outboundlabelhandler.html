@@ -194,6 +194,7 @@
                     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/updateitemfromoutjob", true);
                     xhr.onreadystatechange= () => {
                         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                            console.log(xhr.response);
                             alert(xhr.response['msg']);
                         }
                     }
