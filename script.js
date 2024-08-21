@@ -2547,7 +2547,7 @@ function printinventorylabel(content){
         qrcodecontainer.className = 'qrcodecontainer';
         // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
         const qrCodeOptions = {
-            text: "https://garfat.xyz/index.php/home/Wms/outboundlabelhandler?inventoryid=" + item['inventoryid'],
+            text: "https://oath-stone.com/outboundlabelhandler?inventoryid=" + item['inventoryid'],
             width: 128,
             height: 128,
             colorDark: "#000000",
