@@ -2718,7 +2718,7 @@ function createcheckbox(id,name,checked){
     input.id = id;
     input.name = name;
     input.type = 'checkbox';
-    input.checked = checked;
+    input.checked = checked==1?true:false;
     
 
     // Create label element
