@@ -2710,6 +2710,9 @@ function showinventorymap(currentinventory,activity){
 }
 
 function createcheckbox(id,name,checked,parent){
+    if (checked==1) {
+        parent.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+    }
     // Create container div
     const container = document.createElement('div');
     container.className = 'cbxcontainer';
