@@ -667,6 +667,8 @@ async function addnewjob(clickeditem,detaillinenumber){
             addjobline.append('activity', addjob.get('activity'));
             addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
+            var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
+            addjobline.set('checked', checkedstatus);
 
             httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
                 method: 'POST',
@@ -2718,6 +2720,7 @@ function createcheckbox(id,name,checked,parent){
     input.id = id;
     input.name = name;
     input.type = 'checkbox';
+    input.value = 1;
     input.checked = checked==1?true:false;
     
 
