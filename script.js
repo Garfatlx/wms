@@ -2715,8 +2715,9 @@ function createcheckbox(id,name,checked){
     input.style.display = 'none';
     input.id = id;
     input.name = name;
-    input.checked = checked;
     input.type = 'checkbox';
+    input.checked = checked;
+    
 
     // Create label element
     const label = document.createElement('label');
