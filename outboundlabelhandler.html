@@ -62,6 +62,7 @@
                     xhr.send(jobsearchcreteria);
                 }else{
                     document.getElementById("activejobs").innerHTML="没有找到任务条目。";
+                    console.log(xhr.response["error_message"]);
                 }
             }
         }
