@@ -2754,7 +2754,7 @@ function createcheckbox(id,name,checked,parent){
     input.addEventListener('change', function() {
         if (input.checked) {
             console.log('Checked');
-            parent.style.boxShadow = '0px 0px 6px 3px rgba(0.33,0.63,0.15,1);';
+            parent.style.boxShadow = '0px 0px 6px 3px rgba(0.33,0.63,0.15,1)';
         } else {
             parent.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.25)';
         }
