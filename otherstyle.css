@@ -486,11 +486,11 @@
 }
 
 .check:hover svg {
-  stroke: rgba(86, 218, 74, 0.3);
+  stroke: rgb(60, 177, 50);
 }
 
 .cbxcontainer input:checked + .check svg {
-  stroke: rgba(86, 218, 74, 0.3);
+  stroke: rgb(60, 177, 50);
 }
 
 .cbxcontainer input:checked + .check svg path {
