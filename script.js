@@ -2530,6 +2530,7 @@ function printinventorylabel(content){
         line.style.fontSize = '70px';
         line.style.fontWeight = '800';
         line.className = 'line';
+        line.innerHTML = item['container'];
         pagediv.appendChild(line);
         const secondline = document.createElement('div');
         secondline.style.display = 'flex';
@@ -2551,9 +2552,6 @@ function printinventorylabel(content){
         secright.style.justifyContent = 'center';
         secright.style.alignItems = 'center';
         secondline.appendChild(secright);
-
-        line.innerHTML = item['container'];
-        pagediv.appendChild(line);
 
         const line2 = document.createElement('div');
         line2.className = 'line';
