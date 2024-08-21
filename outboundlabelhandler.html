@@ -12,9 +12,10 @@
     </body>
     <script>
         var url = window.location.href;
-        var urlParams = new URLSearchParams(url);
+        var urlObj = new URL(url);
+        var urlParams = new URLSearchParams(urlObj.search);
         var inventoryid = urlParams.get('inventoryid');
-        document.getElementById('content').innerHTML = url;
+        document.getElementById('content').innerHTML = 'Inventory ID: ' + inventoryid;
     </script>
     <style type="text/css">
           
