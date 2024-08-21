@@ -6,7 +6,7 @@
         
     </head>
     <body>
-        <h1>Redirecting...</h1>
+        <h1>请选择所属当日任务</h1>
         <div id="activejobs" class="activejobs">
         </div>
     </body>
@@ -40,7 +40,7 @@
                                 document.getElementById("activejobs").innerHTML="";
                                 searchedjobs=xhr.response["data"];
                                 for (var i = 0; i < xhr.response["data"].length; i++) {
-                                    createjob(xhr.response["data"][i],document.body);
+                                    createjob(xhr.response["data"][i],document.getElementById("activejobs"));
                                 }
                             }else{
                                 document.getElementById("activejobs").innerHTML="没有找到任务。";
