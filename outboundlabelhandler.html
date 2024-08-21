@@ -73,7 +73,7 @@
 
 
 
-        function createjob(jobcontent,parentdiv,replacement){
+        function createjob(jobcontent,parentdiv){
             const clickeditem=jobcontent;
             var joblist = document.getElementById("activejobs");
 
@@ -169,6 +169,26 @@
             activejob.appendChild(itemLine3);
 
             activejob.addEventListener("click", function() {
+                if (confirm("Are you sure you want to select this job?")) {
+                    const xhr  = new XMLHttpRequest();
+                    var jobselect = new FormData();
+                    jobselect.append("jobid",jobcontent['jobid']);
+                    jobselect.append("inventoryid",inventoryid);
+                    jobselect.append("pcs",document.getElementById("pcs").value);
+                    jobselect.append("plt",document.getElementById("plt").value);
+                    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/updateitemfromoutjob", true);
+                    xhr.onreadystatechange= () => {
+                        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                            alert(xhr.response["error_message"]);
+                        }
+                    }
+                    xhr.responseType="json";
+                    xhr.send(jobselect);
+
+                } else {
+                    // Code to execute if the user cancels
+                    // ...
+                }
             });
 
             if(replacement){
