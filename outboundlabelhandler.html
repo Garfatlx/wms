@@ -183,6 +183,7 @@
                     
                     var jobselect = new FormData();
                     jobselect.append("jobid",jobcontent['jobid']);
+                    jobselect.append("id",1115);
                     jobselect.append("inventoryid",inventoryid);
                     jobselect.append("pcs",document.getElementById("pcs").value);
                     jobselect.append("plt",document.getElementById("plt").value);
@@ -191,7 +192,7 @@
                     console.log(jobselect.get("inventoryid"));
 
                     const xhr  = new XMLHttpRequest();
-                    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/updateitemfromoutjob", true);
+                    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/additem", true);
                     xhr.onreadystatechange= () => {
                         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
                             console.log(xhr.response);
