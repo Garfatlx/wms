@@ -2141,6 +2141,14 @@ async function showinventorydetail(inventory,thisrow){
 
     inventorydetail.appendChild(deleteButton);
 
+    const labelbutton = document.createElement('button');
+    labelbutton.type = 'button';
+    labelbutton.className = 'button';
+    labelbutton.innerHTML = '打印标签';
+    labelbutton.style.fontSize = '14px';
+    labelbutton.style.padding = '5px 5px';
+    inventorydetail.appendChild(labelbutton);
+
     deleteButton.addEventListener('click', async function() {
         const confirmDelete = confirm('确定删除库存编号 ' + inventory['inventoryid'] + ' ?');
         if (confirmDelete) {
@@ -2161,6 +2169,9 @@ async function showinventorydetail(inventory,thisrow){
         }
     });
 
+    labelbutton.addEventListener('click', function() {
+        printinventorylabel(inventory);
+    });
 
 }
 async function showactivitydetail(activity){
