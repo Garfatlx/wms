@@ -697,67 +697,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             });
     });
 
-    //Original code
-    // const xhr  = new XMLHttpRequest();  
-    // xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/addjob", true);
-    // //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
-    // xhr.onreadystatechange= () => {
-    //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-    //         if(xhr.response["error_code"]==0){
-    //             sysresponse.innerHTML=xhr.response["msg"];
-    //         }
-            
-    //     }
-    // }
-    // xhr.responseType="json";
-    // xhr.send(addjob);
-
-    // const detaillineForms = document.getElementsByClassName('detaillineform');
-    // for (let i = 0; i < detaillineForms.length; i++) {
-    //     const addjobline = new FormData(detaillineForms[i]);
-    //     if (addjob.get('activity') == '入库') {
-    //         addjobline.append('container', addjob.get('joblabel'));
-    //         addjobline.set('customer', addjob.get('customer'));
-    //     } else {
-            
-    //         addjobline.append('orderid', addjob.get('orderid'));
-    //         addjobline.append('label', addjob.get('joblabel'));
-    //     }
-    //     addjobline.append('jobid', jobid);
-        
-    //     addjobline.append('activity', addjob.get('activity'));
-    //     addjobline.append('date', addjob.get('date'));
-    //     addjobline.append('status', addjob.get('status'));
-
-    //     console.log(addjobline.get('inventoryid'));
-    //     console.log(addjobline);
-
-    //     console.log(addjobline.get('createtime'));
-    //     const xhr = new XMLHttpRequest();
-    //     xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/additem', true);
-    //     //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
-    //     xhr.onreadystatechange = () => {
-    //         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-    //             console.log(xhr.response['msg']);
-    //         }
-    //     };
-    //     xhr.responseType = 'json';
-    //     xhr.send(addjobline);
-
-    //     if (addjob.get('status') == '完成') {
-    //         const xhr1 = new XMLHttpRequest();
-    //         xhr1.open('POST', 'https://garfat.xyz/index.php/home/Wms/updateinventory', true);
-    //         xhr1.onreadystatechange = () => {
-    //             if (xhr1.readyState === XMLHttpRequest.DONE && xhr1.status === 200) {
-    //                 sysresponse.innerHTML = xhr1.response['msg'];
-    //             }
-    //         };
-    //         xhr1.responseType = 'json';
-    //         xhr1.send(addjobline);
-    //     }
-    // }
     
-    // document.getElementById("itemdetail").innerHTML = "";
 
 }
 async function showinventory(searchcreteria){
@@ -2521,7 +2461,7 @@ function printinventorylabel(content){
     if (!Array.isArray(content)) {
         content = [content];
     }
-    
+
     content.forEach(function(item) {
         var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
 
