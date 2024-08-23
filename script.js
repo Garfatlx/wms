@@ -2516,8 +2516,9 @@ function printinventorylabel(content){
             printWindow.document.body.appendChild(pagediv);
 
             const line = document.createElement('div');
-            line.style.fontSize = '70px';
+            line.style.fontSize = '85px';
             line.style.fontWeight = '800';
+            line.style.height = '128px';
             line.className = 'line';
             line.innerHTML = item['container'];
             pagediv.appendChild(line);
