@@ -2518,6 +2518,10 @@ function printinventorylabel(content){
     printWindow.document.write('</head><body >');
     printWindow.document.write('</body></html>');
 
+    if (!Array.isArray(content)) {
+        content = [content];
+    }
+    
     content.forEach(function(item) {
         var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
 
