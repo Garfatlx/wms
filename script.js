@@ -94,7 +94,6 @@ function login(){
                 searchjobs(searchcreteria);
                 searchinventory(new FormData()).then(data => {
                     searchedinventory = data;
-                    console.log(searchedinventory[0]);
                 });
             }else{
                 document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
@@ -2169,7 +2168,7 @@ async function showactivitydetail(activity){
     
 }
 
-async function selectlocation(){
+async function selectlocation(currentlocation){
     
 }
 
@@ -2542,7 +2541,7 @@ function printinventorylabel(content){
     
     printWindow.print();
 }
-function showinventorymap(currentinventory,activity){
+function showinventorymap(warehouseinventory,activity,currentinventory){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
@@ -2654,7 +2653,7 @@ function showinventorymap(currentinventory,activity){
         }
     }
 
-    currentinventory.forEach(inventory => {
+    warehouseinventory.forEach(inventory => {
         if(inventory['inventoryloc']){
             const locations = inventory['inventoryloc'].split(',');
             locations.forEach(loc => {
@@ -2670,6 +2669,38 @@ function showinventorymap(currentinventory,activity){
         const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
+        });
+    }
+    if(activity['activity']=="入库"){
+        currentinventory.forEach(inventory => {
+            if(inventory['inventoryloc']){
+                const locations = inventory['inventoryloc'].split(',');
+                locations.forEach(loc => {
+                    const location = mapwindow.document.getElementById('div' + loc.trim());
+                    if (location) {
+                        location.style.backgroundColor = 'yellow';
+                        location.querySelector('input').disabled = false;
+                    }
+                });
+            }
+        });
+    }
+    if(activity['activity']=="出库"){
+        const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.disabled = true;
+        });
+        currentinventory.forEach(inventory => {
+            if(inventory['inventoryloc']){
+                const locations = inventory['inventoryloc'].split(',');
+                locations.forEach(loc => {
+                    const location = mapwindow.document.getElementById('div' + loc.trim());
+                    if (location) {
+                        location.style.backgroundColor = 'yellow';
+                        location.querySelector('input').disabled = false;
+                    }
+                });
+            }
         });
     }
     form.addEventListener('submit', function(event) {
