@@ -732,7 +732,7 @@ async function searchinventory(searchcreteria){
         method: 'POST',
         body: searchcreteria,
       });
-    const data = response.json();
+    const data = await response.json();
     return data['data'];
 }
 function createinventorytable(data){
