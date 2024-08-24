@@ -1686,34 +1686,36 @@ function createdetailline(nid, item, activity, cancelable) {
     selectlocationbutton.style.padding = "5px 10px";
     selectlocationbutton.style.margin = "0px 10px";
 
+    linecontrol0.appendChild(selectlocationbutton);
     selectlocationbutton.addEventListener("click", function() {
         showinventorymap(searchedinventory,activity,item,locationinput);
     });
-    var input6 = document.createElement("input");
-    input6.type = "text";
-    input6.id = "locationa"+id;
-    input6.name = "locationa";
-    input6.className = "lineinput";
-    input6.style.width="40px";
-    input6.value = item != '' ? item['locationa'] : '';
-    var input6label = document.createElement("label");
-    input6label.innerHTML = "仓库";
-    input6label.className = "lineinputlabel";
-    linecontrol0.appendChild(input6label);
-    linecontrol0.appendChild(input6);
 
-    var input7 = document.createElement("input");
-    input7.type = "text";
-    input7.id = "locationb"+id;
-    input7.name = "locationb";
-    input7.className = "lineinput";
-    input7.style.width="40px";
-    input7.value = item != '' ? item['locationb'] : '';
-    var input7label = document.createElement("label");
-    input7label.innerHTML = "区域";
-    input7label.className = "lineinputlabel";
-    linecontrol0.appendChild(input7label);
-    linecontrol0.appendChild(input7);
+    // var input6 = document.createElement("input");
+    // input6.type = "text";
+    // input6.id = "locationa"+id;
+    // input6.name = "locationa";
+    // input6.className = "lineinput";
+    // input6.style.width="40px";
+    // input6.value = item != '' ? item['locationa'] : '';
+    // var input6label = document.createElement("label");
+    // input6label.innerHTML = "仓库";
+    // input6label.className = "lineinputlabel";
+    // linecontrol0.appendChild(input6label);
+    // linecontrol0.appendChild(input6);
+
+    // var input7 = document.createElement("input");
+    // input7.type = "text";
+    // input7.id = "locationb"+id;
+    // input7.name = "locationb";
+    // input7.className = "lineinput";
+    // input7.style.width="40px";
+    // input7.value = item != '' ? item['locationb'] : '';
+    // var input7label = document.createElement("label");
+    // input7label.innerHTML = "区域";
+    // input7label.className = "lineinputlabel";
+    // linecontrol0.appendChild(input7label);
+    // linecontrol0.appendChild(input7);
 
     
     
