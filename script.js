@@ -2715,6 +2715,8 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         currentiteminwarehouse.forEach(loc => {
             const location = mapwindow.document.getElementById('div' + loc.trim());
             if (location) {
+                location.style.backgroundColor = '';
+                location.style.opacity = 1;
                 location.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
                 location.querySelector('input').disabled = false;
             }
