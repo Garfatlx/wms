@@ -2731,7 +2731,18 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         const selectedLocationString = selectedLocations.join(',');
         mapwindow.close();
         console.log(selectedLocationString);
-        inputelement.value = selectedLocationString;
+        if(activity=="出库"){
+            const updatedInventory = currentinventory.map(item => {
+                if (item['inventoryloc']) {
+                    const locations = item['inventoryloc'].split(',');
+                    const updatedLocations = locations.filter(loc => !selectedLocations.includes(loc.trim()));
+                    inputelement.value = updatedLocations.join(',');
+                    console.log(inputelement.value);
+                }
+            });
+        }else{
+            inputelement.value = selectedLocationString;
+        }
     });
 }
 
