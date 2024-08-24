@@ -468,7 +468,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory);
+        showinventorymap(searchedinventory,"");
     });
 
 }
@@ -1506,6 +1506,14 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input1label);
     detaillineform.appendChild(input1);
 
+    input1.onblur=function(){
+        // var location=getlocation(input1.value);
+        // if(location!=null){
+            
+        //     input6.value=location[0];
+        //     input7.value=location[1];
+        // }
+    };
     
     var input2=document.createElement("input");
     input2.type="text";
@@ -1648,6 +1656,11 @@ function createdetailline(nid, item, activity, cancelable) {
     input10.value =timeorder + id;
     detaillineform.appendChild(input10);
 
+    var locationinput = document.createElement("input");
+    locationinput.type = "hidden";
+    locationinput.name = "inventoryloc";
+    locationinput.value = item['inventoryloc'] ? item['inventoryloc'] : '';
+    detaillineform.appendChild(locationinput);
     
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
@@ -1665,6 +1678,17 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(input5label);
     linecontrol0.appendChild(input5);
 
+    const selectlocationbutton = document.createElement("button");
+    selectlocationbutton.type = "button";
+    selectlocationbutton.className = "button";
+    selectlocationbutton.innerHTML = "选择库位";
+    selectlocationbutton.style.fontSize = "14px";
+    selectlocationbutton.style.padding = "5px 10px";
+    selectlocationbutton.style.margin = "0px 10px";
+
+    selectlocationbutton.addEventListener("click", function() {
+        showinventorymap(searchedinventory,activity,item,locationinput);
+    });
     var input6 = document.createElement("input");
     input6.type = "text";
     input6.id = "locationa"+id;
@@ -1715,14 +1739,7 @@ function createdetailline(nid, item, activity, cancelable) {
     checkeddiv.style.top="7px";
     detaillineform.appendChild(checkeddiv);
 
-    input1.onblur=function(){
-        var location=getlocation(input1.value);
-        if(location!=null){
-            
-            input6.value=location[0];
-            input7.value=location[1];
-        }
-    };
+    
 
     //!!!!!!!!!
     if(cancelable){
@@ -2541,7 +2558,7 @@ function printinventorylabel(content){
     
     printWindow.print();
 }
-function showinventorymap(warehouseinventory,activity,currentinventory){
+function showinventorymap(warehouseinventory,activity,currentinventory,inputelement){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
@@ -2665,7 +2682,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory){
             });
         }
     });
-    if (activity === "") {
+    if (activity == "") {
         const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
@@ -2709,6 +2726,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory){
         const selectedLocationString = selectedLocations.join(',');
         mapwindow.close();
         console.log(selectedLocationString);
+        inputelement.value = selectedLocationString;
     });
 }
 
