@@ -92,8 +92,10 @@ function login(){
                 searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
                 showjobsearchbox();
                 searchjobs(searchcreteria);
-                searchedinventory=searchinventory(new FormData());
-                console.log(searchedinventory[0]);
+                searchinventory(new FormData()).then(data => {
+                    searchedinventory = data;
+                    console.log(searchedinventory[0]);
+                });
             }else{
                 document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
                 
