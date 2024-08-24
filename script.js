@@ -2673,7 +2673,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
     }
 
     warehouseinventory.forEach(inventory => {
-        if(inventory['inventoryloc']){
+        if(inventory['inventoryloc'] ){
             const locations = inventory['inventoryloc'].split(',');
             locations.forEach(loc => {
                 const location = mapwindow.document.getElementById('div' + loc.trim());
@@ -2709,6 +2709,15 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
+        });
+        const foundItem = warehouseinventory.find(item => item.inventoryid === currentinventory[0]['inventoryid']);
+        const currentiteminwarehouse = foundItem['inventoryloc'].split(',');
+        currentiteminwarehouse.forEach(loc => {
+            const location = mapwindow.document.getElementById('div' + loc.trim());
+            if (location) {
+                location.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+                location.querySelector('input').disabled = false;
+            }
         });
         currentinventory.forEach(inventory => {
             if(inventory['inventoryloc']){
