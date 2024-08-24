@@ -2690,7 +2690,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
             checkbox.disabled = true;
         });
     }
-    if(activity['activity']=="入库"){
+    if(activity=="入库"){
         currentinventory.forEach(inventory => {
             if(inventory['inventoryloc']){
                 const locations = inventory['inventoryloc'].split(',');
@@ -2704,7 +2704,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
             }
         });
     }
-    if(activity['activity']=="出库"){
+    if(activity=="出库"){
         const checkboxes = mapwindow.document.querySelectorAll('input[name="inventoryloc"]');
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
