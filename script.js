@@ -728,7 +728,7 @@ async function showinventory(searchcreteria){
     activejobs.appendChild(table);
 }
 async function searchinventory(searchcreteria){
-    const response = fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
         body: searchcreteria,
       });
