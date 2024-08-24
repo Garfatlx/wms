@@ -1734,7 +1734,6 @@ function createdetailline(nid, item, activity, cancelable) {
 
     detaillineform.appendChild(linecontrol0);
 
-    console.log(item['checked']);
     const checkeddiv=createcheckbox("checked"+id,"checked",item['checked'],detaillineform);
     checkeddiv.style.position="absolute";
     checkeddiv.style.right="10px";
@@ -2691,6 +2690,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         });
     }
     if(activity=="入库"){
+        console.log(currentinventory);
         currentinventory.forEach(inventory => {
             if(inventory['inventoryloc']){
                 const locations = inventory['inventoryloc'].split(',');
