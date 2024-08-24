@@ -92,6 +92,8 @@ function login(){
                 searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
                 showjobsearchbox();
                 searchjobs(searchcreteria);
+                searchedinventory=searchinventory(new FormData());
+                console.log(searchedinventory);
             }else{
                 document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
                 
@@ -724,6 +726,14 @@ async function showinventory(searchcreteria){
     // Append table to activejobs element
     const table = createinventorytable(data['data']);
     activejobs.appendChild(table);
+}
+async function searchinventory(searchcreteria){
+    const response = fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+        method: 'POST',
+        body: searchcreteria,
+      });
+    const data = response.json();
+    return data['data'];
 }
 function createinventorytable(data){
 
@@ -2154,6 +2164,10 @@ async function showactivitydetail(activity){
     var job = data["data"][0];
     createActivityDetailItem('任务状态', job['status'] +"  任务状态不是“完成”时，出入动作信息将不会被记录到库存。");
     createjob(job,activitydetail);
+    
+}
+
+async function selectlocation(){
     
 }
 
