@@ -1688,7 +1688,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
     linecontrol0.appendChild(selectlocationbutton);
     selectlocationbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,activity,item,locationinput);
+        showinventorymap(searchedinventory,activity,[item],locationinput);
     });
 
     // var input6 = document.createElement("input");
