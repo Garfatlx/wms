@@ -2654,6 +2654,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
 
             const sku = document.createElement('div');
             sku.className = 'sku';
+            sku.id = "div"+skuid;
             const skuinput = document.createElement('input');
             skuinput.type = 'checkbox';
             skuinput.name = 'inventoryloc';
@@ -2697,7 +2698,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
                 locations.forEach(loc => {
                     const location = mapwindow.document.getElementById('div' + loc.trim());
                     if (location) {
-                        location.style.backgroundColor = 'yellow';
+                        location.querySelector('input').checked = true;
                         location.querySelector('input').disabled = false;
                     }
                 });
@@ -2715,7 +2716,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
                 locations.forEach(loc => {
                     const location = mapwindow.document.getElementById('div' + loc.trim());
                     if (location) {
-                        location.style.backgroundColor = 'yellow';
+                        location.querySelector('input').checked = true;
                         location.querySelector('input').disabled = false;
                     }
                 });
