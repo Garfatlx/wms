@@ -1689,7 +1689,10 @@ function createdetailline(nid, item, activity, cancelable) {
 
     linecontrol0.appendChild(selectlocationbutton);
     selectlocationbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,activity,[item],locationinput);
+        // showinventorymap(searchedinventory,activity,[item],locationinput);
+        showinventorymap(searchedinventory,activity,[item],locationinput,function(selectedlocations){
+            locationinput.value = selectedlocations;
+        });
     });
 
     // var input6 = document.createElement("input");
@@ -2118,6 +2121,18 @@ async function showinventorydetail(inventory,thisrow){
     labelbutton.style.fontSize = '14px';
     labelbutton.style.padding = '5px 5px';
     inventorydetail.appendChild(labelbutton);
+
+    const selectlocationbutton = document.createElement('button');
+    selectlocationbutton.type = 'button';
+    selectlocationbutton.className = 'button';
+    selectlocationbutton.innerHTML = '选择库位';
+    selectlocationbutton.style.fontSize = '14px';
+    selectlocationbutton.style.padding = '5px 5px';
+    inventorydetail.appendChild(selectlocationbutton);
+
+    selectlocationbutton.addEventListener('click', function() {
+        // showinventorymap(searchedinventory,"",[inventory],thisrow);
+    });
 
     deleteButton.addEventListener('click', async function() {
         const confirmDelete = confirm('确定删除库存编号 ' + inventory['inventoryid'] + ' ?');
@@ -2560,7 +2575,7 @@ function printinventorylabel(content){
     
     printWindow.print();
 }
-function showinventorymap(warehouseinventory,activity,currentinventory,inputelement){
+function showinventorymap(warehouseinventory,activity,currentinventory,inputelement,callback){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
@@ -2743,9 +2758,11 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         const selectedLocationString = selectedLocations.join(',');
         mapwindow.close();
         console.log(selectedLocationString);
-        
-        inputelement.value = selectedLocationString;
-        
+        if (callback) {
+            callback(selectedLocationString);
+        }else{
+            inputelement.value = selectedLocationString;
+        }
     });
 }
 
