@@ -2724,6 +2724,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                 locations.forEach(loc => {
                     const location = mapwindow.document.getElementById('div' + loc.trim());
                     if (location) {
+                        location.style.backgroundColor = '';
                         location.querySelector('input').checked = true;
                         location.querySelector('input').disabled = false;
                     }
