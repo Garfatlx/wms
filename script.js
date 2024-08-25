@@ -2133,7 +2133,7 @@ async function showinventorydetail(inventory,thisrow){
     selectlocationbutton.addEventListener('click', function() {
         showinventorymap(searchedinventory,"入库",[inventory],function(selectedlocations){
             var updateinventory = new FormData();
-            updateinventory.append('id', inventory['id']);
+            updateinventory.append('inventoryid', inventory['inventoryid']);
             updateinventory.append('inventoryloc', selectedlocations);
             fetch('https://garfat.xyz/index.php/home/Wms/updateinventory', {
                 method: 'POST',
