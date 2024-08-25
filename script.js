@@ -1,6 +1,7 @@
 var searchedjobs;
 var access;
 var searchedinventory;
+var filteredinventory;
 var latestActionToken;
 
 window.addEventListener("load", function(){
@@ -440,7 +441,8 @@ function showinventorysearchbox(){
 
         const activeJobs = document.getElementById('activejobs');
         activeJobs.innerHTML = '';
-        activeJobs.appendChild(createinventorytable(filterinventory(searchcreteria)));
+        filteredinventory = filterinventory(searchcreteria);
+        activeJobs.appendChild(createinventorytable(filteredinventory));
         
     });
 
@@ -469,7 +471,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,"");
+        showinventorymap(searchedinventory,"入库",filteredinventory);
     });
 
 }
