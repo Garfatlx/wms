@@ -92,9 +92,6 @@ function login(){
                 searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
                 showjobsearchbox();
                 searchjobs(searchcreteria);
-                searchinventory(new FormData()).then(data => {
-                    searchedinventory = data;
-                });
             }else{
                 document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
                 
@@ -134,6 +131,10 @@ function searchjobs(searchcreteria){
     xhr.responseType="json";
     xhr.send(searchcreteria);
 
+    // pre load inventory data
+    searchinventory(new FormData()).then(data => {
+        searchedinventory = data;
+    });
 }
 function searchitems(searchcreteria){
     const xhr  = new XMLHttpRequest();  
