@@ -2144,6 +2144,8 @@ async function showinventorydetail(inventory,thisrow){
                 if (data['error_code'] == 0) {
                     alert('库存编号 ' + inventory['inventoryid'] + ' 的库位已更新');
                     inventory['inventoryloc'] = selectedlocations;
+                }else{
+                    alert(data['msg']);
                 }
             });
         });
