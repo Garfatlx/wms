@@ -2142,7 +2142,7 @@ async function showinventorydetail(inventory,thisrow){
                 return response.json();
             }).then(function(data) {
                 if (data['error_code'] == 0) {
-                    alert('库存编号 ' + inventory['inventoryid'] + ' 的库位已更新');
+                    alert(data['msg']);
                     inventory['inventoryloc'] = selectedlocations;
                 }else{
                     alert(data['msg']);
