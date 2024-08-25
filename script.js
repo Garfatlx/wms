@@ -746,7 +746,7 @@ function createinventorytable(data){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数", "仓库", "区域"];
+    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -766,7 +766,7 @@ function createinventorytable(data){
     data.forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
-        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.locationa, item.locationb];
+        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
@@ -1690,7 +1690,7 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(selectlocationbutton);
     selectlocationbutton.addEventListener("click", function() {
         // showinventorymap(searchedinventory,activity,[item],locationinput);
-        showinventorymap(searchedinventory,activity,[item],locationinput,function(selectedlocations){
+        showinventorymap(searchedinventory,activity,[item],function(selectedlocations){
             locationinput.value = selectedlocations;
         });
     });
@@ -2131,7 +2131,22 @@ async function showinventorydetail(inventory,thisrow){
     inventorydetail.appendChild(selectlocationbutton);
 
     selectlocationbutton.addEventListener('click', function() {
-        // showinventorymap(searchedinventory,"",[inventory],thisrow);
+        showinventorymap(searchedinventory,"入库",[inventory],function(selectedlocations){
+            var updateinventory = new FormData();
+            updateinventory.append('id', inventory['id']);
+            updateinventory.append('inventoryloc', selectedlocations);
+            fetch('https://garfat.xyz/index.php/home/Wms/updateinventory', {
+                method: 'POST',
+                body: updateinventory,
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                if (data['error_code'] == 0) {
+                    alert('库存编号 ' + inventory['inventoryid'] + ' 的库位已更新');
+                    inventory['inventoryloc'] = selectedlocations;
+                }
+            });
+        });
     });
 
     deleteButton.addEventListener('click', async function() {
@@ -2149,7 +2164,6 @@ async function showinventorydetail(inventory,thisrow){
                 alert('库存编号 ' + inventory['inventoryid'] + ' 已删除');
                 thisrow.remove();
                 itemdetail.innerHTML = '';
-                
             }
         }
     });
@@ -2199,10 +2213,6 @@ async function showactivitydetail(activity){
     var job = data["data"][0];
     createActivityDetailItem('任务状态', job['status'] +"  任务状态不是“完成”时，出入动作信息将不会被记录到库存。");
     createjob(job,activitydetail);
-    
-}
-
-async function selectlocation(currentlocation){
     
 }
 
@@ -2575,7 +2585,7 @@ function printinventorylabel(content){
     
     printWindow.print();
 }
-function showinventorymap(warehouseinventory,activity,currentinventory,inputelement,callback){
+function showinventorymap(warehouseinventory,activity,currentinventory,callback){
     var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     mapwindow.document.write('<html><head>');
@@ -2760,8 +2770,6 @@ function showinventorymap(warehouseinventory,activity,currentinventory,inputelem
         console.log(selectedLocationString);
         if (callback) {
             callback(selectedLocationString);
-        }else{
-            inputelement.value = selectedLocationString;
         }
     });
 }
