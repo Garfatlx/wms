@@ -471,6 +471,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
+        console.log(filteredinventory);
         showinventorymap(searchedinventory,"入库",filteredinventory);
     });
 
