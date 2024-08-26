@@ -1724,8 +1724,6 @@ function createdetailline(nid, item, activity, cancelable) {
     // input7label.className = "lineinputlabel";
     // linecontrol0.appendChild(input7label);
     // linecontrol0.appendChild(input7);
-
-    
     
     var input11 = document.createElement("input");
     input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
