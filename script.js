@@ -270,6 +270,7 @@ function showjobsearchbox(){
     divContainer1.appendChild(noshowcompletedlabel);
 
     form.appendChild(divContainer1);
+
     // Append form to body or any other container
     searchbox.appendChild(form);
 
@@ -471,7 +472,6 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        console.log(filteredinventory);
         showinventorymap(searchedinventory,"入库",filteredinventory);
     });
 
@@ -724,6 +724,7 @@ async function showinventory(searchcreteria){
         return;
     }
     searchedinventory = data['data'];
+    filteredinventory = data['data'];
     showinventorymap.disabled = false;
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
