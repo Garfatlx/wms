@@ -2103,8 +2103,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
     createInventoryDetailItem('创建时间', inventory['date']);
-    createInventoryDetailItem('仓库', inventory['locationa']);
-    createInventoryDetailItem('区域', inventory['locationb']);
+    createInventoryDetailItem('库位', inventory['inventoryloc']);
 
     inventorydetail.appendChild(document.createElement('br'));
     const deleteButton = document.createElement('button');

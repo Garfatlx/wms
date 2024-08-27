@@ -15,6 +15,8 @@
         </form>
         <div id="activejobs" class="activejobs">
         </div>
+        <button type="button" id="selectotherjob">从当天其他任务中选择</button>
+        <button type="button" id="showinventorydetail">显示库存详情</button>
     </body>
     <script>
         var url = window.location.href;
@@ -272,6 +274,28 @@
             position: absolute;
             right: 5;
             top: 2;
+        }
+        .button {
+            font-family: inherit;
+            border: none;
+            /* outline: 1px dotted rgb(37, 37, 37);
+            outline-offset: -4px; */
+            background: hsl(0deg 0% 75%);
+            box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100vw;
+            max-width: 500px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .button:active {
+            box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+            background: hsl(0, 0%, 88%);
         }
         .fade-in {
             animation: fadeIn 0.8s ease-in-out;
