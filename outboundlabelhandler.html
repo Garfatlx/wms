@@ -15,8 +15,10 @@
         </form>
         <div id="activejobs" class="activejobs">
         </div>
-        <button type="button" id="selectotherjobbut" class="button">从当天其他任务中选择</button>
-        <button type="button" id="showinventorydetailbut" class="button">显示库存详情</button>
+        <div id="buttons" style="margin-top: 20px;">
+            <button type="button" id="selectotherjobbut" class="button">从当天其他任务中选择</button>
+            <button type="button" id="showinventorydetailbut" class="button">显示库存详情</button>
+        </div>
     </body>
     <script>
         var url = window.location.href;
@@ -98,7 +100,7 @@
                     alert(data['msg']);
                 }
             });
-            
+
         });
 
 
