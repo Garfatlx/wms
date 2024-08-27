@@ -103,6 +103,30 @@
 
         });
 
+        selectotherjobbut.addEventListener('click', function() {
+            var jobsearchcreteria = new FormData();
+            jobsearchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+            jobsearchcreteria.append("activity","出库");
+            const xhr  = new XMLHttpRequest();  
+            xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+            xhr.onreadystatechange= () => {
+                if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+                    if(xhr.response["error_code"]==0){
+                        document.getElementById("activejobs").innerHTML="";
+                        searchedjobs=xhr.response["data"];
+                        for (var i = 0; i < xhr.response["data"].length; i++) {
+                            createjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                        }
+                    }else{
+                        document.getElementById("activejobs").innerHTML="没有找到任务。";
+                        console.log(xhr.response["msg"]);
+                    }
+                }
+            }
+            xhr.responseType="json";
+            xhr.send(jobsearchcreteria);
+        });
+
 
 
         function createjob(jobcontent,parentdiv,replacement){
@@ -310,8 +334,16 @@
             labelbutton.addEventListener('click', function() {
                 // printinventorylabel(inventory);
             });
-
-            }
+        }
+        function getformatteddate(targetdate){
+            var today = new Date();
+            var date = new Date(today);
+            date.setDate(date.getDate() + targetdate);
+            var year = date.getFullYear();
+            var month = (1 + date.getMonth()).toString().padStart(2, '0');
+            var day = date.getDate().toString().padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
     </script>
     <style type="text/css">
         .activejobs{
