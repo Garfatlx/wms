@@ -15,8 +15,8 @@
         </form>
         <div id="activejobs" class="activejobs">
         </div>
-        <button type="button" id="selectotherjob">从当天其他任务中选择</button>
-        <button type="button" id="showinventorydetail">显示库存详情</button>
+        <button type="button" id="selectotherjob" class="button">从当天其他任务中选择</button>
+        <button type="button" id="showinventorydetail" class="button">显示库存详情</button>
     </body>
     <script>
         var url = window.location.href;
@@ -228,7 +228,6 @@
             align-items: flex-start;
             width: 100%;
             min-width: 350px;
-            height: calc(100vh - 145px);
             overflow: auto;
         }
           .activejob{
@@ -291,6 +290,7 @@
             justify-content: center;
             text-align: center;
             transition: 0.2s;
+            display: block;
         }
 
         .button:active {
