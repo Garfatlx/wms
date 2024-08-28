@@ -68,7 +68,6 @@ body {
     align-items: center;
     justify-content: center;
     opacity: 0.4;
-    z-index: 1;
     user-select: none; 
     background-color: #ffffff;
     position: relative;
