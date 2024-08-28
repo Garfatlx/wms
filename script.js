@@ -472,7 +472,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,"入库",filteredinventory);
+        showinventorymap(searchedinventory,"",filteredinventory);
     });
 
 }
@@ -2724,9 +2724,23 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
         });
+        if(currentinventory){
+            currentinventory.forEach(inventory => {
+                if(inventory['inventoryloc']){
+                    const locations = inventory['inventoryloc'].split(',');
+                    locations.forEach(loc => {
+                        const location = mapwindow.document.getElementById('div' + loc.trim());
+                        if (location) {
+                            location.style.backgroundColor = '';
+                            location.querySelector('input').checked = true;
+                            location.querySelector('input').disabled = true;
+                        }
+                    });
+                }
+            });
+        }
     }
     if(activity=="入库"){
-        console.log(currentinventory);
         currentinventory.forEach(inventory => {
             if(inventory['inventoryloc']){
                 const locations = inventory['inventoryloc'].split(',');
