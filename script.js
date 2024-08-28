@@ -2709,6 +2709,12 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                 if (location) {
                     location.style.backgroundColor = 'grey';
                     location.querySelector('input').disabled = true;
+
+                    location.classList.add('tooltip-container');
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'tooltip';
+                    tooltip.innerHTML = inventory['customer'] + '<br>' + inventory['container'] + '<br>' + inventory['label']+ '<br>' + inventory['date']+ '<br>' + inventory['pcs'] + '件 ' + inventory['plt'] + '托';
+                    location.appendChild(tooltip);
                 }
             });
         }
