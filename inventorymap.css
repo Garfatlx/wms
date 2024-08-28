@@ -68,7 +68,7 @@ body {
     align-items: center;
     justify-content: center;
     opacity: 0.4;
-    z-index: auto;
+    z-index: 1;
     user-select: none; 
     background-color: #ffffff;
     position: relative;
@@ -145,7 +145,7 @@ body {
     padding: 10px;
     border-radius: 4px;
     transition: opacity 0.3s, visibility 0.3s, top 0.3s, background 0.3s;
-    z-index: auto;
+    z-index: 2;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -160,11 +160,11 @@ body {
     transform: translateX(-50%);
 }
 
-.tooltip-container:hover .tooltip {
+.sku:hover .tooltip {
     top: 120%;
     opacity: 1;
     visibility: visible;
     background: #abeaf0;
     transform: translate(-50%, -5px);
-    z-index: auto;
+    z-index: 2;
 }
