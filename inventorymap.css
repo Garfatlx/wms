@@ -145,8 +145,8 @@ body {
     padding: 10px;
     border-radius: 4px;
     transition: opacity 0.3s, visibility 0.3s, top 0.3s, background 0.3s;
-    z-index: 2;
-    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+    z-index: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .tooltip::before {
@@ -166,5 +166,5 @@ body {
     visibility: visible;
     background: #abeaf0;
     transform: translate(-50%, -5px);
-    z-index: 2;
+    z-index: auto;
 }
