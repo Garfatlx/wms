@@ -71,6 +71,7 @@ body {
     z-index: 1;
     user-select: none; 
     background-color: #ffffff;
+    position: relative;
 }
 
 .sku input[type="checkbox"] {
