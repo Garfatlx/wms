@@ -472,7 +472,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,"",filteredinventory);
+        showinventorymap(searchedinventory,"入库",filteredinventory);
     });
 
 }
