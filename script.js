@@ -472,7 +472,7 @@ function showinventorysearchbox(){
     }
 
     inventorymapbutton.addEventListener("click", function() {
-        showinventorymap(searchedinventory,"入库",filteredinventory);
+        showinventorymap(searchedinventory,"",filteredinventory);
     });
 
 }
@@ -2709,6 +2709,12 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                 if (location) {
                     location.style.backgroundColor = 'grey';
                     location.querySelector('input').disabled = true;
+
+                    // location.classList.add('tooltip-container');
+                    const tooltip = document.createElement('span');
+                    tooltip.className = 'tooltip';
+                    tooltip.innerHTML = inventory['customer'] + '<br>' + inventory['container'] + '<br>' + inventory['label']+ '<br>' + inventory['date']+ '<br>' + inventory['pcs'] + '件 ' + inventory['plt'] + '托';
+                    location.appendChild(tooltip);
                 }
             });
         }
@@ -2718,9 +2724,23 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
         checkboxes.forEach(checkbox => {
             checkbox.disabled = true;
         });
+        if(currentinventory){
+            currentinventory.forEach(inventory => {
+                if(inventory['inventoryloc']){
+                    const locations = inventory['inventoryloc'].split(',');
+                    locations.forEach(loc => {
+                        const location = mapwindow.document.getElementById('div' + loc.trim());
+                        if (location) {
+                            location.style.backgroundColor = '';
+                            location.querySelector('input').checked = true;
+                            location.querySelector('input').disabled = true;
+                        }
+                    });
+                }
+            });
+        }
     }
     if(activity=="入库"){
-        console.log(currentinventory);
         currentinventory.forEach(inventory => {
             if(inventory['inventoryloc']){
                 const locations = inventory['inventoryloc'].split(',');
