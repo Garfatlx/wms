@@ -1896,6 +1896,7 @@ function uploadimage(jobid, file, field) {
     formData.append('jobid', jobid);
     formData.append('field', field);
     formData.append('file', file);
+    console.log(formData.get('file'));
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/saveimg', true);
     xhr.onreadystatechange = () => {
