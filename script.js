@@ -2467,7 +2467,7 @@ function printSpecificContent(clickeditem) {
         tempElement.appendChild(temph1);
         var temph1 = document.createElement('h1');
         temph1.style.fontSize = headerfontsize + 'px';
-        temph1.innerHTML = clickeditem['joblabel'];
+        temph1.innerHTML = clickeditem['reference']?clickeditem['joblabel']+ ' ' + clickeditem['reference']:clickeditem['joblabel'];
         tempElement.appendChild(temph1);
         var hr = document.createElement('hr');
         tempElement.appendChild(hr);
