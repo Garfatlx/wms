@@ -115,7 +115,9 @@
                         document.getElementById("activejobs").innerHTML="";
                         searchedjobs=xhr.response["data"];
                         for (var i = 0; i < xhr.response["data"].length; i++) {
-                            createjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                            if(xhr.response["data"][i]['status']!="完成"){
+                                createjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                            }
                         }
                     }else{
                         document.getElementById("activejobs").innerHTML="没有找到任务。";
