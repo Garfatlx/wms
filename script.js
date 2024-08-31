@@ -1714,7 +1714,8 @@ function createdetailline(nid, item, activity, cancelable) {
             inputs.forEach(function(input) {
                 vaspassdata[input.name] = input.value;
             });
-
+            vaspassdata['customer'] = document.getElementsByName("customer")[0].value;
+            vaspassdata['container'] = document.getElementsByName("container")[0].value;
             addvas(vaspassdata, function(vasitem) {
                 
             });
@@ -2917,30 +2918,33 @@ function addvas(clickeditem,callback){
     form.appendChild(submitbutton);
     vaswindow.document.body.appendChild(form);
 
+    const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
+    serviceinput.querySelector('input').style.width = '150px';
+    serviceinput.style.fontSize = '20px';
+    serviceinput.style.fontWeight = 'bold';
+    form.appendChild(serviceinput);
 
     const customerinput = createinputelement('text','客户','customer',clickeditem['customer']?clickeditem['customer']:'');
-    customerinput.querySelector('input').style.width = '50px';
+    customerinput.querySelector('input').style.width = '150px';
     form.appendChild(customerinput);
 
     const containerinput = createinputelement('text','箱号','container',clickeditem['container']?clickeditem['container']:'');
-    containerinput.querySelector('input').style.width = '50px';
+    containerinput.querySelector('input').style.width = '150px';
     form.appendChild(containerinput);
 
     const labelinput = createinputelement('text','仓点','label',clickeditem['label']?clickeditem['label']:'');
-    labelinput.querySelector('input').style.width = '50px';
+    labelinput.querySelector('input').style.width = '150px';
     form.appendChild(labelinput);
 
     const pcsinput = createinputelement('number','件数','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
-    pcsinput.querySelector('input').style.width = '40px';
+    pcsinput.querySelector('input').style.width = '140px';
     form.appendChild(pcsinput);
 
     const deadlineinput = createinputelement('date','截止日期','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
-    deadlineinput.querySelector('input').style.width = '60px';
+    deadlineinput.querySelector('input').style.width = '160px';
     form.appendChild(deadlineinput);
 
-    const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
-    serviceinput.querySelector('input').style.width = '50px';
-    form.appendChild(serviceinput);
+    
 
     const instructioninputdiv=document.createElement('div');
     instructioninputdiv.className = 'inputdiv';
