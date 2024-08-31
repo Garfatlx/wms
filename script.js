@@ -1709,7 +1709,13 @@ function createdetailline(nid, item, activity, cancelable) {
         addvasbutton.style.margin = "0px 10px";
         linecontrol0.appendChild(addvasbutton);
         addvasbutton.addEventListener("click", function() {
-            addvas(item, function(vasitem) {
+            var inputs = detaillineform.querySelectorAll('input');
+            var vaspassdata = {};
+            inputs.forEach(function(input) {
+                vaspassdata[input.name] = input.value;
+            });
+
+            addvas(vaspassdata, function(vasitem) {
                 
             });
         });
