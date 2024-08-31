@@ -1715,7 +1715,7 @@ function createdetailline(nid, item, activity, cancelable) {
                 vaspassdata[input.name] = input.value;
             });
             vaspassdata['customer'] = document.getElementsByName("customer")[0].value;
-            vaspassdata['container'] = document.getElementsByName("container")[0].value;
+            vaspassdata['container'] = document.getElementsByName("joblabel")[0].value;
             addvas(vaspassdata, function(vasitem) {
                 
             });
