@@ -1699,6 +1699,22 @@ function createdetailline(nid, item, activity, cancelable) {
         });
     });
 
+    if (activity == '入库') {
+        const addvasbutton = document.createElement("button");
+        addvasbutton.type = "button";
+        addvasbutton.className = "button";
+        addvasbutton.innerHTML = "添加额外任务";
+        addvasbutton.style.fontSize = "14px";
+        addvasbutton.style.padding = "5px 10px";
+        addvasbutton.style.margin = "0px 10px";
+        linecontrol0.appendChild(addvasbutton);
+        addvasbutton.addEventListener("click", function() {
+            addvas(item, function(vasitem) {
+                
+            });
+        });
+    }
+
     // var input6 = document.createElement("input");
     // input6.type = "text";
     // input6.id = "locationa"+id;
