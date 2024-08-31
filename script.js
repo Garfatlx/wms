@@ -2909,6 +2909,8 @@ function addvas(clickeditem,callback){
     submitbutton.style.padding = '5px 5px';
 
     form.appendChild(submitbutton);
+    vaswindow.document.body.appendChild(form);
+
 
     const customerinput = createinputelement('text','客户','customer',clickeditem['customer']?clickeditem['customer']:'');
     customerinput.querySelector('input').style.width = '50px';
@@ -2949,4 +2951,10 @@ function addvas(clickeditem,callback){
     instructioninputdiv.appendChild(instructioninput);
     form.appendChild(instructioninputdiv);
 
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const vas = {};
+        
+    });
 }
