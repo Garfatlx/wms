@@ -2857,3 +2857,80 @@ function createcheckbox(id,name,checked,parent){
 
     return container;
 }
+
+function addvas(clickeditem,callback){
+    var vaswindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    vaswindow.document.write('<html><head>');
+    vaswindow.document.write('<link href="vaswindow.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    vaswindow.document.write('</head><body>');
+    vaswindow.document.write('</body></html>');
+
+    function createinputelement(type,label, name, value) {
+        const inputdiv = document.createElement('div');
+        inputdiv.className = 'inputdiv';
+        const input = document.createElement('input');
+        input.type = type;
+        input.name = name;
+        input.value = value;
+        input.className = 'input';
+        const inputlabel = document.createElement('label');
+        inputlabel.htmlFor = name;
+        inputlabel.innerHTML = label;
+        inputlabel.className = 'label';
+        inputdiv.appendChild(inputlabel);
+        inputdiv.appendChild(input);
+        return inputdiv;
+    }
+
+    const form = document.createElement('form');
+    form.style.display='block';
+    const submitbutton = document.createElement('button');
+    submitbutton.type = 'submit';
+    submitbutton.className = 'button';
+    submitbutton.innerHTML = '提交';
+    submitbutton.style.fontSize = '14px';
+    submitbutton.style.padding = '5px 5px';
+
+    form.appendChild(submitbutton);
+
+    const customerinput = createinputelement('text','客户','customer',clickeditem['customer']?clickeditem['customer']:'');
+    customerinput.querySelector('input').style.width = '50px';
+    form.appendChild(customerinput);
+
+    const containerinput = createinputelement('text','箱号','container',clickeditem['container']?clickeditem['container']:'');
+    containerinput.querySelector('input').style.width = '50px';
+    form.appendChild(containerinput);
+
+    const labelinput = createinputelement('text','仓点','label',clickeditem['label']?clickeditem['label']:'');
+    labelinput.querySelector('input').style.width = '50px';
+    form.appendChild(labelinput);
+
+    const pcsinput = createinputelement('number','件数','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
+    pcsinput.querySelector('input').style.width = '40px';
+    form.appendChild(pcsinput);
+
+    const deadlineinput = createinputelement('date','截止日期','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
+    deadlineinput.querySelector('input').style.width = '60px';
+    form.appendChild(deadlineinput);
+
+    const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
+    serviceinput.querySelector('input').style.width = '50px';
+    form.appendChild(serviceinput);
+
+    const instructioninputdiv=document.createElement('div');
+    instructioninputdiv.className = 'inputdiv';
+    const instructioninput = document.createElement('textarea');
+    instructioninput.name = 'instruction';
+    instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
+    instructioninput.className = 'input';
+    instructioninput.style.width = '400px';
+    const instructioninputlabel = document.createElement('label');
+    instructioninputlabel.htmlFor = 'instruction';
+    instructioninputlabel.innerHTML = '操作指示';
+    instructioninputlabel.className = 'label';
+    instructioninputdiv.appendChild(instructioninputlabel);
+    instructioninputdiv.appendChild(instructioninput);
+    form.appendChild(instructioninputdiv);
+
+}
