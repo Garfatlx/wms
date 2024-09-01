@@ -2882,13 +2882,15 @@ function createcheckbox(id,name,checked,parent){
 }
 
 function addnewvaswindow(clickeditem,callback){
-    var vaswindow = window.open('', '', 'height=1200px,width=1200px');
+    var vaswindow = window.open('', '', 'height=1200px,width=800px');
     var timestamp = new Date().getTime(); // Get current timestamp
     vaswindow.document.write('<html><head>');
     vaswindow.document.write('<link href="vaswindow.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
     vaswindow.document.write('</head><body>');
     vaswindow.document.write('</body></html>');
-    vaswindow.document.body.appendChild(vasdetailform(clickeditem,callback));
+    vaswindow.document.body.appendChild(vasdetailform(clickeditem,function(data){
+        vaswindow.close();
+    }));
 }
 
 function vasdetailform(clickeditem,callback){
@@ -2908,7 +2910,13 @@ function vasdetailform(clickeditem,callback){
         inputdiv.appendChild(input);
         return inputdiv;
     }
-
+    function createhideninput(name, value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        return input;
+    }
     const form = document.createElement('form');
     form.style.display='block';
     const submitbutton = document.createElement('button');
@@ -2946,7 +2954,7 @@ function vasdetailform(clickeditem,callback){
     deadlineinput.querySelector('input').style.width = '160px';
     form.appendChild(deadlineinput);
 
-    
+    form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
 
     const instructioninputdiv=document.createElement('div');
     instructioninputdiv.className = 'inputdiv';
@@ -3010,8 +3018,6 @@ function vasdetailform(clickeditem,callback){
             fileLink.textContent = filename;
             fileLink.className = "file-name";
             fileLink.download = filename; // Enable file download
-            // var fileinput = document.getElementById("attachment"+inumber);
-            // fileinput.style.display = 'none';
             uploadbuttonblock.appendChild(fileLink);
             changedstatuslog.value = 1;
         });
@@ -3029,8 +3035,15 @@ function vasdetailform(clickeditem,callback){
         formData.forEach((value, key) => {
             vas[key] = value;
         });
-        callback(vas);
-        
+
+        fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
+            method: 'POST',
+            body: formData,
+        }).then(response => response.json())
+        .then(data => {
+            alert(data.msg);
+            callback(vas);
+        });
     });
 
     return form;
