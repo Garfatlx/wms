@@ -1464,7 +1464,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             sysresponse.innerHTML="任务保存失败";
         });
 
-
+        detailform.innerHTML="上传中...";
     });
     printbutton.addEventListener("click", function() {
         // Displaying an alert message
