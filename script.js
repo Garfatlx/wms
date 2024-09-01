@@ -2060,7 +2060,11 @@ function createvasjob(jobcontent,parentdiv,replacement){
     activejob.appendChild(itemLine3);
 
     activejob.addEventListener("click", function() {
-        loaddetail(clickeditem,clickeditem['activity'],activejob);
+        document.getElementById("itemdetail").innerHTML="";
+        document.getElementById("itemdetail").appendChild(vasdetailform(clickeditem,function(vas){
+            alert(vas.responsemsg);
+            document.getElementById("itemdetail").innerHTML="";
+        }));
     });
 
     if(replacement){
