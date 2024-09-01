@@ -2934,6 +2934,8 @@ function vasdetailform(clickeditem,callback){
     }
     const form = document.createElement('form');
     form.style.display='block';
+    form.style.width = '500px';
+    form.style.position = 'relative';
     const submitbutton = document.createElement('button');
     submitbutton.type = 'submit';
     submitbutton.className = 'button';
@@ -2942,6 +2944,12 @@ function vasdetailform(clickeditem,callback){
     submitbutton.style.padding = '5px 5px';
 
     form.appendChild(submitbutton);
+
+    const taskstatusbar = createstatusbar((clickeditem['status']?clickeditem['status']:"预报"),'预报','处理中','暂停','完成');
+    taskstatusbar.style.position="absolute";
+    taskstatusbar.style.right="100px";
+    taskstatusbar.style.top="35px";
+    form.appendChild(taskstatusbar);
 
     const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
     serviceinput.querySelector('input').setAttribute('list', 'services');
