@@ -70,7 +70,7 @@
 
 .uploaddiv{
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     margin: 10px 0;
     height: 125px;

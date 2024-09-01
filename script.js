@@ -2994,7 +2994,18 @@ function addvas(clickeditem,callback){
             fileLink.download = clickeditem['attachment'+i]; // Enable file download
             uploadbuttonblock.appendChild(fileLink);
         }
-    
+        uploadbutton.addEventListener('change', function() {
+            var file = this.querySelector('input').files[0];
+            var filename = file.name;
+            var fileLink = document.createElement("a");
+            fileLink.href = URL.createObjectURL(file);
+            fileLink.textContent = filename;
+            fileLink.className = "file-name";
+            fileLink.download = filename; // Enable file download
+            // var fileinput = document.getElementById("attachment"+inumber);
+            // fileinput.style.display = 'none';
+            this.appendChild(fileLink);
+        });
         
         
         
