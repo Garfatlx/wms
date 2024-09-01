@@ -2032,6 +2032,10 @@ function createvasjob(jobcontent,parentdiv,replacement){
     itemTitle2.className = 'itemtitle';
     itemTitle2.textContent = jobcontent['container'];
     activejob.appendChild(itemTitle2);
+    const itemTitle3 = document.createElement('p');
+    itemTitle3.className = 'itemtitle';
+    itemTitle3.textContent = jobcontent['label'];
+    activejob.appendChild(itemTitle3);
 
     // Create and append the first horizontal rule
     const hr1 = document.createElement('hr');
