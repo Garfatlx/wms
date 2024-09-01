@@ -3,6 +3,7 @@ var access;
 var searchedinventory;
 var filteredinventory;
 var latestActionToken;
+var currentjobpagecontent;
 
 window.addEventListener("load", function(){
     
@@ -115,6 +116,7 @@ function login(){
 
 function searchjobs(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    currentjobpagecontent='jobs';
     const actionToken = Symbol();
     latestActionToken = actionToken;
     const xhr  = new XMLHttpRequest();  
@@ -163,6 +165,7 @@ function searchitems(searchcreteria){
 }
 function searchvas(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    currentjobpagecontent='vas';
     const actionToken = Symbol();
     latestActionToken = actionToken;
 
@@ -189,6 +192,8 @@ function searchvas(searchcreteria){
     }
     xhr.responseType="json";
     xhr.send(searchcreteria);
+
+    
 }
 
 function showjobsearchbox(){
@@ -318,13 +323,25 @@ function showjobsearchbox(){
         event.preventDefault();
         var searchcreteria = new FormData(form);
         if(searchcreteria.get("date")!=""){
-            searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
+            if(currentjobpagecontent=='jobs'){
+                searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
+            }
+            if(currentjobpagecontent=='vas'){
+                searchcreteria.append("createdate", searchcreteria.get('date') + " 23:59:59");
+            }
         }
         if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")==""){
             alert("请输入搜索条件。");
         }else{
-            searchjobs(searchcreteria);
-            noshowcompletedinput.checked = false;
+            if(currentjobpagecontent=='jobs'){
+                searchjobs(searchcreteria);
+                noshowcompletedinput.checked = false;
+            }
+            if(currentjobpagecontent=='vas'){
+                searchvas(searchcreteria);
+                noshowcompletedinput.checked = true;
+            }
+            
         }
         
     });
@@ -355,21 +372,35 @@ function showjobsearchbox(){
     searcvas.addEventListener("click", function() {
         sysresponse.innerHTML="附加任务";
         var searchcreteria = new FormData();
+        searchcreteria.append("status", "未完成");
         searchvas(searchcreteria);
-        noshowcompletedinput.checked = false;
+        noshowcompletedinput.checked = true;
     });
 
     noshowcompletedinput.addEventListener("change", function() {
-        if (this.checked) {
-            document.getElementById("activejobs").innerHTML = "";
-            var filteredJobs = searchedjobs.filter(job => job.status != '完成');
-            for (var i = 0; i < filteredJobs.length; i++) {
-                createjob(filteredJobs[i],document.getElementById("activejobs"));
+        if(currentjobpagecontent=='jobs'){
+            if (this.checked) {
+                document.getElementById("activejobs").innerHTML = "";
+                var filteredJobs = searchedjobs.filter(job => job.status != '完成');
+                for (var i = 0; i < filteredJobs.length; i++) {
+                    createjob(filteredJobs[i],document.getElementById("activejobs"));
+                }
+            }else{
+                document.getElementById("activejobs").innerHTML = "";
+                for (var i = 0; i < searchedjobs.length; i++) {
+                    createjob(searchedjobs[i],document.getElementById("activejobs"));
+                }
             }
-        }else{
-            document.getElementById("activejobs").innerHTML = "";
-            for (var i = 0; i < searchedjobs.length; i++) {
-                createjob(searchedjobs[i],document.getElementById("activejobs"));
+        }
+        if(currentjobpagecontent=='vas'){
+            if (this.checked) {
+                var searchcreteria = new FormData();
+                searchcreteria.append("status", "未完成");
+                searchvas(searchcreteria);
+            }else{
+                var searchcreteria = new FormData();
+                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                searchvas(searchcreteria);
             }
         }
     });
