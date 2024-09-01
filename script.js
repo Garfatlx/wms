@@ -2903,7 +2903,18 @@ function addnewvaswindow(clickeditem,callback){
     vaswindow.document.write('<link href="vaswindow.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
     vaswindow.document.write('</head><body>');
     vaswindow.document.write('</body></html>');
+    var datalist2=document.createElement("datalist");
+    datalist2.id="services";
+    const services = ['贴标', '打托'];
+    services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service;
+        datalist2.appendChild(option);
+    });
+    vaswindow.body.appendChild(datalist2);
+
     vaswindow.document.body.appendChild(vasdetailform(clickeditem,function(data){
+        alert(data.responsemsg);
         vaswindow.close();
     }));
 }
@@ -2947,8 +2958,8 @@ function vasdetailform(clickeditem,callback){
 
     const taskstatusbar = createstatusbar((clickeditem['status']?clickeditem['status']:"预报"),'预报','处理中','暂停','完成');
     taskstatusbar.style.position="absolute";
-    taskstatusbar.style.right="100px";
-    taskstatusbar.style.top="0px";
+    taskstatusbar.style.right="50px";
+    taskstatusbar.style.top="35px";
     form.appendChild(taskstatusbar);
 
     const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
@@ -3063,15 +3074,16 @@ function vasdetailform(clickeditem,callback){
         formData.forEach((value, key) => {
             vas[key] = value;
         });
-        console.log(vas);
+        
         fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
             method: 'POST',
             body: formData,
         }).then(response => response.json())
         .then(data => {
-            alert(data.msg);
+            vas['responsemsg']=data.msg;
             callback(vas);
         });
+        form.innerHTML = '上传中...';
     });
 
     return form;
