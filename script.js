@@ -1716,6 +1716,7 @@ function createdetailline(nid, item, activity, cancelable) {
             });
             vaspassdata['customer'] = document.getElementsByName("customer")[0].value;
             vaspassdata['container'] = document.getElementsByName("joblabel")[0].value;
+            vaspassdata['jobid'] = document.getElementsByName("jobid")[0].value;
             addnewvaswindow(vaspassdata, function(vasitem) {
                 
             });
@@ -2992,14 +2993,14 @@ function vasdetailform(clickeditem,callback){
         input.accept = "";
         input.multiple = false;
 
-        const changedstatuslog = document.createElement("input");
-        changedstatuslog.type = "hidden";
-        changedstatuslog.name = "changedstatus"+i;
-        changedstatuslog.value = 0;
+        const changestatuslog = document.createElement("input");
+        changestatuslog.type = "hidden";
+        changestatuslog.name = "changestatus"+i;
+        changestatuslog.value = 0;
         
         uploadbutton.appendChild(input);
         uploadbuttonblock.appendChild(uploadbutton);
-        uploadbuttonblock.appendChild(changedstatuslog);
+        uploadbuttonblock.appendChild(changestatuslog);
 
         const inumber = i;
         if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
@@ -3031,6 +3032,8 @@ function vasdetailform(clickeditem,callback){
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         var formData = new FormData(form);
+        formData.append('jobid',clickeditem['jobid']?clickeditem['jobid']:'');
+        formData.append('inventoryid',clickeditem['inventoryid']?clickeditem['inventoryid']:'');
         var vas = {};
         formData.forEach((value, key) => {
             vas[key] = value;
