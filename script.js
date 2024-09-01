@@ -161,6 +161,35 @@ function searchitems(searchcreteria){
     xhr.responseType="json";
     xhr.send(searchcreteria);
 }
+function searchvas(searchcreteria){
+    showloading(document.getElementById("activejobs"));
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
+
+    const xhr  = new XMLHttpRequest();
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchvas", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                if (actionToken !== latestActionToken) {
+                    return;
+                }
+                // return xhr.response["data"];
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="";
+                for (var i = 0; i < xhr.response["data"].length; i++) {
+                    createvasjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                }
+            }else{
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="";
+                sysresponse.innerHTML="没有找到任务。";
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+}
 
 function showjobsearchbox(){
     // Clear previous elements in searchbox
@@ -216,7 +245,7 @@ function showjobsearchbox(){
     statusRadioInput.appendChild(createRadioInput('searchyesterday', 'value-1', '昨天'));
     statusRadioInput.appendChild(createRadioInput('searchtoday', 'value-2', '今天', true));
     statusRadioInput.appendChild(createRadioInput('searchtomorrow', 'value-3', '明天'));
-    statusRadioInput.appendChild(createRadioInput('searchall', 'value-4', '特别任务'));
+    statusRadioInput.appendChild(createRadioInput('searcvas', 'value-4', '附加任务'));
 
     // Append status selection span
     const statusSelection = document.createElement('span');
@@ -322,12 +351,12 @@ function showjobsearchbox(){
         searchjobs(searchcreteria);
         noshowcompletedinput.checked = false;
     });
-    var searchall = document.getElementById("searchall");
-    searchall.addEventListener("click", function() {
-        sysresponse.innerHTML="搜索全部任务功能暂时关闭。";
-        // var searchcreteria = new FormData();
-        // searchjobs(searchcreteria);
-        // noshowcompletedinput.checked = false;
+    var searcvas = document.getElementById("searcvas");
+    searcvas.addEventListener("click", function() {
+        sysresponse.innerHTML="附加任务";
+        var searchcreteria = new FormData();
+        searchvas(searchcreteria);
+        noshowcompletedinput.checked = false;
     });
 
     noshowcompletedinput.addEventListener("change", function() {
@@ -1916,6 +1945,117 @@ function createjob(jobcontent,parentdiv,replacement){
     const listItem4 = document.createElement('div');
     listItem4.className = 'listitem';
     listItem4.innerHTML = jobcontent['overview'];
+    itemLine3.appendChild(listItem4);
+    activejob.appendChild(itemLine3);
+
+    activejob.addEventListener("click", function() {
+        loaddetail(clickeditem,clickeditem['activity'],activejob);
+    });
+
+    if(replacement){
+        replacement.replaceWith(activejob);
+        activejob.classList.add("fade-in");
+    }else{
+        parentdiv.appendChild(activejob);
+        activejob.classList.add("fade-in");
+    }
+    
+}
+
+function createvasjob(jobcontent,parentdiv,replacement){
+    const clickeditem=jobcontent;
+
+    var activejob = document.createElement("div");
+    activejob.className="activejob";
+    if(jobcontent['status']=="完成"){
+        activejob.style.backgroundColor="rgba(86, 218, 74, 0.3)";
+        
+    }
+    if(jobcontent['status']=="处理中"){
+        activejob.style.backgroundColor="rgba(202, 255, 58, 0.3)";
+    }
+    if(jobcontent['status']=="暂停"){
+        activejob.style.backgroundColor="#ef9696";
+    }
+
+    
+    // Create the container div for the first item line
+    const itemLine1 = document.createElement('div');
+    itemLine1.className = 'itemline';
+
+    // Create and append the item title to the first item line
+    const itemTitle1 = document.createElement('p');
+    itemTitle1.className = 'itemtitle';
+    itemTitle1.textContent = jobcontent['service'];
+    itemLine1.appendChild(itemTitle1);
+    activejob.appendChild(itemLine1);
+
+    //create the container div for the status
+    const jobstatus = document.createElement('div');
+    jobstatus.className = 'jobstatus';
+    jobstatus.textContent = jobcontent['status'];
+    activejob.appendChild(jobstatus);
+
+    // Create and append the standalone item title
+    const itemTitle2 = document.createElement('p');
+    itemTitle2.className = 'itemtitle';
+    itemTitle2.textContent = jobcontent['container'];
+    activejob.appendChild(itemTitle2);
+
+    // Create and append the first horizontal rule
+    const hr1 = document.createElement('hr');
+    activejob.appendChild(hr1);
+    
+    // reference line
+        const itemLine4 = document.createElement('div');
+        itemLine4.className = 'itemline';
+
+        // Create and append the list item (time label) to the second item line
+        
+        const listItem5 = document.createElement('p');
+        listItem5.className = 'listitem';
+        listItem5.textContent = "截止日期: ";
+        itemLine4.appendChild(listItem5);
+        
+        // Create and append the list item (time value) to the second item line
+        const listItem6 = document.createElement('p');
+        listItem6.className = 'listitem';
+        listItem6.textContent = jobcontent['deadline'];
+        itemLine4.appendChild(listItem6);
+
+        // Append the second item line to the document body or a specific container
+        activejob.appendChild(itemLine4);
+    
+    // Create the container div for the second item line
+    const itemLine2 = document.createElement('div');
+    itemLine2.className = 'itemline';
+
+    // Create and append the list item (time label) to the second item line
+    const listItem2 = document.createElement('p');
+    listItem2.className = 'listitem';
+    listItem2.textContent = "创建日期:";
+    itemLine2.appendChild(listItem2);
+    // Append the second item line to the document body or a specific container
+    activejob.appendChild(itemLine2);
+    
+    // Create and append the list item (time value) to the second item line
+    const listItem3 = document.createElement('p');
+    listItem3.className = 'listitem';
+    listItem3.textContent = jobcontent['createdate'];
+    itemLine2.appendChild(listItem3);
+
+   
+
+    // Create and append the second horizontal rule
+    const hr2 = document.createElement('hr');
+    activejob.appendChild(hr2);
+
+    // Create the container div for the third item line
+    const itemLine3 = document.createElement('div');
+    itemLine3.className = 'itemline';
+    const listItem4 = document.createElement('div');
+    listItem4.className = 'listitem';
+    listItem4.innerHTML = jobcontent['instruction'];
     itemLine3.appendChild(listItem4);
     activejob.appendChild(itemLine3);
 
