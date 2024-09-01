@@ -3004,7 +3004,7 @@ function addvas(clickeditem,callback){
             fileLink.download = filename; // Enable file download
             // var fileinput = document.getElementById("attachment"+inumber);
             // fileinput.style.display = 'none';
-            this.appendChild(fileLink);
+            uploadbuttonblock.appendChild(fileLink);
         });
         
         
