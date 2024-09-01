@@ -2099,7 +2099,7 @@ function createvasjob(jobcontent,parentdiv,replacement){
         document.getElementById("itemdetail").appendChild(vasdetailform(clickeditem,function(vas){
             alert(vas.responsemsg);
             document.getElementById("itemdetail").innerHTML="";
-        },activejob));
+        },this));
     });
 
     if(replacement){
