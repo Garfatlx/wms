@@ -1441,7 +1441,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     });
     submitbutton.addEventListener("click", function() {
         // var inputform=document.getElementById("detailform");
-        
+        if(document.getElementById("inputdate").value==""){
+            alert("请输入日期");
+            return;
+        }
         const activeJobs = document.getElementById("activejobs");
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
@@ -1460,13 +1463,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                 createjob(newaddedjob,activeJobs);
             }
             itemdetail.innerHTML="";
-            itemdetail.style.visibility ="visible";
         })
         .catch(function(){
             sysresponse.innerHTML="任务保存失败";
+            itemdetail.innerHTML="";
         });
-
-        itemdetail.style.visibility = "hidden";
+        this.disabled = true;
         sysresponse.innerHTML="上传中...";
     });
     printbutton.addEventListener("click", function() {
