@@ -3035,7 +3035,7 @@ function vasdetailform(clickeditem,callback){
         formData.forEach((value, key) => {
             vas[key] = value;
         });
-
+        console.log(vas);
         fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
             method: 'POST',
             body: formData,
