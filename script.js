@@ -3020,7 +3020,7 @@ function vasdetailform(clickeditem,callback){
             fileLink.className = "file-name";
             fileLink.download = filename; // Enable file download
             uploadbuttonblock.appendChild(fileLink);
-            changedstatuslog.value = 1;
+            changestatuslog.value = 1;
         });
         
         
