@@ -2099,7 +2099,7 @@ function createvasjob(jobcontent,parentdiv,replacement){
         document.getElementById("itemdetail").appendChild(vasdetailform(clickeditem,function(vas){
             alert(vas.responsemsg);
             document.getElementById("itemdetail").innerHTML="";
-        }),this);
+        }),activejob);
     });
 
     if(replacement){
@@ -3288,6 +3288,7 @@ function vasdetailform(clickeditem,callback,replacement){
             //replace div
             if(replacement){
                 var vasid=new FormData();
+                console.log(clickeditem['id']);
                 vasid.append('id',clickeditem['id']);
                 fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
                     method: 'POST',
