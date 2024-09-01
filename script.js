@@ -3286,6 +3286,7 @@ function vasdetailform(clickeditem,callback,replacement){
             vas['responsemsg']=data.msg;
             callback(vas);
             //replace div
+            console.log(clickeditem['id']+''+'here');
             if(replacement){
                 var vasid=new FormData();
                 console.log(clickeditem['id']);
