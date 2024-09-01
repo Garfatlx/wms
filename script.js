@@ -3000,7 +3000,7 @@ function addvas(clickeditem,callback){
         
         uploaddiv.appendChild(uploadbuttonblock);
     }
-    itemdetail.appendChild(uploaddiv);
+    form.appendChild(uploaddiv);
 
 
 
