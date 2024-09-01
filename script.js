@@ -2969,12 +2969,12 @@ function addvas(clickeditem,callback){
         uploadbuttonblock.className="uploadbuttonblock";
         uploadbuttonblock.id="uploadbuttonblock"+i;
 
-        var uploadbutton = document.createElement("button");
+        const uploadbutton = document.createElement("button");
         uploadbutton.className="container-btn-file";
         
         uploadbutton.innerHTML="上传文件"+i;
 
-        var input = document.createElement("input");
+        const input = document.createElement("input");
         input.type = "file";
         input.id = "attachment"+i;
         input.name = "attachment"+i;
@@ -2987,7 +2987,7 @@ function addvas(clickeditem,callback){
 
         const inumber = i;
         if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
-            var fileLink = document.createElement("a");
+            const fileLink = document.createElement("a");
             fileLink.href = clickeditem['attachment'+i];
             fileLink.textContent = clickeditem['attachment'+i];
             fileLink.className = "file-name";

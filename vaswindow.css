@@ -80,4 +80,6 @@
     justify-content: center;
     align-items: center;
     width: 100px;
+    margin: 0px 10px;
+    word-break: break-all;
 }
