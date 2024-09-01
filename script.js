@@ -2099,7 +2099,7 @@ function createvasjob(jobcontent,parentdiv,replacement){
         document.getElementById("itemdetail").appendChild(vasdetailform(clickeditem,function(vas){
             alert(vas.responsemsg);
             document.getElementById("itemdetail").innerHTML="";
-        }));
+        }),this);
     });
 
     if(replacement){
@@ -3103,7 +3103,7 @@ function addnewvaswindow(clickeditem,callback){
     }));
 }
 
-function vasdetailform(clickeditem,callback){
+function vasdetailform(clickeditem,callback,replacement){
     function createinputelement(type,label, name, value) {
         const inputdiv = document.createElement('div');
         inputdiv.className = 'inputdiv';
@@ -3285,6 +3285,18 @@ function vasdetailform(clickeditem,callback){
         .then(data => {
             vas['responsemsg']=data.msg;
             callback(vas);
+            //replace div
+            if(replacement){
+                var vasid=new FormData();
+                vasid.append('id',clickeditem['id']);
+                fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
+                    method: 'POST',
+                    body: vasid,
+                }).then(response => response.json())
+                .then(data => {
+                    createvasjob(data['data'][0],document.getElementById("activejobs"),replacement);
+                });
+            }
         });
         form.innerHTML = '上传中...';
     });
