@@ -2965,7 +2965,7 @@ function addvas(clickeditem,callback){
     var uploaddiv=document.createElement("div");
     uploaddiv.className="uploaddiv";
     for (var i = 1; i <= 3; i++) {
-        var uploadbuttonblock = document.createElement("div");
+        const uploadbuttonblock = document.createElement("div");
         uploadbuttonblock.className="uploadbuttonblock";
         uploadbuttonblock.id="uploadbuttonblock"+i;
 
