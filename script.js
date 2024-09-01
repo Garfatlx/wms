@@ -74,6 +74,16 @@ window.addEventListener("load", function(){
     });
     document.body.appendChild(datalist);
 
+    var datalist2=document.createElement("datalist");
+    datalist2.id="services";
+    const services = ['贴标', '打托'];
+    services.forEach(service => {
+        const option = document.createElement('option');
+        option.value = service;
+        datalist2.appendChild(option);
+    });
+    document.body.appendChild(datalist2);
+
 });
 
 function login(){
@@ -1030,8 +1040,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
 
     }
     
-
-    createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"));
+    const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
+    taskstatusbar.style.position="absolute";
+    taskstatusbar.style.right="100px";
+    taskstatusbar.style.top="35px";
+    detailform.appendChild(taskstatusbar);
 
 
     var linecontrol0=document.createElement("div");
@@ -1949,22 +1962,22 @@ function showloading(parent){
     parent.appendChild(banterLoader);
 }
 
-function createstatusbar(status){
-    var detailform=document.getElementById("detailform");
+function createstatusbar(currentstatus,status1,status2,status3,status4){
+    // var detailform=document.getElementById("detailform");
     // Create the container div for the status-radio-input
     const statusRadioInput = document.createElement('div');
     statusRadioInput.id = 'status-radio-input';
     statusRadioInput.className = 'status-radio-input';
-    statusRadioInput.style.position="absolute";
-    statusRadioInput.style.right="100px";
-    statusRadioInput.style.top="35px";
+    // statusRadioInput.style.position="absolute";
+    // statusRadioInput.style.right="100px";
+    // statusRadioInput.style.top="35px";
 
     // Define the radio button options
     const options = [
-        { value: '预报', id: 'value-1', checked: ((status=="预报")?true:false) },
-        { value: '排队中', id: 'value-2', checked: ((status=="排队中")?true:false) },
-        { value: '作业中', id: 'value-3', checked: ((status=="作业中")?true:false) },
-        { value: '完成', id: 'value-4', checked: ((status=="完成")?true:false) } // Note: Corrected the duplicate id 'value-3' to 'value-4'
+        { value: status1, id: 'value-1', checked: ((currentstatus==status1)?true:false) },
+        { value: status2, id: 'value-2', checked: ((currentstatus==status2)?true:false) },
+        { value: status3, id: 'value-3', checked: ((currentstatus==status3)?true:false) },
+        { value: status4, id: 'value-4', checked: ((currentstatus==status4)?true:false) } // Note: Corrected the duplicate id 'value-3' to 'value-4'
     ];
 
     // Loop through each option to create and append the labels, inputs, and spans
@@ -1991,8 +2004,9 @@ function createstatusbar(status){
     statusSelectionSpan.className = 'status-selection';
     statusRadioInput.appendChild(statusSelectionSpan);
 
+    return statusRadioInput;
     // Append the status-radio-input to the document body or a specific container
-    detailform.appendChild(statusRadioInput);
+    // detailform.appendChild(statusRadioInput);
 }
 
 function getlocation(ref){
@@ -2930,6 +2944,8 @@ function vasdetailform(clickeditem,callback){
     form.appendChild(submitbutton);
 
     const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
+    serviceinput.querySelector('input').setAttribute('list', 'services');
+    serviceinput.querySelector('input').required = true;
     serviceinput.querySelector('input').style.width = '150px';
     serviceinput.style.fontSize = '20px';
     serviceinput.style.fontWeight = 'bold';
@@ -2956,6 +2972,7 @@ function vasdetailform(clickeditem,callback){
     form.appendChild(deadlineinput);
 
     form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
+    form.appendChild(createhideninput('createdate',clickeditem['createdate']?clickeditem['createdate']:getformatteddate(0)));
 
     const instructioninputdiv=document.createElement('div');
     instructioninputdiv.className = 'inputdiv';
