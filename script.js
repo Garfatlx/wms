@@ -699,7 +699,7 @@ async function addnewjob(clickeditem,detaillinenumber){
                 }));
             }
         }
-        document.getElementById("itemdetail").innerHTML = "";
+        // document.getElementById("itemdetail").innerHTML = "";
         // Wait for all HTTP requests to complete
         Promise.all(httpRequests)
             .then(responses => {
@@ -1459,12 +1459,15 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                 
                 createjob(newaddedjob,activeJobs);
             }
+            itemdetail.innerHTML="";
+            itemdetail.style.visibility ="visible";
         })
         .catch(function(){
             sysresponse.innerHTML="任务保存失败";
         });
 
-        itemdetail.innerHTML="上传中...";
+        itemdetail.style.visibility = "hidden";
+        sysresponse.innerHTML="上传中...";
     });
     printbutton.addEventListener("click", function() {
         // Displaying an alert message
