@@ -339,7 +339,7 @@ function showjobsearchbox(){
             }
             if(currentjobpagecontent=='vas'){
                 searchvas(searchcreteria);
-                noshowcompletedinput.checked = true;
+                noshowcompletedinput.checked = false;
             }
             
         }
