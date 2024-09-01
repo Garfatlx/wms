@@ -2948,7 +2948,7 @@ function vasdetailform(clickeditem,callback){
     const taskstatusbar = createstatusbar((clickeditem['status']?clickeditem['status']:"预报"),'预报','处理中','暂停','完成');
     taskstatusbar.style.position="absolute";
     taskstatusbar.style.right="100px";
-    taskstatusbar.style.top="35px";
+    taskstatusbar.style.top="0px";
     form.appendChild(taskstatusbar);
 
     const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
