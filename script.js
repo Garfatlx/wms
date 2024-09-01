@@ -2911,10 +2911,10 @@ function addnewvaswindow(clickeditem,callback){
         option.value = service;
         datalist2.appendChild(option);
     });
-    vaswindow.body.appendChild(datalist2);
+    vaswindow.document.body.appendChild(datalist2);
 
     vaswindow.document.body.appendChild(vasdetailform(clickeditem,function(data){
-        alert(data.responsemsg);
+        vaswindow.alert(data.responsemsg);
         vaswindow.close();
     }));
 }
