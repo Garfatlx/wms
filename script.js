@@ -1716,7 +1716,7 @@ function createdetailline(nid, item, activity, cancelable) {
             });
             vaspassdata['customer'] = document.getElementsByName("customer")[0].value;
             vaspassdata['container'] = document.getElementsByName("joblabel")[0].value;
-            addvas(vaspassdata, function(vasitem) {
+            addnewvaswindow(vaspassdata, function(vasitem) {
                 
             });
         });
@@ -2881,14 +2881,17 @@ function createcheckbox(id,name,checked,parent){
     return container;
 }
 
-function addvas(clickeditem,callback){
+function addnewvaswindow(clickeditem,callback){
     var vaswindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     vaswindow.document.write('<html><head>');
     vaswindow.document.write('<link href="vaswindow.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
     vaswindow.document.write('</head><body>');
     vaswindow.document.write('</body></html>');
+    vaswindow.document.body.appendChild(vasdetailform(clickeditem,callback));
+}
 
+function vasdetailform(clickeditem,callback){
     function createinputelement(type,label, name, value) {
         const inputdiv = document.createElement('div');
         inputdiv.className = 'inputdiv';
@@ -2916,7 +2919,6 @@ function addvas(clickeditem,callback){
     submitbutton.style.padding = '5px 5px';
 
     form.appendChild(submitbutton);
-    vaswindow.document.body.appendChild(form);
 
     const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
     serviceinput.querySelector('input').style.width = '150px';
@@ -2962,7 +2964,7 @@ function addvas(clickeditem,callback){
     form.appendChild(instructioninputdiv);
 
     //file upload section
-    var uploaddiv=document.createElement("div");
+    const uploaddiv=document.createElement("div");
     uploaddiv.className="uploaddiv";
     for (var i = 1; i <= 3; i++) {
         const uploadbuttonblock = document.createElement("div");
@@ -2981,9 +2983,15 @@ function addvas(clickeditem,callback){
         input.className="file";
         input.accept = "";
         input.multiple = false;
+
+        const changedstatuslog = document.createElement("input");
+        changedstatuslog.type = "hidden";
+        changedstatuslog.name = "changedstatus"+i;
+        changedstatuslog.value = 0;
         
         uploadbutton.appendChild(input);
         uploadbuttonblock.appendChild(uploadbutton);
+        uploadbuttonblock.appendChild(changedstatuslog);
 
         const inumber = i;
         if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
@@ -3005,6 +3013,7 @@ function addvas(clickeditem,callback){
             // var fileinput = document.getElementById("attachment"+inumber);
             // fileinput.style.display = 'none';
             uploadbuttonblock.appendChild(fileLink);
+            changedstatuslog.value = 1;
         });
         
         
@@ -3013,12 +3022,16 @@ function addvas(clickeditem,callback){
     }
     form.appendChild(uploaddiv);
 
-
-
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-        const formData = new FormData(form);
-        const vas = {};
+        var formData = new FormData(form);
+        var vas = {};
+        formData.forEach((value, key) => {
+            vas[key] = value;
+        });
+        callback(vas);
         
     });
+
+    return form;
 }
