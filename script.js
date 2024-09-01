@@ -3112,7 +3112,7 @@ function vasdetailform(clickeditem,callback){
     taskstatusbar.style.top="35px";
     form.appendChild(taskstatusbar);
 
-    const serviceinput = createinputelement('text','服务','service',clickeditem['service']?clickeditem['service']:''); 
+    const serviceinput = createinputelement('text','服务：','service',clickeditem['service']?clickeditem['service']:''); 
     serviceinput.querySelector('input').setAttribute('list', 'services');
     serviceinput.querySelector('input').required = true;
     serviceinput.querySelector('input').style.width = '150px';
@@ -3120,23 +3120,23 @@ function vasdetailform(clickeditem,callback){
     serviceinput.style.fontWeight = 'bold';
     form.appendChild(serviceinput);
 
-    const customerinput = createinputelement('text','客户','customer',clickeditem['customer']?clickeditem['customer']:'');
+    const customerinput = createinputelement('text','客户：','customer',clickeditem['customer']?clickeditem['customer']:'');
     customerinput.querySelector('input').style.width = '150px';
     form.appendChild(customerinput);
 
-    const containerinput = createinputelement('text','箱号','container',clickeditem['container']?clickeditem['container']:'');
+    const containerinput = createinputelement('text','箱号：','container',clickeditem['container']?clickeditem['container']:'');
     containerinput.querySelector('input').style.width = '150px';
     form.appendChild(containerinput);
 
-    const labelinput = createinputelement('text','仓点','label',clickeditem['label']?clickeditem['label']:'');
+    const labelinput = createinputelement('text','仓点：','label',clickeditem['label']?clickeditem['label']:'');
     labelinput.querySelector('input').style.width = '150px';
     form.appendChild(labelinput);
 
-    const pcsinput = createinputelement('number','件数','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
+    const pcsinput = createinputelement('number','件数：','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
     pcsinput.querySelector('input').style.width = '140px';
     form.appendChild(pcsinput);
 
-    const deadlineinput = createinputelement('date','截止日期','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
+    const deadlineinput = createinputelement('date','截止日期：','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
     deadlineinput.querySelector('input').style.width = '160px';
     form.appendChild(deadlineinput);
 
@@ -3152,11 +3152,26 @@ function vasdetailform(clickeditem,callback){
     instructioninput.style.width = '400px';
     const instructioninputlabel = document.createElement('label');
     instructioninputlabel.htmlFor = 'instruction';
-    instructioninputlabel.innerHTML = '操作指示';
+    instructioninputlabel.innerHTML = '操作指示：';
     instructioninputlabel.className = 'label';
     instructioninputdiv.appendChild(instructioninputlabel);
     instructioninputdiv.appendChild(instructioninput);
     form.appendChild(instructioninputdiv);
+
+    const noteinputdiv=document.createElement('div');
+    noteinputdiv.className = 'inputdiv';
+    const noteinput = document.createElement('textarea');
+    noteinput.name = 'note';
+    noteinput.value = clickeditem['note']?clickeditem['note']:'';
+    noteinput.className = 'input';
+    noteinput.style.width = '400px';
+    const noteinputlabel = document.createElement('label');
+    noteinputlabel.htmlFor = 'note';
+    noteinputlabel.innerHTML = '备注：';
+    noteinputlabel.className = 'label';
+    noteinputdiv.appendChild(noteinputlabel);
+    noteinputdiv.appendChild(noteinput);
+    form.appendChild(noteinputdiv);
 
     //file upload section
     const uploaddiv=document.createElement("div");
