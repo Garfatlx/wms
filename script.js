@@ -2961,6 +2961,49 @@ function addvas(clickeditem,callback){
     instructioninputdiv.appendChild(instructioninput);
     form.appendChild(instructioninputdiv);
 
+    //file upload section
+    var uploaddiv=document.createElement("div");
+    uploaddiv.className="uploaddiv";
+    for (var i = 1; i <= 3; i++) {
+        var uploadbuttonblock = document.createElement("div");
+        uploadbuttonblock.className="uploadbuttonblock";
+        uploadbuttonblock.id="uploadbuttonblock"+i;
+
+        var uploadbutton = document.createElement("button");
+        uploadbutton.className="container-btn-file";
+        
+        uploadbutton.innerHTML="上传文件"+i;
+
+        var input = document.createElement("input");
+        input.type = "file";
+        input.id = "attachment"+i;
+        input.name = "attachment"+i;
+        input.className="file";
+        input.accept = "";
+        input.multiple = false;
+        
+        uploadbutton.appendChild(input);
+        uploadbuttonblock.appendChild(uploadbutton);
+
+        const inumber = i;
+        if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
+            var fileLink = document.createElement("a");
+            fileLink.href = clickeditem['attachment'+i];
+            fileLink.textContent = clickeditem['attachment'+i];
+            fileLink.className = "file-name";
+            fileLink.download = clickeditem['attachment'+i]; // Enable file download
+            uploadbuttonblock.appendChild(fileLink);
+        }
+    
+        
+        
+        
+        uploaddiv.appendChild(uploadbuttonblock);
+    }
+    itemdetail.appendChild(uploaddiv);
+
+
+
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(form);
