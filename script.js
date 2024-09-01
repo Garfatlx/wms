@@ -189,7 +189,7 @@ function showjobsearchbox(){
     const statusRadioInput = document.createElement('div');
     statusRadioInput.className = 'status-radio-input';
     statusRadioInput.style.marginLeft = '15px';
-    statusRadioInput.style.setProperty('--container_width', '160px');
+    statusRadioInput.style.setProperty('--container_width', '200px');
 
     // Function to create radio input with label
     const createRadioInput = (id, value, text, checked = false) => {
@@ -216,7 +216,7 @@ function showjobsearchbox(){
     statusRadioInput.appendChild(createRadioInput('searchyesterday', 'value-1', '昨天'));
     statusRadioInput.appendChild(createRadioInput('searchtoday', 'value-2', '今天', true));
     statusRadioInput.appendChild(createRadioInput('searchtomorrow', 'value-3', '明天'));
-    statusRadioInput.appendChild(createRadioInput('searchall', 'value-4', '全部'));
+    statusRadioInput.appendChild(createRadioInput('searchall', 'value-4', '特别任务'));
 
     // Append status selection span
     const statusSelection = document.createElement('span');
