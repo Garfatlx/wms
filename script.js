@@ -3072,6 +3072,7 @@ function vasdetailform(clickeditem,callback){
     function createinputelement(type,label, name, value) {
         const inputdiv = document.createElement('div');
         inputdiv.className = 'inputdiv';
+        inputdiv.style.margin='10px 0px';
         const input = document.createElement('input');
         input.type = type;
         input.name = name;
