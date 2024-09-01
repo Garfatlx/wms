@@ -2099,7 +2099,7 @@ function createvasjob(jobcontent,parentdiv,replacement){
         document.getElementById("itemdetail").appendChild(vasdetailform(clickeditem,function(vas){
             alert(vas.responsemsg);
             document.getElementById("itemdetail").innerHTML="";
-        }),activejob);
+        },activejob));
     });
 
     if(replacement){
@@ -3286,7 +3286,6 @@ function vasdetailform(clickeditem,callback,replacement){
             vas['responsemsg']=data.msg;
             callback(vas);
             //replace div
-            console.log(clickeditem['id']+''+'here');
             if(replacement){
                 var vasid=new FormData();
                 console.log(clickeditem['id']);
