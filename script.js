@@ -1,9 +1,11 @@
-var searchedjobs;
 var access;
-var searchedinventory;
-var filteredinventory;
 var latestActionToken;
 var currentjobpagecontent;
+
+var searchedjobs;
+var searchedinventory;
+var filteredinventory;
+var searchedreports;
 
 window.addEventListener("load", function(){
     
@@ -659,6 +661,15 @@ function showitemsearchbox(){
     reportButton.textContent = '报表';
     reportform.appendChild(reportButton);
 
+    const exportbutton = document.createElement('button');
+    exportbutton.className = 'button';
+    exportbutton.id = 'exportbutton';
+    exportbutton.style.display = 'inline-block';
+    exportbutton.style.marginLeft = '20px';
+    exportbutton.textContent = '导出CSV';
+    exportbutton.disabled = true;
+    reportform.appendChild(exportbutton);
+
     // Append form to body or any other container
     searchbox.appendChild(form);
     searchbox.appendChild(reportform);
@@ -684,6 +695,28 @@ function showitemsearchbox(){
         }else{
             alert("请输入开始、结束日期。");
         }
+    });
+    exportbutton.addEventListener("click", function() {
+        // Convert JSON data to CSV
+        const csvData = jsonToCsv(searchedreports);
+
+        // Create a Blob from the CSV data
+        const blob = new Blob([csvData], { type: 'text/csv' });
+
+        // Create a link element to download the Blob as a CSV file
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'data.csv';
+
+        // Append the link to the document body and trigger the download
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
     });
 }
 async function addnewjob(clickeditem,detaillinenumber){
@@ -876,7 +909,10 @@ async function showitems(searchcreteria){
     if (actionToken !== latestActionToken) {
         return;
     }
-    
+    //save data for export use
+    searchedreports = data['data'];
+    doucumet.getElementById("exportbutton").disabled = false;
+
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
     
@@ -3305,4 +3341,23 @@ function vasdetailform(clickeditem,callback,replacement){
     });
 
     return form;
+}
+
+function jsonToCsv(json) {
+    const headers = Object.keys(json[0]);
+    const csvRows = [];
+
+    // Add headers
+    csvRows.push(headers.join(','));
+
+    // Add rows
+    for (const row of json) {
+        const values = headers.map(header => JSON.stringify(row[header], replacer));
+        csvRows.push(values.join(','));
+    }
+
+    return csvRows.join('\n');
+}
+function replacer(key, value) {
+    return value === null ? '' : value;
 }
