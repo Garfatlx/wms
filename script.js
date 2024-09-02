@@ -701,7 +701,7 @@ function showitemsearchbox(){
         const csvData = jsonToCsv(searchedreports);
 
         // Create a Blob from the CSV data
-        const blob = new Blob([csvData], { type: 'text/csv' });
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
 
         // Create a link element to download the Blob as a CSV file
         const url = window.URL.createObjectURL(blob);
