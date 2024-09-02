@@ -1447,8 +1447,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
 
     }
     
+    itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
     
-    createTooltip(itemdetail, "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。");
 
     const sumcountdiv = document.createElement("div");
     sumcountdiv.className = "sumcount";
@@ -2264,7 +2264,7 @@ function sortTable(columnIndex) {
         tbody.appendChild(row);
     });
 }
-function createTooltip(parent, message){
+function createTooltip(message){
     // Create container div
     const tooltipContainer = document.createElement('div');
     tooltipContainer.className = 'tooltip-container';
@@ -2283,8 +2283,7 @@ function createTooltip(parent, message){
     tooltipContainer.appendChild(tooltipText);
     tooltipContainer.appendChild(tooltip);
 
-    // Append container to body or any other desired parent element
-    parent.appendChild(tooltipContainer);
+    return tooltipContainer;
 }
 function sumpcsplt(){
     var pcsInputs = document.getElementById("itemdetail").querySelectorAll("input[name='pcs']");
