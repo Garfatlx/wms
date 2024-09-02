@@ -3245,7 +3245,9 @@ function vasdetailform(clickeditem,callback,replacement){
         if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
             const fileLink = document.createElement("a");
             fileLink.href = clickeditem['attachment'+i];
-            fileLink.textContent = clickeditem['attachment'+i];
+            const urlParts = clickeditem['attachment'+i].split('/');
+            const fileName = urlParts[urlParts.length - 1];
+            fileLink.textContent = fileName;
             fileLink.className = "file-name";
             fileLink.download = clickeditem['attachment'+i]; // Enable file download
             uploadbuttonblock.appendChild(fileLink);
