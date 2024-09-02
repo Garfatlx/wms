@@ -911,7 +911,7 @@ async function showitems(searchcreteria){
     }
     //save data for export use
     searchedreports = data['data'];
-    doucumet.getElementById("exportbutton").disabled = false;
+    document.getElementById("exportbutton").disabled = false;
 
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
