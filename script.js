@@ -2790,6 +2790,7 @@ function printinventorylabel(content){
         for(var i=0;i<pagenumbers;i++){
             const pagediv = document.createElement('div');
             pagediv.className = 'pagediv';
+            pagediv.contentEditable = true;
             printWindow.document.body.appendChild(pagediv);
 
             const line = document.createElement('div');
