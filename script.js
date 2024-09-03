@@ -3211,6 +3211,7 @@ function vasdetailform(clickeditem,callback,replacement){
 
     const deadlineinput = createinputelement('date','截止日期：','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
     deadlineinput.querySelector('input').style.width = '160px';
+    deadlineinput.querySelector('input').required = true;
     form.appendChild(deadlineinput);
 
     form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
