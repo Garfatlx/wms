@@ -1529,6 +1529,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         for (var i = 0; i < fileInputs.length; i++) {
             fileInputs[i].removeAttribute("disabled");
         }
+        var addvasbutton=itemdetail.getElementsByClassName("addvasbutton");
+        if(addvasbutton){
+            for (var i = 0; i < addvasbutton.length; i++) {
+                addvasbutton[i].removeAttribute("disabled");
+            }
+        }
     }
     closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
@@ -1819,6 +1825,7 @@ function createdetailline(nid, item, activity, cancelable) {
         const addvasbutton = document.createElement("button");
         addvasbutton.type = "button";
         addvasbutton.className = "button";
+        addvasbutton.classList.add("addvasbutton");
         addvasbutton.innerHTML = "添加额外任务";
         addvasbutton.style.fontSize = "14px";
         addvasbutton.style.padding = "5px 10px";
