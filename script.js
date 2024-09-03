@@ -3223,7 +3223,7 @@ function vasdetailform(clickeditem,callback,replacement){
     instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
     instructioninput.className = 'input';
     instructioninput.style.width = '600px';
-    instructioninput.style.height = '300px';
+    instructioninput.style.height = '150px';
     const instructioninputlabel = document.createElement('label');
     instructioninputlabel.htmlFor = 'instruction';
     instructioninputlabel.innerHTML = '操作指示：';
@@ -3239,7 +3239,7 @@ function vasdetailform(clickeditem,callback,replacement){
     noteinput.value = clickeditem['note']?clickeditem['note']:'';
     noteinput.className = 'input';
     noteinput.style.width = '600px';
-    noteinput.style.height = '300px';
+    noteinput.style.height = '150px';
     const noteinputlabel = document.createElement('label');
     noteinputlabel.htmlFor = 'note';
     noteinputlabel.innerHTML = '备注：';
