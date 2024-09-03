@@ -3222,7 +3222,8 @@ function vasdetailform(clickeditem,callback,replacement){
     instructioninput.name = 'instruction';
     instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
     instructioninput.className = 'input';
-    instructioninput.style.width = '400px';
+    instructioninput.style.width = '600px';
+    instructioninput.style.height = '300px';
     const instructioninputlabel = document.createElement('label');
     instructioninputlabel.htmlFor = 'instruction';
     instructioninputlabel.innerHTML = '操作指示：';
@@ -3237,7 +3238,8 @@ function vasdetailform(clickeditem,callback,replacement){
     noteinput.name = 'note';
     noteinput.value = clickeditem['note']?clickeditem['note']:'';
     noteinput.className = 'input';
-    noteinput.style.width = '400px';
+    noteinput.style.width = '600px';
+    noteinput.style.height = '300px';
     const noteinputlabel = document.createElement('label');
     noteinputlabel.htmlFor = 'note';
     noteinputlabel.innerHTML = '备注：';
