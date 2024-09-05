@@ -2627,7 +2627,7 @@ function printcmr(clickeditem,items){
     deladdress.style.zIndex = '1';
     deladdress.style.fontSize = '11px';
     deladdress.contentEditable = true;
-    deladdress.innerHTML = deladdressfull?deladdressfull[0]:clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
+    deladdress.innerHTML=clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):deladdressfull?deladdressfull[0]:'';
 
     printWindow.document.body.appendChild(deladdress);
 
