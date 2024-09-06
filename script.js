@@ -114,7 +114,9 @@ function login(){
                     var searchcreteria = new FormData();
                     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
                     searchcreteria.append("customer", customername);
-                    showitems(searchcreteria);
+                    showitems(searchcreteria,function(){
+                        sortTable(7);
+                    });
                 }else{
                     var searchcreteria = new FormData();
                     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
@@ -923,7 +925,7 @@ function createinventorytable(data){
     table.appendChild(tbody);
     return table;
 }
-async function showitems(searchcreteria){
+async function showitems(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
     latestActionToken = actionToken;
@@ -996,6 +998,10 @@ async function showitems(searchcreteria){
 
     // Append table to activejobs element
     activejobs.appendChild(table);
+
+    if(callback){
+        callback();
+    }
 }
 async function loaddetail(clickeditem,activity,thisjobdiv){
     detaillinenumber=0;
@@ -2295,7 +2301,7 @@ function sortTable(columnIndex) {
     var sortedRows = rows.sort(function(a, b) {
         var aText = a.children[columnIndex].textContent;
         var bText = b.children[columnIndex].textContent;
-        return aText.localeCompare(bText, 'zh', { numeric: true });
+        return -aText.localeCompare(bText, 'zh', { numeric: true });
     });
     tbody.innerHTML = "";
     sortedRows.forEach(function(row) {
