@@ -101,7 +101,7 @@ function login(){
             if(xhr.response["error_code"]==0){
                 sysresponse.innerHTML=xhr.response["msg"];
                 access=xhr.response["data"]["access"];
-                customername=xhr.response["data"]["customername"];
+                customername=xhr.response["data"]["customer"];
                 document.getElementById("newinjobbutton").removeAttribute('disabled');
                 document.getElementById("newoutjobbutton").removeAttribute('disabled');
                 var searchcreteria = new FormData();
