@@ -109,7 +109,12 @@ function login(){
                 }
                 
                 if(customername){
-                    document.querySelector("#activitylog input").checked = true;
+                    // document.querySelector("#activitylog input").checked = true;
+                    document.getElementById("activitylog").click();
+                    var searchcreteria = new FormData();
+                    searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                    searchcreteria.append("customer", customername);
+                    showitems(searchcreteria);
                 }else{
                     var searchcreteria = new FormData();
                     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
@@ -686,7 +691,7 @@ function showitemsearchbox(){
     exportbutton.disabled = true;
     reportform.appendChild(exportbutton);
 
-    reportform.appendChild(createTooltip('导出CSV后，请使用Excel中的“数据”->“从文本/CSV导入”功能打开，之后使用“数据到列”将数据分列。'));
+    // reportform.appendChild(createTooltip('导出CSV后，请使用Excel中的“数据”->“从文本/CSV导入”功能打开，之后使用“数据到列”将数据分列。'));
 
     // Append form to body or any other container
     searchbox.appendChild(form);
