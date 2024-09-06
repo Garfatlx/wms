@@ -102,15 +102,23 @@ function login(){
                 sysresponse.innerHTML=xhr.response["msg"];
                 access=xhr.response["data"]["access"];
                 customername=xhr.response["data"]["customer"];
-                document.getElementById("newinjobbutton").removeAttribute('disabled');
-                document.getElementById("newoutjobbutton").removeAttribute('disabled');
-                var searchcreteria = new FormData();
-                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-                showjobsearchbox();
-                searchjobs(searchcreteria);
+
+                if(access==1){
+                    document.getElementById("newinjobbutton").removeAttribute('disabled');
+                    document.getElementById("newoutjobbutton").removeAttribute('disabled');
+                }
+                
+                if(customername){
+                    document.querySelector("#activitylog input").checked = true;
+                }else{
+                    var searchcreteria = new FormData();
+                    searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                    showjobsearchbox();
+                    searchjobs(searchcreteria);
+                }
+                
             }else{
                 document.getElementById("activejobs").innerHTML=xhr.response["msg"]+' 请刷新本页重新登陆';
-                
             }
         }
     }
@@ -157,6 +165,9 @@ function searchjobs(searchcreteria){
     });
 }
 function searchitems(searchcreteria){
+    if(customername){
+        searchcreteria.append("customer", customername);
+    }
     const xhr  = new XMLHttpRequest();  
     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
     xhr.onreadystatechange= () => {
@@ -821,6 +832,10 @@ async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
     latestActionToken = actionToken;
+
+    if(customername){
+        searchcreteria.append("customer", customername);
+    }
     const showinventorymap = document.getElementById('inventorymapbutton');
     showinventorymap.disabled = true;
     
@@ -907,6 +922,10 @@ async function showitems(searchcreteria){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
     latestActionToken = actionToken;
+
+    if(customername){
+        searchcreteria.append("customer", customername);
+    }
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
         method: 'POST',
         body: searchcreteria,
