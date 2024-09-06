@@ -1534,6 +1534,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         for (var i = 0; i < fileInputs.length; i++) {
             fileInputs[i].removeAttribute("disabled");
         }
+        var addvasbutton=itemdetail.getElementsByClassName("addvasbutton");
+        if(addvasbutton){
+            for (var i = 0; i < addvasbutton.length; i++) {
+                addvasbutton[i].removeAttribute("disabled");
+            }
+        }
     }
     closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
@@ -1824,6 +1830,7 @@ function createdetailline(nid, item, activity, cancelable) {
         const addvasbutton = document.createElement("button");
         addvasbutton.type = "button";
         addvasbutton.className = "button";
+        addvasbutton.classList.add("addvasbutton");
         addvasbutton.innerHTML = "添加额外任务";
         addvasbutton.style.fontSize = "14px";
         addvasbutton.style.padding = "5px 10px";
@@ -2625,7 +2632,7 @@ function printcmr(clickeditem,items){
     deladdress.style.zIndex = '1';
     deladdress.style.fontSize = '11px';
     deladdress.contentEditable = true;
-    deladdress.innerHTML = deladdressfull?deladdressfull[0]:clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):'';
+    deladdress.innerHTML=clickeditem['deladdress']?clickeditem['deladdress'].replace(/\n/g, '<br>'):deladdressfull?deladdressfull[0]:'';
 
     printWindow.document.body.appendChild(deladdress);
 
@@ -2795,6 +2802,7 @@ function printinventorylabel(content){
         for(var i=0;i<pagenumbers;i++){
             const pagediv = document.createElement('div');
             pagediv.className = 'pagediv';
+            pagediv.contentEditable = true;
             printWindow.document.body.appendChild(pagediv);
 
             const line = document.createElement('div');
@@ -3215,6 +3223,7 @@ function vasdetailform(clickeditem,callback,replacement){
 
     const deadlineinput = createinputelement('date','截止日期：','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
     deadlineinput.querySelector('input').style.width = '160px';
+    deadlineinput.querySelector('input').required = true;
     form.appendChild(deadlineinput);
 
     form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
@@ -3226,7 +3235,8 @@ function vasdetailform(clickeditem,callback,replacement){
     instructioninput.name = 'instruction';
     instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
     instructioninput.className = 'input';
-    instructioninput.style.width = '400px';
+    instructioninput.style.width = '600px';
+    instructioninput.style.height = '150px';
     const instructioninputlabel = document.createElement('label');
     instructioninputlabel.htmlFor = 'instruction';
     instructioninputlabel.innerHTML = '操作指示：';
@@ -3241,7 +3251,8 @@ function vasdetailform(clickeditem,callback,replacement){
     noteinput.name = 'note';
     noteinput.value = clickeditem['note']?clickeditem['note']:'';
     noteinput.className = 'input';
-    noteinput.style.width = '400px';
+    noteinput.style.width = '600px';
+    noteinput.style.height = '150px';
     const noteinputlabel = document.createElement('label');
     noteinputlabel.htmlFor = 'note';
     noteinputlabel.innerHTML = '备注：';
