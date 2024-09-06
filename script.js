@@ -1,4 +1,5 @@
 var access;
+var customername;
 var latestActionToken;
 var currentjobpagecontent;
 
@@ -100,6 +101,7 @@ function login(){
             if(xhr.response["error_code"]==0){
                 sysresponse.innerHTML=xhr.response["msg"];
                 access=xhr.response["data"]["access"];
+                customername=xhr.response["data"]["customername"];
                 document.getElementById("newinjobbutton").removeAttribute('disabled');
                 document.getElementById("newoutjobbutton").removeAttribute('disabled');
                 var searchcreteria = new FormData();
@@ -118,6 +120,9 @@ function login(){
 
 function searchjobs(searchcreteria){
     showloading(document.getElementById("activejobs"));
+    if(customername){
+        searchcreteria.append("customer", customername);
+    }
     currentjobpagecontent='jobs';
     const actionToken = Symbol();
     latestActionToken = actionToken;
