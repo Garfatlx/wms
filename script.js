@@ -65,6 +65,14 @@ window.addEventListener("load", function(){
         if(access!=-1){
             document.getElementById("activejobs").innerHTML="";
             showitemsearchbox();
+            if(customername){
+                var searchcreteria = new FormData();
+                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                searchcreteria.append("customer", customername);
+                showitems(searchcreteria,function(){
+                    sortTable(7);
+                });
+            }
         }
     });
 
@@ -111,12 +119,7 @@ function login(){
                 if(customername){
                     // document.querySelector("#activitylog input").checked = true;
                     document.getElementById("activitylog").click();
-                    var searchcreteria = new FormData();
-                    searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-                    searchcreteria.append("customer", customername);
-                    showitems(searchcreteria,function(){
-                        sortTable(7);
-                    });
+                    
                 }else{
                     var searchcreteria = new FormData();
                     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
