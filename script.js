@@ -980,6 +980,14 @@ async function showitems(searchcreteria,callback){
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
+        //style each row based on status
+        if(item.status!="完成"){
+            row.style.color = "grey";
+        }else{
+            if(item.activity=="出库"){
+                row.style.color = "coffe";
+            }
+        }
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
