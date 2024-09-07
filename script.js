@@ -69,9 +69,10 @@ window.addEventListener("load", function(){
                 var searchcreteria = new FormData();
                 searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
-                showitems(searchcreteria,function(){
-                    sortTable(7);
-                });
+                showitems(searchcreteria);
+                // showitems(searchcreteria,function(){
+                //     sortTable(7,3);
+                // });
             }
         }
     });
@@ -1001,6 +1002,8 @@ async function showitems(searchcreteria,callback){
 
     // Append table to activejobs element
     activejobs.appendChild(table);
+
+    sortTable(7,3);
 
     if(callback){
         callback();
@@ -2298,13 +2301,22 @@ function getformatteddate(targetdate){
     return year + '-' + month + '-' + day;
 }
 
-function sortTable(columnIndex) {
+function sortTable(columnIndex,secondindex) {
     var tbody = document.getElementById('inventory-table-body');
     var rows = Array.from(tbody.querySelectorAll("tr"));
     var sortedRows = rows.sort(function(a, b) {
         var aText = a.children[columnIndex].textContent;
         var bText = b.children[columnIndex].textContent;
-        return -aText.localeCompare(bText, 'zh', { numeric: true });
+        var comparison = -aText.localeCompare(bText, 'zh', { numeric: true });
+
+        if(secondindex){
+            if (comparison === 0) {
+                var aText2 = a.children[secondindex].textContent;
+                var bText2 = b.children[secondindex].textContent;
+                comparison = -aText2.localeCompare(bText2, 'zh', { numeric: true });
+            }
+        }
+        return comparison;
     });
     tbody.innerHTML = "";
     sortedRows.forEach(function(row) {
