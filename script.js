@@ -985,7 +985,7 @@ async function showitems(searchcreteria,callback){
             row.style.color = "grey";
         }else{
             if(item.activity=="出库"){
-                row.style.color = "coffe";
+                row.style.color = "chocolate";
             }
         }
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
