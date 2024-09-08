@@ -399,6 +399,9 @@ function showjobsearchbox(){
     });
     var searcvas = document.getElementById("searcvas");
     searcvas.addEventListener("click", function() {
+        if(customername){
+            return;
+        }
         sysresponse.innerHTML="附加任务";
         var searchcreteria = new FormData();
         searchcreteria.append("status", "未完成");
