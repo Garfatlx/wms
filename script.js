@@ -245,7 +245,7 @@ function showjobsearchbox(){
     searchInput.type = 'text';
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
-    searchInput.placeholder = '搜索客户、箱号、提货码、状态';
+    searchInput.placeholder = '搜索箱号、提货码、状态';
     divContainer.appendChild(searchInput);
 
     // Create status radio input container
@@ -604,7 +604,7 @@ function showitemsearchbox(){
     searchInput.name = 'searchref';
     
     searchInput.style.margin = '10px 0px 0px 0px';
-    searchInput.placeholder = '搜索客户、箱号、标签';
+    searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
     const wareinputDiv=document.createElement("div");
