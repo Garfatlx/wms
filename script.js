@@ -1205,7 +1205,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.id="inputdate";
     input0.className="lineinput";
     input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['date']:new Date().toISOString().slice(0, 16));
+    input0.value=((clickeditem!='')?clickeditem['date']:new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16));
     
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
