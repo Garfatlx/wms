@@ -1205,7 +1205,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.id="inputdate";
     input0.className="lineinput";
     input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['date']:"");;
+    input0.value=((clickeditem!='')?clickeditem['date']:new Date().toISOString().slice(0, 16));
+    
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
     input0label.htmlFor="inputdate";
@@ -2853,7 +2854,8 @@ function printinventorylabel(content){
     }
 
     content.forEach(function(item) {
-        var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
+        // var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
+        var pagenumbers=1;
 
         for(var i=0;i<pagenumbers;i++){
             const pagediv = document.createElement('div');
