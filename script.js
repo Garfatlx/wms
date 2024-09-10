@@ -2504,6 +2504,12 @@ async function showinventorydetail(inventory,thisrow){
         printinventorylabel(inventory);
     });
 
+    if(access!=1){
+        deleteButton.disabled = true;
+        labelbutton.disabled = true;
+        selectlocationbutton.disabled = true;
+    }
+
 }
 async function showactivitydetail(activity){
     var itemdetail = document.getElementById("itemdetail");
