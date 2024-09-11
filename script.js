@@ -699,7 +699,7 @@ function showitemsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
-        if(searchcreteria.get("searchref")!="" && searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
+        if(searchcreteria.get("searchref")=="" && searchcreteria.get("startdate")=="" && searchcreteria.get("enddate")==""){
             alert("请输入搜索条件。");
         }else{
             showitems(searchcreteria);
