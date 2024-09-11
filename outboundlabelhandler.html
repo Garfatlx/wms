@@ -139,7 +139,8 @@
                 var checkinventorycretteria = new FormData();
                 checkinventorycretteria.append('id', searchedinventory['id']);
                 checkinventorycretteria.append('pcs', document.getElementById('pcs').value);
-                checkinventorycretteria.append('plt', document.getElementById('plt').value);
+                checkinventorycretteria.append('pcs', document.getElementById('pcs').value);
+                checkinventorycretteria.append('checkdate', getformatteddate(0));
                 fetch('https://garfat.xyz/index.php/home/Wms/checkinventory', {
                     method: 'POST',
                     body: checkinventorycretteria,
