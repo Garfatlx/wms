@@ -3553,7 +3553,7 @@ async function createinventoryoperationdiv(){
         return acc;
     }, {});
 
-    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', lastcheckdate));
+    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', formatDate(lastcheckdate)));
     lastcheckdiv.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
 
     //create a table for the lastcheckinventorygroup
@@ -3629,6 +3629,13 @@ async function createinventoryoperationdiv(){
        
         table.appendChild(tbody);
         return table;
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+        var day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
     }
 
 }
