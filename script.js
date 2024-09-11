@@ -656,6 +656,10 @@ function showitemsearchbox(){
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
+    const linecontrol = document.createElement('div');
+    linecontrol.className = 'linecontrol';
+    linecontrol.style.display = 'flex';
+    form.appendChild(linecontrol);
     // Append div container to form
     form.appendChild(divContainer);
 
@@ -673,34 +677,33 @@ function showitemsearchbox(){
     startdateInput.name = 'startdate';
     startdateInput.style.width = '140px';
     startdateInput.style.marginRight = '5px';
-    reportform.appendChild(startdateInput);
-    reportform.appendChild(document.createTextNode(' 至 '));
+    linecontrol.appendChild(startdateInput);
+    linecontrol.appendChild(document.createTextNode(' 至 '));
     const enddateInput = document.createElement('input');
     enddateInput.type = 'date';
     enddateInput.className = 'search-input';
     enddateInput.name = 'enddate';
     enddateInput.style.width = '140px';
     enddateInput.style.marginLeft = '5px';
-    reportform.appendChild(enddateInput);
+    linecontrol.appendChild(enddateInput);
 
-    const reportButton = document.createElement('button');
-    reportButton.className = 'button';
-    reportButton.id = 'reportbutton';
-    reportButton.style.display = 'inline-block';
-    reportButton.style.marginLeft = '20px';
-    reportButton.textContent = '报表';
-    reportform.appendChild(reportButton);
+    // const reportButton = document.createElement('button');
+    // reportButton.className = 'button';
+    // reportButton.id = 'reportbutton';
+    // reportButton.style.display = 'inline-block';
+    // reportButton.style.marginLeft = '20px';
+    // reportButton.textContent = '报表';
+    // reportform.appendChild(reportButton);
 
     const exportbutton = document.createElement('button');
     exportbutton.className = 'button';
     exportbutton.id = 'exportbutton';
-    exportbutton.style.display = 'inline-block';
-    exportbutton.style.marginLeft = '20px';
+    exportbutton.style.position = 'absolute';
+    exportbutton.style.right = '5px';
+    exportbutton.style.bottom = '5px';
     exportbutton.textContent = '导出CSV';
     exportbutton.disabled = true;
-    reportform.appendChild(exportbutton);
-
-    // reportform.appendChild(createTooltip('导出CSV后，请使用Excel中的“数据”->“从文本/CSV导入”功能打开，之后使用“数据到列”将数据分列。'));
+    searchbox.appendChild(exportbutton);
 
     // Append form to body or any other container
     searchbox.appendChild(form);
