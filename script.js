@@ -12,7 +12,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.0.6";
+    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.0.10";
     
     //page fist load
     // var searchcreteria = new FormData();
