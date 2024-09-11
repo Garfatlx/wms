@@ -2,10 +2,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WMS-Garfat</title>
+        <title>WMS-Maastricht</title>
         <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-        <script src="script.js?v=1.0.8" type="text/javascript"></script>
+        <script src="script.js?v=1.0.10" type="text/javascript"></script>
         <!-- <link href="/path/to/print.css" media="print" rel="stylesheet" /> -->
         <link href="loadingstyle.css" rel="stylesheet" type="text/css">
         <link href="otherstyle.css" rel="stylesheet" type="text/css">
@@ -88,7 +88,7 @@
         }
         .leftbody{
             display: inline-block;
-            width: calc(100vw-560px);
+            width: calc(100vw - 560px);
 
             min-width: 220px;
 
@@ -99,10 +99,10 @@
             flex-wrap: wrap;
             /* width: 620px;
             max-width: 620px; */
-            width: calc(100vw-560px);
+            width: calc(100vw - 560px);
 
             min-width: 220px;
-            margin: 5 5 5 5;
+            margin: 0px 0px 0px 0px;
             position: relative;
         }
         .activejobs{
@@ -541,5 +541,17 @@
         datalist {
             display: block !important;
         } */
+
+        .tableele{
+            position: relative;
+        }
+        .tableele:hover .tooltip {
+            top: 120%;
+            opacity: 1;
+            visibility: visible;
+            background: rgb(73 162 233);
+            transform: translate(-50%, -5px);
+            z-index: 2;
+        }
     </style>
 </html>

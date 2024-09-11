@@ -12,7 +12,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.0.6";
+    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.0.10";
     
     //page fist load
     // var searchcreteria = new FormData();
@@ -590,10 +590,12 @@ function showitemsearchbox(){
     form.className = 'searchform';
     // Center align elements
     form.style.display = 'flex';
+    form.style.margin="0px 0px 0px 0px";
 
     // Create div container
     const divContainer = document.createElement('div');
     divContainer.className = 'linecontrol';
+    divContainer.style.margin = '0px 0px 0px 0px';
     divContainer.style.display = 'flex';
     divContainer.style.flexWrap = 'wrap';
 
@@ -603,7 +605,7 @@ function showitemsearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '10px 0px 0px 0px';
+    searchInput.style.margin = '0px 8px 0px 5px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
@@ -625,7 +627,7 @@ function showitemsearchbox(){
     wareinputDiv.appendChild(input0);
     wareinputDiv.appendChild(input0label);
     wareinputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(wareinputDiv);
+    // divContainer.appendChild(wareinputDiv);
 
     const areainputDiv=document.createElement("div");
     areainputDiv.className="input-container";
@@ -645,8 +647,26 @@ function showitemsearchbox(){
     areainputDiv.appendChild(input0);
     areainputDiv.appendChild(input0label);
     areainputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(areainputDiv);
+    // divContainer.appendChild(areainputDiv);
     
+    // Create date input
+    divContainer.appendChild(document.createTextNode('日期:'));
+    const startdateInput = document.createElement('input');
+    startdateInput.type = 'date';
+    startdateInput.className = 'search-input';
+    startdateInput.name = 'startdate';
+    startdateInput.style.width = '140px';
+    startdateInput.style.marginRight = '5px';
+    divContainer.appendChild(startdateInput);
+    divContainer.appendChild(document.createTextNode(' 至 '));
+    const enddateInput = document.createElement('input');
+    enddateInput.type = 'date';
+    enddateInput.className = 'search-input';
+    enddateInput.name = 'enddate';
+    enddateInput.style.width = '140px';
+    enddateInput.style.marginLeft = '5px';
+    divContainer.appendChild(enddateInput);
+
     // Create search button
     const searchButton = document.createElement('button');
     searchButton.className = 'button';
@@ -656,78 +676,47 @@ function showitemsearchbox(){
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
+    
+    
     // Append div container to form
     form.appendChild(divContainer);
-
-    const reportform = document.createElement('form');
-    reportform.id = 'reportform';
-    reportform.className = 'reportform';
-    reportform.style.display = 'flex';
-    reportform.style.width = '100%';
-    reportform.style.margin = '0px 0px 0px 0px';
-
-    // Create date input
-    const startdateInput = document.createElement('input');
-    startdateInput.type = 'date';
-    startdateInput.className = 'search-input';
-    startdateInput.name = 'startdate';
-    startdateInput.style.width = '140px';
-    startdateInput.style.marginRight = '5px';
-    reportform.appendChild(startdateInput);
-    reportform.appendChild(document.createTextNode(' 至 '));
-    const enddateInput = document.createElement('input');
-    enddateInput.type = 'date';
-    enddateInput.className = 'search-input';
-    enddateInput.name = 'enddate';
-    enddateInput.style.width = '140px';
-    enddateInput.style.marginLeft = '5px';
-    reportform.appendChild(enddateInput);
-
-    const reportButton = document.createElement('button');
-    reportButton.className = 'button';
-    reportButton.id = 'reportbutton';
-    reportButton.style.display = 'inline-block';
-    reportButton.style.marginLeft = '20px';
-    reportButton.textContent = '报表';
-    reportform.appendChild(reportButton);
+    
 
     const exportbutton = document.createElement('button');
     exportbutton.className = 'button';
     exportbutton.id = 'exportbutton';
-    exportbutton.style.display = 'inline-block';
-    exportbutton.style.marginLeft = '20px';
     exportbutton.textContent = '导出CSV';
+    exportbutton.style.height = '29.2px';
     exportbutton.disabled = true;
-    reportform.appendChild(exportbutton);
-
-    // reportform.appendChild(createTooltip('导出CSV后，请使用Excel中的“数据”->“从文本/CSV导入”功能打开，之后使用“数据到列”将数据分列。'));
+    
 
     // Append form to body or any other container
     searchbox.appendChild(form);
-    searchbox.appendChild(reportform);
+    // searchbox.appendChild(reportform);
+    searchbox.appendChild(exportbutton);
 
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
-        if(searchcreteria.get("searchref")!="" && searchcreteria.get("jobid")!="" && searchcreteria.get("inventoryid")!=""){
+        if(searchcreteria.get("searchref")=="" && searchcreteria.get("startdate")=="" && searchcreteria.get("enddate")==""){
             alert("请输入搜索条件。");
         }else{
             showitems(searchcreteria);
         }
     });
-    reportform.addEventListener("submit", function (event) {
-        event.preventDefault();
-    });
-    reportButton.addEventListener("click", function() {
-        var searchcreteria = new FormData(reportform);
-        searchcreteria.append("status", "完成");
-        if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
-            showitems(searchcreteria);
-        }else{
-            alert("请输入开始、结束日期。");
-        }
-    });
+    // reportform.addEventListener("submit", function (event) {
+    //     event.preventDefault();
+    // });
+    // reportButton.addEventListener("click", function() {
+    //     var searchcreteria = new FormData(reportform);
+    //     searchcreteria.append("status", "完成");
+    //     if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
+    //         showitems(searchcreteria);
+    //     }else{
+    //         alert("请输入开始、结束日期。");
+    //     }
+    // });
     exportbutton.addEventListener("click", function() {
         // Convert JSON data to CSV
         const csvData = jsonToCsv(searchedreports);
@@ -976,6 +965,8 @@ async function showitems(searchcreteria,callback){
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
+    var previousRow = null;
+    var previousRowOriginalColor = "";
     // Create table body
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
@@ -986,24 +977,40 @@ async function showitems(searchcreteria,callback){
         //style each row based on status
         if(item.status!="完成"){
             row.style.color = "grey";
-        }else{
-            if(item.activity=="出库"){
-                row.style.fontStyle = "italic";
-            }
+        }
+        if(item.activity=="出库"){
+            row.style.fontStyle = "italic";
         }
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
-        columns.forEach(function(columnText) {
+        // var previousRow = nulll;
+        columns.forEach(function(columnText,index) {
             var td = document.createElement("td");
             td.textContent = columnText;
             row.appendChild(td);
 
+            if(index===5){
+                if(item.activity=="入库"){
+                    if(item.oripcs){
+                        if(item.pcs!=item.oripcs){
+                            td.style.color = "red";
+                            td.classList.add('tableele');
+                            const tooltip = document.createElement('span');
+                            tooltip.className = 'tooltip';
+                            tooltip.innerHTML = '预报件数: ' + item.oripcs;
+                            td.appendChild(tooltip);
+                        }
+                    }
+                }
+            }
+
             row.addEventListener("click", function() {
-                // if(document.getElementById("detailform")!=null){
-                //     alert("关闭当前任务后，点击出入库记录将显示详细信息。");
-                // }else{
-                    showactivitydetail(item);
-                    // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
-                // }
+                if(previousRow){
+                    previousRow.style.backgroundColor = previousRowOriginalColor;
+                }
+                previousRowOriginalColor=row.style.backgroundColor;
+                row.style.backgroundColor = 'rgb(73 162 233)';
+                previousRow = row;
+                showactivitydetail(item);
                 
             });
         });
@@ -1205,7 +1212,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.id="inputdate";
     input0.className="lineinput";
     input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['date']:"");;
+    input0.value=((clickeditem!='')?clickeditem['date']:new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16));
+    
     var input0label=document.createElement("label");
     input0label.innerHTML="日期";
     input0label.htmlFor="inputdate";
@@ -2503,6 +2511,12 @@ async function showinventorydetail(inventory,thisrow){
         printinventorylabel(inventory);
     });
 
+    if(access!=1){
+        deleteButton.disabled = true;
+        labelbutton.disabled = true;
+        selectlocationbutton.disabled = true;
+    }
+
 }
 async function showactivitydetail(activity){
     var itemdetail = document.getElementById("itemdetail");
@@ -2524,7 +2538,8 @@ async function showactivitydetail(activity){
     createActivityDetailItem('日期: ', activity['date']);
     createActivityDetailItem('活动: ', activity['activity']);
     createActivityDetailItem('箱号: ', activity['container']);
-    createActivityDetailItem('件数: ', activity['pcs']);
+    createActivityDetailItem('预报件数: ', activity['oripcs']);
+    createActivityDetailItem('实际件数: ', activity['pcs']);
     createActivityDetailItem('托数: ', activity['plt']);
     createActivityDetailItem('渠道: ', activity['channel']);
     createActivityDetailItem('箱唛: ', activity['marks']);
@@ -2821,7 +2836,7 @@ function printSpecificContent(clickeditem) {
             baseFontSize = baseFontSize-5;
         } 
     }
-    printWindow.print();
+    // printWindow.print();
     // if (clickeditem) {
     //     var printWindow = window.open('', '', 'height=1123,width=794');
     //     printWindow.document.write('<html><head><title>打印操作单</title>');
@@ -2853,7 +2868,8 @@ function printinventorylabel(content){
     }
 
     content.forEach(function(item) {
-        var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
+        // var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
+        var pagenumbers=1;
 
         for(var i=0;i<pagenumbers;i++){
             const pagediv = document.createElement('div');
