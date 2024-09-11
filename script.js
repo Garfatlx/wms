@@ -589,7 +589,7 @@ function showitemsearchbox(){
     form.id = 'searchform';
     form.className = 'searchform';
     // Center align elements
-    form.style.display = 'inlane-block';
+    form.style.display = 'flex';
 
     // Create div container
     const divContainer = document.createElement('div');
