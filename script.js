@@ -3499,7 +3499,8 @@ function createinventoryoperationdiv(){
         return infoline;
     }
 
-    searchedinventory=searchinventory();
+    var searchallinventory = new FormData();
+    searchedinventory=searchinventory(searchallinventory);
 
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
     //group the inventory by label
