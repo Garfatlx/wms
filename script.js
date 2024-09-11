@@ -1000,7 +1000,7 @@ async function showitems(searchcreteria,callback){
             row.appendChild(td);
 
             if(index===5){
-                if(item.orpcs){
+                if(item.oripcs){
                     if(item.pcs!=item.oripcs){
                         console.log(item.orpcs);
                         td.style.color = "red";
