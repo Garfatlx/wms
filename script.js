@@ -2439,6 +2439,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
     createInventoryDetailItem('创建时间', inventory['date']);
+    createInventoryDetailItem('最后盘库时间', inventory['checkdate']);
     createInventoryDetailItem('库位', inventory['inventoryloc']);
 
     inventorydetail.appendChild(document.createElement('br'));
