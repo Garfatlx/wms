@@ -1003,6 +1003,7 @@ async function showitems(searchcreteria,callback){
                 if(item.oripcs){
                     if(item.pcs!=item.oripcs){
                         td.style.color = "red";
+                        td.classList.add('tableele');
                         const tooltip = document.createElement('span');
                         tooltip.className = 'tooltip';
                         tooltip.innerHTML = '预报件数: ' + item.orpcs;
