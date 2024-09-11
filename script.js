@@ -1000,14 +1000,16 @@ async function showitems(searchcreteria,callback){
             row.appendChild(td);
 
             if(index===5){
-                if(item.oripcs){
-                    if(item.pcs!=item.oripcs){
-                        td.style.color = "red";
-                        td.classList.add('tableele');
-                        const tooltip = document.createElement('span');
-                        tooltip.className = 'tooltip';
-                        tooltip.innerHTML = '预报件数: ' + item.oripcs;
-                        td.appendChild(tooltip);
+                if(item.activity=="入库"){
+                    if(item.oripcs){
+                        if(item.pcs!=item.oripcs){
+                            td.style.color = "red";
+                            td.classList.add('tableele');
+                            const tooltip = document.createElement('span');
+                            tooltip.className = 'tooltip';
+                            tooltip.innerHTML = '预报件数: ' + item.oripcs;
+                            td.appendChild(tooltip);
+                        }
                     }
                 }
             }
