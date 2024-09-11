@@ -1010,7 +1010,6 @@ async function showitems(searchcreteria,callback){
                         td.appendChild(tooltip);
                     }
                 }
-                td.style.color = item.pcs=="入库"?"green":"red";
             }
 
             row.addEventListener("click", function() {
@@ -2548,7 +2547,8 @@ async function showactivitydetail(activity){
     createActivityDetailItem('日期: ', activity['date']);
     createActivityDetailItem('活动: ', activity['activity']);
     createActivityDetailItem('箱号: ', activity['container']);
-    createActivityDetailItem('件数: ', activity['pcs']);
+    createActivityDetailItem('预报件数: ', activity['oripcs']);
+    createActivityDetailItem('实际件数: ', activity['pcs']);
     createActivityDetailItem('托数: ', activity['plt']);
     createActivityDetailItem('渠道: ', activity['channel']);
     createActivityDetailItem('箱唛: ', activity['marks']);
