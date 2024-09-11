@@ -605,7 +605,7 @@ function showitemsearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '8px 0px 0px 0px';
+    searchInput.style.margin = '0px 8px 0px 5px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
