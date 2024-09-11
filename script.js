@@ -975,7 +975,7 @@ async function showitems(searchcreteria,callback){
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
-
+    var previousRow = null;
     // Create table body
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
@@ -990,7 +990,6 @@ async function showitems(searchcreteria,callback){
         if(item.activity=="出库"){
             row.style.fontStyle = "italic";
         }
-        
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
         // var previousRow = nulll;
         columns.forEach(function(columnText) {
@@ -999,12 +998,12 @@ async function showitems(searchcreteria,callback){
             row.appendChild(td);
 
             row.addEventListener("click", function() {
-                // if(previousRow){
-                //     previousRow.style.boxShadow = "";
-                // }
-                // row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
-                // previousRow = row;
-                    showactivitydetail(item);
+                if(previousRow){
+                    previousRow.style.boxShadow = "";
+                }
+                row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+                previousRow = row;
+                showactivitydetail(item);
                 
             });
         });
