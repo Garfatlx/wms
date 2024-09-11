@@ -1004,7 +1004,7 @@ async function showitems(searchcreteria,callback){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
                 }
                 previousRowOriginalColor=row.style.backgroundColor;
-                row.style.backgroundColor = '#0078D7';
+                row.style.backgroundColor = 'rgb(73 162 233)';
                 previousRow = row;
                 showactivitydetail(item);
                 
