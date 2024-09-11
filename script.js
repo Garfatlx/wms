@@ -3474,7 +3474,7 @@ function replacer(key, value) {
     return value === null ? '' : value;
 }
 
-function createinventoryoperationdiv(){
+async function createinventoryoperationdiv(){
     const operationdiv = document.createElement('div');
     operationdiv.className = 'operationdiv';
     operationdiv.style.display = 'flex';
@@ -3500,6 +3500,12 @@ function createinventoryoperationdiv(){
     }
 
     var searchallinventory = new FormData();
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+        method: 'POST',
+        body: searchallinventory,
+    });
+    const searchallinventory = await response.json()['data'];
+
     searchedinventory=searchinventory(searchallinventory);
 
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
