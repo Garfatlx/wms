@@ -1001,7 +1001,7 @@ async function showitems(searchcreteria,callback){
                 if(previousRow){
                     previousRow.style.boxShadow = "";
                 }
-                row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+                row.style.boxShadow = 'inset 0px 0px 6px 3px rgb(91 175 49)';
                 previousRow = row;
                 showactivitydetail(item);
                 
