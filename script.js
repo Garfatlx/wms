@@ -975,7 +975,9 @@ async function showitems(searchcreteria,callback){
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
+
     var previousRow = null;
+    var previousRowOriginalColor = "";
     // Create table body
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
@@ -999,9 +1001,10 @@ async function showitems(searchcreteria,callback){
 
             row.addEventListener("click", function() {
                 if(previousRow){
-                    previousRow.style.boxShadow = "";
+                    previousRow.style.backgroundColor = previousRowOriginalColor;
                 }
-                row.style.boxShadow = 'inset 0px 0px 6px 3px rgb(91 175 49)';
+                previousRowOriginalColor=row.style.backgroundColor;
+                row.style.backgroundColor = '#0078D7';
                 previousRow = row;
                 showactivitydetail(item);
                 
