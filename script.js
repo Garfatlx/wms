@@ -589,7 +589,7 @@ function showitemsearchbox(){
     form.id = 'searchform';
     form.className = 'searchform';
     // Center align elements
-    form.style.display = 'flex';
+    form.style.display = 'inlane-block';
 
     // Create div container
     const divContainer = document.createElement('div');
@@ -625,7 +625,7 @@ function showitemsearchbox(){
     wareinputDiv.appendChild(input0);
     wareinputDiv.appendChild(input0label);
     wareinputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(wareinputDiv);
+    // divContainer.appendChild(wareinputDiv);
 
     const areainputDiv=document.createElement("div");
     areainputDiv.className="input-container";
@@ -645,7 +645,7 @@ function showitemsearchbox(){
     areainputDiv.appendChild(input0);
     areainputDiv.appendChild(input0label);
     areainputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(areainputDiv);
+    // divContainer.appendChild(areainputDiv);
     
     // Create search button
     const searchButton = document.createElement('button');
