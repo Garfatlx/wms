@@ -3504,9 +3504,7 @@ async function createinventoryoperationdiv(){
         method: 'POST',
         body: searchallinventory,
     });
-    const searchallinventory = await response.json()['data'];
-
-    searchedinventory=searchinventory(searchallinventory);
+    searchedinventory = await response.json()['data'];
 
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
     //group the inventory by label
