@@ -673,19 +673,16 @@ function showitemsearchbox(){
     searchButton.textContent = '搜索';
     divContainer.appendChild(searchButton);
 
-    const linecontrol = document.createElement('div');
-    linecontrol.className = 'linecontrol';
-    linecontrol.style.display = 'flex';
+    
     
     // Append div container to form
     form.appendChild(divContainer);
-    form.appendChild(linecontrol);
-    const reportform = document.createElement('form');
-    reportform.id = 'reportform';
-    reportform.className = 'reportform';
-    reportform.style.display = 'flex';
-    reportform.style.width = '100%';
-    reportform.style.margin = '0px 0px 0px 0px';
+    // const reportform = document.createElement('form');
+    // reportform.id = 'reportform';
+    // reportform.className = 'reportform';
+    // reportform.style.display = 'flex';
+    // reportform.style.width = '100%';
+    // reportform.style.margin = '0px 0px 0px 0px';
 
     
 
@@ -706,9 +703,9 @@ function showitemsearchbox(){
 
     // Append form to body or any other container
     searchbox.appendChild(form);
-    searchbox.appendChild(reportform);
+    // searchbox.appendChild(reportform);
     searchbox.appendChild(exportbutton);
-    
+
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -719,9 +716,9 @@ function showitemsearchbox(){
             showitems(searchcreteria);
         }
     });
-    reportform.addEventListener("submit", function (event) {
-        event.preventDefault();
-    });
+    // reportform.addEventListener("submit", function (event) {
+    //     event.preventDefault();
+    // });
     // reportButton.addEventListener("click", function() {
     //     var searchcreteria = new FormData(reportform);
     //     searchcreteria.append("status", "完成");
