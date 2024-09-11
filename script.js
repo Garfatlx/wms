@@ -545,10 +545,11 @@ function showinventorysearchbox(){
         inventoryoperationbut.style.alignSelf = 'center';
         inventoryoperationbut.textContent = '库存操作';
         inventoryoperationbut.addEventListener("click", function() {
-           
+           document.getElementById("activejobs").innerHTML="";
+           document.getElementById("activejobs").appendChild(createinventoryoperationdiv());
             
         });
-        divContainer.appendChild(inventoryoperationbut);
+        searchbox.appendChild(inventoryoperationbut);
     }
 
     //search form
@@ -3471,4 +3472,96 @@ function jsonToCsv(json) {
 }
 function replacer(key, value) {
     return value === null ? '' : value;
+}
+
+function createinventoryoperationdiv(){
+    const operationdiv = document.createElement('div');
+    operationdiv.className = 'operationdiv';
+    operationdiv.style.display = 'flex';
+    operationdiv.style.flexDirection = 'column';
+    operationdiv.style.justifyContent = 'center';
+    operationdiv.style.margin = '0px 0px 0px 0px';
+    operationdiv.style.width = '100%';
+
+    function createinfoline(label, value) {
+        const infoline = document.createElement('div');
+        infoline.style.display = 'flex';
+        infoline.style.flexDirection = 'row';
+        infoline.style.fontSize = '18px';
+        infoline.style.justifyContent = 'space-between';
+        infoline.style.margin = '0px 0px 0px 0px';
+        const infolabel = document.createElement('div');
+        infolabel.innerHTML = label;
+        const infovalue = document.createElement('div');
+        infovalue.innerHTML = value;
+        infoline.appendChild(infolabel);
+        infoline.appendChild(infovalue);
+        return infoline;
+    }
+
+    searchedinventory=searchinventory();
+
+    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    //group the inventory by label
+    const inventorygroup = searchedinventory.reduce((acc, item) => {
+        if (!acc[item.label]) {
+            acc[item.label] = 0;
+        }
+        acc[item.label] += Number(item.pcs);
+        return acc;
+    }, {});
+    //create a table for the inventorygroup
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.margin = '0px 0px 0px 0px';
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+    const tr = document.createElement('tr');
+    const th1 = document.createElement('th');
+    th1.innerHTML = '标签';
+    th1.style.border = '1px solid black';
+    th1.style.padding = '8px';
+    const th2 = document.createElement('th');
+    th2.innerHTML = '件数';
+    th2.style.border = '1px solid black';
+    th2.style.padding = '8px';
+    tr.appendChild(th1);
+    tr.appendChild(th2);
+    thead.appendChild(tr);
+    table.appendChild(thead);
+    for (const label in inventorygroup) {
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td');
+        td1.innerHTML = label;
+        td1.style.border = '1px solid black';
+        td1.style.padding = '8px';
+        const td2 = document.createElement('td');
+        td2.innerHTML = inventorygroup[label];
+        td2.style.border = '1px solid black';
+        td2.style.padding = '8px';
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+
+    operationdiv.appendChild(table);
+    //find the lastest checkdate of the inventory
+    const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
+    //sum the total pcs of the inventory with the lastest checkdate
+    const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() === lastcheckdate);
+    const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    //group the lastcheckinventory by label
+    const lastcheckinventorygroup = lastcheckinventory.reduce((acc, item) => {
+        if (!acc[item.label]) {
+            acc[item.label] = 0;
+        }
+        acc[item.label] += Number(item.pcs);
+        return acc;
+    }, {});
+    operationdiv.appendChild(createinfoline('总件数:', totalpcs));
+
+
+    return operationdiv;
 }
