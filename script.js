@@ -595,6 +595,7 @@ function showitemsearchbox(){
     // Create div container
     const divContainer = document.createElement('div');
     divContainer.className = 'linecontrol';
+    divContainer.style.margin = '0px 0px 0px 0px';
     divContainer.style.display = 'flex';
     divContainer.style.flexWrap = 'wrap';
 
@@ -604,7 +605,7 @@ function showitemsearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '0px 0px 5px 0px';
+    searchInput.style.margin = '8px 0px 0px 0px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
