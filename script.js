@@ -3477,6 +3477,7 @@ async function createinventoryoperationdiv(){
     const activeJobs = document.getElementById('activejobs');
     activeJobs.innerHTML = '';
 
+    //frame for the operation
     const operationdiv = document.createElement('div');
     operationdiv.className = 'operationdiv';
     operationdiv.style.display = 'flex';
@@ -3484,24 +3485,32 @@ async function createinventoryoperationdiv(){
     operationdiv.style.justifyContent = 'center';
     operationdiv.style.margin = '0px 0px 0px 0px';
     operationdiv.style.width = '100%';
-
     activeJobs.appendChild(operationdiv);
 
-    function createinfoline(label, value) {
-        const infoline = document.createElement('div');
-        infoline.style.display = 'flex';
-        infoline.style.flexDirection = 'row';
-        infoline.style.fontSize = '16px';
-        infoline.style.justifyContent = 'space-between';
-        infoline.style.margin = '0px 0px 0px 0px';
-        const infolabel = document.createElement('div');
-        infolabel.innerHTML = label;
-        const infovalue = document.createElement('div');
-        infovalue.innerHTML = value;
-        infoline.appendChild(infolabel);
-        infoline.appendChild(infovalue);
-        return infoline;
-    }
+    const statisticcomparediv = document.createElement('div');
+    statisticcomparediv.style.display = 'flex';
+    statisticcomparediv.style.flexDirection = 'row';
+    statisticcomparediv.style.justifyContent = 'center';
+    statisticcomparediv.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv);
+
+    const alldiv = document.createElement('div');
+    alldiv.style.display = 'flex';
+    alldiv.style.flexDirection = 'column';
+    alldiv.style.justifyContent = 'center';
+    alldiv.style.margin = '0px 0px 0px 0px';
+    alldiv.style.width = '50%';
+    statisticcomparediv.appendChild(alldiv);
+
+    const lastcheckdiv = document.createElement('div');
+    lastcheckdiv.style.display = 'flex';
+    lastcheckdiv.style.flexDirection = 'column';
+    lastcheckdiv.style.justifyContent = 'center';
+    lastcheckdiv.style.margin = '0px 0px 0px 0px';
+    lastcheckdiv.style.width = '50%';
+    statisticcomparediv.appendChild(lastcheckdiv);
+
 
     var searchallinventory = new FormData();
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
@@ -3510,6 +3519,8 @@ async function createinventoryoperationdiv(){
     });
     const data = await response.json();
     searchedinventory = data['data'];
+
+    //all inventory
 
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
     //group the inventory by label
@@ -3520,11 +3531,13 @@ async function createinventoryoperationdiv(){
         acc[item.label] += Number(item.pcs);
         return acc;
     }, {});
+
+    alldiv.appendChild(createinfoline('总件数:', totalpcs));
+
     //create a table for the inventorygroup
-    
     const allinventorytable = createsubtable(["仓点", "件数"],inventorygroup);
-    allinventorytable.style.width = '400px';
-    operationdiv.appendChild(allinventorytable);
+    allinventorytable.style.width = '100%';
+    alldiv.appendChild(allinventorytable);
 
     //find the lastest checkdate of the inventory
     const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
@@ -3539,8 +3552,40 @@ async function createinventoryoperationdiv(){
         acc[item.label] += Number(item.pcs);
         return acc;
     }, {});
-    operationdiv.appendChild(createinfoline('总件数:', totalpcs));
 
+    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', lastcheckdate));
+    lastcheckdiv.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
+
+    //create a table for the lastcheckinventorygroup
+    const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
+    lastcheckinventorytable.style.width = '100%';
+    lastcheckdiv.appendChild(lastcheckinventorytable);
+
+    //group the inventory by customer
+    const inventorybycustomer = searchedinventory.reduce((acc, item) => {
+        if (!acc[item.customer]) {
+            acc[item.customer] = 0;
+        }
+        acc[item.customer] += Number(item.pcs);
+        return acc;
+    }, {});
+
+    
+    function createinfoline(label, value) {
+        const infoline = document.createElement('div');
+        infoline.style.display = 'flex';
+        infoline.style.flexDirection = 'row';
+        infoline.style.fontSize = '16px';
+        infoline.style.justifyContent = 'center';
+        infoline.style.margin = '0px 0px 0px 0px';
+        const infolabel = document.createElement('div');
+        infolabel.innerHTML = label;
+        const infovalue = document.createElement('div');
+        infovalue.innerHTML = value;
+        infoline.appendChild(infolabel);
+        infoline.appendChild(infovalue);
+        return infoline;
+    }
     function createsubtable(headers,tabledata){
         console.log(tabledata);
 
