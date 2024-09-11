@@ -3491,7 +3491,7 @@ async function createinventoryoperationdiv(){
         const infoline = document.createElement('div');
         infoline.style.display = 'flex';
         infoline.style.flexDirection = 'row';
-        infoline.style.fontSize = '18px';
+        infoline.style.fontSize = '16px';
         infoline.style.justifyContent = 'space-between';
         infoline.style.margin = '0px 0px 0px 0px';
         const infolabel = document.createElement('div');
@@ -3574,12 +3574,8 @@ async function createinventoryoperationdiv(){
             tr.className = "inventory-table-row";
             const td1 = document.createElement('td');
             td1.innerHTML = label;
-            td1.style.border = '1px solid black';
-            td1.style.padding = '8px';
             const td2 = document.createElement('td');
             td2.innerHTML = inventorygroup[label];
-            td2.style.border = '1px solid black';
-            td2.style.padding = '8px';
             tr.appendChild(td1);
             tr.appendChild(td2);
             tbody.appendChild(tr);
