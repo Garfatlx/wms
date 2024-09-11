@@ -3526,7 +3526,6 @@ async function createinventoryoperationdiv(){
     allinventorytable.style.width = '400px';
     operationdiv.appendChild(allinventorytable);
 
-    operationdiv.appendChild(table);
     //find the lastest checkdate of the inventory
     const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
     //sum the total pcs of the inventory with the lastest checkdate
@@ -3542,7 +3541,7 @@ async function createinventoryoperationdiv(){
     }, {});
     operationdiv.appendChild(createinfoline('总件数:', totalpcs));
 
-    function createsubtable(headers,data){
+    function createsubtable(headers,tabledata){
 
         var table = document.createElement("table");
         table.className = "inventory-table";
@@ -3568,7 +3567,7 @@ async function createinventoryoperationdiv(){
         var tbody = document.createElement("tbody");
         tbody.id = "inventory-table-body";
         tbody.className = "inventory-table-body";
-        data.forEach(function(item) {
+        tabledata.forEach(function(item) {
             var row = document.createElement("tr");
             row.className = "inventory-table-row";
             var values = Object.values(item);
