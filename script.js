@@ -992,18 +992,18 @@ async function showitems(searchcreteria,callback){
         }
         
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
-        var previousRow = nulll;
+        // var previousRow = nulll;
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
             row.appendChild(td);
 
             row.addEventListener("click", function() {
-                if(previousRow){
-                    previousRow.style.boxShadow = "";
-                }
-                row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
-                previousRow = row;
+                // if(previousRow){
+                //     previousRow.style.boxShadow = "";
+                // }
+                // row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+                // previousRow = row;
                     showactivitydetail(item);
                 
             });
