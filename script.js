@@ -3511,8 +3511,6 @@ async function createinventoryoperationdiv(){
     const data = await response.json();
     searchedinventory = data['data'];
 
-    console.log(searchedinventory);
-
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
     //group the inventory by label
     const inventorygroup = searchedinventory.reduce((acc, item) => {
@@ -3523,40 +3521,10 @@ async function createinventoryoperationdiv(){
         return acc;
     }, {});
     //create a table for the inventorygroup
-    const table = document.createElement('table');
-    table.style.width = '100%';
-    table.style.borderCollapse = 'collapse';
-    table.style.margin = '0px 0px 0px 0px';
-    const thead = document.createElement('thead');
-    const tbody = document.createElement('tbody');
-    const tr = document.createElement('tr');
-    const th1 = document.createElement('th');
-    th1.innerHTML = '标签';
-    th1.style.border = '1px solid black';
-    th1.style.padding = '8px';
-    const th2 = document.createElement('th');
-    th2.innerHTML = '件数';
-    th2.style.border = '1px solid black';
-    th2.style.padding = '8px';
-    tr.appendChild(th1);
-    tr.appendChild(th2);
-    thead.appendChild(tr);
-    table.appendChild(thead);
-    for (const label in inventorygroup) {
-        const tr = document.createElement('tr');
-        const td1 = document.createElement('td');
-        td1.innerHTML = label;
-        td1.style.border = '1px solid black';
-        td1.style.padding = '8px';
-        const td2 = document.createElement('td');
-        td2.innerHTML = inventorygroup[label];
-        td2.style.border = '1px solid black';
-        td2.style.padding = '8px';
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tbody.appendChild(tr);
-    }
-    table.appendChild(tbody);
+    
+    const allinventorytable = createsubtable(["仓点", "件数"],inventorygroup);
+    allinventorytable.style.width = '400px';
+    operationdiv.appendChild(allinventorytable);
 
     operationdiv.appendChild(table);
     //find the lastest checkdate of the inventory
@@ -3574,5 +3542,45 @@ async function createinventoryoperationdiv(){
     }, {});
     operationdiv.appendChild(createinfoline('总件数:', totalpcs));
 
+    function createsubtable(headers,data){
+
+        var table = document.createElement("table");
+        table.className = "inventory-table";
+    
+        // Create table header
+        var thead = document.createElement("thead");
+        thead.className = "inventory-table-header";
+        var headerRow = document.createElement("tr");
+        // var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数"];
+        headers.forEach(function(headerText, index) {
+            var th = document.createElement("th");
+            th.textContent = headerText;
+            th.addEventListener("click", function() {
+                sortTable(index);
+            });
+    
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        // Create table body
+        var tbody = document.createElement("tbody");
+        tbody.id = "inventory-table-body";
+        tbody.className = "inventory-table-body";
+        data.forEach(function(item) {
+            var row = document.createElement("tr");
+            row.className = "inventory-table-row";
+            var values = Object.values(item);
+            values.forEach(function(value) {
+                var td = document.createElement("td");
+                td.textContent = value;
+                row.appendChild(td);
+            });
+            tbody.appendChild(row);
+        });
+        table.appendChild(tbody);
+        return table;
+    }
 
 }
