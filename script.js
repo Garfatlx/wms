@@ -1002,6 +1002,7 @@ async function showitems(searchcreteria,callback){
             if(index===5){
                 if(item.orpcs){
                     if(item.pcs!=item.orpcs){
+                        console.log(item.orpcs);
                         td.style.color = "red";
                         const tooltip = document.createElement('span');
                         tooltip.className = 'tooltip';
