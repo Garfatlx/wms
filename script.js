@@ -3542,6 +3542,7 @@ async function createinventoryoperationdiv(){
     operationdiv.appendChild(createinfoline('总件数:', totalpcs));
 
     function createsubtable(headers,tabledata){
+        console.log(tabledata);
 
         var table = document.createElement("table");
         table.className = "inventory-table";
@@ -3567,17 +3568,24 @@ async function createinventoryoperationdiv(){
         var tbody = document.createElement("tbody");
         tbody.id = "inventory-table-body";
         tbody.className = "inventory-table-body";
-        tabledata.forEach(function(item) {
-            var row = document.createElement("tr");
-            row.className = "inventory-table-row";
-            var values = Object.values(item);
-            values.forEach(function(value) {
-                var td = document.createElement("td");
-                td.textContent = value;
-                row.appendChild(td);
-            });
-            tbody.appendChild(row);
-        });
+
+        for (const label in tabledata) {
+            const tr = document.createElement('tr');
+            tr.className = "inventory-table-row";
+            const td1 = document.createElement('td');
+            td1.innerHTML = label;
+            td1.style.border = '1px solid black';
+            td1.style.padding = '8px';
+            const td2 = document.createElement('td');
+            td2.innerHTML = inventorygroup[label];
+            td2.style.border = '1px solid black';
+            td2.style.padding = '8px';
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+        }
+
+       
         table.appendChild(tbody);
         return table;
     }
