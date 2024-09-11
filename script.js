@@ -521,10 +521,12 @@ function showinventorysearchbox(){
     inventorymapbutton.className = 'button';
     inventorymapbutton.id = 'inventorymapbutton';
     inventorymapbutton.style.display = 'inline-block';
-    inventorymapbutton.style.justifySelf = 'flex-end';
+    // inventorymapbutton.style.justifySelf = 'flex-end';
     inventorymapbutton.style.alignSelf = 'center';
     inventorymapbutton.textContent = '库存地图';
     inventorymapbutton.disabled = true;
+
+    
     
 
     // Append div container to form
@@ -533,6 +535,22 @@ function showinventorysearchbox(){
     // Append form to body or any other container
     searchbox.appendChild(form);
     searchbox.appendChild(inventorymapbutton);
+
+    //Invnetory operation button
+    if(access==1){
+        const inventoryoperationbut = document.createElement('button');
+        inventoryoperationbut.className = 'button';
+        inventoryoperationbut.id = 'newinventorybutton';
+        inventoryoperationbut.style.display = 'inline-block';
+        inventoryoperationbut.style.alignSelf = 'center';
+        inventoryoperationbut.textContent = '库存操作';
+        inventoryoperationbut.addEventListener("click", function() {
+           
+            
+        });
+        divContainer.appendChild(inventoryoperationbut);
+    }
+
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
