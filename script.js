@@ -2847,7 +2847,7 @@ function printSpecificContent(clickeditem) {
             baseFontSize = baseFontSize-5;
         } 
     }
-    printWindow.print();
+    // printWindow.print();
     // if (clickeditem) {
     //     var printWindow = window.open('', '', 'height=1123,width=794');
     //     printWindow.document.write('<html><head><title>打印操作单</title>');
