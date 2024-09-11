@@ -698,9 +698,7 @@ function showitemsearchbox(){
     const exportbutton = document.createElement('button');
     exportbutton.className = 'button';
     exportbutton.id = 'exportbutton';
-    exportbutton.style.position = 'absolute';
-    exportbutton.style.right = '5px';
-    exportbutton.style.bottom = '5px';
+    
     exportbutton.textContent = '导出CSV';
     exportbutton.disabled = true;
     divContainer.appendChild(exportbutton);
