@@ -659,10 +659,10 @@ function showitemsearchbox(){
     const linecontrol = document.createElement('div');
     linecontrol.className = 'linecontrol';
     linecontrol.style.display = 'flex';
-    form.appendChild(linecontrol);
+    
     // Append div container to form
     form.appendChild(divContainer);
-
+    form.appendChild(linecontrol);
     const reportform = document.createElement('form');
     reportform.id = 'reportform';
     reportform.className = 'reportform';
@@ -722,15 +722,15 @@ function showitemsearchbox(){
     reportform.addEventListener("submit", function (event) {
         event.preventDefault();
     });
-    reportButton.addEventListener("click", function() {
-        var searchcreteria = new FormData(reportform);
-        searchcreteria.append("status", "完成");
-        if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
-            showitems(searchcreteria);
-        }else{
-            alert("请输入开始、结束日期。");
-        }
-    });
+    // reportButton.addEventListener("click", function() {
+    //     var searchcreteria = new FormData(reportform);
+    //     searchcreteria.append("status", "完成");
+    //     if(searchcreteria.get("startdate")!="" && searchcreteria.get("enddate")!=""){
+    //         showitems(searchcreteria);
+    //     }else{
+    //         alert("请输入开始、结束日期。");
+    //     }
+    // });
     exportbutton.addEventListener("click", function() {
         // Convert JSON data to CSV
         const csvData = jsonToCsv(searchedreports);
