@@ -67,7 +67,7 @@ window.addEventListener("load", function(){
             showitemsearchbox();
             if(customername){
                 var searchcreteria = new FormData();
-                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
                 showitems(searchcreteria);
                 // showitems(searchcreteria,function(){
