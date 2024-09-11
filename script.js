@@ -992,18 +992,19 @@ async function showitems(searchcreteria,callback){
         }
         
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
+        var previousRow = nulll;
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
             row.appendChild(td);
 
             row.addEventListener("click", function() {
-                // if(document.getElementById("detailform")!=null){
-                //     alert("关闭当前任务后，点击出入库记录将显示详细信息。");
-                // }else{
+                if(previousRow){
+                    previousRow.style.boxShadow = "";
+                }
+                row.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+                previousRow = row;
                     showactivitydetail(item);
-                    // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
-                // }
                 
             });
         });
