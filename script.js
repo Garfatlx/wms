@@ -1006,7 +1006,7 @@ async function showitems(searchcreteria,callback){
                         td.classList.add('tableele');
                         const tooltip = document.createElement('span');
                         tooltip.className = 'tooltip';
-                        tooltip.innerHTML = '预报件数: ' + item.orpcs;
+                        tooltip.innerHTML = '预报件数: ' + item.oripcs;
                         td.appendChild(tooltip);
                     }
                 }
