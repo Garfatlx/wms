@@ -545,8 +545,7 @@ function showinventorysearchbox(){
         inventoryoperationbut.style.alignSelf = 'center';
         inventoryoperationbut.textContent = '库存操作';
         inventoryoperationbut.addEventListener("click", function() {
-           document.getElementById("activejobs").innerHTML="";
-           document.getElementById("activejobs").appendChild(createinventoryoperationdiv());
+            createinventoryoperationdiv();
             
         });
         searchbox.appendChild(inventoryoperationbut);
@@ -3475,6 +3474,9 @@ function replacer(key, value) {
 }
 
 async function createinventoryoperationdiv(){
+    const activeJobs = document.getElementById('activejobs');
+    activeJobs.innerHTML = '';
+
     const operationdiv = document.createElement('div');
     operationdiv.className = 'operationdiv';
     operationdiv.style.display = 'flex';
@@ -3482,6 +3484,8 @@ async function createinventoryoperationdiv(){
     operationdiv.style.justifyContent = 'center';
     operationdiv.style.margin = '0px 0px 0px 0px';
     operationdiv.style.width = '100%';
+
+    activeJobs.appendChild(operationdiv);
 
     function createinfoline(label, value) {
         const infoline = document.createElement('div');
@@ -3568,5 +3572,4 @@ async function createinventoryoperationdiv(){
     operationdiv.appendChild(createinfoline('总件数:', totalpcs));
 
 
-    return operationdiv;
 }
