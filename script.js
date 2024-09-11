@@ -590,6 +590,7 @@ function showitemsearchbox(){
     form.className = 'searchform';
     // Center align elements
     form.style.display = 'flex';
+    form.style.margin="0px 0px 0px 0px";
 
     // Create div container
     const divContainer = document.createElement('div');
@@ -648,6 +649,7 @@ function showitemsearchbox(){
     // divContainer.appendChild(areainputDiv);
     
     // Create date input
+    divContainer.appendChild(document.createTextNode(' 日期：'));
     const startdateInput = document.createElement('input');
     startdateInput.type = 'date';
     startdateInput.className = 'search-input';
