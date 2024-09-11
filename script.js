@@ -994,10 +994,23 @@ async function showitems(searchcreteria,callback){
         }
         var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
         // var previousRow = nulll;
-        columns.forEach(function(columnText) {
+        columns.forEach(function(columnText,index) {
             var td = document.createElement("td");
             td.textContent = columnText;
             row.appendChild(td);
+
+            if(index===5){
+                if(item.orpcs){
+                    if(item.pcs!=item.orpcs){
+                        td.style.color = "red";
+                        const tooltip = document.createElement('span');
+                        tooltip.className = 'tooltip';
+                        tooltip.innerHTML = '预报件数: ' + item.orpcs;
+                        td.appendChild(tooltip);
+                    }
+                }
+                td.style.color = item.pcs=="入库"?"green":"red";
+            }
 
             row.addEventListener("click", function() {
                 if(previousRow){
