@@ -25,7 +25,7 @@
         var urlObj = new URL(url);
         var urlParams = new URLSearchParams(urlObj.search);
         var inventoryid = urlParams.get('inventoryid');
-        var inventorydetail;
+        var searchedinventory;
         
         var itemsearchcreteria = new FormData();
         itemsearchcreteria.append("inventoryid",inventoryid);
@@ -83,6 +83,23 @@
         }
         xhr1.responseType="json";
         xhr1.send(itemsearchcreteria);
+
+        var searchcriteria = new FormData();
+            searchcriteria.append("inventoryid",inventoryid);
+            fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+                method: 'POST',
+                body: searchcriteria,
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                if (data['error_code'] == 0) {
+                    searchedinventory = data['data'][0];
+                    
+                }else{
+                    
+                }
+            });
+
 
         showinventorydetailbut.addEventListener('click', function() {
             var searchcriteria = new FormData();
