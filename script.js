@@ -3511,6 +3511,8 @@ async function createinventoryoperationdiv(){
     const data = await response.json();
     searchedinventory = data['data'];
 
+    console.log(searchedinventory);
+
     const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
     //group the inventory by label
     const inventorygroup = searchedinventory.reduce((acc, item) => {
