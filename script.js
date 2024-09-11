@@ -604,7 +604,7 @@ function showitemsearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '0px 0px 0px 0px';
+    searchInput.style.margin = '0px 0px 5px 0px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
@@ -649,7 +649,7 @@ function showitemsearchbox(){
     // divContainer.appendChild(areainputDiv);
     
     // Create date input
-    divContainer.appendChild(document.createTextNode(' 日期：'));
+    divContainer.appendChild(document.createTextNode('日期:'));
     const startdateInput = document.createElement('input');
     startdateInput.type = 'date';
     startdateInput.className = 'search-input';
@@ -679,27 +679,13 @@ function showitemsearchbox(){
     
     // Append div container to form
     form.appendChild(divContainer);
-    // const reportform = document.createElement('form');
-    // reportform.id = 'reportform';
-    // reportform.className = 'reportform';
-    // reportform.style.display = 'flex';
-    // reportform.style.width = '100%';
-    // reportform.style.margin = '0px 0px 0px 0px';
-
     
-
-    // const reportButton = document.createElement('button');
-    // reportButton.className = 'button';
-    // reportButton.id = 'reportbutton';
-    // reportButton.style.display = 'inline-block';
-    // reportButton.style.marginLeft = '20px';
-    // reportButton.textContent = '报表';
-    // reportform.appendChild(reportButton);
 
     const exportbutton = document.createElement('button');
     exportbutton.className = 'button';
     exportbutton.id = 'exportbutton';
     exportbutton.textContent = '导出CSV';
+    exportbutton.style.height = '29.2px';
     exportbutton.disabled = true;
     
 
