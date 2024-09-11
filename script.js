@@ -3553,7 +3553,7 @@ async function createinventoryoperationdiv(){
         return acc;
     }, {});
 
-    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', formatDate(lastcheckdate)));
+    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', formatDate(new Date(lastcheckdate))));
     lastcheckdiv.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
 
     //create a table for the lastcheckinventorygroup
