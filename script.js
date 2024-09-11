@@ -603,7 +603,7 @@ function showitemsearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '10px 0px 0px 0px';
+    searchInput.style.margin = '0px 0px 0px 0px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
 
@@ -647,6 +647,23 @@ function showitemsearchbox(){
     areainputDiv.appendChild(inputbottomline);
     // divContainer.appendChild(areainputDiv);
     
+    // Create date input
+    const startdateInput = document.createElement('input');
+    startdateInput.type = 'date';
+    startdateInput.className = 'search-input';
+    startdateInput.name = 'startdate';
+    startdateInput.style.width = '140px';
+    startdateInput.style.marginRight = '5px';
+    divContainer.appendChild(startdateInput);
+    divContainer.appendChild(document.createTextNode(' 至 '));
+    const enddateInput = document.createElement('input');
+    enddateInput.type = 'date';
+    enddateInput.className = 'search-input';
+    enddateInput.name = 'enddate';
+    enddateInput.style.width = '140px';
+    enddateInput.style.marginLeft = '5px';
+    divContainer.appendChild(enddateInput);
+
     // Create search button
     const searchButton = document.createElement('button');
     searchButton.className = 'button';
@@ -670,22 +687,7 @@ function showitemsearchbox(){
     reportform.style.width = '100%';
     reportform.style.margin = '0px 0px 0px 0px';
 
-    // Create date input
-    const startdateInput = document.createElement('input');
-    startdateInput.type = 'date';
-    startdateInput.className = 'search-input';
-    startdateInput.name = 'startdate';
-    startdateInput.style.width = '140px';
-    startdateInput.style.marginRight = '5px';
-    linecontrol.appendChild(startdateInput);
-    linecontrol.appendChild(document.createTextNode(' 至 '));
-    const enddateInput = document.createElement('input');
-    enddateInput.type = 'date';
-    enddateInput.className = 'search-input';
-    enddateInput.name = 'enddate';
-    enddateInput.style.width = '140px';
-    enddateInput.style.marginLeft = '5px';
-    linecontrol.appendChild(enddateInput);
+    
 
     // const reportButton = document.createElement('button');
     // reportButton.className = 'button';
@@ -698,15 +700,15 @@ function showitemsearchbox(){
     const exportbutton = document.createElement('button');
     exportbutton.className = 'button';
     exportbutton.id = 'exportbutton';
-    
     exportbutton.textContent = '导出CSV';
     exportbutton.disabled = true;
-    divContainer.appendChild(exportbutton);
+    
 
     // Append form to body or any other container
     searchbox.appendChild(form);
     searchbox.appendChild(reportform);
-
+    searchbox.appendChild(exportbutton);
+    
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
