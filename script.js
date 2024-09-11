@@ -703,7 +703,7 @@ function showitemsearchbox(){
     exportbutton.style.bottom = '5px';
     exportbutton.textContent = '导出CSV';
     exportbutton.disabled = true;
-    searchbox.appendChild(exportbutton);
+    divContainer.appendChild(exportbutton);
 
     // Append form to body or any other container
     searchbox.appendChild(form);
