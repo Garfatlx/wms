@@ -3611,6 +3611,34 @@ async function createinventoryoperationdiv(){
     lastcheckcontent.style.width = '100%';
     lastcheckdiv.appendChild(lastcheckcontent);
     createlastcheckcontent(lastcheckinventory);
+
+    //create a button to delete all unchecked inventory
+    const deletebutton = document.createElement('button');
+    deletebutton.type = 'button';
+    deletebutton.className = 'button';
+    deletebutton.innerHTML = '删除未盘点库存';
+    deletebutton.style.fontSize = '18px';
+    deletebutton.style.width = '200px';
+    deletebutton.style.padding = '5px 5px';
+    operationdiv.appendChild(deletebutton);
+
+    deletebutton.addEventListener('click', function() {
+        // const uncheckedinventory = searchedinventory.filter(item => !item.checkdate);
+        // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+        // const deleteinventory = new FormData();
+        // deleteinventory.append('ids', uncheckedinventoryids.join(','));
+        // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventory', {
+        //     method: 'POST',
+        //     body: deleteinventory,
+        // }).then(response => response.json())
+        // .then(data => {
+        //     if (data.status === 'success') {
+        //         createinventoryoperationdiv();
+        //     }
+        // });
+    });
+
+
     function createlastcheckcontent(lastcheckinventory){
         lastcheckcontent.innerHTML = '';
         const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
@@ -3628,8 +3656,6 @@ async function createinventoryoperationdiv(){
         lastcheckinventorytable.style.width = '100%';
         lastcheckcontent.appendChild(lastcheckinventorytable);
     }
-    
-
     
     function createinfoline(label, value) {
         const infoline = document.createElement('div');
