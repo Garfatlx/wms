@@ -3483,6 +3483,7 @@ async function createinventoryoperationdiv(){
     operationdiv.style.display = 'flex';
     operationdiv.style.flexDirection = 'column';
     operationdiv.style.justifyContent = 'center';
+    operationdiv.style.alignItems = 'center';
     operationdiv.style.margin = '0px 0px 0px 0px';
     operationdiv.style.width = '100%';
     activeJobs.appendChild(operationdiv);
@@ -3617,7 +3618,8 @@ async function createinventoryoperationdiv(){
     deletebutton.type = 'button';
     deletebutton.className = 'button';
     deletebutton.innerHTML = '删除未盘点库存';
-    deletebutton.style.fontSize = '18px';
+    deletebutton.style.margin = '20px 0px 0px 0px';
+    deletebutton.style.fontSize = '16px';
     deletebutton.style.width = '200px';
     deletebutton.style.padding = '5px 5px';
     operationdiv.appendChild(deletebutton);
