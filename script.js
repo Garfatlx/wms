@@ -3622,7 +3622,7 @@ async function createinventoryoperationdiv(){
             acc[item.label] += Number(item.pcs);
             return acc;
         }, {});
-        lastcheckcontent.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
+        lastcheckcontent.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
         //create a table for the lastcheckinventorygroup
         const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
         lastcheckinventorytable.style.width = '100%';
