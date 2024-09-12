@@ -3495,23 +3495,19 @@ async function createinventoryoperationdiv(){
     statisticcomparediv.style.width = '100%';
     operationdiv.appendChild(statisticcomparediv);
 
+    const customerdiv = document.createElement('div');
+    customerdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(customerdiv);
+
     const alldiv = document.createElement('div');
-    alldiv.style.display = 'flex';
-    alldiv.style.flexDirection = 'column';
-    alldiv.style.justifyContent = 'center';
-    alldiv.style.margin = '0px 0px 0px 0px';
-    alldiv.style.width = '50%';
+    alldiv.className = 'inventoryreporttablediv';
     statisticcomparediv.appendChild(alldiv);
 
     const lastcheckdiv = document.createElement('div');
-    lastcheckdiv.style.display = 'flex';
-    lastcheckdiv.style.flexDirection = 'column';
-    lastcheckdiv.style.justifyContent = 'center';
-    lastcheckdiv.style.margin = '0px 0px 0px 0px';
-    lastcheckdiv.style.width = '50%';
+    lastcheckdiv.className = 'inventoryreporttablediv';
     statisticcomparediv.appendChild(lastcheckdiv);
 
-
+    //get all inventory data
     var searchallinventory = new FormData();
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
@@ -3522,46 +3518,13 @@ async function createinventoryoperationdiv(){
 
     //all inventory
 
-    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
-    //group the inventory by label
-    const inventorygroup = searchedinventory.reduce((acc, item) => {
-        if (!acc[item.label]) {
-            acc[item.label] = 0;
-        }
-        acc[item.label] += Number(item.pcs);
-        return acc;
-    }, {});
-
-    alldiv.appendChild(createinfoline('总件数:', totalpcs));
-
-    //create a table for the inventorygroup
-    const allinventorytable = createsubtable(["仓点", "件数"],inventorygroup);
-    allinventorytable.style.width = '100%';
-    alldiv.appendChild(allinventorytable);
-
-    //find the lastest checkdate of the inventory
-    const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
-    //sum the total pcs of the inventory with the lastest checkdate
-    const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() === lastcheckdate);
-    const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
-    //group the lastcheckinventory by label
-    const lastcheckinventorygroup = lastcheckinventory.reduce((acc, item) => {
-        if (!acc[item.label]) {
-            acc[item.label] = 0;
-        }
-        acc[item.label] += Number(item.pcs);
-        return acc;
-    }, {});
-
-    lastcheckdiv.appendChild(createinfoline('最近盘点时间:', formatDate(new Date(lastcheckdate))));
-    lastcheckdiv.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
-
-    //create a table for the lastcheckinventorygroup
-    const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
-    lastcheckinventorytable.style.width = '100%';
-    lastcheckdiv.appendChild(lastcheckinventorytable);
-
     //group the inventory by customer
+    const customerdivtitle = document.createElement('div');
+    customerdivtitle.style.fontWeight = 'bold';
+    customerdivtitle.style.fontSize = '20px';
+    customerdivtitle.innerHTML = '按照客户统计';
+    customerdiv.appendChild(customerdivtitle);
+
     const inventorybycustomer = searchedinventory.reduce((acc, item) => {
         if (!acc[item.customer]) {
             acc[item.customer] = 0;
@@ -3569,6 +3532,104 @@ async function createinventoryoperationdiv(){
         acc[item.customer] += Number(item.pcs);
         return acc;
     }, {});
+
+    const customerinventorytable = createsubtable(["客户", "件数"],inventorybycustomer);
+    customerinventorytable.style.width = '100%';
+    customerdiv.appendChild(customerinventorytable);
+    
+
+    
+    //group the inventory by label
+    const alldivtitle = document.createElement('div');
+    alldivtitle.style.fontWeight = 'bold';
+    alldivtitle.style.fontSize = '20px';
+    alldivtitle.innerHTML = '按照仓点统计';
+    alldiv.appendChild(alldivtitle);
+
+    const inventorygroup = searchedinventory.reduce((acc, item) => {
+        if (!acc[item.label]) {
+            acc[item.label] = 0;
+        }
+        acc[item.label] += Number(item.pcs);
+        return acc;
+    }, {});
+    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    alldiv.appendChild(createinfoline('总件数:', totalpcs));
+
+    //create a table for the inventorygroup
+    const allinventorytable = createsubtable(["仓点", "件数"],inventorygroup);
+    allinventorytable.style.width = '100%';
+    alldiv.appendChild(allinventorytable);
+
+    //from the check point
+    const lastcheckdivtitle = document.createElement('div');
+    lastcheckdivtitle.style.fontWeight = 'bold';
+    lastcheckdivtitle.style.fontSize = '20px';
+    lastcheckdivtitle.innerHTML = '按照盘点时间统计';
+    lastcheckdiv.appendChild(lastcheckdivtitle);
+
+    const lastcheckcontent = document.createElement('div');
+    lastcheckcontent.style.display = 'flex';
+    lastcheckcontent.style.flexDirection = 'column';
+    lastcheckcontent.style.justifyContent = 'center';
+    lastcheckcontent.style.margin = '0px 0px 0px 0px';
+    lastcheckcontent.style.width = '100%';
+    lastcheckdiv.appendChild(lastcheckcontent);
+
+
+    const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
+    //sum the total pcs of the inventory with the lastest checkdate
+    const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() >= lastcheckdate);
+    //create a form to choose the checkdate
+    const choosecheckdatediv = document.createElement('form');
+    choosecheckdatediv.style.display = 'flex';
+    choosecheckdatediv.style.flexDirection = 'row';
+    choosecheckdatediv.style.justifyContent = 'center';
+    choosecheckdatediv.style.margin = '0px 0px 0px 0px';
+    choosecheckdatediv.style.width = '100%';
+    lastcheckdiv.appendChild(choosecheckdatediv);
+    const checkdateinput = document.createElement('input');
+    checkdateinput.type = 'date';
+    checkdateinput.name = 'checkdate';
+    checkdateinput.value = formatDate(new Date(lastcheckdate));
+    checkdateinput.style.width = '150px';
+    checkdateinput.style.fontSize = '16px';
+    checkdateinput.style.margin = '0px 0px 0px 0px';
+    choosecheckdatediv.appendChild(checkdateinput);
+    const checkdatebutton = document.createElement('button');
+    checkdatebutton.type = 'submit';
+    checkdatebutton.className = 'button';
+    checkdatebutton.innerHTML = '查询';
+    checkdatebutton.style.fontSize = '14px';
+    checkdatebutton.style.padding = '5px 5px';
+    choosecheckdatediv.appendChild(checkdatebutton);
+    choosecheckdatediv.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const checkdate = new Date(checkdateinput.value).getTime();
+        const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() >= checkdate);
+        createlastcheckcontent(lastcheckinventory);
+    });
+
+    createlastcheckcontent(lastcheckinventory);
+    function createlastcheckcontent(lastcheckinventory){
+        lastcheckcontent.innerHTML = '';
+        const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+        //group the lastcheckinventory by label
+        const lastcheckinventorygroup = lastcheckinventory.reduce((acc, item) => {
+            if (!acc[item.label]) {
+                acc[item.label] = 0;
+            }
+            acc[item.label] += Number(item.pcs);
+            return acc;
+        }, {});
+        lastcheckcontent.appendChild(createinfoline('最近盘点时间:', formatDate(new Date(lastcheckdate))));
+        lastcheckcontent.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
+        //create a table for the lastcheckinventorygroup
+        const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
+        lastcheckinventorytable.style.width = '100%';
+        lastcheckcontent.appendChild(lastcheckinventorytable);
+    }
+    
 
     
     function createinfoline(label, value) {
