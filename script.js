@@ -3681,7 +3681,7 @@ async function createinventoryoperationdiv(){
             const td1 = document.createElement('td');
             td1.innerHTML = label;
             const td2 = document.createElement('td');
-            td2.innerHTML = inventorygroup[label];
+            td2.innerHTML = tabledata[label];
             tr.appendChild(td1);
             tr.appendChild(td2);
             tbody.appendChild(tr);
