@@ -3568,14 +3568,7 @@ async function createinventoryoperationdiv(){
     lastcheckdivtitle.innerHTML = '按照盘点时间统计';
     lastcheckdiv.appendChild(lastcheckdivtitle);
 
-    const lastcheckcontent = document.createElement('div');
-    lastcheckcontent.style.display = 'flex';
-    lastcheckcontent.style.flexDirection = 'column';
-    lastcheckcontent.style.justifyContent = 'center';
-    lastcheckcontent.style.margin = '0px 0px 0px 0px';
-    lastcheckcontent.style.width = '100%';
-    lastcheckdiv.appendChild(lastcheckcontent);
-
+    
 
     const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
     //sum the total pcs of the inventory with the lastest checkdate
@@ -3599,7 +3592,7 @@ async function createinventoryoperationdiv(){
     const checkdatebutton = document.createElement('button');
     checkdatebutton.type = 'submit';
     checkdatebutton.className = 'button';
-    checkdatebutton.innerHTML = '查询';
+    checkdatebutton.innerHTML = '选择盘点时间';
     checkdatebutton.style.fontSize = '14px';
     checkdatebutton.style.padding = '5px 5px';
     choosecheckdatediv.appendChild(checkdatebutton);
@@ -3610,6 +3603,13 @@ async function createinventoryoperationdiv(){
         createlastcheckcontent(lastcheckinventory);
     });
 
+    const lastcheckcontent = document.createElement('div');
+    lastcheckcontent.style.display = 'flex';
+    lastcheckcontent.style.flexDirection = 'column';
+    lastcheckcontent.style.justifyContent = 'center';
+    lastcheckcontent.style.margin = '0px 0px 0px 0px';
+    lastcheckcontent.style.width = '100%';
+    lastcheckdiv.appendChild(lastcheckcontent);
     createlastcheckcontent(lastcheckinventory);
     function createlastcheckcontent(lastcheckinventory){
         lastcheckcontent.innerHTML = '';
@@ -3622,7 +3622,6 @@ async function createinventoryoperationdiv(){
             acc[item.label] += Number(item.pcs);
             return acc;
         }, {});
-        lastcheckcontent.appendChild(createinfoline('最近盘点时间:', formatDate(new Date(lastcheckdate))));
         lastcheckcontent.appendChild(createinfoline('最近盘点总件数:', lastchecktotalpcs));
         //create a table for the lastcheckinventorygroup
         const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
