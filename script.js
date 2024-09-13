@@ -67,7 +67,7 @@ window.addEventListener("load", function(){
             showitemsearchbox();
             if(customername){
                 var searchcreteria = new FormData();
-                searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
                 showitems(searchcreteria);
                 // showitems(searchcreteria,function(){
@@ -521,10 +521,12 @@ function showinventorysearchbox(){
     inventorymapbutton.className = 'button';
     inventorymapbutton.id = 'inventorymapbutton';
     inventorymapbutton.style.display = 'inline-block';
-    inventorymapbutton.style.justifySelf = 'flex-end';
+    // inventorymapbutton.style.justifySelf = 'flex-end';
     inventorymapbutton.style.alignSelf = 'center';
     inventorymapbutton.textContent = '库存地图';
     inventorymapbutton.disabled = true;
+
+    
     
 
     // Append div container to form
@@ -533,6 +535,22 @@ function showinventorysearchbox(){
     // Append form to body or any other container
     searchbox.appendChild(form);
     searchbox.appendChild(inventorymapbutton);
+
+    //Invnetory operation button
+    if(access==1){
+        const inventoryoperationbut = document.createElement('button');
+        inventoryoperationbut.className = 'button';
+        inventoryoperationbut.id = 'newinventorybutton';
+        inventoryoperationbut.style.display = 'inline-block';
+        inventoryoperationbut.style.alignSelf = 'center';
+        inventoryoperationbut.textContent = '库存操作';
+        inventoryoperationbut.addEventListener("click", function() {
+            createinventoryoperationdiv();
+            
+        });
+        searchbox.appendChild(inventoryoperationbut);
+    }
+
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -2439,6 +2457,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
     createInventoryDetailItem('创建时间', inventory['date']);
+    createInventoryDetailItem('最后盘库时间', inventory['checkdate']);
     createInventoryDetailItem('库位', inventory['inventoryloc']);
 
     inventorydetail.appendChild(document.createElement('br'));
@@ -3452,4 +3471,259 @@ function jsonToCsv(json) {
 }
 function replacer(key, value) {
     return value === null ? '' : value;
+}
+
+async function createinventoryoperationdiv(){
+    const activeJobs = document.getElementById('activejobs');
+    activeJobs.innerHTML = '';
+
+    //frame for the operation
+    const operationdiv = document.createElement('div');
+    operationdiv.className = 'operationdiv';
+    operationdiv.style.display = 'flex';
+    operationdiv.style.flexDirection = 'column';
+    operationdiv.style.justifyContent = 'center';
+    operationdiv.style.alignItems = 'center';
+    operationdiv.style.margin = '0px 0px 0px 0px';
+    operationdiv.style.width = '100%';
+    activeJobs.appendChild(operationdiv);
+
+    const statisticcomparediv = document.createElement('div');
+    statisticcomparediv.style.display = 'flex';
+    statisticcomparediv.style.flexDirection = 'row';
+    statisticcomparediv.style.justifyContent = 'center';
+    statisticcomparediv.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv);
+
+    const customerdiv = document.createElement('div');
+    customerdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(customerdiv);
+
+    const alldiv = document.createElement('div');
+    alldiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(alldiv);
+
+    const lastcheckdiv = document.createElement('div');
+    lastcheckdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(lastcheckdiv);
+
+    //get all inventory data
+    var searchallinventory = new FormData();
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+        method: 'POST',
+        body: searchallinventory,
+    });
+    const data = await response.json();
+    searchedinventory = data['data'];
+
+    //all inventory
+
+    //group the inventory by customer
+    const customerdivtitle = document.createElement('div');
+    customerdivtitle.style.fontWeight = 'bold';
+    customerdivtitle.style.fontSize = '20px';
+    customerdivtitle.innerHTML = '按照客户统计';
+    customerdiv.appendChild(customerdivtitle);
+
+    const inventorybycustomer = searchedinventory.reduce((acc, item) => {
+        if (!acc[item.customer]) {
+            acc[item.customer] = 0;
+        }
+        acc[item.customer] += Number(item.pcs);
+        return acc;
+    }, {});
+
+    const customerinventorytable = createsubtable(["客户", "件数"],inventorybycustomer);
+    customerinventorytable.style.width = '100%';
+    customerdiv.appendChild(customerinventorytable);
+    
+
+    
+    //group the inventory by label
+    const alldivtitle = document.createElement('div');
+    alldivtitle.style.fontWeight = 'bold';
+    alldivtitle.style.fontSize = '20px';
+    alldivtitle.innerHTML = '按照仓点统计';
+    alldiv.appendChild(alldivtitle);
+
+    const inventorygroup = searchedinventory.reduce((acc, item) => {
+        if (!acc[item.label]) {
+            acc[item.label] = 0;
+        }
+        acc[item.label] += Number(item.pcs);
+        return acc;
+    }, {});
+    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    alldiv.appendChild(createinfoline('总件数:', totalpcs));
+
+    //create a table for the inventorygroup
+    const allinventorytable = createsubtable(["仓点", "件数"],inventorygroup);
+    allinventorytable.style.width = '100%';
+    alldiv.appendChild(allinventorytable);
+
+    //from the check point
+    const lastcheckdivtitle = document.createElement('div');
+    lastcheckdivtitle.style.fontWeight = 'bold';
+    lastcheckdivtitle.style.fontSize = '20px';
+    lastcheckdivtitle.innerHTML = '按照盘点时间统计';
+    lastcheckdiv.appendChild(lastcheckdivtitle);
+
+    
+
+    const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
+    //sum the total pcs of the inventory with the lastest checkdate
+    const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() >= lastcheckdate);
+    //create a form to choose the checkdate
+    const choosecheckdatediv = document.createElement('form');
+    choosecheckdatediv.style.display = 'flex';
+    choosecheckdatediv.style.flexDirection = 'row';
+    choosecheckdatediv.style.justifyContent = 'center';
+    choosecheckdatediv.style.margin = '0px 0px 0px 0px';
+    choosecheckdatediv.style.width = '100%';
+    lastcheckdiv.appendChild(choosecheckdatediv);
+    const checkdateinput = document.createElement('input');
+    checkdateinput.type = 'date';
+    checkdateinput.name = 'checkdate';
+    checkdateinput.value = formatDate(new Date(lastcheckdate));
+    checkdateinput.style.width = '150px';
+    checkdateinput.style.fontSize = '16px';
+    checkdateinput.style.margin = '0px 0px 0px 0px';
+    choosecheckdatediv.appendChild(checkdateinput);
+    const checkdatebutton = document.createElement('button');
+    checkdatebutton.type = 'submit';
+    checkdatebutton.className = 'button';
+    checkdatebutton.innerHTML = '选择盘点时间';
+    checkdatebutton.style.fontSize = '14px';
+    checkdatebutton.style.padding = '5px 5px';
+    choosecheckdatediv.appendChild(checkdatebutton);
+    choosecheckdatediv.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const checkdate = new Date(checkdateinput.value).getTime();
+        const lastcheckinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() >= checkdate);
+        createlastcheckcontent(lastcheckinventory);
+    });
+
+    const lastcheckcontent = document.createElement('div');
+    lastcheckcontent.style.display = 'flex';
+    lastcheckcontent.style.flexDirection = 'column';
+    lastcheckcontent.style.justifyContent = 'center';
+    lastcheckcontent.style.margin = '0px 0px 0px 0px';
+    lastcheckcontent.style.width = '100%';
+    lastcheckdiv.appendChild(lastcheckcontent);
+    createlastcheckcontent(lastcheckinventory);
+
+    //create a button to delete all unchecked inventory
+    const deletebutton = document.createElement('button');
+    deletebutton.type = 'button';
+    deletebutton.className = 'button';
+    deletebutton.innerHTML = '删除未盘点库存';
+    deletebutton.style.margin = '20px 0px 0px 0px';
+    deletebutton.style.fontSize = '16px';
+    deletebutton.style.width = '200px';
+    deletebutton.style.padding = '5px 5px';
+    operationdiv.appendChild(deletebutton);
+
+    deletebutton.addEventListener('click', function() {
+        // const uncheckedinventory = searchedinventory.filter(item => !item.checkdate);
+        // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+        // const deleteinventory = new FormData();
+        // deleteinventory.append('ids', uncheckedinventoryids.join(','));
+        // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventory', {
+        //     method: 'POST',
+        //     body: deleteinventory,
+        // }).then(response => response.json())
+        // .then(data => {
+        //     if (data.status === 'success') {
+        //         createinventoryoperationdiv();
+        //     }
+        // });
+    });
+
+
+    function createlastcheckcontent(lastcheckinventory){
+        lastcheckcontent.innerHTML = '';
+        const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+        //group the lastcheckinventory by label
+        const lastcheckinventorygroup = lastcheckinventory.reduce((acc, item) => {
+            if (!acc[item.label]) {
+                acc[item.label] = 0;
+            }
+            acc[item.label] += Number(item.pcs);
+            return acc;
+        }, {});
+        lastcheckcontent.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
+        //create a table for the lastcheckinventorygroup
+        const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
+        lastcheckinventorytable.style.width = '100%';
+        lastcheckcontent.appendChild(lastcheckinventorytable);
+    }
+    
+    function createinfoline(label, value) {
+        const infoline = document.createElement('div');
+        infoline.style.display = 'flex';
+        infoline.style.flexDirection = 'row';
+        infoline.style.fontSize = '16px';
+        infoline.style.justifyContent = 'center';
+        infoline.style.margin = '0px 0px 0px 0px';
+        const infolabel = document.createElement('div');
+        infolabel.innerHTML = label;
+        const infovalue = document.createElement('div');
+        infovalue.innerHTML = value;
+        infoline.appendChild(infolabel);
+        infoline.appendChild(infovalue);
+        return infoline;
+    }
+    function createsubtable(headers,tabledata){
+        console.log(tabledata);
+
+        var table = document.createElement("table");
+        table.className = "inventory-table";
+    
+        // Create table header
+        var thead = document.createElement("thead");
+        thead.className = "inventory-table-header";
+        var headerRow = document.createElement("tr");
+        // var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数"];
+        headers.forEach(function(headerText, index) {
+            var th = document.createElement("th");
+            th.textContent = headerText;
+            th.addEventListener("click", function() {
+                sortTable(index);
+            });
+    
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+    
+        // Create table body
+        var tbody = document.createElement("tbody");
+        tbody.id = "inventory-table-body";
+        tbody.className = "inventory-table-body";
+
+        for (const label in tabledata) {
+            const tr = document.createElement('tr');
+            tr.className = "inventory-table-row";
+            const td1 = document.createElement('td');
+            td1.innerHTML = label;
+            const td2 = document.createElement('td');
+            td2.innerHTML = tabledata[label];
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tbody.appendChild(tr);
+        }
+
+       
+        table.appendChild(tbody);
+        return table;
+    }
+
+    function formatDate(date) {
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are zero-based
+        var day = ('0' + date.getDate()).slice(-2);
+        return `${year}-${month}-${day}`;
+    }
+
 }
