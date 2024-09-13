@@ -3337,7 +3337,7 @@ function vasdetailform(clickeditem,callback,replacement){
     const uploaddiv=document.createElement("div");
     uploaddiv.className="uploaddiv";
     uploaddiv.style.justifyContent="start";
-    for (var i = 1; i <= 3; i++) {
+    for (var i = 1; i <= 5; i++) {
         const uploadbuttonblock = document.createElement("div");
         uploadbuttonblock.className="uploadbuttonblock";
         uploadbuttonblock.style.margin="0px 10px";
