@@ -80,22 +80,7 @@ window.addEventListener("load", function(){
         }
     });
 
-    //select from no appointment jobs
-    if(access==1){
-        const noappbutton = document.createElement('button');
-        noappbutton.className = 'button';
-        noappbutton.style.position = 'absolute';
-        noappbutton.style.right = '0px';
-        noappbutton.style.width = '6px';
-        noappbutton.innerHTML = '客户上传任务';
-        document.getElementById("controlframe").appendChild(noappbutton);
-        noappbutton.addEventListener("click", function() {
-                var searchcreteria = new FormData();
-                searchcreteria.append("status", "未预约");
-                showjobsearchbox();
-                searchjobs(searchcreteria);
-        });
-    }
+    
     
 
     var datalist=document.createElement("datalist");
@@ -136,6 +121,21 @@ function login(){
                 if(access==1){
                     document.getElementById("newinjobbutton").removeAttribute('disabled');
                     document.getElementById("newoutjobbutton").removeAttribute('disabled');
+
+                    //select from no appointment jobs
+                    const noappbutton = document.createElement('button');
+                    noappbutton.className = 'button';
+                    noappbutton.style.position = 'absolute';
+                    noappbutton.style.right = '0px';
+                    noappbutton.style.width = '6px';
+                    noappbutton.innerHTML = '客户上传任务';
+                    document.getElementById("controlframe").appendChild(noappbutton);
+                    noappbutton.addEventListener("click", function() {
+                            var searchcreteria = new FormData();
+                            searchcreteria.append("status", "未预约");
+                            showjobsearchbox();
+                            searchjobs(searchcreteria);
+                    });
                 }
                 if(access==2){
                     document.getElementById("newinjobbutton").removeAttribute('disabled');
