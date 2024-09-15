@@ -1141,7 +1141,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.name="customer";
     input0.id="customerinput";
     input0.required=true;
-    input0.value=((clickeditem!='')?clickeditem['customer']:"");
+    if(customername){
+        input0.value=customername;
+        input0.disabled=true;
+    }else{
+        input0.value=((clickeditem!='')?clickeditem['customer']:"");
+    }
     var input0label=document.createElement("label");
     input0label.innerHTML="客户";
     input0label.htmlFor="customerinput";
@@ -1218,12 +1223,19 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
 
     }
     
-    const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
-    taskstatusbar.style.position="absolute";
-    taskstatusbar.style.right="100px";
-    taskstatusbar.style.top="35px";
-    detailform.appendChild(taskstatusbar);
-
+    if(!clickeditem && access==2){
+        const statusinput=document.createElement("input");
+        statusinput.type="hidden";
+        statusinput.name="status";
+        statusinput.value="未预约";
+        detailform.appendChild(statusinput);
+    }else{
+        const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
+        taskstatusbar.style.position="absolute";
+        taskstatusbar.style.right="100px";
+        taskstatusbar.style.top="35px";
+        detailform.appendChild(taskstatusbar);
+    }
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
