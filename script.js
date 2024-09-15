@@ -80,6 +80,24 @@ window.addEventListener("load", function(){
         }
     });
 
+    //select from no appointment jobs
+    if(access==1){
+        const noappbutton = document.getElementById("noappbutton");
+        noappbutton.className = 'button';
+        noappbutton.style.position = 'absolute';
+        noappbutton.style.right = '0px';
+        noappbutton.style.width = '6px';
+        noappbutton.innerHTML = '客户上传任务';
+        document.getElementById("controlframe").appendChild(noappbutton);
+        noappbutton.addEventListener("click", function() {
+                var searchcreteria = new FormData();
+                searchcreteria.append("status", "未预约");
+                showjobsearchbox();
+                searchjobs(searchcreteria);
+        });
+    }
+    
+
     var datalist=document.createElement("datalist");
     datalist.id="channels";
     const channels = ['海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
