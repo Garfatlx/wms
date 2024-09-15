@@ -116,6 +116,9 @@ function login(){
                     document.getElementById("newinjobbutton").removeAttribute('disabled');
                     document.getElementById("newoutjobbutton").removeAttribute('disabled');
                 }
+                if(access==2){
+                    document.getElementById("newinjobbutton").setAttribute('disabled', 'true');
+                }
                 
                 if(customername){
                     // document.querySelector("#activitylog input").checked = true;
@@ -1581,7 +1584,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     //submit button    
     
 
-    if ((clickeditem && clickeditem['status'] === '完成') || access!=1) {
+    if ((clickeditem && clickeditem['status'] === '完成') || access<1) {
         var inputs = itemdetail.getElementsByTagName('input');
         var textareas = itemdetail.getElementsByTagName('textarea');
         var buttons = itemdetail.getElementsByTagName('button');
@@ -1597,6 +1600,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].disabled = true;
         }
+    }
+    if(access==2){
+        printbutton.disabled = true;
+        printcmrbutton.disabled = true;
+        printlabelbutton.disabled = true;
+        printcmrbutton.disabled = true;
     }
     if(access==1){
         cancelButton.removeAttribute("disabled");
@@ -1614,6 +1623,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
             }
         }
     }
+    
     closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
         detaillinenumber++;
