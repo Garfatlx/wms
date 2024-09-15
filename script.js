@@ -127,7 +127,7 @@ function login(){
                     noappbutton.className = 'button';
                     noappbutton.style.position = 'absolute';
                     noappbutton.style.right = '0px';
-                    noappbutton.style.width = '6px';
+                    noappbutton.style.top = '6px';
                     noappbutton.innerHTML = '客户上传任务';
                     document.getElementById("controlframe").appendChild(noappbutton);
                     noappbutton.addEventListener("click", function() {
