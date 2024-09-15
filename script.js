@@ -1141,20 +1141,20 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.name="customer";
     input0.id="customerinput";
     input0.required=true;
-    if(customername){
-        input0.value=customername;
-        input0.readOnly = true;
-    }else{
-        input0.value=((clickeditem!='')?clickeditem['customer']:"");
-    }
     var input0label=document.createElement("label");
     input0label.innerHTML="客户";
     input0label.htmlFor="customerinput";
     input0label.className="label";
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
-    linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(inputbottomline);
+    if(customername){
+        input0.value=customername;
+        input0.readOnly = true;
+    }else{
+        input0.value=((clickeditem!='')?clickeditem['customer']:"");
+        linecontrol0.appendChild(input0label);
+    }
     
     var linecontrol0=document.createElement("div");
     linecontrol0.className="input-container";
