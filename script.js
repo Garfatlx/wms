@@ -82,7 +82,7 @@ window.addEventListener("load", function(){
 
     //select from no appointment jobs
     if(access==1){
-        const noappbutton = document.getElementById("noappbutton");
+        const noappbutton = document.createElement('button');
         noappbutton.className = 'button';
         noappbutton.style.position = 'absolute';
         noappbutton.style.right = '0px';
