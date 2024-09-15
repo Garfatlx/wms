@@ -117,7 +117,7 @@ function login(){
                     document.getElementById("newoutjobbutton").removeAttribute('disabled');
                 }
                 if(access==2){
-                    document.getElementById("newinjobbutton").setAttribute('disabled', 'true');
+                    document.getElementById("newinjobbutton").removeAttribute('disabled');
                 }
                 
                 if(customername){
