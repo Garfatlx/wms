@@ -46,6 +46,9 @@ window.addEventListener("load", function(){
     currentjobs.addEventListener("click", function() {
         if(access!=-1){
             var searchcreteria = new FormData();
+            if(access==2){
+                searchcreteria.append("status", '全部');
+            }
             searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
             showjobsearchbox();
             searchjobs(searchcreteria);
@@ -354,6 +357,9 @@ function showjobsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
+        if(access==2){
+            searchcreteria.append("status", '全部');
+        }
         if(searchcreteria.get("date")!=""){
             if(currentjobpagecontent=='jobs'){
                 searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
@@ -382,6 +388,9 @@ function showjobsearchbox(){
     var searchyesterday = document.getElementById("searchyesterday");
     searchyesterday.addEventListener("click", function() {
         var searchcreteria = new FormData();
+        if(access==2){
+            searchcreteria.append("status", '全部');
+        }
         searchcreteria.append("date", getformatteddate(-1)+" 23:59:59");
         searchjobs(searchcreteria);
         noshowcompletedinput.checked = false;
@@ -389,6 +398,9 @@ function showjobsearchbox(){
     var searchtoday = document.getElementById("searchtoday");
     searchtoday.addEventListener("click", function() {
         var searchcreteria = new FormData();
+        if(access==2){
+            searchcreteria.append("status", '全部');
+        }
         searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
         searchjobs(searchcreteria);
         noshowcompletedinput.checked = false;
@@ -396,6 +408,9 @@ function showjobsearchbox(){
     var searchtomorrow = document.getElementById("searchtomorrow");
     searchtomorrow.addEventListener("click", function() {
         var searchcreteria = new FormData();
+        if(access==2){
+            searchcreteria.append("status", '全部');
+        }
         searchcreteria.append("date", getformatteddate(1)+" 23:59:59");
         searchjobs(searchcreteria);
         noshowcompletedinput.checked = false;
@@ -1652,6 +1667,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
         const activeJobs = document.getElementById("activejobs");
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
+            if(access==2){
+                return;
+            }
             var searchnewadded = new FormData();
             searchnewadded.append("jobid",jobid.value);
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
