@@ -1143,7 +1143,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
     input0.required=true;
     if(customername){
         input0.value=customername;
-        input0.disabled=true;
+        input0.readOnly = true;
     }else{
         input0.value=((clickeditem!='')?clickeditem['customer']:"");
     }
