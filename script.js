@@ -3694,7 +3694,16 @@ async function createinventoryoperationdiv(){
             console.log(uncheckedinventoryids);
             const deleteinventory = new FormData();
             deleteinventory.append('ids', uncheckedinventoryids.join(','));
-            console.log(deleteinventory,get('ids'));
+
+            fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+                method: 'POST',
+                body: deleteinventory,
+            }).then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    createinventoryoperationdiv();
+                }
+            });
             
         }
         // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
