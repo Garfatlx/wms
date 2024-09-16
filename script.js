@@ -503,45 +503,80 @@ function showinventorysearchbox(){
     searchInput.placeholder = '搜索箱号、仓点、箱唛、FBA';
     divContainer.appendChild(searchInput);
 
-    const wareinputDiv=document.createElement("div");
-    wareinputDiv.className="input-container";
-    wareinputDiv.style.margin = '10px 0px 0px 20px';
-    wareinputDiv.style.width = '60px';
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var input0=document.createElement("input");
-    input0.type="text";
-    input0.name="locationa";
-    input0.id="input";
-    input0.style.fontSize = '20px';
-    var input0label=document.createElement("label");
-    input0label.innerHTML="仓库";
-    input0label.htmlFor="input";
-    input0label.className="label";
-    wareinputDiv.appendChild(input0);
-    wareinputDiv.appendChild(input0label);
-    wareinputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(wareinputDiv);
+    // Create date input
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.className = 'search-input';
+    dateInput.name = 'date';
+    dateInput.style.width = '140px';
+    dateInput.style.marginLeft = '20px';
+    divContainer.appendChild(dateInput);
 
-    const areainputDiv=document.createElement("div");
-    areainputDiv.className="input-container";
-    areainputDiv.style.margin = '10px 0px 0px 20px';
-    areainputDiv.style.width = '60px';
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var input0=document.createElement("input");
-    input0.type="text";
-    input0.name="locationb";
-    input0.id="input";
-    input0.style.fontSize = '20px';
-    var input0label=document.createElement("label");
-    input0label.innerHTML="区域";
-    input0label.htmlFor="input";
-    input0label.className="label";
-    areainputDiv.appendChild(input0);
-    areainputDiv.appendChild(input0label);
-    areainputDiv.appendChild(inputbottomline);
-    divContainer.appendChild(areainputDiv);
+    // Create switch button container
+    const btnContainer = document.createElement('div');
+    btnContainer.className = 'btn-container';
+
+    const switchLabel = document.createElement('label');
+    switchLabel.className = 'switch btn-color-mode-switch';
+
+    const inputCheckbox = document.createElement('input');
+    inputCheckbox.type = 'checkbox';
+    inputCheckbox.value = '1';
+    inputCheckbox.id = 'datetype';
+    inputCheckbox.name = 'datetype';
+
+    const innerLabel = document.createElement('label');
+    innerLabel.className = 'btn-color-mode-switch-inner';
+    innerLabel.setAttribute('data-off', '创建日期');
+    innerLabel.setAttribute('data-on', '盘点日期');
+    innerLabel.htmlFor = 'datetype';
+
+    switchLabel.appendChild(inputCheckbox);
+    switchLabel.appendChild(innerLabel);
+
+    btnContainer.appendChild(switchLabel);
+
+    divContainer.appendChild(btnContainer);
+
+    // const wareinputDiv=document.createElement("div");
+    // wareinputDiv.className="input-container";
+    // wareinputDiv.style.margin = '10px 0px 0px 20px';
+    // wareinputDiv.style.width = '60px';
+    // var inputbottomline=document.createElement("div");
+    // inputbottomline.className="underline";
+    // var input0=document.createElement("input");
+    // input0.type="text";
+    // input0.name="locationa";
+    // input0.id="input";
+    // input0.style.fontSize = '20px';
+    // var input0label=document.createElement("label");
+    // input0label.innerHTML="仓库";
+    // input0label.htmlFor="input";
+    // input0label.className="label";
+    // wareinputDiv.appendChild(input0);
+    // wareinputDiv.appendChild(input0label);
+    // wareinputDiv.appendChild(inputbottomline);
+    // divContainer.appendChild(wareinputDiv);
+
+    // const areainputDiv=document.createElement("div");
+    // areainputDiv.className="input-container";
+    // areainputDiv.style.margin = '10px 0px 0px 20px';
+    // areainputDiv.style.width = '60px';
+    // var inputbottomline=document.createElement("div");
+    // inputbottomline.className="underline";
+    // var input0=document.createElement("input");
+    // input0.type="text";
+    // input0.name="locationb";
+    // input0.id="input";
+    // input0.style.fontSize = '20px';
+    // var input0label=document.createElement("label");
+    // input0label.innerHTML="区域";
+    // input0label.htmlFor="input";
+    // input0label.className="label";
+    // areainputDiv.appendChild(input0);
+    // areainputDiv.appendChild(input0label);
+    // areainputDiv.appendChild(inputbottomline);
+    // divContainer.appendChild(areainputDiv);
     
     // Create search button
     const searchButton = document.createElement('button');
