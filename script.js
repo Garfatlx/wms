@@ -655,11 +655,11 @@ function showinventorysearchbox(){
             if (searchcreteria.get('dateref')) {
                 const dateref = new Date(searchcreteria.get('dateref'));
                 if(searchcreteria.get('datetype') == 'checked'){
-                    if (inventory.checkdate && inventory.checkdate.some(date => new Date(date) >= dateref)) {
+                    if (inventory.checkdate && new Date(inventory.checkdate) >= dateref) {
                         return true;
                     }
                 } else {
-                    if (inventory.date && inventory.date.some(date => new Date(date) >= dateref)) {
+                    if (inventory.date && new Date(inventory.date) >= dateref) {
                         return true;
                     }
                 }
