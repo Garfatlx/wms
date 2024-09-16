@@ -3624,33 +3624,16 @@ async function createinventoryoperationdiv(){
     allinventorytable.style.width = '100%';
     alldiv.appendChild(allinventorytable);
 
-    
+
     operationdiv.appendChild(document.createElement('hr'));
-    
-    const statisticcomparediv2 = document.createElement('div');
-    statisticcomparediv2.style.display = 'flex';
-    statisticcomparediv2.style.flexDirection = 'row';
-    statisticcomparediv2.style.justifyContent = 'center';
-    statisticcomparediv2.style.margin = '0px 0px 0px 0px';
-    statisticcomparediv2.style.width = '100%';
-    operationdiv.appendChild(statisticcomparediv2);
 
-    const lastcheckdivcustomer = document.createElement('div');
-    lastcheckdivcustomer.className = 'inventoryreporttablediv';
-    statisticcomparediv2.appendChild(lastcheckdivcustomer);
 
-    const lastcheckdiv = document.createElement('div');
-    lastcheckdiv.className = 'inventoryreporttablediv';
-    statisticcomparediv2.appendChild(lastcheckdiv);
-    
     //from the check point
     const lastcheckdivtitle = document.createElement('div');
     lastcheckdivtitle.style.fontWeight = 'bold';
     lastcheckdivtitle.style.fontSize = '20px';
     lastcheckdivtitle.innerHTML = '盘点库存';
     operationdiv.appendChild(lastcheckdivtitle);
-
-    
 
     const lastcheckdate = searchedinventory.reduce((max, item) => Math.max(max, new Date(item.checkdate).getTime()), 0);
     //sum the total pcs of the inventory with the lastest checkdate
@@ -3690,13 +3673,22 @@ async function createinventoryoperationdiv(){
         createlastcheckcontent(lastcheckinventory);
     });
 
-    const lastcheckcontent = document.createElement('div');
-    lastcheckcontent.style.display = 'flex';
-    lastcheckcontent.style.flexDirection = 'column';
-    lastcheckcontent.style.justifyContent = 'center';
-    lastcheckcontent.style.margin = '0px 0px 0px 0px';
-    lastcheckcontent.style.width = '100%';
-    lastcheckdiv.appendChild(lastcheckcontent);
+    const statisticcomparediv2 = document.createElement('div');
+    statisticcomparediv2.style.display = 'flex';
+    statisticcomparediv2.style.flexDirection = 'row';
+    statisticcomparediv2.style.justifyContent = 'center';
+    statisticcomparediv2.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv2.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv2);
+
+    const lastcheckdivcustomer = document.createElement('div');
+    lastcheckdivcustomer.className = 'inventoryreporttablediv';
+    statisticcomparediv2.appendChild(lastcheckdivcustomer);
+
+    const lastcheckdiv = document.createElement('div');
+    lastcheckdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv2.appendChild(lastcheckdiv);
+    
     createlastcheckcontent(lastcheckinventory);
 
     //create a button to delete all unchecked inventory
