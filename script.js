@@ -3584,11 +3584,14 @@ async function createinventoryoperationdiv(){
     statisticcomparediv.appendChild(alldiv);
 
     //group the inventory by customer
+    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+
     const customerdivtitle = document.createElement('div');
     customerdivtitle.style.fontSize = '18px';
     customerdivtitle.innerHTML = '按照客户统计';
     customerdiv.appendChild(customerdivtitle);
 
+    customerdiv.appendChild(createinfoline('总件数:', totalpcs));
     const inventorybycustomer = searchedinventory.reduce((acc, item) => {
         if (!acc[item.customer]) {
             acc[item.customer] = 0;
@@ -3616,7 +3619,7 @@ async function createinventoryoperationdiv(){
         acc[item.label] += Number(item.pcs);
         return acc;
     }, {});
-    const totalpcs = searchedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    
     alldiv.appendChild(createinfoline('总件数:', totalpcs));
 
     //create a table for the inventorygroup
@@ -3758,7 +3761,7 @@ async function createinventoryoperationdiv(){
             acc[item.customer] += Number(item.pcs);
             return acc;
         }, {});
-        lastcheckdivcustomer.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
+        lastcheckdivcustomer.appendChild(createinfoline('总件数:', lastchecktotalpcs));
         //create a table for the lastcheckinventorycustomer
         const lastcheckinventorycustomertable = createsubtable(["客户", "件数"],lastcheckinventorycustomer);
         lastcheckinventorycustomertable.style.width = '100%';
@@ -3776,7 +3779,7 @@ async function createinventoryoperationdiv(){
             acc[item.label] += Number(item.pcs);
             return acc;
         }, {});
-        lastcheckdiv.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
+        lastcheckdiv.appendChild(createinfoline('总件数:', lastchecktotalpcs));
         //create a table for the lastcheckinventorygroup
         const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
         lastcheckinventorytable.style.width = '100%';
