@@ -3689,9 +3689,12 @@ async function createinventoryoperationdiv(){
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除'+uncheckedinventorytotalpcs+'件未盘点库存吗？')) {
             const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+            
+            uncheckedinventoryids=['716','717'];
             console.log(uncheckedinventoryids);
             const deleteinventory = new FormData();
             deleteinventory.append('ids', uncheckedinventoryids.join(','));
+            console.log(deleteinventory,get('ids'));
             
         }
         // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
@@ -3743,7 +3746,6 @@ async function createinventoryoperationdiv(){
         return infoline;
     }
     function createsubtable(headers,tabledata){
-        console.log(tabledata);
 
         var table = document.createElement("table");
         table.className = "inventory-table";
