@@ -3683,7 +3683,16 @@ async function createinventoryoperationdiv(){
     operationdiv.appendChild(deletebutton);
 
     deletebutton.addEventListener('click', function() {
-        // const uncheckedinventory = searchedinventory.filter(item => !item.checkdate);
+        const uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
+        const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+        //add confirmation dialog to delete the unchecked inventory
+        if (confirm('确定删除'+uncheckedinventorytotalpcs+'件未盘点库存吗？')) {
+            const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+            console.log(uncheckedinventoryids);
+            const deleteinventory = new FormData();
+            deleteinventory.append('ids', uncheckedinventoryids.join(','));
+            
+        }
         // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
         // const deleteinventory = new FormData();
         // deleteinventory.append('ids', uncheckedinventoryids.join(','));
@@ -3746,9 +3755,9 @@ async function createinventoryoperationdiv(){
         headers.forEach(function(headerText, index) {
             var th = document.createElement("th");
             th.textContent = headerText;
-            th.addEventListener("click", function() {
-                sortTable(index);
-            });
+            // th.addEventListener("click", function() {
+            //     sortTable(index);
+            // });
     
             headerRow.appendChild(th);
         });
