@@ -498,7 +498,6 @@ function showinventorysearchbox(){
     searchInput.type = 'text';
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
-    
     searchInput.style.margin = '0px 0px 0px 0px';
     searchInput.placeholder = '搜索箱号、仓点、箱唛、FBA';
     divContainer.appendChild(searchInput);
@@ -507,7 +506,7 @@ function showinventorysearchbox(){
     const dateInput = document.createElement('input');
     dateInput.type = 'date';
     dateInput.className = 'search-input';
-    dateInput.name = 'date';
+    dateInput.name = 'dateref';
     dateInput.style.width = '140px';
     dateInput.style.marginLeft = '20px';
     divContainer.appendChild(dateInput);
@@ -521,7 +520,7 @@ function showinventorysearchbox(){
 
     const inputCheckbox = document.createElement('input');
     inputCheckbox.type = 'checkbox';
-    inputCheckbox.value = '1';
+    inputCheckbox.value = 'checked';
     inputCheckbox.id = 'datetype';
     inputCheckbox.name = 'datetype';
 
@@ -626,6 +625,7 @@ function showinventorysearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
+        
         if(searchcreteria.get("searchref")!=""){
             searchcreteria.set("searchref", searchcreteria.get('searchref').trim());
         }
@@ -650,6 +650,18 @@ function showinventorysearchbox(){
                     (inventory.fba && inventory.fba.toLowerCase().includes(searchref)) ||
                     (inventory.marks && inventory.marks.toLowerCase().includes(searchref))) {
                     return true;
+                }
+            }
+            if (searchcreteria.get('dateref')) {
+                const dateref = new Date(searchcreteria.get('dateref'));
+                if(searchcreteria.get('datetype') == 'checked'){
+                    if (inventory.checkdate && inventory.checkdate.some(date => new Date(date) >= dateref)) {
+                        return true;
+                    }
+                } else {
+                    if (inventory.date && inventory.date.some(date => new Date(date) >= dateref)) {
+                        return true;
+                    }
                 }
             }
             if (searchcreteria.get('locationa') && inventory.locationa.toLowerCase().includes(searchcreteria.get('locationa').toLowerCase())) {

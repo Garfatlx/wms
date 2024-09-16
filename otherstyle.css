@@ -556,7 +556,7 @@
   font-size: 12px;
   font-weight: 500;
   top: 7px;
-  right: 20px;
+  right: 15px;
 }
 
 .btn-color-mode-switch > label.btn-color-mode-switch-inner:after {
@@ -600,7 +600,7 @@
 .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before {
   content: attr(data-off);
   right: auto;
-  left: 20px;
+  left: 15px;
 }
 
 .btn-color-mode-switch input[type="checkbox"]:checked ~ .alert {
