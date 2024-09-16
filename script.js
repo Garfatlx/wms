@@ -3690,7 +3690,7 @@ async function createinventoryoperationdiv(){
         if (confirm('确定删除'+uncheckedinventorytotalpcs+'件未盘点库存吗？')) {
             //const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
             
-            const uncheckedinventoryids=['716','717'];
+            const uncheckedinventoryids=['718','719'];
             console.log(uncheckedinventoryids);
             const deleteinventory = new FormData();
             deleteinventory.append('ids', uncheckedinventoryids.join(','));
@@ -3700,7 +3700,7 @@ async function createinventoryoperationdiv(){
                 body: deleteinventory,
             }).then(response => response.json())
             .then(data => {
-                if (data.status === 'success') {
+                if (data.msg === '删除成功') {
                     createinventoryoperationdiv();
                 }
             });
