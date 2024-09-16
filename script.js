@@ -3683,6 +3683,7 @@ async function createinventoryoperationdiv(){
     operationdiv.appendChild(deletebutton);
 
     deletebutton.addEventListener('click', function() {
+        const checkdate = new Date(checkdateinput.value).getTime();
         const uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
         const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
         //add confirmation dialog to delete the unchecked inventory
