@@ -499,7 +499,7 @@ function showinventorysearchbox(){
     searchInput.className = 'search-input';
     searchInput.name = 'searchref';
     
-    searchInput.style.margin = '10px 0px 0px 0px';
+    searchInput.style.margin = '0px 0px 0px 0px';
     searchInput.placeholder = '搜索箱号、仓点、箱唛、FBA';
     divContainer.appendChild(searchInput);
 

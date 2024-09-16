@@ -506,9 +506,10 @@
 
 
 .btn-container {
-  display: table-cell;
+  display: inline-block;
   vertical-align: middle;
   text-align: center;
+  width: 140px;
 }
 
 .btn-container i {
@@ -517,16 +518,20 @@
   top: -9px;
 }
 
-label {
+/* label {
   font-size: 13px;
   color: #424242;
   font-weight: 500;
-}
+} */
 
 .btn-color-mode-switch {
   display: inline-block;
   margin: 0px;
   position: relative;
+  font-size: 13px;
+  color: #424242;
+  font-weight: 500;
+  width: auto;
 }
 
 .btn-color-mode-switch > label.btn-color-mode-switch-inner {
@@ -540,6 +545,9 @@ label {
   transition: all 0.3s ease;
     /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
   display: block;
+  font-size: 13px;
+  color: #424242;
+  font-weight: 500;
 }
 
 .btn-color-mode-switch > label.btn-color-mode-switch-inner:before {
