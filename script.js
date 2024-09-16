@@ -3688,9 +3688,9 @@ async function createinventoryoperationdiv(){
         const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除'+uncheckedinventorytotalpcs+'件未盘点库存吗？')) {
-            const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+            //const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
             
-            uncheckedinventoryids=['716','717'];
+            const uncheckedinventoryids=['716','717'];
             console.log(uncheckedinventoryids);
             const deleteinventory = new FormData();
             deleteinventory.append('ids', uncheckedinventoryids.join(','));
