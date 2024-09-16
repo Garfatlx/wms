@@ -3546,37 +3546,9 @@ async function createinventoryoperationdiv(){
     operationdiv.style.width = '100%';
     activeJobs.appendChild(operationdiv);
 
-    const statisticcomparediv = document.createElement('div');
-    statisticcomparediv.style.display = 'flex';
-    statisticcomparediv.style.flexDirection = 'row';
-    statisticcomparediv.style.justifyContent = 'center';
-    statisticcomparediv.style.margin = '0px 0px 0px 0px';
-    statisticcomparediv.style.width = '100%';
-    operationdiv.appendChild(statisticcomparediv);
+    
 
-    const statisticcomparediv2 = document.createElement('div');
-    statisticcomparediv2.style.display = 'flex';
-    statisticcomparediv2.style.flexDirection = 'row';
-    statisticcomparediv2.style.justifyContent = 'center';
-    statisticcomparediv2.style.margin = '0px 0px 0px 0px';
-    statisticcomparediv2.style.width = '100%';
-    operationdiv.appendChild(statisticcomparediv2);
-
-    const customerdiv = document.createElement('div');
-    customerdiv.className = 'inventoryreporttablediv';
-    statisticcomparediv.appendChild(customerdiv);
-
-    const alldiv = document.createElement('div');
-    alldiv.className = 'inventoryreporttablediv';
-    statisticcomparediv.appendChild(alldiv);
-
-    const lastcheckdivcustomer = document.createElement('div');
-    lastcheckdivcustomer.className = 'inventoryreporttablediv';
-    statisticcomparediv2.appendChild(lastcheckdivcustomer);
-
-    const lastcheckdiv = document.createElement('div');
-    lastcheckdiv.className = 'inventoryreporttablediv';
-    statisticcomparediv2.appendChild(lastcheckdiv);
+    
 
     //get all inventory data
     var searchallinventory = new FormData();
@@ -3594,6 +3566,22 @@ async function createinventoryoperationdiv(){
     allinventorytitle.style.fontSize = '20px';
     allinventorytitle.innerHTML = '系统所有库存';
     operationdiv.appendChild(allinventorytitle);
+
+    const statisticcomparediv = document.createElement('div');
+    statisticcomparediv.style.display = 'flex';
+    statisticcomparediv.style.flexDirection = 'row';
+    statisticcomparediv.style.justifyContent = 'center';
+    statisticcomparediv.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv);
+
+    const customerdiv = document.createElement('div');
+    customerdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(customerdiv);
+
+    const alldiv = document.createElement('div');
+    alldiv.className = 'inventoryreporttablediv';
+    statisticcomparediv.appendChild(alldiv);
 
     //group the inventory by customer
     const customerdivtitle = document.createElement('div');
@@ -3636,9 +3624,25 @@ async function createinventoryoperationdiv(){
     allinventorytable.style.width = '100%';
     alldiv.appendChild(allinventorytable);
 
-
     
     operationdiv.appendChild(document.createElement('hr'));
+    
+    const statisticcomparediv2 = document.createElement('div');
+    statisticcomparediv2.style.display = 'flex';
+    statisticcomparediv2.style.flexDirection = 'row';
+    statisticcomparediv2.style.justifyContent = 'center';
+    statisticcomparediv2.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv2.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv2);
+
+    const lastcheckdivcustomer = document.createElement('div');
+    lastcheckdivcustomer.className = 'inventoryreporttablediv';
+    statisticcomparediv2.appendChild(lastcheckdivcustomer);
+
+    const lastcheckdiv = document.createElement('div');
+    lastcheckdiv.className = 'inventoryreporttablediv';
+    statisticcomparediv2.appendChild(lastcheckdiv);
+    
     //from the check point
     const lastcheckdivtitle = document.createElement('div');
     lastcheckdivtitle.style.fontWeight = 'bold';
