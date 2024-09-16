@@ -3554,6 +3554,14 @@ async function createinventoryoperationdiv(){
     statisticcomparediv.style.width = '100%';
     operationdiv.appendChild(statisticcomparediv);
 
+    const statisticcomparediv2 = document.createElement('div');
+    statisticcomparediv2.style.display = 'flex';
+    statisticcomparediv2.style.flexDirection = 'row';
+    statisticcomparediv2.style.justifyContent = 'center';
+    statisticcomparediv2.style.margin = '0px 0px 0px 0px';
+    statisticcomparediv2.style.width = '100%';
+    operationdiv.appendChild(statisticcomparediv2);
+
     const customerdiv = document.createElement('div');
     customerdiv.className = 'inventoryreporttablediv';
     statisticcomparediv.appendChild(customerdiv);
@@ -3562,9 +3570,13 @@ async function createinventoryoperationdiv(){
     alldiv.className = 'inventoryreporttablediv';
     statisticcomparediv.appendChild(alldiv);
 
+    const lastcheckdivcustomer = document.createElement('div');
+    lastcheckdivcustomer.className = 'inventoryreporttablediv';
+    statisticcomparediv2.appendChild(lastcheckdivcustomer);
+
     const lastcheckdiv = document.createElement('div');
     lastcheckdiv.className = 'inventoryreporttablediv';
-    statisticcomparediv.appendChild(lastcheckdiv);
+    statisticcomparediv2.appendChild(lastcheckdiv);
 
     //get all inventory data
     var searchallinventory = new FormData();
@@ -3577,10 +3589,15 @@ async function createinventoryoperationdiv(){
 
     //all inventory
 
+    const allinventorytitle = document.createElement('div');
+    allinventorytitle.style.fontWeight = 'bold';
+    allinventorytitle.style.fontSize = '20px';
+    allinventorytitle.innerHTML = '系统所有库存';
+    operationdiv.appendChild(allinventorytitle);
+
     //group the inventory by customer
     const customerdivtitle = document.createElement('div');
-    customerdivtitle.style.fontWeight = 'bold';
-    customerdivtitle.style.fontSize = '20px';
+    customerdivtitle.style.fontSize = '18px';
     customerdivtitle.innerHTML = '按照客户统计';
     customerdiv.appendChild(customerdivtitle);
 
@@ -3600,8 +3617,7 @@ async function createinventoryoperationdiv(){
     
     //group the inventory by label
     const alldivtitle = document.createElement('div');
-    alldivtitle.style.fontWeight = 'bold';
-    alldivtitle.style.fontSize = '20px';
+    alldivtitle.style.fontSize = '18px';
     alldivtitle.innerHTML = '按照仓点统计';
     alldiv.appendChild(alldivtitle);
 
@@ -3620,12 +3636,15 @@ async function createinventoryoperationdiv(){
     allinventorytable.style.width = '100%';
     alldiv.appendChild(allinventorytable);
 
+
+    
+    operationdiv.appendChild(document.createElement('hr'));
     //from the check point
     const lastcheckdivtitle = document.createElement('div');
     lastcheckdivtitle.style.fontWeight = 'bold';
     lastcheckdivtitle.style.fontSize = '20px';
-    lastcheckdivtitle.innerHTML = '按照盘点时间统计';
-    lastcheckdiv.appendChild(lastcheckdivtitle);
+    lastcheckdivtitle.innerHTML = '盘点库存';
+    operationdiv.appendChild(lastcheckdivtitle);
 
     
 
@@ -3639,7 +3658,7 @@ async function createinventoryoperationdiv(){
     choosecheckdatediv.style.justifyContent = 'center';
     choosecheckdatediv.style.margin = '0px 0px 0px 0px';
     choosecheckdatediv.style.width = '100%';
-    lastcheckdiv.appendChild(choosecheckdatediv);
+    operationdiv.appendChild(choosecheckdatediv);
     const checkdateinput = document.createElement('input');
     checkdateinput.type = 'date';
     checkdateinput.name = 'checkdate';
@@ -3647,11 +3666,16 @@ async function createinventoryoperationdiv(){
     checkdateinput.style.width = '150px';
     checkdateinput.style.fontSize = '16px';
     checkdateinput.style.margin = '0px 0px 0px 0px';
+    const checkdateinputlabel = document.createElement('div');
+    checkdateinputlabel.innerHTML = '选择盘点时间';
+    checkdateinputlabel.style.fontSize = '16px';
+    checkdateinputlabel.style.margin = '0px 10px 0px 0px';
+    choosecheckdatediv.appendChild(checkdateinputlabel);
     choosecheckdatediv.appendChild(checkdateinput);
     const checkdatebutton = document.createElement('button');
     checkdatebutton.type = 'submit';
     checkdatebutton.className = 'button';
-    checkdatebutton.innerHTML = '选择盘点时间';
+    checkdatebutton.innerHTML = '查询';
     checkdatebutton.style.fontSize = '14px';
     checkdatebutton.style.padding = '5px 5px';
     choosecheckdatediv.appendChild(checkdatebutton);
@@ -3722,9 +3746,33 @@ async function createinventoryoperationdiv(){
 
 
     function createlastcheckcontent(lastcheckinventory){
-        lastcheckcontent.innerHTML = '';
+        lastcheckdivcustomer.innerHTML = '';
+        lastcheckdiv.innerHTML = '';
         const lastchecktotalpcs = lastcheckinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+        //group the lastcheckinventory by customer
+        const lastcheckbycusotmertitle = document.createElement('div');
+        lastcheckbycusotmertitle.style.fontSize = '18px';
+        lastcheckbycusotmertitle.innerHTML = '按照客户统计';
+        lastcheckdivcustomer.appendChild(lastcheckbycusotmertitle);
+
+        const lastcheckinventorycustomer = lastcheckinventory.reduce((acc, item) => {
+            if (!acc[item.customer]) {
+                acc[item.customer] = 0;
+            }
+            acc[item.customer] += Number(item.pcs);
+            return acc;
+        }, {});
+        lastcheckdivcustomer.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
+        //create a table for the lastcheckinventorycustomer
+        const lastcheckinventorycustomertable = createsubtable(["客户", "件数"],lastcheckinventorycustomer);
+        lastcheckinventorycustomertable.style.width = '100%';
+        lastcheckdivcustomer.appendChild(lastcheckinventorycustomertable);
+        
         //group the lastcheckinventory by label
+        const lastcheckbylabeltitle = document.createElement('div');
+        lastcheckbylabeltitle.style.fontSize = '18px';
+        lastcheckbylabeltitle.innerHTML = '按照仓点统计';
+        lastcheckdiv.appendChild(lastcheckbylabeltitle);
         const lastcheckinventorygroup = lastcheckinventory.reduce((acc, item) => {
             if (!acc[item.label]) {
                 acc[item.label] = 0;
@@ -3732,11 +3780,11 @@ async function createinventoryoperationdiv(){
             acc[item.label] += Number(item.pcs);
             return acc;
         }, {});
-        lastcheckcontent.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
+        lastcheckdiv.appendChild(createinfoline('盘点总件数:', lastchecktotalpcs));
         //create a table for the lastcheckinventorygroup
         const lastcheckinventorytable = createsubtable(["仓点", "件数"],lastcheckinventorygroup);
         lastcheckinventorytable.style.width = '100%';
-        lastcheckcontent.appendChild(lastcheckinventorytable);
+        lastcheckdiv.appendChild(lastcheckinventorytable);
     }
     
     function createinfoline(label, value) {
