@@ -1081,7 +1081,7 @@ async function showitems(searchcreteria,callback){
         callback();
     }
 }
-async function loaddetail(clickeditem,activity,thisjobdiv){
+async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     detaillinenumber=0;
 
     
@@ -1256,7 +1256,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
 
     }
     
-    if(!clickeditem && access==2){
+    if(newadded && access==2){
         const statusinput=document.createElement("input");
         statusinput.type="hidden";
         statusinput.name="status";
@@ -1522,7 +1522,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv){
                                             "ordernote":document.getElementsByName("ordernote")[0].value,
                                             
                                         };
-                    loaddetail(xlsclickeditem,"入库");
+                    loaddetail(xlsclickeditem,"入库",undefined,true);
                     //read detail infor
                     var concludeitem=[];
                     var j=0;
