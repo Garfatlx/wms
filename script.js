@@ -623,6 +623,8 @@ function showinventorysearchbox(){
         const exportbutton = document.createElement('button');
         exportbutton.className = 'button';
         exportbutton.id = 'exportbutton';
+        exportbutton.style.display = 'inline-block';
+        exportbutton.style.alignSelf = 'center';
         exportbutton.textContent = '导出CSV';
         exportbutton.addEventListener("click", function() {
             // Convert JSON data to CSV
