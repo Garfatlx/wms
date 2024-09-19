@@ -610,7 +610,7 @@ function showinventorysearchbox(){
     if(access==1){
         const inventoryoperationbut = document.createElement('button');
         inventoryoperationbut.className = 'button';
-        inventoryoperationbut.id = 'newinventorybutton';
+        inventoryoperationbut.id = 'inventoryoperationbut';
         inventoryoperationbut.style.display = 'inline-block';
         inventoryoperationbut.style.alignSelf = 'center';
         inventoryoperationbut.textContent = '库存操作';
@@ -619,6 +619,36 @@ function showinventorysearchbox(){
             
         });
         searchbox.appendChild(inventoryoperationbut);
+
+        const exportbutton = document.createElement('button');
+        exportbutton.className = 'button';
+        exportbutton.id = 'exportbutton';
+        exportbutton.textContent = '导出CSV';
+        exportbutton.addEventListener("click", function() {
+            // Convert JSON data to CSV
+            const csvData = jsonToCsv(filteredinventory);
+
+            // Create a Blob from the CSV data
+            const blob = new Blob([csvData], { type: 'text/csv;charset=utf-16;' });
+
+            // Create a link element to download the Blob as a CSV file
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'data.csv';
+
+            // Append the link to the document body and trigger the download
+            document.body.appendChild(a);
+            a.click();
+
+            // Clean up
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        });
+        searchbox.appendChild(exportbutton);
+
+
     }
 
     //search form
