@@ -2079,7 +2079,7 @@ function createdetailline(nid, item, activity, cancelable) {
         }).then(response => response.json()).then(data => {
             if (data['data']) {
                 const cannotcomplete = document.createElement("div");
-                cannotcomplete.innerHTML = "该库存项目有未完成的VAS任务!";
+                cannotcomplete.innerHTML = "该库存项目有未完成的附加任务!";
                 cannotcomplete.id = "cannotcomplete";
                 detaillineform.appendChild(cannotcomplete);
                 detaillineform.style.height = "175px";
