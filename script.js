@@ -2027,21 +2027,22 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(input5label);
     linecontrol0.appendChild(input5);
 
-    const selectlocationbutton = document.createElement("button");
-    selectlocationbutton.type = "button";
-    selectlocationbutton.className = "button";
-    selectlocationbutton.innerHTML = "选择库位";
-    selectlocationbutton.style.fontSize = "14px";
-    selectlocationbutton.style.padding = "5px 10px";
-    selectlocationbutton.style.margin = "0px 10px";
+    //Disable this function temporarily!!!!!!!!
+    // const selectlocationbutton = document.createElement("button");
+    // selectlocationbutton.type = "button";
+    // selectlocationbutton.className = "button";
+    // selectlocationbutton.innerHTML = "选择库位";
+    // selectlocationbutton.style.fontSize = "14px";
+    // selectlocationbutton.style.padding = "5px 10px";
+    // selectlocationbutton.style.margin = "0px 10px";
 
-    linecontrol0.appendChild(selectlocationbutton);
-    selectlocationbutton.addEventListener("click", function() {
-        // showinventorymap(searchedinventory,activity,[item],locationinput);
-        showinventorymap(searchedinventory,activity,[item],function(selectedlocations){
-            locationinput.value = selectedlocations;
-        });
-    });
+    // linecontrol0.appendChild(selectlocationbutton);
+    // selectlocationbutton.addEventListener("click", function() {
+    //     // showinventorymap(searchedinventory,activity,[item],locationinput);
+    //     showinventorymap(searchedinventory,activity,[item],function(selectedlocations){
+    //         locationinput.value = selectedlocations;
+    //     });
+    // });
 
     if (activity == '入库') {
         const addvasbutton = document.createElement("button");
@@ -2089,31 +2090,6 @@ function createdetailline(nid, item, activity, cancelable) {
         
     }
 
-    // var input6 = document.createElement("input");
-    // input6.type = "text";
-    // input6.id = "locationa"+id;
-    // input6.name = "locationa";
-    // input6.className = "lineinput";
-    // input6.style.width="40px";
-    // input6.value = item != '' ? item['locationa'] : '';
-    // var input6label = document.createElement("label");
-    // input6label.innerHTML = "仓库";
-    // input6label.className = "lineinputlabel";
-    // linecontrol0.appendChild(input6label);
-    // linecontrol0.appendChild(input6);
-
-    // var input7 = document.createElement("input");
-    // input7.type = "text";
-    // input7.id = "locationb"+id;
-    // input7.name = "locationb";
-    // input7.className = "lineinput";
-    // input7.style.width="40px";
-    // input7.value = item != '' ? item['locationb'] : '';
-    // var input7label = document.createElement("label");
-    // input7label.innerHTML = "区域";
-    // input7label.className = "lineinputlabel";
-    // linecontrol0.appendChild(input7label);
-    // linecontrol0.appendChild(input7);
     
     var input11 = document.createElement("input");
     input11.type = activity=="出库"? (item['customer']?"hidden":"text"):"hidden";
