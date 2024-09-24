@@ -2082,6 +2082,7 @@ function createdetailline(nid, item, activity, cancelable) {
                 cannotcomplete.innerHTML = "该库存项目有未完成的VAS任务!";
                 cannotcomplete.id = "cannotcomplete";
                 detaillineform.appendChild(cannotcomplete);
+                detaillineform.style.height = "175px";
                 detaillineform.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
             }
         });
