@@ -435,11 +435,11 @@ function showjobsearchbox(){
     });
     var searcvas = document.getElementById("searcvas");
     searcvas.addEventListener("click", function() {
-        if(customername){
-            return;
-        }
         sysresponse.innerHTML="附加任务";
         var searchcreteria = new FormData();
+        if(customername){
+            searchcreteria.append("customer", customername);
+        }
         searchcreteria.append("status", "未完成");
         searchvas(searchcreteria);
         noshowcompletedinput.checked = true;
@@ -1694,6 +1694,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var items = data["data"];
         if(items!=null){
             for(var i=items.length-1;i>=0;i--){
+
                 createdetailline(i+1,items[i],activity,false);
             }
             // for (var i = 0; i <items.length ; i++) {
@@ -1760,6 +1761,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         if(document.getElementById("inputdate").value==""){
             alert("请输入日期");
             return;
+        }
+        if(document.getElementById("statusvalue-4").checked==true){
+            if(document.getElementById("cannotcomplete")){
+                alert("有未完成附加服务，请先完成附加服务！");
+                return;
+            }
         }
         const activeJobs = document.getElementById("activejobs");
         addnewjob(clickeditem,detaillinenumber).then(async function(){
@@ -2004,7 +2011,7 @@ function createdetailline(nid, item, activity, cancelable) {
     locationinput.value = item['inventoryloc'] ? item['inventoryloc'] : '';
     detaillineform.appendChild(locationinput);
     
-    var linecontrol0=document.createElement("div");
+    const linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
     linecontrol0.style.margin="0px";
     var input5 = document.createElement("input");
@@ -2059,6 +2066,26 @@ function createdetailline(nid, item, activity, cancelable) {
                 
             });
         });
+    }
+
+    if (activity == '出库') {
+        var searchcreteria = new FormData();
+        searchcreteria.append("inventoryid", item['inventoryid']);
+        searchcreteria.append("status", '未完成');
+
+        fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
+            method: 'POST',
+            body: searchcreteria,
+        }).then(response => response.json()).then(data => {
+            if (data['data']) {
+                const cannotcomplete = document.createElement("div");
+                cannotcomplete.innerHTML = "该库存项目有未完成的VAS任务!";
+                cannotcomplete.id = "cannotcomplete";
+                linecontrol0.appendChild(cannotcomplete);
+                detaillineform.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
+            }
+        });
+        
     }
 
     // var input6 = document.createElement("input");
@@ -2418,10 +2445,10 @@ function createstatusbar(currentstatus,status1,status2,status3,status4){
 
     // Define the radio button options
     const options = [
-        { value: status1, id: 'value-1', checked: ((currentstatus==status1)?true:false) },
-        { value: status2, id: 'value-2', checked: ((currentstatus==status2)?true:false) },
-        { value: status3, id: 'value-3', checked: ((currentstatus==status3)?true:false) },
-        { value: status4, id: 'value-4', checked: ((currentstatus==status4)?true:false) } // Note: Corrected the duplicate id 'value-3' to 'value-4'
+        { value: status1, id: 'statusvalue-1', checked: ((currentstatus==status1)?true:false) },
+        { value: status2, id: 'statusvalue-2', checked: ((currentstatus==status2)?true:false) },
+        { value: status3, id: 'statusvalue-3', checked: ((currentstatus==status3)?true:false) },
+        { value: status4, id: 'statusvalue-4', checked: ((currentstatus==status4)?true:false) } // Note: Corrected the duplicate id 'value-3' to 'value-4'
     ];
 
     // Loop through each option to create and append the labels, inputs, and spans
