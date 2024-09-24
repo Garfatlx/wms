@@ -1822,7 +1822,7 @@ function createdetailline(nid, item, activity, cancelable) {
     // var detailform=document.getElementById("itemdetail");
     var detailform = document.getElementById("detaillinelist");
 
-    var detaillineform=document.createElement("form");
+    const detaillineform=document.createElement("form");
     detaillineform.id="detaillineform"+id;
     detaillineform.className="detaillineform";
     detaillineform.style.opacity="0";
@@ -2081,7 +2081,7 @@ function createdetailline(nid, item, activity, cancelable) {
                 const cannotcomplete = document.createElement("div");
                 cannotcomplete.innerHTML = "该库存项目有未完成的VAS任务!";
                 cannotcomplete.id = "cannotcomplete";
-                linecontrol0.appendChild(cannotcomplete);
+                detaillineform.appendChild(cannotcomplete);
                 detaillineform.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
             }
         });
