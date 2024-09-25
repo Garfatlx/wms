@@ -2750,6 +2750,10 @@ function getaddress(reforigin){
         return ['Slam Sp.z.o.o<br>Am Zeugamt 4, DE-04758', 'Oschatz, Germany']; 
     }else if (ref === 'DHL PAKET') {
         return ['DHL Freight Hagen<br>Dolomitstraße 20, DE-58099', 'Hagen, Germany']; 
+    }else if (ref === 'DPD') {
+        return ["DPD Belgium Depot<br>Rue de l'Arbre Saint-Michel 99, 4400 Flemalle", 'Flemalle, Belgium']; 
+    }else if (ref === 'DHL EXPRESS') {
+        return ['DHL Maastricht<br>Aviation Valley, Engelandlaan 7, NL-6199 AN', 'Maastricht, Netherlands']; 
     }else{
         return null;
     }
