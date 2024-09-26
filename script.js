@@ -1019,7 +1019,7 @@ function createinventorytable(data){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数"];
+    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -1042,7 +1042,7 @@ function createinventorytable(data){
         if(item.status!="完成"){
             row.style.color = "grey";
         }
-        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt];
+        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
