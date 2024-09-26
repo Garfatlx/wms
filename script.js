@@ -3650,6 +3650,7 @@ async function createinventoryoperationdiv(){
 
     //get all inventory data
     var searchallinventory = new FormData();
+    searchallinventory.append('status', '完成');
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
         body: searchallinventory,
