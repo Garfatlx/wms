@@ -939,12 +939,20 @@ async function addnewjob(clickeditem,detaillinenumber){
                 body: addjobline,
             }));
             
-            if (addjob.get('status') == '完成') {
+            if(addjob.get('acticuty'=="入库")){
                 httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
                     method: 'POST',
                     body: addjobline,
                 }));
+            }else{
+                if (addjob.get('status') == '完成') {
+                    httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                        method: 'POST',
+                        body: addjobline,
+                    }));
+                }
             }
+            
         }
         // document.getElementById("itemdetail").innerHTML = "";
         // Wait for all HTTP requests to complete
@@ -1031,6 +1039,9 @@ function createinventorytable(data){
     data.forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
+        if(item.status!="完成"){
+            row.style.color = "grey";
+        }
         var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
