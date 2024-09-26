@@ -939,7 +939,7 @@ async function addnewjob(clickeditem,detaillinenumber){
                 body: addjobline,
             }));
             
-            if(addjob.get('acticuty'=="入库")){
+            if(addjob.get('activity')=="入库"){
                 httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
                     method: 'POST',
                     body: addjobline,
