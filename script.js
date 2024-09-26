@@ -944,7 +944,6 @@ async function addnewjob(clickeditem,detaillinenumber){
                     method: 'POST',
                     body: addjobline,
                 }));
-                console.log(addjobline.get('status'));
             }else{
                 if (addjob.get('status') == '完成') {
                     httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
@@ -2599,6 +2598,7 @@ async function showinventorydetail(inventory,thisrow){
     }
 
     createInventoryDetailItem('库存编号', inventory['inventoryid']);
+    createInventoryDetailItem('状态', inventory['status']);
     createInventoryDetailItem('客户', inventory['customer']);
     createInventoryDetailItem('箱号/单号', inventory['container']);
     createInventoryDetailItem('仓点', inventory['label']);
