@@ -944,6 +944,7 @@ async function addnewjob(clickeditem,detaillinenumber){
                     method: 'POST',
                     body: addjobline,
                 }));
+                console.log(addjobline.get('status'));
             }else{
                 if (addjob.get('status') == '完成') {
                     httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
