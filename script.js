@@ -3807,9 +3807,21 @@ async function createinventoryoperationdiv(){
     deletebutton.style.padding = '5px 5px';
     operationdiv.appendChild(deletebutton);
 
+    const deletenoncompletedbutton = document.createElement('button');
+    deletenoncompletedbutton.type = 'button';
+    deletenoncompletedbutton.className = 'button';
+    deletenoncompletedbutton.innerHTML = '删除盘点日期前未入库的库存';
+    deletenoncompletedbutton.style.margin = '20px 0px 0px 0px';
+    deletenoncompletedbutton.style.fontSize = '16px';
+    deletenoncompletedbutton.style.width = '200px';
+    deletenoncompletedbutton.style.padding = '5px 5px';
+    operationdiv.appendChild(deletenoncompletedbutton);
+
+
     deletebutton.addEventListener('click', function() {
         const checkdate = new Date(checkdateinput.value).getTime();
-        const uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
+        var uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
+        uncheckedinventory=uncheckedinventory.filter(item => item.status=='完成');
         const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除'+uncheckedinventorytotalpcs+'件未盘点库存吗？')) {
@@ -3845,6 +3857,32 @@ async function createinventoryoperationdiv(){
         // });
     });
 
+    deletenoncompletedbutton.addEventListener('click', function() {
+        const checkdate = new Date(checkdateinput.value).getTime();
+        var uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
+        uncheckedinventory=uncheckedinventory.filter(item => item.status=='预报');
+        const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+        //add confirmation dialog to delete the unchecked inventory
+        if (confirm('确定删除'+uncheckedinventorytotalpcs+'件盘点日期前未入库的库存吗？')) {
+            const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+            
+            // const uncheckedinventoryids=['718','719'];
+            console.log(uncheckedinventoryids);
+            const deleteinventory = new FormData();
+            deleteinventory.append('ids', uncheckedinventoryids.join(','));
+
+            fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+                method: 'POST',
+                body: deleteinventory,
+            }).then(response => response.json())
+            .then(data => {
+                if (data.msg === '删除成功') {
+                    createinventoryoperationdiv();
+                }
+            });
+            
+        }
+    });
 
     function createlastcheckcontent(lastcheckinventory){
         lastcheckdivcustomer.innerHTML = '';
