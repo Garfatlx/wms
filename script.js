@@ -675,34 +675,36 @@ function showinventorysearchbox(){
             return searchedinventory;
         }
         return searchedinventory.filter(inventory => {
+            let matches = true;
+    
             if (searchcreteria.get('searchref')) {
                 const searchref = searchcreteria.get('searchref').toLowerCase();
-                if ((inventory.label && inventory.label.toLowerCase().includes(searchref)) ||
+                matches = matches && (
+                    (inventory.label && inventory.label.toLowerCase().includes(searchref)) ||
                     (inventory.container && inventory.container.toLowerCase().includes(searchref)) ||
                     (inventory.fba && inventory.fba.toLowerCase().includes(searchref)) ||
-                    (inventory.marks && inventory.marks.toLowerCase().includes(searchref))) {
-                    return true;
-                }
+                    (inventory.marks && inventory.marks.toLowerCase().includes(searchref))
+                );
             }
+    
             if (searchcreteria.get('dateref')) {
                 const dateref = new Date(searchcreteria.get('dateref'));
-                if(searchcreteria.get('datetype') == 'checked'){
-                    if (inventory.checkdate && new Date(inventory.checkdate) >= dateref) {
-                        return true;
-                    }
+                if (searchcreteria.get('datetype') == 'checked') {
+                    matches = matches && (inventory.checkdate && new Date(inventory.checkdate) >= dateref);
                 } else {
-                    if (inventory.date && new Date(inventory.date) >= dateref) {
-                        return true;
-                    }
+                    matches = matches && (inventory.date && new Date(inventory.date) >= dateref);
                 }
             }
-            if (searchcreteria.get('locationa') && inventory.locationa.toLowerCase().includes(searchcreteria.get('locationa').toLowerCase())) {
-                return true;
+    
+            if (searchcreteria.get('locationa')) {
+                matches = matches && inventory.locationa.toLowerCase().includes(searchcreteria.get('locationa').toLowerCase());
             }
-            if (searchcreteria.get('locationb') && inventory.locationb.toLowerCase().includes(searchcreteria.get('locationb').toLowerCase())) {
-                return true;
+    
+            if (searchcreteria.get('locationb')) {
+                matches = matches && inventory.locationb.toLowerCase().includes(searchcreteria.get('locationb').toLowerCase());
             }
-            return false;
+    
+            return matches;
         });
     }
 
