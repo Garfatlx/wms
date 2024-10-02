@@ -3857,19 +3857,27 @@ async function createinventoryoperationdiv(){
         // });
     });
 
-    deletenoncompletedbutton.addEventListener('click', function() {
-        const checkdate = new Date(checkdateinput.value).getTime();
-        var uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
-        uncheckedinventory=uncheckedinventory.filter(item => item.status=='预报');
-        const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
+    deletenoncompletedbutton.addEventListener('click', async function() {
         //add confirmation dialog to delete the unchecked inventory
-        if (confirm('确定删除'+uncheckedinventorytotalpcs+'件盘点日期前未入库的库存吗？')) {
-            const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
+        if (confirm('确定删除件盘点日期前未入库的库存吗？')) {
+            var searchallinventory = new FormData();
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+                method: 'POST',
+                body: searchallinventory,
+            });
+            const data = await response.json();
             
-            // const uncheckedinventoryids=['718','719'];
-            console.log(uncheckedinventoryids);
+            const searchedinventoryall = data['data'];
+
+            const checkdate = new Date(checkdateinput.value).getTime();
+            var noncompletedinventory = searchedinventoryall.filter(item => new Date(item.checkdate).getTime() < checkdate);
+            noncompletedinventory=noncompletedinventory.filter(item => item.status=='预报');
+            
+            const noncompletedinventoryids = noncompletedinventory.map(item => item.id);
+            
+            console.log(noncompletedinventoryids);
             const deleteinventory = new FormData();
-            deleteinventory.append('ids', uncheckedinventoryids.join(','));
+            deleteinventory.append('ids', noncompletedinventoryids.join(','));
 
             fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
                 method: 'POST',
