@@ -1717,8 +1717,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         }
 
         //make line form draggable
-        const draggables = document.querySelectorAll('.detaillineform');
-        const container = document.querySelector('.container');
+        const draggables = document.querySelectorAll('.detailineform');
+        const container = document.querySelector('.detaillinelist');
 
         draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', () => {
