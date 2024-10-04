@@ -29,7 +29,7 @@ window.addEventListener("load", function(){
     var newinjobbutton = document.getElementById("newinjobbutton");
     newinjobbutton.addEventListener("click", function() {
         if(access>0){
-            loaddetail("",'入库');
+            loaddetail("",'入库',null,true);
         }
     });
     var newoutjobbutton = document.getElementById("newoutjobbutton");
