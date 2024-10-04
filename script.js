@@ -3090,6 +3090,9 @@ function printinventorylabel(content){
         // var pagenumbers=item['plt']&&item['plt']>0?item['plt']:1;
         var pagenumbers=1;
 
+        if(item['pcs']<=0){
+            return;
+        }
         for(var i=0;i<pagenumbers;i++){
             const pagediv = document.createElement('div');
             pagediv.className = 'pagediv';
