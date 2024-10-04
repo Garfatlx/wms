@@ -29,7 +29,7 @@ window.addEventListener("load", function(){
     var newinjobbutton = document.getElementById("newinjobbutton");
     newinjobbutton.addEventListener("click", function() {
         if(access>0){
-            loaddetail("",'入库');
+            loaddetail("",'入库',null,true);
         }
     });
     var newoutjobbutton = document.getElementById("newoutjobbutton");
@@ -1785,6 +1785,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         printcmrbutton.disabled = true;
         printlabelbutton.disabled = true;
         printcmrbutton.disabled = true;
+        if (clickeditem && clickeditem['status'] != '未预约') {
+            submitbutton.disabled = true;
+            cancelButton.disabled = true;
+        }
     }
     if(access==1){
         cancelButton.removeAttribute("disabled");
