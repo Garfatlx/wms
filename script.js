@@ -2806,7 +2806,7 @@ async function showinventorydetail(inventory,thisrow){
         printinventorylabel(inventory);
     });
 
-    if(access!=1){
+    if(access!=1 && access!=3){
         deleteButton.disabled = true;
         labelbutton.disabled = true;
         selectlocationbutton.disabled = true;
