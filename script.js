@@ -1397,7 +1397,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     linecontrol0.appendChild(warehouseselec);
     if(access==3){
         warehouseselec.querySelector('select').value = currentwarehouse;
-       warehouseselec.querySelector('select').readOnly = true;
+        warehouseselec.querySelector('select').disabled = true;
+        const hidewarehouse = document.createElement('input');
+        hidewarehouse.type = 'hidden';
+        hidewarehouse.name = 'warehouse';
+        hidewarehouse.value = currentwarehouse;
+        linecontrol0.appendChild(hidewarehouse);
     }
 
     if (activity == '出库') {
