@@ -4063,12 +4063,13 @@ function createwarehouseselectiondiv(){
     warehouseselectioninput.name = 'warehouse';
     warehouseselectioninput.id = 'warehouseselection';
     warehouseselectioninput.style.width = '150px';
-    warehouseselectioninput.style.fontSize = '16px';
+    warehouseselectioninput.style.fontSize = '14px';
     warehouseselectioninput.style.margin = '0px 0px 0px 0px';
 
     const warehouseoptions = ['NL001', 'DE001'];
     warehouseoptions.forEach(warehouse => {
         const option = document.createElement('option');
+
         option.value = warehouse;
         option.innerHTML = warehouse;
         warehouseselectioninput.appendChild(option);
@@ -4076,7 +4077,7 @@ function createwarehouseselectiondiv(){
 
     const warehouseselectionlabel = document.createElement('label');
     warehouseselectionlabel.htmlFor = 'warehouseselection';
-    warehouseselectionlabel.innerHTML = '选择仓库';
+    warehouseselectionlabel.innerHTML = '仓库';
     warehouseselectionlabel.style.fontSize = '16px';
 
     warehouseselectiondiv.appendChild(warehouseselectionlabel);
