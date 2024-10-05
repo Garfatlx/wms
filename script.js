@@ -327,11 +327,7 @@ function showjobsearchbox(){
     dateInput.style.marginLeft = '20px';
     divContainer.appendChild(dateInput);
 
-    if(access!=3){
-        const warehouseSelect=createwarehouseselectiondiv();
-        warehouseSelect.style.marginLeft = '15px';
-        divContainer.appendChild(warehouseSelect);
-    }
+    
 
     // Create search button
     const searchButton = document.createElement('button');
@@ -378,6 +374,21 @@ function showjobsearchbox(){
     divContainer1.appendChild(noshowcompletedswitch);
     divContainer1.appendChild(noshowcompletedlabel);
 
+    if(access!=3){
+        const warehouseSelectdiv=createwarehouseselectiondiv();
+        warehouseSelectdiv.style.marginLeft = '15px';
+        divContainer1.appendChild(warehouseSelectdiv);
+
+        const warehouseselect = warehouseSelectdiv.querySelector('select');
+        warehouseselect.addEventListener("change", function() {
+            document.getElementById("activejobs").innerHTML = "";
+                var filteredJobs = searchedjobs.filter(job => job.warehouse == warehouseselect.value);
+                for (var i = 0; i < filteredJobs.length; i++) {
+                    createjob(filteredJobs[i],document.getElementById("activejobs"));
+                }
+        });
+    }
+
     form.appendChild(divContainer1);
 
     // Append form to body or any other container
@@ -398,7 +409,7 @@ function showjobsearchbox(){
                 searchcreteria.append("createdate", searchcreteria.get('date') + " 23:59:59");
             }
         }
-        if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")=="" && searchcreteria.get("warehouse")==""){
+        if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")==""){
             alert("请输入搜索条件。");
         }else{
             if(currentjobpagecontent=='jobs'){
