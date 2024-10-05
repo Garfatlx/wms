@@ -1378,6 +1378,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
 
+    //add warehouse selection
+    if(access!=3){
+        const warehouseselec=createwarehouseselectiondiv();
+        linecontrol0.appendChild(warehouseselec);
+    }
+
     if (activity == '出库') {
         var linecontrol0=document.createElement("div");
         linecontrol0.className="linecontrol";
@@ -4046,4 +4052,35 @@ async function createinventoryoperationdiv(){
         return `${year}-${month}-${day}`;
     }
 
+}
+
+function createwarehouseselectiondiv(){
+    const warehouseselectiondiv=document.createElement('div');
+    warehouseselectiondiv.style.display = 'flex';
+    warehouseselectiondiv.style.flexDirection = 'row';
+
+    const warehouseselectioninput = document.createElement('select');
+    warehouseselectioninput.name = 'warehouse';
+    warehouseselectioninput.id = 'warehouseselection';
+    warehouseselectioninput.style.width = '150px';
+    warehouseselectioninput.style.fontSize = '16px';
+    warehouseselectioninput.style.margin = '0px 0px 0px 0px';
+
+    const warehouseoptions = ['NL001', 'DE001'];
+    warehouseoptions.forEach(warehouse => {
+        const option = document.createElement('option');
+        option.value = warehouse;
+        option.innerHTML = warehouse;
+        warehouseselectioninput.appendChild(option);
+    });
+
+    const warehouseselectionlabel = document.createElement('label');
+    warehouseselectionlabel.htmlFor = 'warehouseselection';
+    warehouseselectionlabel.innerHTML = '选择仓库';
+    warehouseselectionlabel.style.fontSize = '16px';
+
+    warehouseselectiondiv.appendChild(warehouseselectionlabel);
+    warehouseselectiondiv.appendChild(warehouseselectioninput);
+
+    return warehouseselectiondiv;
 }
