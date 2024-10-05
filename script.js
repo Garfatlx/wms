@@ -1374,7 +1374,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
-    linecontrol0.style.marginBottom="5px";
     var input0=document.createElement("input");
     input0.type="datetime-local";
     input0.name="date";
@@ -1394,6 +1393,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     //add warehouse selection
     const selectedwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
     const warehouseselec=createwarehouseselectiondiv(selectedwarehouse);
+    warehouseselec.style.marginBottom = '5px';
     linecontrol0.appendChild(warehouseselec);
     if(access==3){
         warehouseselec.querySelector('select').value = currentwarehouse;
