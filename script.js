@@ -327,6 +327,12 @@ function showjobsearchbox(){
     dateInput.style.marginLeft = '20px';
     divContainer.appendChild(dateInput);
 
+    if(access!=3){
+        const warehouseSelect=createwarehouseselectiondiv();
+        warehouseSelect.style.marginLeft = '15px';
+        divContainer.appendChild(warehouseSelect);
+    }
+
     // Create search button
     const searchButton = document.createElement('button');
     searchButton.className = 'button';
@@ -536,12 +542,20 @@ function showinventorysearchbox(){
     innerLabel.setAttribute('data-on', '盘点日期');
     innerLabel.htmlFor = 'datetype';
 
+
     switchLabel.appendChild(inputCheckbox);
     switchLabel.appendChild(innerLabel);
 
     btnContainer.appendChild(switchLabel);
 
     divContainer.appendChild(btnContainer);
+
+    //select warehouse
+    if(access!=3){
+        const warehouseSelect=createwarehouseselectiondiv();
+        warehouseSelect.style.marginLeft = '15px';
+        divContainer.appendChild(warehouseSelect);
+    }
 
     // const wareinputDiv=document.createElement("div");
     // wareinputDiv.className="input-container";
@@ -1031,7 +1045,10 @@ function createinventorytable(data){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
+    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期","仓库"];
+    if(access==3){
+        headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
+    }
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -1054,7 +1071,10 @@ function createinventorytable(data){
         if(item.status!="完成"){
             row.style.color = "grey";
         }
-        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
+        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date,item.warehouse];
+        if(access==3){
+            columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
+        }
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
             td.textContent = columnText;
@@ -1109,7 +1129,7 @@ async function showitems(searchcreteria,callback){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["出入库" ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期"];
+    var headers = ["出入库" ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期","仓库"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -1137,7 +1157,7 @@ async function showitems(searchcreteria,callback){
         if(item.activity=="出库"){
             row.style.fontStyle = "italic";
         }
-        var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date];
+        var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date,item.warehouse];
         // var previousRow = nulll;
         columns.forEach(function(columnText,index) {
             var td = document.createElement("td");
