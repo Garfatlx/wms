@@ -2,6 +2,7 @@ var access;
 var customername;
 var latestActionToken;
 var currentjobpagecontent;
+var currentwarehouse;
 
 var searchedjobs;
 var searchedinventory;
@@ -117,8 +118,9 @@ function login(){
                 sysresponse.innerHTML=xhr.response["msg"];
                 access=xhr.response["data"]["access"];
                 customername=xhr.response["data"]["customer"];
+                currentwarehouse=xhr.response["data"]["warehouse"];
 
-                if(access==1){
+                if(access==1 || access==3){
                     document.getElementById("newinjobbutton").removeAttribute('disabled');
                     document.getElementById("newoutjobbutton").removeAttribute('disabled');
 
@@ -164,6 +166,9 @@ function searchjobs(searchcreteria){
     if(access==2){
         searchcreteria.append("customer", customername);
     }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
+    }
     currentjobpagecontent='jobs';
     const actionToken = Symbol();
     latestActionToken = actionToken;
@@ -200,6 +205,9 @@ function searchjobs(searchcreteria){
 function searchitems(searchcreteria){
     if(access==2){
         searchcreteria.append("customer", customername);
+    }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
     }
     const xhr  = new XMLHttpRequest();  
     xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
@@ -605,7 +613,7 @@ function showinventorysearchbox(){
     searchbox.appendChild(inventorymapbutton);
 
     //Invnetory operation button
-    if(access==1){
+    if(access==1 || access==3){
         const inventoryoperationbut = document.createElement('button');
         inventoryoperationbut.className = 'button';
         inventoryoperationbut.id = 'inventoryoperationbut';
@@ -931,6 +939,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             addjobline.append('activity', addjob.get('activity'));
             addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
+            addjobline.append('warehouse', addjob.get('warehouse'));
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
             addjobline.set('checked', checkedstatus);
 
@@ -979,6 +988,9 @@ async function showinventory(searchcreteria){
 
     if(access==2){
         searchcreteria.append("customer", customername);
+    }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
     }
     const showinventorymap = document.getElementById('inventorymapbutton');
     showinventorymap.disabled = true;
@@ -1380,10 +1392,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     linecontrol0.appendChild(input0);
 
     //add warehouse selection
-    if(access!=3){
-        const currentwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
-        const warehouseselec=createwarehouseselectiondiv(currentwarehouse);
-        linecontrol0.appendChild(warehouseselec);
+    const selectedwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
+    const warehouseselec=createwarehouseselectiondiv(selectedwarehouse);
+    linecontrol0.appendChild(warehouseselec);
+    if(access==3){
+        warehouseselec.querySelector('select').value = currentwarehouse;
+       warehouseselec.querySelector('select').readOnly = true;
     }
 
     if (activity == '出库') {
@@ -1773,6 +1787,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var inputs = itemdetail.getElementsByTagName('input');
         var textareas = itemdetail.getElementsByTagName('textarea');
         var buttons = itemdetail.getElementsByTagName('button');
+        var selections = itemdetail.getElementsByTagName('select');
 
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].disabled = true;
@@ -1785,6 +1800,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         for (var i = 0; i < buttons.length; i++) {
             buttons[i].disabled = true;
         }
+
+        for (var i = 0; i < selections.length; i++) {
+            selections[i].disabled = true;
+        }
     }
     if(access==2){
         printbutton.disabled = true;
@@ -1796,7 +1815,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             cancelButton.disabled = true;
         }
     }
-    if(access==1){
+    if(access==1 || access==3){
         cancelButton.removeAttribute("disabled");
         printbutton.removeAttribute("disabled");
         printcmrbutton.removeAttribute("disabled");
@@ -1824,6 +1843,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         // var inputform=document.getElementById("detailform");
         if(document.getElementById("inputdate").value==""){
             alert("请输入日期");
+            return;
+        }
+        if(document.getElementById("itemdetail").querySelector("[name='warehouse']").value==""){
+            alert("请选择仓库");
             return;
         }
         if(document.getElementById("statusvalue-4").checked==true){
@@ -3708,6 +3731,9 @@ async function createinventoryoperationdiv(){
     //get all inventory data
     var searchallinventory = new FormData();
     searchallinventory.append('status', '完成');
+    if(access==3){
+        searchallinventory.append("warehouse", currentwarehouse);
+    }
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
         body: searchallinventory,
@@ -4056,7 +4082,7 @@ async function createinventoryoperationdiv(){
 
 }
 
-function createwarehouseselectiondiv(currentwarehouse){
+function createwarehouseselectiondiv(selectedwarehouse){
     const warehouseselectiondiv=document.createElement('div');
     warehouseselectiondiv.style.display = 'flex';
     warehouseselectiondiv.style.flexDirection = 'row';
@@ -4075,7 +4101,7 @@ function createwarehouseselectiondiv(currentwarehouse){
         option.innerHTML = warehouse;
         warehouseselectioninput.appendChild(option);
     });
-    warehouseselectioninput.value = currentwarehouse?currentwarehouse:'';
+    warehouseselectioninput.value = selectedwarehouse?selectedwarehouse:'';
     const warehouseselectionlabel = document.createElement('label');
     warehouseselectionlabel.htmlFor = 'warehouseselection';
     warehouseselectionlabel.innerHTML = '仓库';
