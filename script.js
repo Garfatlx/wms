@@ -2352,6 +2352,16 @@ function createjob(jobcontent,parentdiv,replacement){
     listItem3.textContent = jobcontent['date'];
     itemLine2.appendChild(listItem3);
 
+    if(access!=3){
+        const itemLine5 = document.createElement('div');
+        itemLine5.className = 'itemline';
+
+        const listItem7 = document.createElement('p');
+        listItem7.className = 'listitem';
+        listItem7.textContent = "仓库:"+jobcontent['warehouse'];
+        itemLine5.appendChild(listItem7);
+        activejob.appendChild(itemLine5);
+    }
    
 
     // Create and append the second horizontal rule
@@ -3624,6 +3634,12 @@ function vasdetailform(clickeditem,callback,replacement){
     noteinputdiv.appendChild(noteinputlabel);
     noteinputdiv.appendChild(noteinput);
     form.appendChild(noteinputdiv);
+
+    const hidwarehouse=document.createElement('input');
+    hidwarehouse.type = 'hidden';
+    hidwarehouse.name = 'warehouse';
+    hidwarehouse.value = clickeditem['warehouse']?clickeditem['warehouse']:'';
+    form.appendChild(hidwarehouse);
 
     //file upload section
     const uploaddiv=document.createElement("div");
