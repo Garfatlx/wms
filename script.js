@@ -1362,6 +1362,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     var linecontrol0=document.createElement("div");
     linecontrol0.className="linecontrol";
+    linecontrol0.style.marginBottom="5px";
     var input0=document.createElement("input");
     input0.type="datetime-local";
     input0.name="date";
@@ -1380,7 +1381,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     //add warehouse selection
     if(access!=3){
-        const warehouseselec=createwarehouseselectiondiv();
+        const currentwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
+        const warehouseselec=createwarehouseselectiondiv(currentwarehouse);
         linecontrol0.appendChild(warehouseselec);
     }
 
@@ -4054,7 +4056,7 @@ async function createinventoryoperationdiv(){
 
 }
 
-function createwarehouseselectiondiv(){
+function createwarehouseselectiondiv(currentwarehouse){
     const warehouseselectiondiv=document.createElement('div');
     warehouseselectiondiv.style.display = 'flex';
     warehouseselectiondiv.style.flexDirection = 'row';
@@ -4066,15 +4068,14 @@ function createwarehouseselectiondiv(){
     warehouseselectioninput.style.fontSize = '14px';
     warehouseselectioninput.style.margin = '0px 0px 0px 0px';
 
-    const warehouseoptions = ['NL001', 'DE001'];
+    const warehouseoptions = ['','NL001', 'DE001'];
     warehouseoptions.forEach(warehouse => {
         const option = document.createElement('option');
-
         option.value = warehouse;
         option.innerHTML = warehouse;
         warehouseselectioninput.appendChild(option);
     });
-
+    warehouseselectioninput.value = currentwarehouse?currentwarehouse:'';
     const warehouseselectionlabel = document.createElement('label');
     warehouseselectionlabel.htmlFor = 'warehouseselection';
     warehouseselectionlabel.innerHTML = '仓库';
