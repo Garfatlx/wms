@@ -4116,7 +4116,7 @@ function createwarehouseselectiondiv(selectedwarehouse){
     const warehouseselectioninput = document.createElement('select');
     warehouseselectioninput.name = 'warehouse';
     warehouseselectioninput.id = 'warehouseselection';
-    warehouseselectioninput.style.width = '150px';
+    warehouseselectioninput.style.width = '60px';
     warehouseselectioninput.style.fontSize = '14px';
     warehouseselectioninput.style.margin = '0px 0px 0px 0px';
 
