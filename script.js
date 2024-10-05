@@ -1406,6 +1406,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var input0=document.createElement("textarea");
         input0.name="deladdress";
         input0.className="lineinput";
+        input0.style.marginRight = '20px';
         input0.value=((clickeditem!='')?clickeditem['deladdress']:"");
         var input0label=document.createElement("label");
         input0label.innerHTML="送货地址";
@@ -1422,7 +1423,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     var input0label=document.createElement("label");
     input0label.innerHTML="备注";
     input0label.className="lineinputlabel";
-    input0label.style.margin="0px 0px 0px 20px";
+    input0label.style.margin="0px 0px 0px 0px";
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
 
