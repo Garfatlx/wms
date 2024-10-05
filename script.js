@@ -68,7 +68,7 @@ window.addEventListener("load", function(){
         if(access!=-1){
             document.getElementById("activejobs").innerHTML="";
             showitemsearchbox();
-            if(customername){
+            if(access==2){
                 var searchcreteria = new FormData();
                 searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
@@ -137,12 +137,10 @@ function login(){
                             searchjobs(searchcreteria);
                     });
                 }
-                if(access==2){
-                    document.getElementById("newinjobbutton").removeAttribute('disabled');
-                }
                 
-                if(customername){
+                if(access==2){
                     // document.querySelector("#activitylog input").checked = true;
+                    document.getElementById("newinjobbutton").removeAttribute('disabled');
                     document.getElementById("activitylog").click();
                     
                 }else{
@@ -163,7 +161,7 @@ function login(){
 
 function searchjobs(searchcreteria){
     showloading(document.getElementById("activejobs"));
-    if(customername){
+    if(access==2){
         searchcreteria.append("customer", customername);
     }
     currentjobpagecontent='jobs';
@@ -200,7 +198,7 @@ function searchjobs(searchcreteria){
     });
 }
 function searchitems(searchcreteria){
-    if(customername){
+    if(access==2){
         searchcreteria.append("customer", customername);
     }
     const xhr  = new XMLHttpRequest();  
@@ -437,7 +435,7 @@ function showjobsearchbox(){
     searcvas.addEventListener("click", function() {
         sysresponse.innerHTML="附加任务";
         var searchcreteria = new FormData();
-        if(customername){
+        if(access==2){
             searchcreteria.append("customer", customername);
         }
         searchcreteria.append("status", "未完成");
@@ -979,7 +977,7 @@ async function showinventory(searchcreteria){
     const actionToken = Symbol();
     latestActionToken = actionToken;
 
-    if(customername){
+    if(access==2){
         searchcreteria.append("customer", customername);
     }
     const showinventorymap = document.getElementById('inventorymapbutton');
@@ -1072,7 +1070,7 @@ async function showitems(searchcreteria,callback){
     const actionToken = Symbol();
     latestActionToken = actionToken;
 
-    if(customername){
+    if(access==2){
         searchcreteria.append("customer", customername);
     }
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
@@ -1273,7 +1271,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     detailform.appendChild(linecontrol0);
     linecontrol0.appendChild(input0);
     linecontrol0.appendChild(inputbottomline);
-    if(customername){
+    if(access==2){
         input0.value=customername;
         input0.readOnly = true;
     }else{
