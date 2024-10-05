@@ -398,7 +398,7 @@ function showjobsearchbox(){
                 searchcreteria.append("createdate", searchcreteria.get('date') + " 23:59:59");
             }
         }
-        if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")==""){
+        if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")=="" && searchcreteria.get("warehouse")==""){
             alert("请输入搜索条件。");
         }else{
             if(currentjobpagecontent=='jobs'){
