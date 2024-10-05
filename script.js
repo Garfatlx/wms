@@ -3916,7 +3916,7 @@ async function createinventoryoperationdiv(){
             const searchedinventoryall = data['data'];
 
             const checkdate = new Date(checkdateinput.value).getTime();
-            var noncompletedinventory = searchedinventoryall.filter(item => new Date(item.checkdate).getTime() < checkdate);
+            var noncompletedinventory = searchedinventoryall.filter(item => new Date(item.date).getTime() < checkdate);
             noncompletedinventory=noncompletedinventory.filter(item => item.status=='预报');
             
             const noncompletedinventoryids = noncompletedinventory.map(item => item.id);
