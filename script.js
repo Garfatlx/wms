@@ -565,7 +565,7 @@ function showinventorysearchbox(){
     if(access!=3){
         const warehouseSelect=createwarehouseselectiondiv();
         warehouseSelect.style.marginLeft = '15px';
-        divContainer.appendChild(warehouseSelect);
+        form.appendChild(warehouseSelect);
     }
 
     // const wareinputDiv=document.createElement("div");
