@@ -610,6 +610,10 @@ function showinventorysearchbox(){
         warehouseSelect.style.marginLeft = '15px';
         divContainer.appendChild(warehouseSelect)
         warehouseSelect.querySelector('select').addEventListener("change", function() {
+            if(document.getElementsByClassName("operationdiv")){
+                createinventoryoperationdiv();
+                return;
+            }
             const activeJobs = document.getElementById('activejobs');
             var searchcreteria = new FormData(form);
             activeJobs.innerHTML = '';
@@ -3839,6 +3843,11 @@ async function createinventoryoperationdiv(){
     searchallinventory.append('status', '完成');
     if(access==3){
         searchallinventory.append("warehouse", currentwarehouse);
+    }else{
+        const selectedwarehouse=document.getElementById('searchbox').querySelector('select').value;
+        if(selectedwarehouse){
+            searchallinventory.append("warehouse", selectedwarehouse);
+        }
     }
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
         method: 'POST',
@@ -4005,6 +4014,13 @@ async function createinventoryoperationdiv(){
 
 
     deletebutton.addEventListener('click', function() {
+        if(access!=3){
+            const selectedwarehouse=document.getElementById('searchbox').querySelector('select').value;
+            if(!selectedwarehouse){
+                alert('此操作只能操作于选择的仓库，请选择仓库！');
+                return;
+            }
+        }
         const checkdate = new Date(checkdateinput.value).getTime();
         var uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
         uncheckedinventory=uncheckedinventory.filter(item => item.status=='完成');
@@ -4044,9 +4060,22 @@ async function createinventoryoperationdiv(){
     });
 
     deletenoncompletedbutton.addEventListener('click', async function() {
+
+        
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除件盘点日期前未入库的库存吗？')) {
             var searchallinventory = new FormData();
+            if(access==3){
+                searchallinventory.append("warehouse", currentwarehouse);
+            }else{
+                const selectedwarehouse=document.getElementById('searchbox').querySelector('select').value;
+                if(!selectedwarehouse){
+                    alert('此操作只能操作于选择的仓库，请选择仓库！');
+                    return;
+                }
+                searchallinventory.append('warehouse', selectedwarehouse);
+            }
+            
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
                 method: 'POST',
                 body: searchallinventory,
