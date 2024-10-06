@@ -415,10 +415,24 @@ function showjobsearchbox(){
             if(currentjobpagecontent=='jobs'){
                 searchjobs(searchcreteria);
                 noshowcompletedinput.checked = false;
+                if(access!=3){
+                    const warehouseselectinput=divContainer1.querySelector('select');
+                    if(warehouseselectinput){
+                        warehouseselectinput.value = '';
+                        //warehouseselectinput.dispatchEvent(new Event('change'));
+                    }
+                }
             }
             if(currentjobpagecontent=='vas'){
                 searchvas(searchcreteria);
                 noshowcompletedinput.checked = false;
+                if(access!=3){
+                    const warehouseselectinput=divContainer1.querySelector('select');
+                    if(warehouseselectinput){
+                        warehouseselectinput.value = '';
+                        //warehouseselectinput.dispatchEvent(new Event('change'));
+                    }
+                }
             }
             
         }
