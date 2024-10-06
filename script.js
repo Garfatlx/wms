@@ -386,10 +386,16 @@ function showjobsearchbox(){
         const warehouseselect = warehouseSelectdiv.querySelector('select');
         warehouseselect.addEventListener("change", function() {
             document.getElementById("activejobs").innerHTML = "";
-                var filteredJobs = searchedjobs.filter(job => job.warehouse == warehouseselect.value);
-                for (var i = 0; i < filteredJobs.length; i++) {
-                    createjob(filteredJobs[i],document.getElementById("activejobs"));
+            if (this.value === '') {
+                for (var i = 0; i < searchedjobs.length; i++) {
+                    createjob(searchedjobs[i],document.getElementById("activejobs"));
                 }
+                return;
+            }
+            var filteredJobs = searchedjobs.filter(job => job.warehouse == warehouseselect.value);
+            for (var i = 0; i < filteredJobs.length; i++) {
+                createjob(filteredJobs[i],document.getElementById("activejobs"));
+            }
         });
     }
 
@@ -422,15 +428,10 @@ function showjobsearchbox(){
                     if(warehouseSelectinput){
                         warehouseSelectinput.dispatchEvent(new Event('change'));
                     }
+                    noshowcompletedinput.dispatchEvent(new Event('change'));
                 });
-                noshowcompletedinput.checked = false;
-                // if(access!=3){
-                //     const warehouseselectinput=divContainer1.querySelector('select');
-                //     if(warehouseselectinput){
-                //         warehouseselectinput.value = '';
-                //         //warehouseselectinput.dispatchEvent(new Event('change'));
-                //     }
-                // }
+                //noshowcompletedinput.checked = false;
+                
             }
             if(currentjobpagecontent=='vas'){
                 searchvas(searchcreteria);
@@ -476,8 +477,14 @@ function showjobsearchbox(){
             searchcreteria.append("status", '全部');
         }
         searchcreteria.append("date", getformatteddate(1)+" 23:59:59");
-        searchjobs(searchcreteria);
-        noshowcompletedinput.checked = false;
+        searchjobs(searchcreteria,function(){
+            const warehouseSelectinput=divContainer1.querySelector('select');
+            if(warehouseSelectinput){
+                warehouseSelectinput.dispatchEvent(new Event('change'));
+            }
+            noshowcompletedinput.dispatchEvent(new Event('change'));
+        });
+        //noshowcompletedinput.checked = false;
     });
     var searcvas = document.getElementById("searcvas");
     searcvas.addEventListener("click", function() {
