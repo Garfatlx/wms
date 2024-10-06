@@ -430,7 +430,19 @@ function showjobsearchbox(){
                     const warehouseSelectinput=divContainer1.querySelector('select');
                     if(warehouseSelectinput){
                         console.log(warehouseSelectinput.value);
-                        warehouseSelectinput.dispatchEvent(new Event('change'));
+                        //warehouseSelectinput.dispatchEvent(new Event('change'));
+
+                        document.getElementById("activejobs").innerHTML = "";
+                        if (warehouseSelectinput.value === '') {
+                            for (var i = 0; i < searchedjobs.length; i++) {
+                                createjob(searchedjobs[i],document.getElementById("activejobs"));
+                            }
+                            return;
+                        }
+                        var filteredJobs = searchedjobs.filter(job => job.warehouse == warehouseSelectinput.value);
+                        for (var i = 0; i < filteredJobs.length; i++) {
+                            createjob(filteredJobs[i],document.getElementById("activejobs"));
+                        }
                     }
                     noshowcompletedinput.dispatchEvent(new Event('change'));
                 });
