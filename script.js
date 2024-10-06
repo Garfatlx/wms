@@ -610,7 +610,9 @@ function showinventorysearchbox(){
         warehouseSelect.style.marginLeft = '15px';
         divContainer.appendChild(warehouseSelect)
         warehouseSelect.querySelector('select').addEventListener("change", function() {
-            if(document.getElementsByClassName("operationdiv")){
+            const opreationdiv=document.getElementsByClassName("operationdiv");
+            console.log(opreationdiv);
+            if(opreationdiv){
                 createinventoryoperationdiv();
                 return;
             }
