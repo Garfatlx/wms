@@ -385,7 +385,6 @@ function showjobsearchbox(){
 
         const warehouseselect = warehouseSelectdiv.querySelector('select');
         warehouseselect.addEventListener("change", function() {
-            console.log('here'+this.value);
             document.getElementById("activejobs").innerHTML = "";
             if (this.value === '') {
                 for (var i = 0; i < searchedjobs.length; i++) {
@@ -394,7 +393,6 @@ function showjobsearchbox(){
                 return;
             }
             var filteredJobs = searchedjobs.filter(job => job.warehouse == this.value);
-            console.log(filteredJobs);
             for (var i = 0; i < filteredJobs.length; i++) {
                 createjob(filteredJobs[i],document.getElementById("activejobs"));
             }
@@ -461,7 +459,13 @@ function showjobsearchbox(){
             searchcreteria.append("status", '全部');
         }
         searchcreteria.append("date", getformatteddate(-1)+" 23:59:59");
-        searchjobs(searchcreteria);
+        searchjobs(searchcreteria,function(){
+            const warehouseSelectinput=divContainer1.querySelector('select');
+            if(warehouseSelectinput){
+                console.log(warehouseSelectinput.value);
+                warehouseSelectinput.dispatchEvent(new Event('change'));
+            }
+        });
         noshowcompletedinput.checked = false;
     });
     var searchtoday = document.getElementById("searchtoday");
@@ -471,7 +475,13 @@ function showjobsearchbox(){
             searchcreteria.append("status", '全部');
         }
         searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-        searchjobs(searchcreteria);
+        searchjobs(searchcreteria,function(){
+            const warehouseSelectinput=divContainer1.querySelector('select');
+            if(warehouseSelectinput){
+                console.log(warehouseSelectinput.value);
+                warehouseSelectinput.dispatchEvent(new Event('change'));
+            }
+        });
         noshowcompletedinput.checked = false;
     });
     var searchtomorrow = document.getElementById("searchtomorrow");
@@ -598,7 +608,14 @@ function showinventorysearchbox(){
     if(access!=3){
         const warehouseSelect=createwarehouseselectiondiv();
         warehouseSelect.style.marginLeft = '15px';
-        divContainer.appendChild(warehouseSelect);
+        divContainer.appendChild(warehouseSelect)
+        warehouseSelect.querySelector('select').addEventListener("change", function() {
+            const activeJobs = document.getElementById('activejobs');
+            var searchcreteria = new FormData(form);
+            activeJobs.innerHTML = '';
+            filteredinventory = filterinventory(searchcreteria);
+            activeJobs.appendChild(createinventorytable(filteredinventory));
+        });
     }
 
     // const wareinputDiv=document.createElement("div");
