@@ -385,7 +385,7 @@ function showjobsearchbox(){
 
         const warehouseselect = warehouseSelectdiv.querySelector('select');
         warehouseselect.addEventListener("change", function() {
-            console.log('here');
+            console.log('here'+this.value);
             document.getElementById("activejobs").innerHTML = "";
             if (this.value === '') {
                 for (var i = 0; i < searchedjobs.length; i++) {
