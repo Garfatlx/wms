@@ -393,7 +393,7 @@ function showjobsearchbox(){
                 }
                 return;
             }
-            var filteredJobs = searchedjobs.filter(job => job.warehouse == warehouseselect.value);
+            var filteredJobs = searchedjobs.filter(job => job.warehouse == this.value);
             for (var i = 0; i < filteredJobs.length; i++) {
                 createjob(filteredJobs[i],document.getElementById("activejobs"));
             }
