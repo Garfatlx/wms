@@ -408,6 +408,8 @@ function showjobsearchbox(){
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
+        searchcreteria.delete('warehouse');
+        
         if(access==2){
             searchcreteria.append("status", '全部');
         }
