@@ -385,6 +385,7 @@ function showjobsearchbox(){
 
         const warehouseselect = warehouseSelectdiv.querySelector('select');
         warehouseselect.addEventListener("change", function() {
+            console.log('here');
             document.getElementById("activejobs").innerHTML = "";
             if (this.value === '') {
                 for (var i = 0; i < searchedjobs.length; i++) {
@@ -409,7 +410,7 @@ function showjobsearchbox(){
         event.preventDefault();
         var searchcreteria = new FormData(form);
         searchcreteria.delete('warehouse');
-        
+
         if(access==2){
             searchcreteria.append("status", '全部');
         }
@@ -428,6 +429,7 @@ function showjobsearchbox(){
                 searchjobs(searchcreteria,function(){
                     const warehouseSelectinput=divContainer1.querySelector('select');
                     if(warehouseSelectinput){
+                        console.log(warehouseSelectinput.value);
                         warehouseSelectinput.dispatchEvent(new Event('change'));
                     }
                     noshowcompletedinput.dispatchEvent(new Event('change'));
