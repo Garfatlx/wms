@@ -565,7 +565,7 @@ function showinventorysearchbox(){
     if(access!=3){
         const warehouseSelect=createwarehouseselectiondiv();
         warehouseSelect.style.marginLeft = '15px';
-        form.appendChild(warehouseSelect);
+        divContainer.appendChild(warehouseSelect);
     }
 
     // const wareinputDiv=document.createElement("div");
@@ -733,6 +733,9 @@ function showinventorysearchbox(){
     
             if (searchcreteria.get('locationb')) {
                 matches = matches && inventory.locationb.toLowerCase().includes(searchcreteria.get('locationb').toLowerCase());
+            }
+            if (searchcreteria.get('warehouse')) {
+                matches = matches && inventory.warehouse.toLowerCase().includes(searchcreteria.get('warehouse').toLowerCase());
             }
     
             return matches;
