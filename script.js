@@ -161,7 +161,7 @@ function login(){
     xhr.send(loginform);
 }
 
-function searchjobs(searchcreteria){
+function searchjobs(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
     if(access==2){
         searchcreteria.append("customer", customername);
@@ -187,6 +187,10 @@ function searchjobs(searchcreteria){
                     createjob(xhr.response["data"][i],document.getElementById("activejobs"));
                 }
                 sysresponse.innerHTML=xhr.response["msg"];
+
+                if(callback){
+                    callback();
+                }
             }else{
                 sysresponse.innerHTML=xhr.response["msg"];
                 document.getElementById("activejobs").innerHTML="";
@@ -413,26 +417,31 @@ function showjobsearchbox(){
             alert("请输入搜索条件。");
         }else{
             if(currentjobpagecontent=='jobs'){
-                searchjobs(searchcreteria);
-                noshowcompletedinput.checked = false;
-                if(access!=3){
-                    const warehouseselectinput=divContainer1.querySelector('select');
-                    if(warehouseselectinput){
-                        warehouseselectinput.value = '';
-                        //warehouseselectinput.dispatchEvent(new Event('change'));
+                searchjobs(searchcreteria,function(){
+                    const warehouseSelectinput=divContainer1.querySelector('select');
+                    if(warehouseSelectinput){
+                        warehouseSelectinput.dispatchEvent(new Event('change'));
                     }
-                }
+                });
+                noshowcompletedinput.checked = false;
+                // if(access!=3){
+                //     const warehouseselectinput=divContainer1.querySelector('select');
+                //     if(warehouseselectinput){
+                //         warehouseselectinput.value = '';
+                //         //warehouseselectinput.dispatchEvent(new Event('change'));
+                //     }
+                // }
             }
             if(currentjobpagecontent=='vas'){
                 searchvas(searchcreteria);
                 noshowcompletedinput.checked = false;
-                if(access!=3){
-                    const warehouseselectinput=divContainer1.querySelector('select');
-                    if(warehouseselectinput){
-                        warehouseselectinput.value = '';
-                        //warehouseselectinput.dispatchEvent(new Event('change'));
-                    }
-                }
+                // if(access!=3){
+                //     const warehouseselectinput=divContainer1.querySelector('select');
+                //     if(warehouseselectinput){
+                //         warehouseselectinput.value = '';
+                //         //warehouseselectinput.dispatchEvent(new Event('change'));
+                //     }
+                // }
             }
             
         }
