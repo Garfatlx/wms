@@ -73,8 +73,8 @@ window.addEventListener("load", function(){
                 var searchcreteria = new FormData();
                 searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
-                //showitemsOrganised(searchcreteria);
-                showitems(searchcreteria);
+                showitemsOrganised(searchcreteria);
+                //showitems(searchcreteria);
 
 
                 
@@ -4388,6 +4388,30 @@ async function showitemsOrganised(searchcreteria,callback){
         unitbody.appendChild(unitrow);
         unittable.appendChild(unitbody);
         return unittable;
+    }
+
+    function sortcomlextable(columnIndex,secondindex) {
+        var tbody = document.getElementById('inventory-table-body');
+
+        var rows = Array.from(tbody.querySelectorAll("tr"));
+        var sortedRows = rows.sort(function(a, b) {
+            var aText = a.children[columnIndex].textContent;
+            var bText = b.children[columnIndex].textContent;
+            var comparison = -aText.localeCompare(bText, 'zh', { numeric: true });
+
+            if(secondindex){
+                if (comparison === 0) {
+                    var aText2 = a.children[secondindex].textContent;
+                    var bText2 = b.children[secondindex].textContent;
+                    comparison = -aText2.localeCompare(bText2, 'zh', { numeric: true });
+                }
+            }
+            return comparison;
+        });
+        tbody.innerHTML = "";
+        sortedRows.forEach(function(row) {
+            tbody.appendChild(row);
+        });
     }
 
 }
