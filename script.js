@@ -73,8 +73,8 @@ window.addEventListener("load", function(){
                 var searchcreteria = new FormData();
                 searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
-                showitemsOrganised(searchcreteria);
-                //showitems(searchcreteria);
+                //showitemsOrganised(searchcreteria);
+                showitems(searchcreteria);
 
 
                 
@@ -4289,7 +4289,7 @@ async function showitemsOrganised(searchcreteria,callback){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["仓库" ,"箱号","仓点", "入库日期", "件数", "托书", "出库记录"];
+    var headers = ["仓库" ,"箱号","仓点", "入库日期", "件数", "托数", "出库记录"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
