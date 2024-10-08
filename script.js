@@ -4338,6 +4338,7 @@ async function showitemsOrganised(searchcreteria,callback){
             const row = document.createElement("tr");
             row.className = "inventory-table-row";
             row.style.borderTop = "1px solid black";
+            row.style.borderBottom = "1px solid black";
             //style each row based on status
             if(item.status!="完成"){
                 row.style.color = "grey";
