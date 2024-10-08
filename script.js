@@ -4352,8 +4352,9 @@ async function showitemsOrganised(searchcreteria,callback){
             for (let i = 1; i <= n; i++) {
                 row.appendChild(item['outitemtable'+i]);
             }
+            tbody.appendChild(row);
         });
-        tbody.appendChild(row);
+        
     });
     table.appendChild(tbody);
 
