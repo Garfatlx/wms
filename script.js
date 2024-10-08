@@ -4354,7 +4354,7 @@ async function showitemsOrganised(searchcreteria,callback){
                 row.appendChild(item['outitemtable'+i]);
             }
             tbody.appendChild(row);
-            sortTable(3,1);
+            sortcomlextable(3,1);
         });
         
     });
