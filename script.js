@@ -4337,6 +4337,7 @@ async function showitemsOrganised(searchcreteria,callback){
             }
             const row = document.createElement("tr");
             row.className = "inventory-table-row";
+            row.style.borderTop = "1px solid #ddd";
             //style each row based on status
             if(item.status!="完成"){
                 row.style.color = "grey";
@@ -4363,7 +4364,7 @@ async function showitemsOrganised(searchcreteria,callback){
             for (let i = 1; i <= n; i++) {
                 row.appendChild(item['outitemtable'+i]);
             }
-            console.log(row);
+            console.log(item);
             row.addEventListener("click", function() {
                 if(previousRow){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
