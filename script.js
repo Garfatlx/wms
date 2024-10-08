@@ -4317,7 +4317,7 @@ async function showitemsOrganised(searchcreteria,callback){
         }).then(response => response.json())
         .then(data => {
             let n=0;
-            if(data['data'].length>0){
+            if(data['data']){
                 data['data'].forEach(function(outitem) {
                     n++;
                     const outitemtable = createoutitemtableunit(outitem);
