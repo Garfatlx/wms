@@ -73,10 +73,11 @@ window.addEventListener("load", function(){
                 var searchcreteria = new FormData();
                 searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
                 searchcreteria.append("customer", customername);
-                showitems(searchcreteria);
-                // showitems(searchcreteria,function(){
-                //     sortTable(7,3);
-                // });
+                showitemsOrganised(searchcreteria);
+                //showitems(searchcreteria);
+
+
+                
             }
         }
     });
@@ -4261,6 +4262,9 @@ async function showitemsOrganised(searchcreteria,callback){
     if(access==2){
         searchcreteria.append("customer", customername);
     }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
+    }
     searchcreteria.append("activity", "入库");
 
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
@@ -4307,28 +4311,32 @@ async function showitemsOrganised(searchcreteria,callback){
         var outitemsearchcreteria = new FormData();
         outitemsearchcreteria.append("inventoryid", item['inventoryid']);
         outitemsearchcreteria.append("activity", "出库");
-        const outitems=await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
             method: 'POST',
             body: outitemsearchcreteria,
-        });
-        var row = document.createElement("tr");
-        row.className = "inventory-table-row";
-        //style each row based on status
-        if(item.status!="完成"){
-            row.style.color = "grey";
-        }
-        if(item.activity=="出库"){
-            row.style.fontStyle = "italic";
-        }
-        var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date,item.warehouse];
-        // var previousRow = nulll;
-        columns.forEach(function(columnText,index) {
-            var td = document.createElement("td");
-            td.textContent = columnText;
-            row.appendChild(td);
+        }).then(response => response.json())
+        .then(data => {
+            let n=0;
+            if(data['data'].length>0){
+                data['data'].forEach(function(outitem) {
+                    n++;
+                    const outitemtable = createoutitemtableunit(outitem);
+                    item['outitemtable'+n] = outitemtable;
+                });
+            }
+            const row = document.createElement("tr");
+            row.className = "inventory-table-row";
+            //style each row based on status
+            if(item.status!="完成"){
+                row.style.color = "grey";
+            }
 
-            if(index===5){
-                if(item.activity=="入库"){
+            var columns = [item.warehouse, item.container,item.label, item.date, item.pcs, item.plt];
+            columns.forEach(function(columnText,index) {
+                var td = document.createElement("td");
+                td.textContent = columnText;
+                row.appendChild(td);
+                if(index===4){
                     if(item.oripcs){
                         if(item.pcs!=item.oripcs){
                             td.style.color = "red";
@@ -4340,18 +4348,10 @@ async function showitemsOrganised(searchcreteria,callback){
                         }
                     }
                 }
-            }
-
-            row.addEventListener("click", function() {
-                if(previousRow){
-                    previousRow.style.backgroundColor = previousRowOriginalColor;
-                }
-                previousRowOriginalColor=row.style.backgroundColor;
-                row.style.backgroundColor = 'rgb(73 162 233)';
-                previousRow = row;
-                showactivitydetail(item);
-                
             });
+            for (let i = 1; i <= n; i++) {
+                row.appendChild(item['outitemtable'+i]);
+            }
         });
         tbody.appendChild(row);
     });
@@ -4360,10 +4360,32 @@ async function showitemsOrganised(searchcreteria,callback){
     // Append table to activejobs element
     activejobs.appendChild(table);
 
-    sortTable(7,3);
+    sortTable(3,1);
 
     if(callback){
         callback();
+    }
+
+    function createoutitemtableunit(item){
+        const unittable = document.createElement('table');
+        unittable.className = "unittable-table";
+        const unitbody = document.createElement('tbody');
+        const unitrow = document.createElement("tr");
+
+        if(item.status!="完成"){
+            unitrow.style.color = "grey";
+        }
+        unitrow.style.fontStyle = "italic";
+
+        var columns = [item.date, item.pcs,item.plt];
+        columns.forEach(function(columnText) {
+            var td = document.createElement("td");
+            td.textContent = columnText;
+            unitrow.appendChild(td);
+        });
+        unitbody.appendChild(unitrow);
+        unittable.appendChild(unitbody);
+        return unittable;
     }
 
 }
