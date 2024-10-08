@@ -4294,7 +4294,7 @@ async function showitemsOrganised(searchcreteria,callback){
         var th = document.createElement("th");
         th.textContent = headerText;
         th.addEventListener("click", function() {
-            sortTable(index);
+            sortcomlextable(index);
         });
         headerRow.appendChild(th);
     });
@@ -4322,6 +4322,16 @@ async function showitemsOrganised(searchcreteria,callback){
                 data['data'].forEach(function(outitem) {
                     n++;
                     const outitemtable = createoutitemtableunit(outitem);
+                    outitemtable.addEventListener("click", function(event) {
+                        event.stopPropagation();
+                        if(previousRow){
+                            previousRow.style.backgroundColor = previousRowOriginalColor;
+                        }
+                        previousRowOriginalColor=this.style.backgroundColor;
+                        this.style.backgroundColor = 'rgb(73 162 233)';
+                        previousRow = this;
+                        showactivitydetail(outitem);
+                    });
                     item['outitemtable'+n] = outitemtable;
                 });
             }
@@ -4353,6 +4363,18 @@ async function showitemsOrganised(searchcreteria,callback){
             for (let i = 1; i <= n; i++) {
                 row.appendChild(item['outitemtable'+i]);
             }
+            console.log(row);
+            row.addEventListener("click", function() {
+                if(previousRow){
+                    previousRow.style.backgroundColor = previousRowOriginalColor;
+                }
+                previousRowOriginalColor=row.style.backgroundColor;
+                row.style.backgroundColor = 'rgb(73 162 233)';
+                previousRow = row;
+                showactivitydetail(item);
+                
+            });
+
             tbody.appendChild(row);
             sortcomlextable(3,1);
         });
