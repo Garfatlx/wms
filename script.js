@@ -927,7 +927,7 @@ function showitemsearchbox(){
         if(searchcreteria.get("searchref")=="" && searchcreteria.get("startdate")=="" && searchcreteria.get("enddate")==""){
             alert("请输入搜索条件。");
         }else{
-            showitems(searchcreteria);
+            showitemsOrganised(searchcreteria);
         }
     });
     // reportform.addEventListener("submit", function (event) {
@@ -2888,9 +2888,11 @@ async function showactivitydetail(activity){
         detailpargraph.textContent = label  + value;
         activitydetail.appendChild(detailpargraph);
     }
-    createActivityDetailItem('可以使用任务编号在“当前任务”标签中搜索任务详细信息。', '');
+    createActivityDetailItem('任务详情', '');
+    createActivityDetailItem('仓库: ', activity['warehouse']);
     createActivityDetailItem('任务编号: ', activity['jobid']);
     createActivityDetailItem('库存编号: ', activity['inventoryid']);
+    createActivityDetailItem('状态: ', activity['status']);
     createActivityDetailItem('客户: ', activity['customer']);
     createActivityDetailItem('日期: ', activity['date']);
     createActivityDetailItem('活动: ', activity['activity']);
@@ -2914,7 +2916,7 @@ async function showactivitydetail(activity){
 
     const data = await response.json();
     var job = data["data"][0];
-    createActivityDetailItem('任务状态', job['status'] +"  任务状态不是“完成”时，出入动作信息将不会被记录到库存。");
+    createActivityDetailItem('相关任务：', "");
     createjob(job,activitydetail);
     
 }
