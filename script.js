@@ -4336,10 +4336,7 @@ async function showitemsOrganised(searchcreteria,callback){
                 });
             }
             const row = document.createElement("tr");
-            row.className = "inventory-table-row";
-            row.style.backgroundColor = "white";
-            row.style.borderTop = "1px solid black";
-            row.style.borderBottom = "1px solid black";
+            row.className = "inventory-table-complex-row";
             //style each row based on status
             if(item.status!="完成"){
                 row.style.color = "grey";
@@ -4418,7 +4415,7 @@ async function showitemsOrganised(searchcreteria,callback){
     function sortcomlextable(columnIndex,secondindex) {
         var tbody = document.getElementById('inventory-table-body');
 
-        var rows = Array.from(tbody.querySelectorAll(".inventory-table-row"));
+        var rows = Array.from(tbody.querySelectorAll(".inventory-table-complex-row"));
         var sortedRows = rows.sort(function(a, b) {
             var aText = a.children[columnIndex].textContent;
             var bText = b.children[columnIndex].textContent;

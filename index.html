@@ -317,7 +317,6 @@
             border-bottom: 1px solid #ffffff;
             cursor: pointer;
         }
-        
         .inventory-table-row:nth-child(even) {
             background: rgb(240, 240, 240);
         }
@@ -325,9 +324,28 @@
             background: rgb(204, 206, 204);
             transition: 0.5s;
        }
-       .unittable-table:nth-child(even) {
+       .inventory-table-complex-row {
+           border-bottom: 1px solid black;
+           justify-content: space-between;
+           align-items: center;
+           padding: 10px 0;
+           background: rgb(255, 255, 255);
+           cursor: pointer;
+       }
+       .inventory-table-complex-row:hover {
+           background: rgb(204, 206, 204);
+           transition: 0.5s;
+      }
+        .unittable-table{
+            background-color: white;
+        }
+        .unittable-table:nth-child(even) {
             background: rgb(240, 240, 240);
         }
+        .unittable-table:hover {
+            background: rgb(204, 206, 204);
+            transition: 0.5s;
+       }
         table{
             width: 100%;
             border-collapse: collapse;
