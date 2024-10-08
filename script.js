@@ -4276,6 +4276,7 @@ async function showitemsOrganised(searchcreteria,callback){
     if (actionToken !== latestActionToken) {
         return;
     }
+    document.getElementById("activejobs").innerHTML = '';
     //save data for export use
     searchedreports = data['data'];
     document.getElementById("exportbutton").disabled = false;
@@ -4288,7 +4289,7 @@ async function showitemsOrganised(searchcreteria,callback){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["出入库" ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期","仓库"];
+    var headers = ["仓库" ,"箱号","仓点", "入库日期", "件数", "托书", "出库记录"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
