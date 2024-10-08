@@ -1174,6 +1174,9 @@ async function showitems(searchcreteria,callback){
     if(access==2){
         searchcreteria.append("customer", customername);
     }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
+    }
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
         method: 'POST',
         body: searchcreteria,
@@ -4248,4 +4251,119 @@ function createwarehouseselectiondiv(selectedwarehouse){
     warehouseselectiondiv.appendChild(warehouseselectioninput);
 
     return warehouseselectiondiv;
+}
+
+async function showitemsOrganised(searchcreteria,callback){
+    showloading(document.getElementById("activejobs"));
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
+
+    if(access==2){
+        searchcreteria.append("customer", customername);
+    }
+    searchcreteria.append("activity", "入库");
+
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        method: 'POST',
+        body: searchcreteria,
+      });
+
+    const data = await response.json();
+    if (actionToken !== latestActionToken) {
+        return;
+    }
+    //save data for export use
+    searchedreports = data['data'];
+    document.getElementById("exportbutton").disabled = false;
+ 
+    // Create table element
+    var table = document.createElement("table");
+    table.className = "inventory-table";
+
+    // Create table header
+    var thead = document.createElement("thead");
+    thead.className = "inventory-table-header";
+    var headerRow = document.createElement("tr");
+    var headers = ["出入库" ,"状态","客户", "箱号/单号", "货物标签", "件数", "托数", "日期","仓库"];
+    headers.forEach(function(headerText, index) {
+        var th = document.createElement("th");
+        th.textContent = headerText;
+        th.addEventListener("click", function() {
+            sortTable(index);
+        });
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    var previousRow = null;
+    var previousRowOriginalColor = "";
+    // Create table body
+    var tbody = document.createElement("tbody");
+    tbody.className = "inventory-table-body";
+    tbody.id = "inventory-table-body";
+    data['data'].forEach(async function(item) {
+        //search the according out item
+        var outitemsearchcreteria = new FormData();
+        outitemsearchcreteria.append("inventoryid", item['inventoryid']);
+        outitemsearchcreteria.append("activity", "出库");
+        const outitems=await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+            method: 'POST',
+            body: outitemsearchcreteria,
+        });
+        var row = document.createElement("tr");
+        row.className = "inventory-table-row";
+        //style each row based on status
+        if(item.status!="完成"){
+            row.style.color = "grey";
+        }
+        if(item.activity=="出库"){
+            row.style.fontStyle = "italic";
+        }
+        var columns = [item.activity, item.status,item.customer, item.container,item.label, item.pcs, item.plt, item.date,item.warehouse];
+        // var previousRow = nulll;
+        columns.forEach(function(columnText,index) {
+            var td = document.createElement("td");
+            td.textContent = columnText;
+            row.appendChild(td);
+
+            if(index===5){
+                if(item.activity=="入库"){
+                    if(item.oripcs){
+                        if(item.pcs!=item.oripcs){
+                            td.style.color = "red";
+                            td.classList.add('tableele');
+                            const tooltip = document.createElement('span');
+                            tooltip.className = 'tooltip';
+                            tooltip.innerHTML = '预报件数: ' + item.oripcs;
+                            td.appendChild(tooltip);
+                        }
+                    }
+                }
+            }
+
+            row.addEventListener("click", function() {
+                if(previousRow){
+                    previousRow.style.backgroundColor = previousRowOriginalColor;
+                }
+                previousRowOriginalColor=row.style.backgroundColor;
+                row.style.backgroundColor = 'rgb(73 162 233)';
+                previousRow = row;
+                showactivitydetail(item);
+                
+            });
+        });
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+
+    // Append table to activejobs element
+    activejobs.appendChild(table);
+
+    sortTable(7,3);
+
+    if(callback){
+        callback();
+    }
+
 }
