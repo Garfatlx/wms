@@ -4354,6 +4354,7 @@ async function showitemsOrganised(searchcreteria,callback){
                 row.appendChild(item['outitemtable'+i]);
             }
             tbody.appendChild(row);
+            sortTable(3,1);
         });
         
     });
@@ -4362,7 +4363,7 @@ async function showitemsOrganised(searchcreteria,callback){
     // Append table to activejobs element
     activejobs.appendChild(table);
 
-    sortTable(3,1);
+    //sortcomlextable(3,1);
 
     if(callback){
         callback();
@@ -4393,7 +4394,7 @@ async function showitemsOrganised(searchcreteria,callback){
     function sortcomlextable(columnIndex,secondindex) {
         var tbody = document.getElementById('inventory-table-body');
 
-        var rows = Array.from(tbody.querySelectorAll("tr"));
+        var rows = Array.from(tbody.querySelectorAll(".inventory-table-row"));
         var sortedRows = rows.sort(function(a, b) {
             var aText = a.children[columnIndex].textContent;
             var bText = b.children[columnIndex].textContent;
