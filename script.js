@@ -4278,6 +4278,8 @@ async function showitemsOrganised(searchcreteria,callback){
     if (actionToken !== latestActionToken) {
         return;
     }
+    //filter out the unvalid activity
+    const outactivitydata = filterunvalidactivity(data['data']);
     document.getElementById("activejobs").innerHTML = '';
     //save data for export use
     searchedreports = data['data'];
@@ -4309,7 +4311,7 @@ async function showitemsOrganised(searchcreteria,callback){
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
     tbody.id = "inventory-table-body";
-    data['data'].forEach(async function(item) {
+    outactivitydata.forEach(async function(item) {
         //search the according out item
         var outitemsearchcreteria = new FormData();
         outitemsearchcreteria.append("inventoryid", item['inventoryid']);
@@ -4321,6 +4323,7 @@ async function showitemsOrganised(searchcreteria,callback){
         .then(data => {
             let n=0;
             if(data['data']){
+                //filter out the unvalid activity
                 const outdata = filterunvalidactivity(data['data']);
                 outdata.forEach(function(outitem) {
                     n++;
