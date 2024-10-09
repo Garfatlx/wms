@@ -2863,7 +2863,9 @@ async function showinventorydetail(inventory,thisrow){
     updateinventoryform.addEventListener('submit', async function(event) {
         console.log('submit');
         event.preventDefault();
-        
+    });
+
+    submitbutton.addEventListener('click', async function() {
         var formData = new FormData(updateinventoryform);
         console.log(formData.get('id'));
         const response = await fetch('https://garfat.xyz/index.php/home/Wms/updateinventorynumber', {
