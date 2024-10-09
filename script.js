@@ -2926,6 +2926,7 @@ async function showinventorydetail(inventory,thisrow){
     });
 
     if(access!=1 && access!=3){
+        submitbutton.disabled = true;
         deleteButton.disabled = true;
         labelbutton.disabled = true;
         selectlocationbutton.disabled = true;
