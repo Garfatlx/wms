@@ -2775,12 +2775,48 @@ async function showinventorydetail(inventory,thisrow){
     inventorydetail.className="inventorydetail";
     itemdetail.appendChild(inventorydetail);
 
+    const updateinventoryform = document.createElement('form');
+    updateinventoryform.id = 'updateinventoryform';
+    updateinventoryform.className = 'inventorydetail';
+    inventorydetail.appendChild(updateinventoryform);
+
     function createInventoryDetailItem(label, value) {
         const detailpargraph = document.createElement('p');
         detailpargraph.className = 'detailpargraph';
         detailpargraph.textContent = label + ': ' + value;
-        inventorydetail.appendChild(detailpargraph);
+        updateinventoryform.appendChild(detailpargraph);
     }
+    function createInventoryDetailInput(label, value, name) {
+        const linecontrol = document.createElement('div');
+        linecontrol.className = 'linecontrol';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = name;
+        input.className = 'lineinput';
+        input.style.width = '120px';
+        input.value = value;
+        const inputlabel = document.createElement('label');
+        inputlabel.innerHTML = label;
+        inputlabel.className = 'lineinputlabel';
+        linecontrol.appendChild(inputlabel);
+        linecontrol.appendChild(input);
+        updateinventoryform.appendChild(linecontrol);
+    }
+
+    const submitbutton = document.createElement('button');
+    submitbutton.type = 'button';
+    submitbutton.className = 'button';
+    submitbutton.innerHTML = '更新';
+    submitbutton.style.fontSize = '14px';
+    submitbutton.style.padding = '5px 5px';
+    submitbutton.style.margin = '10px 0px';
+    updateinventoryform.appendChild(submitbutton);
+
+    const hidenid = document.createElement('input');
+    hidenid.type = 'hidden';
+    hidenid.name = 'id';
+    hidenid.value = inventory['id'];
+    updateinventoryform.appendChild(hidenid);
 
     createInventoryDetailItem('库存编号', inventory['inventoryid']);
     createInventoryDetailItem('状态', inventory['status']);
@@ -2789,8 +2825,8 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('仓点', inventory['label']);
     createInventoryDetailItem('箱唛', inventory['marks']);
     createInventoryDetailItem('渠道', inventory['channel']);
-    createInventoryDetailItem('件数', inventory['pcs']);
-    createInventoryDetailItem('托数', inventory['plt']);
+    createInventoryDetailInput('件数', inventory['pcs'], 'pcs');
+    createInventoryDetailInput('托数', inventory['plt'], 'plt');
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
@@ -2823,6 +2859,22 @@ async function showinventorydetail(inventory,thisrow){
     selectlocationbutton.style.fontSize = '14px';
     selectlocationbutton.style.padding = '5px 5px';
     inventorydetail.appendChild(selectlocationbutton);
+
+    updateinventoryform.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const formData = new FormData(updateinventoryform);
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/updateinventorynumber', {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+
+        if (data['error_code'] == 0) {
+            alert(data['msg']);
+        } else {
+            alert(data['msg']);
+        }
+    });
 
     selectlocationbutton.addEventListener('click', function() {
         showinventorymap(searchedinventory,"入库",[inventory],function(selectedlocations){
