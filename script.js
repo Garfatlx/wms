@@ -1131,6 +1131,9 @@ function createinventorytable(data){
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
+    var previousRow = null;
+    var previousRowOriginalColor = "";
+
     // Create table body
     var tbody = document.createElement("tbody");
     tbody.id = "inventory-table-body";
@@ -1153,6 +1156,13 @@ function createinventorytable(data){
         tbody.appendChild(row);
 
         row.addEventListener("click", function() {
+            if(previousRow){
+                previousRow.style.backgroundColor = previousRowOriginalColor;
+            }
+            previousRowOriginalColor=this.style.backgroundColor;
+            this.style.backgroundColor = 'rgb(73 162 233)';
+            previousRow = this;
+            
             if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
                 detaillinenumber++;
                 item['id'] = '';
