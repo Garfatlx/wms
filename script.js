@@ -4069,6 +4069,8 @@ async function createinventoryoperationdiv(){
 
     deletenoncompletedbutton.addEventListener('click', async function() {
 
+        //// disable function
+        return;
         
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除件盘点日期前未入库的库存吗？')) {
