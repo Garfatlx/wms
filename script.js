@@ -1324,6 +1324,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             // Code to execute if user confirms cancellation
             var archiveid = new FormData();
             archiveid.append("jobid",clickeditem['jobid']);
+            archiveid.append("activity",activity);
             const response = fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
             method: 'POST',
             body: archiveid,
