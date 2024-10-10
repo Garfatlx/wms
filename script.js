@@ -4518,6 +4518,6 @@ function filterunvalidactivity(data){
     const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
     return data.filter(item => {
         const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
-        return !(item.status !== '完成' && itemDate < today);
+        return !(item.status !== '完成' && itemDate < today) && item.pcs > 0;
     });
 }
