@@ -1739,8 +1739,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                         }
                         var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
                         var channelmark = json[i]['Vendor Name（供应商名称）']?json[i]['Vendor Name（供应商名称）']:"";
+                        var marks = json[i]['单号/箱唛']?json[i]['单号/箱唛']:"";
                         // var itemref = json[i]['仓点']+holdmark+channelmark;
-                        var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+json[i]['marks']+holdmark:json[i]['仓点']+channelmark;
+                        var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+marks+holdmark:json[i]['仓点']+channelmark;
                         //var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+json[i]['marks']:json[i]['仓点']+channelmark;
                         var index = concludeitem.findIndex(item => item['itemref'] == itemref);
                         if (index == -1) {
