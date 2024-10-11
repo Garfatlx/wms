@@ -1315,25 +1315,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     
     
     var cancelButton = document.createElement("button");
-    cancelButton.innerHTML = "封存任务";
+    cancelButton.innerHTML = "删除任务";
     cancelButton.className = "button";
     cancelButton.id = "archivebutton";
-    cancelButton.addEventListener("click", function() {
-        // Displaying an alert message
-        if (confirm("确认封存任务?")) {
-            // Code to execute if user confirms cancellation
-            var archiveid = new FormData();
-            archiveid.append("jobid",clickeditem['jobid']);
-            archiveid.append("activity",activity);
-            const response = fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
-            method: 'POST',
-            body: archiveid,
-          });
-        } else {
-            // Code to execute if user cancels cancellation
-            // ...
-        }
-    });
+    
     
     var printbutton=document.createElement("button");
     printbutton.innerHTML="&#x1F5B6 操作单";
@@ -1754,7 +1739,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                         }
                         var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
                         var channelmark = json[i]['Vendor Name（供应商名称）']?json[i]['Vendor Name（供应商名称）']:"";
-                        var itemref = json[i]['仓点']+holdmark+channelmark;
+                        // var itemref = json[i]['仓点']+holdmark+channelmark;
+                        var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+json[i]['marks']+holdmark:json[i]['仓点']+channelmark;
+                        //var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+json[i]['marks']:json[i]['仓点']+channelmark;
                         var index = concludeitem.findIndex(item => item['itemref'] == itemref);
                         if (index == -1) {
                             concludeitem.push({
@@ -2005,6 +1992,26 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     printlabelbutton.addEventListener("click", function() {
         // Displaying an alert message
         printinventorylabel(items);
+    });
+    cancelButton.addEventListener("click", function() {
+        if(clickeditem['status']=="完成"){
+            alert("任务已完成，无法删除");
+            return;
+        }
+        // Displaying an alert message
+        if (confirm("确认删除任务?")) {
+            // Code to execute if user confirms cancellation
+            var archiveid = new FormData();
+            archiveid.append("jobid",clickeditem['jobid']);
+            archiveid.append("activity",activity);
+            const response = fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
+            method: 'POST',
+            body: archiveid,
+          });
+        } else {
+            // Code to execute if user cancels cancellation
+            // ...
+        }
     });
     
 }
