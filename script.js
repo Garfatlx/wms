@@ -2006,10 +2006,19 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             var archiveid = new FormData();
             archiveid.append("jobid",clickeditem['jobid']);
             archiveid.append("activity",activity);
-            const response = fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
-            method: 'POST',
-            body: archiveid,
-          });
+            fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
+                method: 'POST',
+                body: archiveid,
+            }).then(response => response.json()).then(data => {
+                sysresponse.innerHTML=data["msg"];
+                if(data["error_code"]==0){
+                    if(thisjobdiv){
+                        thisjobdiv.remove();
+                    }
+                    itemdetail.innerHTML="";
+                }
+            });
+
         } else {
             // Code to execute if user cancels cancellation
             // ...
