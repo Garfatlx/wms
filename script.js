@@ -1817,10 +1817,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             body: searchcreteria,
           });
 
-        const data = await response.json();
         if (latestActionToken !== actionToken) {
             return;
         }
+        const data = await response.json();
+        
         sysresponse.innerHTML=data["msg"];
         var items = data["data"];
         if(items!=null){
