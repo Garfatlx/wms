@@ -808,7 +808,7 @@ function showitemsearchbox(){
     // Clear previous elements in searchbox
     const searchbox = document.getElementById('searchbox');
     searchbox.innerHTML = '';
-    searchButton.style.flexDirection = 'column';
+    searchbox.style.flexDirection = 'column';
 
     const line1=document.createElement("div");
     line1.className="flexlinecontrol";
