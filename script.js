@@ -4376,7 +4376,6 @@ async function showitemsOrganised(searchcreteria,callback){
         searchcreteria.append("warehouse", currentwarehouse);
     }
     searchcreteria.append("activity", "入库");
-    console.log(searchcreteria.get('inventoryids'));
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
         method: 'POST',
         body: searchcreteria,
