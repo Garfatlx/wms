@@ -2982,6 +2982,7 @@ async function showactivitydetail(activity){
     createActivityDetailItem('仓库: ', activity['warehouse']);
     createActivityDetailItem('任务编号: ', activity['jobid']);
     createActivityDetailItem('库存编号: ', activity['inventoryid']);
+    createActivityDetailItem('订单号: ', activity['orderid']);
     createActivityDetailItem('状态: ', activity['status']);
     createActivityDetailItem('客户: ', activity['customer']);
     createActivityDetailItem('日期: ', activity['date']);
@@ -4365,6 +4366,7 @@ async function showitemsOrganised(searchcreteria,callback){
         const inventoryids = data1['data'].map(item => item.inventoryid);
         searchcreteria.delete('orderid');
         searchcreteria.append('inventoryids', inventoryids.join(','));
+        
     }
 
     if(access==2){
@@ -4374,7 +4376,7 @@ async function showitemsOrganised(searchcreteria,callback){
         searchcreteria.append("warehouse", currentwarehouse);
     }
     searchcreteria.append("activity", "入库");
-
+    console.log(searchcreteria.get('inventoryids'));
     const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
         method: 'POST',
         body: searchcreteria,
