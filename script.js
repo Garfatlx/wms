@@ -808,6 +808,10 @@ function showitemsearchbox(){
     // Clear previous elements in searchbox
     const searchbox = document.getElementById('searchbox');
     searchbox.innerHTML = '';
+    searchButton.style.flexDirection = 'column';
+
+    const line1=document.createElement("div");
+    line1.className="flexlinecontrol";
 
     // Create form element
     const form = document.createElement('form');
@@ -819,10 +823,7 @@ function showitemsearchbox(){
 
     // Create div container
     const divContainer = document.createElement('div');
-    divContainer.className = 'linecontrol';
-    divContainer.style.margin = '0px 0px 0px 0px';
-    divContainer.style.display = 'flex';
-    divContainer.style.flexWrap = 'wrap';
+    divContainer.className = 'flexlinecontrol';
 
     // Create search input
     const searchInput = document.createElement('input');
@@ -833,46 +834,6 @@ function showitemsearchbox(){
     searchInput.style.margin = '0px 8px 0px 5px';
     searchInput.placeholder = '搜索箱号、仓点';
     divContainer.appendChild(searchInput);
-
-    const wareinputDiv=document.createElement("div");
-    wareinputDiv.className="input-container";
-    wareinputDiv.style.margin = '10px 0px 0px 20px';
-    wareinputDiv.style.width = '125px';
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var input0=document.createElement("input");
-    input0.type="text";
-    input0.name="jobid";
-    input0.id="input";
-    input0.style.fontSize = '20px';
-    var input0label=document.createElement("label");
-    input0label.innerHTML="任务编号";
-    input0label.htmlFor="input";
-    input0label.className="label";
-    wareinputDiv.appendChild(input0);
-    wareinputDiv.appendChild(input0label);
-    wareinputDiv.appendChild(inputbottomline);
-    // divContainer.appendChild(wareinputDiv);
-
-    const areainputDiv=document.createElement("div");
-    areainputDiv.className="input-container";
-    areainputDiv.style.margin = '10px 0px 0px 20px';
-    areainputDiv.style.width = '125px';
-    var inputbottomline=document.createElement("div");
-    inputbottomline.className="underline";
-    var input0=document.createElement("input");
-    input0.type="text";
-    input0.name="inventoryid";
-    input0.id="input";
-    input0.style.fontSize = '20px';
-    var input0label=document.createElement("label");
-    input0label.innerHTML="库存编号";
-    input0label.htmlFor="input";
-    input0label.className="label";
-    areainputDiv.appendChild(input0);
-    areainputDiv.appendChild(input0label);
-    areainputDiv.appendChild(inputbottomline);
-    // divContainer.appendChild(areainputDiv);
     
     // Create date input
     divContainer.appendChild(document.createTextNode('日期:'));
@@ -916,15 +877,56 @@ function showitemsearchbox(){
     
 
     // Append form to body or any other container
-    searchbox.appendChild(form);
+    line1.appendChild(form);
     // searchbox.appendChild(reportform);
-    searchbox.appendChild(exportbutton);
+    line1.appendChild(exportbutton);
+    // Append line1 to searchbox
+    searchbox.appendChild(line1);
+
+    const line2=document.createElement("div");
+    line2.className="flexlinecontrol";
+    // Create search input
+    const orderidsearchform = document.createElement('form');
+    orderidsearchform.id = 'orderidsearchform';
+    orderidsearchform.className = 'searchform';
+    orderidsearchform.style.display = 'flex';
+    orderidsearchform.style.margin="0px 0px 0px 0px";
+
+    const orderidsearchInput = document.createElement('input');
+    orderidsearchInput.type = 'text';
+    orderidsearchInput.className = 'search-input';
+    orderidsearchInput.name = 'orderid';
+    orderidsearchInput.style.margin = '0px 8px 0px 5px';
+    orderidsearchInput.placeholder = '搜索订单号';
+    orderidsearchform.appendChild(orderidsearchInput);
+
+    const orderidsearchButton = document.createElement('button');
+    orderidsearchButton.className = 'button';
+    orderidsearchButton.id = 'orderidsearchbutton';
+    orderidsearchButton.style.display = 'inline-block';
+    orderidsearchButton.style.marginLeft = '20px';
+    orderidsearchButton.textContent = '搜索';
+    orderidsearchform.appendChild(orderidsearchButton);
+
+    line2.appendChild(orderidsearchform);
+    searchbox.appendChild(line2);
+
 
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         var searchcreteria = new FormData(form);
         if(searchcreteria.get("searchref")=="" && searchcreteria.get("startdate")=="" && searchcreteria.get("enddate")==""){
+            alert("请输入搜索条件。");
+        }else{
+            showitemsOrganised(searchcreteria);
+        }
+    });
+    //orderid search form action
+    orderidsearchform.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var searchcreteria = new FormData(orderidsearchform);
+        if(searchcreteria.get("orderid")==""){
             alert("请输入搜索条件。");
         }else{
             showitemsOrganised(searchcreteria);
@@ -2979,6 +2981,8 @@ async function showactivitydetail(activity){
     createActivityDetailItem('仓库: ', activity['warehouse']);
     createActivityDetailItem('任务编号: ', activity['jobid']);
     createActivityDetailItem('库存编号: ', activity['inventoryid']);
+    createActivityDetailItem('订单号: ', activity['orderid']);
+    createActivityDetailItem('提货码: ', activity['reference']);
     createActivityDetailItem('状态: ', activity['status']);
     createActivityDetailItem('客户: ', activity['customer']);
     createActivityDetailItem('日期: ', activity['date']);
