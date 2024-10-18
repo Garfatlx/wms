@@ -929,6 +929,7 @@ function showitemsearchbox(){
         if(searchcreteria.get("orderid")==""){
             alert("请输入搜索条件。");
         }else{
+
             showitemsOrganised(searchcreteria);
         }
     });
@@ -2981,8 +2982,6 @@ async function showactivitydetail(activity){
     createActivityDetailItem('仓库: ', activity['warehouse']);
     createActivityDetailItem('任务编号: ', activity['jobid']);
     createActivityDetailItem('库存编号: ', activity['inventoryid']);
-    createActivityDetailItem('订单号: ', activity['orderid']);
-    createActivityDetailItem('提货码: ', activity['reference']);
     createActivityDetailItem('状态: ', activity['status']);
     createActivityDetailItem('客户: ', activity['customer']);
     createActivityDetailItem('日期: ', activity['date']);
@@ -4353,6 +4352,20 @@ async function showitemsOrganised(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
     latestActionToken = actionToken;
+
+    if(searchcreteria.get('orderid')){
+        const response1= await fetch('https://garfat.xyz/index.php/home/Wms/searchitemfromorderid', {
+            method: 'POST',
+            body: searchcreteria,
+        });
+        const data1 = await response1.json();
+        if (actionToken !== latestActionToken) {
+            return;
+        }
+        const inventoryids = data1['data'].map(item => item.inventoryid);
+        searchcreteria.delete('orderid');
+        searchcreteria.append('inventoryids', inventoryids.join(','));
+    }
 
     if(access==2){
         searchcreteria.append("customer", customername);
