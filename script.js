@@ -4354,7 +4354,7 @@ async function showitemsOrganised(searchcreteria,callback){
     latestActionToken = actionToken;
 
     if(searchcreteria.get('orderid')){
-        const response1= await fetch('https://garfat.xyz/index.php/home/Wms/searchitemfromorderid', {
+        const response1= await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
             method: 'POST',
             body: searchcreteria,
         });
