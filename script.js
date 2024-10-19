@@ -4452,8 +4452,7 @@ async function showitemsOrganised(searchcreteria,callback){
             row.className = "inventory-table-complex-row";
             //style each row based on status
             if(item.status!="完成"){
-                row.style.color = "grey";
-                row.style.opacity = 0.5;
+                row.classList.add('tablerownoncompleted');
             }
 
             var columns = [item.warehouse, item.container,item.label, item.date, item.pcs, item.plt];
@@ -4511,10 +4510,8 @@ async function showitemsOrganised(searchcreteria,callback){
         const unitrow = document.createElement("tr");
 
         if(item.status!="完成"){
-            unitrow.style.color = "grey";
-            unitrow.style.opacity = 0.5;
+            unitrow.classList.add('tablerownoncompleted');
         }
-
         var columns = [item.date, item.pcs,item.plt];
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
