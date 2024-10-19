@@ -4406,7 +4406,7 @@ async function showitemsOrganised(searchcreteria,callback){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["仓库" ,"箱号","仓点", "入库日期", "件数", "托数", "出库记录"];
+    var headers = ["仓库" ,"箱号","箱唛","仓点", "入库日期", "件数", "托数", "出库记录"];
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
         th.textContent = headerText;
@@ -4461,7 +4461,7 @@ async function showitemsOrganised(searchcreteria,callback){
                 row.classList.add('tablerownoncompleted');
             }
 
-            var columns = [item.warehouse, item.container,item.label, item.date, item.pcs, item.plt];
+            var columns = [item.warehouse, item.container,item.marks,item.label, item.date, item.pcs, item.plt];
             columns.forEach(function(columnText,index) {
                 var td = document.createElement("td");
                 td.textContent = columnText;
@@ -4494,7 +4494,7 @@ async function showitemsOrganised(searchcreteria,callback){
             });
 
             tbody.appendChild(row);
-            sortcomlextable(3,1);
+            sortcomlextable(4,1);
         });
         
     });
