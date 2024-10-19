@@ -88,8 +88,8 @@
         }
         .leftbody{
             display: inline-block;
-            width: calc(100vw - 560px);
-
+            /* width: calc(100vw - 560px); */
+            width: 100vw;
             min-width: 220px;
 
             position: relative;
@@ -97,8 +97,6 @@
         .searchbox{
             display: flex;
             flex-wrap: wrap;
-            /* width: 620px;
-            max-width: 620px; */
             width: calc(100vw - 560px);
 
             min-width: 220px;
@@ -168,11 +166,15 @@
 
         .controlpanel{
             display: flex;
-            width:600px;
+            width:0px;
             height: 800px;
             margin: 0 0 0 20px;
             position: relative;
-            
+            transition: 0.5s;
+        }
+        .controlpanel_show{
+            width:600px;
+            transition: 0.5s;
         }
         .detailtitle{
             font-size: 18px;
@@ -183,7 +185,7 @@
         .itemdetail{
             position: relative;
             display: inline-block;
-            width: 500px;
+            width: 90%;
         }
         .statusbox{
             position: absolute;

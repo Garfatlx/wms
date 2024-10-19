@@ -2966,6 +2966,8 @@ async function showinventorydetail(inventory,thisrow){
 
 }
 async function showactivitydetail(activity){
+    document.getElementById("controlpanel").classList.add("controlpanel_show");
+    
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML = "";
     var activitydetail = document.createElement("div");
