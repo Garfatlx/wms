@@ -4564,6 +4564,10 @@ function filterunvalidactivity(data){
 }
 
 function showcontrolpanel(){
+    //check if the controlpanel is already shown then return
+    if(document.getElementById("controlpanel").classList.contains("controlpanel_show")){
+        return;
+    }
     document.getElementById("controlpanel").classList.add("controlpanel_show");
     const closebutton=document.createElement("button");
     closebutton.innerHTML="✕";
