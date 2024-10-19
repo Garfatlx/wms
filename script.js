@@ -4570,7 +4570,7 @@ function showcontrolpanel(){
     }
     document.getElementById("controlpanel").classList.add("controlpanel_show");
     const closebutton=document.createElement("button");
-    closebutton.innerHTML="✕";
+    closebutton.innerHTML=">>";
     closebutton.className="button";
     closebutton.style.position="absolute";
     closebutton.style.right="10px";
