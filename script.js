@@ -2969,7 +2969,7 @@ async function showinventorydetail(inventory,thisrow){
 
 }
 async function showactivitydetail(activity){
-    document.getElementById("controlpanel").classList.add("controlpanel_show");
+    showcontrolpanel();
 
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML = "";
@@ -4560,4 +4560,21 @@ function filterunvalidactivity(data){
         const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
         return !(item.status !== '完成' && itemDate < today) && item.pcs > 0;
     });
+}
+
+function showcontrolpanel(){
+    document.getElementById("controlpanel").classList.add("controlpanel_show");
+    const closebutton=document.createElement("button");
+    closebutton.innerHTML="✕";
+    closebutton.className="button";
+    closebutton.style.position="absolute";
+    closebutton.style.right="10px";
+    closebutton.style.top="10px";
+    closebutton.style.padding = '5px 5px 5px 8px';
+    closebutton.addEventListener("click", function() {
+        document.getElementById("itemdetail").innerHTML="";
+        document.getElementById("controlpanel").removeChild(closebutton);
+        document.getElementById("controlpanel").classList.remove("controlpanel_show");
+    });
+    document.getElementById("controlpanel").appendChild(closebutton);
 }
