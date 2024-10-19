@@ -1290,7 +1290,7 @@ async function showitems(searchcreteria,callback){
     }
 }
 async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
-    document.getElementById("controlpanel").classList.add("controlpanel_show");
+    showcontrolpanel();
 
     detaillinenumber=0;
 
@@ -1339,22 +1339,22 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     printlabelbutton.innerHTML="&#x1F5B6 标签";
     printlabelbutton.className="button";
     
-    var closebutton=document.createElement("button");
-    closebutton.innerHTML="✕";
-    closebutton.className="button";
-    closebutton.style.marginLeft = '30px';
-    closebutton.style.padding = '5px 5px 5px 8px';
-    closebutton.addEventListener("click", function() {
-        itemdetail.innerHTML="";
-        document.getElementById("controlpanel").classList.remove("controlpanel_show");
-    });
+    // var closebutton=document.createElement("button");
+    // closebutton.innerHTML="✕";
+    // closebutton.className="button";
+    // closebutton.style.marginLeft = '30px';
+    // closebutton.style.padding = '5px 5px 5px 8px';
+    // closebutton.addEventListener("click", function() {
+    //     itemdetail.innerHTML="";
+    //     document.getElementById("controlpanel").classList.remove("controlpanel_show");
+    // });
 
     controlbar.appendChild(submitbutton);
     controlbar.appendChild(cancelButton);
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
     controlbar.appendChild(printlabelbutton);
-    controlbar.appendChild(closebutton);
+    // controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
     titleLine.className = "detailtitle";
@@ -1937,7 +1937,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         }
     }
     
-    closebutton.removeAttribute("disabled");
+    // closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
         detaillinenumber++;
         createdetailline(detaillinenumber,"",activity,true);
@@ -2802,7 +2802,8 @@ function constructinventoryid(i){
 }
 
 async function showinventorydetail(inventory,thisrow){
-   
+    showcontrolpanel();
+
     const itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML = "";
     
