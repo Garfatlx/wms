@@ -4453,7 +4453,6 @@ async function showitemsOrganised(searchcreteria,callback){
             //style each row based on status
             if(item.status!="完成"){
                 row.style.color = "grey";
-                row.style.backgroundColor = "lightgrey";
                 row.style.opacity = 0.5;
             }
 
@@ -4513,7 +4512,6 @@ async function showitemsOrganised(searchcreteria,callback){
 
         if(item.status!="完成"){
             unitrow.style.color = "grey";
-            unitrow.style.backgroundColor = "lightgrey";
             unitrow.style.opacity = 0.5;
         }
 
