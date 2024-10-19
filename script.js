@@ -1290,6 +1290,8 @@ async function showitems(searchcreteria,callback){
     }
 }
 async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
+    document.getElementById("controlpanel").classList.add("controlpanel_show");
+
     detaillinenumber=0;
 
     
@@ -1344,6 +1346,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     closebutton.style.padding = '5px 5px 5px 8px';
     closebutton.addEventListener("click", function() {
         itemdetail.innerHTML="";
+        document.getElementById("controlpanel").classList.remove("controlpanel_show");
     });
 
     controlbar.appendChild(submitbutton);
@@ -2967,7 +2970,7 @@ async function showinventorydetail(inventory,thisrow){
 }
 async function showactivitydetail(activity){
     document.getElementById("controlpanel").classList.add("controlpanel_show");
-    
+
     var itemdetail = document.getElementById("itemdetail");
     itemdetail.innerHTML = "";
     var activitydetail = document.createElement("div");
