@@ -4244,7 +4244,6 @@ async function createinventoryoperationdiv(){
 
         const completedinventory = searchedinventory.filter(item => item.status=='完成');
         const searchedinvenotryids = completedinventory.map(item => item.inventoryid);
-        console.log(searchedinvenotryids);
         var searchcreteriain = new FormData();
         searchcreteriain.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriain.append('activity', '入库');
@@ -4255,7 +4254,6 @@ async function createinventoryoperationdiv(){
         });
         const data = await response.json();
         const inwardinventory = data['data'];
-        console.log(inwardinventory);
         var searchcreteriaout = new FormData();
         searchcreteriaout.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriaout.append('activity', '出库');
@@ -4289,6 +4287,19 @@ async function createinventoryoperationdiv(){
             .map(([inventoryid, pcs]) => inventoryid);
 
         console.log('Balanced Inventory IDs:', balancedInventoryIds);
+
+        var deleteinventory = new FormData();
+        deleteinventory.append('inventoryids', balancedInventoryIds.join(','));
+        fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+            method: 'POST',
+            body: deleteinventory,
+        }).then(response => response.json())
+        .then(data => {
+            sysresponse.innerHTML = data.msg;
+            if (data[error_code] == 0) {
+                createinventoryoperationdiv();
+            }
+        });
         
         
     });
