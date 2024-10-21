@@ -4273,7 +4273,7 @@ async function createinventoryoperationdiv(){
             if (!inwardMap.has(item.inventoryid)) {
                 inwardMap.set(item.inventoryid, 0);
             }
-            inwardMap.set(item.id, inwardMap.get(item.inventoryid) + Number(item.pcs));
+            inwardMap.set(item.inventoryid, inwardMap.get(item.inventoryid) + Number(item.pcs));
         });
 
         // Subtract pieces from the corresponding inventory ID in the map for outward inventory
