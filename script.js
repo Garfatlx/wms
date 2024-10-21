@@ -4255,7 +4255,7 @@ async function createinventoryoperationdiv(){
         });
         const data = await response.json();
         const inwardinventory = data['data'];
-
+        console.log(inwardinventory);
         var searchcreteriaout = new FormData();
         searchcreteriaout.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriaout.append('activity', '出库');
