@@ -4296,9 +4296,6 @@ async function createinventoryoperationdiv(){
         }).then(response => response.json())
         .then(data => {
             sysresponse.innerHTML = data.msg;
-            if (data[error_code] == 0) {
-                createinventoryoperationdiv();
-            }
         });
         
         
