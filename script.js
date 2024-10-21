@@ -4118,6 +4118,16 @@ async function createinventoryoperationdiv(){
     deletenoncompletedbutton.style.padding = '5px 5px';
     operationdiv.appendChild(deletenoncompletedbutton);
 
+    const deleteextrabutton = document.createElement('button');
+    deleteextrabutton.type = 'button';
+    deleteextrabutton.className = 'button';
+    deleteextrabutton.innerHTML = '删除多余库存';
+    deleteextrabutton.style.margin = '20px 0px 0px 0px';
+    deleteextrabutton.style.fontSize = '16px';
+    deleteextrabutton.style.width = '200px';
+    deleteextrabutton.style.padding = '5px 5px';
+    operationdiv.appendChild(deleteextrabutton);
+
 
     deletebutton.addEventListener('click', function() {
         if(!adminauthorization()){
@@ -4218,6 +4228,68 @@ async function createinventoryoperationdiv(){
             });
             
         }
+    });
+
+    deleteextrabutton.addEventListener('click', async function() {
+        if(!adminauthorization()){
+            return;
+        }
+        if(access!=3){
+            const selectedwarehouse=document.getElementById('searchbox').querySelector('select').value;
+            if(!selectedwarehouse){
+                alert('此操作只能操作于选择的仓库，请选择仓库！');
+                return;
+            }
+        }
+
+        var searchedinvenotryids = searchedinventory.map(item => item.id);
+        searchedinvenotryids=searchedinvenotryids.filter(item => item.status=='完成');
+        var searchcreteriain = new FormData();
+        searchcreteriain.append('ids', searchedinvenotryids.join(','));
+        searchcreteriain.append('activity', '入库');
+        searchcreteriain.append('status', '完成');
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+            method: 'POST',
+            body: searchcreteriain,
+        });
+        const data = await response.json();
+        const inwardinventory = data['data'];
+
+        var searchcreteriaout = new FormData();
+        searchcreteriaout.append('ids', searchedinvenotryids.join(','));
+        searchcreteriaout.append('activity', '出库');
+        searchcreteriaout.append('status', '完成');
+        const responseout = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+            method: 'POST',
+            body: searchcreteriaout,
+        });
+        const dataout = await responseout.json();
+        const outwardinventory = dataout['data'];
+
+        // Create a map to store total pieces for each inventory ID from inward inventory
+        const inwardMap = new Map();
+        inwardinventory.forEach(item => {
+            if (!inwardMap.has(item.id)) {
+                inwardMap.set(item.id, 0);
+            }
+            inwardMap.set(item.id, inwardMap.get(item.id) + Number(item.pcs));
+        });
+
+        // Subtract pieces from the corresponding inventory ID in the map for outward inventory
+        outwardinventory.forEach(item => {
+            if (inwardMap.has(item.id)) {
+                inwardMap.set(item.id, inwardMap.get(item.id) - Number(item.pcs));
+            }
+        });
+
+        // Filter inventory IDs where the total pieces are zero
+        const balancedInventoryIds = Array.from(inwardMap.entries())
+            .filter(([id, pcs]) => pcs === 0)
+            .map(([id, pcs]) => id);
+
+        console.log('Balanced Inventory IDs:', balancedInventoryIds);
+        
+        
     });
 
     function createlastcheckcontent(lastcheckinventory){
