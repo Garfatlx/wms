@@ -4244,7 +4244,7 @@ async function createinventoryoperationdiv(){
 
         const completedinventory = searchedinventory.filter(item => item.status=='完成');
         const searchedinvenotryids = completedinventory.map(item => item.id);
-
+        console.log(searchedinvenotryids);
         var searchcreteriain = new FormData();
         searchcreteriain.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriain.append('activity', '入库');
