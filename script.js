@@ -3924,6 +3924,7 @@ function replacer(key, value) {
 }
 
 async function createinventoryoperationdiv(){
+    
     const activeJobs = document.getElementById('activejobs');
     activeJobs.innerHTML = '';
 
@@ -4119,6 +4120,9 @@ async function createinventoryoperationdiv(){
 
 
     deletebutton.addEventListener('click', function() {
+        if(!adminauthorization()){
+            return;
+        }
         if(access!=3){
             const selectedwarehouse=document.getElementById('searchbox').querySelector('select').value;
             if(!selectedwarehouse){
@@ -4165,12 +4169,14 @@ async function createinventoryoperationdiv(){
     });
 
     deletenoncompletedbutton.addEventListener('click', async function() {
-
-        //// disable function
-        return;
+        if(!adminauthorization()){
+            return;
+        }
         
         //add confirmation dialog to delete the unchecked inventory
         if (confirm('确定删除件盘点日期前未入库的库存吗？')) {
+
+
             var searchallinventory = new FormData();
             if(access==3){
                 searchallinventory.append("warehouse", currentwarehouse);
@@ -4582,4 +4588,14 @@ function showcontrolpanel(){
         document.getElementById("controlpanel").classList.remove("controlpanel_show");
     });
     document.getElementById("controlpanel").appendChild(closebutton);
+}
+
+function adminauthorization(){
+    const adminpassword = prompt('请输入管理员密码');
+    if (adminpassword === 'Garfat') {
+        return true;
+    } else {
+        alert('密码错误');
+        return false;
+    }
 }
