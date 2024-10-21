@@ -4243,7 +4243,7 @@ async function createinventoryoperationdiv(){
         }
 
         const completedinventory = searchedinventory.filter(item => item.status=='完成');
-        const searchedinvenotryids = completedinventory.map(item => item.id);
+        const searchedinvenotryids = completedinventory.map(item => item.inventoryid);
         console.log(searchedinvenotryids);
         var searchcreteriain = new FormData();
         searchcreteriain.append('inventoryids', searchedinvenotryids.join(','));
