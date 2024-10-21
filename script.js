@@ -4242,8 +4242,8 @@ async function createinventoryoperationdiv(){
             }
         }
 
-        var searchedinvenotryids = searchedinventory.map(item => item.id);
-        searchedinvenotryids=searchedinvenotryids.filter(item => item.status=='完成');
+        const completedinventory = searchedinventory.filter(item => item.status=='完成');
+        const searchedinvenotryids = completedinventory.map(item => item.id);
 
         var searchcreteriain = new FormData();
         searchcreteriain.append('inventoryids', searchedinvenotryids.join(','));
