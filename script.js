@@ -3156,7 +3156,7 @@ function printcmr(clickeditem,items){
     var warehouseaddress=getwarehouseaddress();
     const  loadingaddress= document.createElement('div');
     loadingaddress.style.position = 'absolute';
-    loadingaddress.style.top = '50px';
+    loadingaddress.style.top = '70px';
     loadingaddress.style.left = '40px';
     loadingaddress.style.width = '360px';
     loadingaddress.style.height = '50px';
@@ -3170,7 +3170,7 @@ function printcmr(clickeditem,items){
     //loading city
     const  loadingcity= document.createElement('div');
     loadingcity.style.position = 'absolute';
-    loadingcity.style.top = '200px';
+    loadingcity.style.top = '285px';
     loadingcity.style.left = '40px';
     loadingcity.style.width = '360px';
     loadingcity.style.height = '25px';
@@ -3245,7 +3245,7 @@ function printcmr(clickeditem,items){
     issuecity.style.position = 'absolute';
     issuecity.style.top = '900px';
     issuecity.style.left = '110px';
-    issuecity.style.width = '120px';
+    issuecity.style.width = '200px';
     issuecity.style.height = '20px';
     issuecity.style.zIndex = '1';
     issuecity.textContent = warehouseaddress[1];
