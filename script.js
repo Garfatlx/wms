@@ -947,7 +947,7 @@ function showitemsearchbox(){
     // });
     exportbutton.addEventListener("click", function() {
         // Convert JSON data to CSV
-        const csvData = jsonToCsv(searchedreports);
+        const csvData = jsonToCsv(searchedreports,itemexporttilemapping);
 
         // Create a Blob from the CSV data
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-16;' });
@@ -3944,16 +3944,16 @@ function vasdetailform(clickeditem,callback,replacement){
     return form;
 }
 
-function jsonToCsv(json) {
-    const headers = Object.keys(json[0]);
+function jsonToCsv(jsonData,columntitle) {
     const csvRows = [];
-
-    // Add headers
+    const headers = Object.keys(jsonData[0]).map(key => columntitle[key] || key);
     csvRows.push(headers.join(','));
 
-    // Add rows
-    for (const row of json) {
-        const values = headers.map(header => JSON.stringify(row[header], replacer));
+    for (const row of jsonData) {
+        const values = headers.map(header => {
+            const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
+            return row[originalKey];
+        });
         csvRows.push(values.join(','));
     }
 
@@ -4593,7 +4593,7 @@ async function showitemsOrganised(searchcreteria,callback){
                 var td = document.createElement("td");
                 td.textContent = columnText;
                 row.appendChild(td);
-                if(index===4){
+                if(index===5){
                     if(item.oripcs){
                         if(item.pcs!=item.oripcs){
                             td.style.color = "red";
@@ -4720,3 +4720,27 @@ function adminauthorization(){
         return false;
     }
 }
+
+const itemexporttilemapping = {
+    'warehouse': '仓库',
+    'jobid': '操作编号',
+    'inventoryid': '库存编号',
+    'fba'  : 'FBA',
+    'requirement': '需求',
+    'channel': '渠道',
+    'container': '箱号',
+    'activity': '操作',
+    'oripcs': '预报件数',
+    'marks': '箱唛',
+    'label': '仓点',
+    'date': '操作日期',
+    'createdate': '创建日期',
+    'pcs': '实际件数',
+    'plt': '托数',
+    'customer': '客户',
+    'status': '状态',
+    'instruction': '操作指示',
+    'note': '备注',
+    'checked': '检查备忘',
+    'createorder': '创建顺序',
+};
