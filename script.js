@@ -3954,7 +3954,7 @@ function jsonToCsv(jsonData,columntitle) {
             const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
             let value = row[originalKey];
             if (typeof value === 'string') {
-                value = value.replace(/\n/g, ' '); // Replace newline characters with a space
+                value = value.replace(/\n/g, ';'); // Replace newline characters with a space
                 value = value.replace(/"/g, '""'); // Escape double quotes
                 value = `"${value}"`; // Enclose in double quotes
             }
@@ -4732,6 +4732,8 @@ const itemexporttilemapping = {
     'warehouse': '仓库',
     'jobid': '操作编号',
     'inventoryid': '库存编号',
+    'orderid': '订单编号',
+    'inventoryloc': '库存位置',
     'fba'  : 'FBA',
     'requirement': '需求',
     'channel': '渠道',
@@ -4741,7 +4743,7 @@ const itemexporttilemapping = {
     'marks': '箱唛',
     'label': '仓点',
     'date': '操作日期',
-    'createdate': '创建日期',
+    'createtime': '创建时间戳',
     'pcs': '实际件数',
     'plt': '托数',
     'customer': '客户',
