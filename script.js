@@ -3952,7 +3952,11 @@ function jsonToCsv(jsonData,columntitle) {
     for (const row of jsonData) {
         const values = headers.map(header => {
             const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
-            return row[originalKey];
+            let value = row[originalKey];
+            if (typeof value === 'string') {
+                value = value.replace(/\n/g, ';'); // Replace newline characters with a space
+            }
+            return value;
         });
         csvRows.push(values.join(','));
     }
@@ -4563,6 +4567,7 @@ async function showitemsOrganised(searchcreteria,callback){
         .then(data => {
             let n=0;
             if(data['data']){
+                searchedreports = searchedreports.concat(data['data']);
                 //filter out the unvalid activity
                 const outdata = filterunvalidactivity(data['data']);
                 outdata.forEach(function(outitem) {
