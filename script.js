@@ -3152,6 +3152,35 @@ function printcmr(clickeditem,items){
     
     printWindow.document.body.appendChild(ordernumber);
 
+    //loading address
+    var warehouseaddress=getwarehouseaddress();
+    const  loadingaddress= document.createElement('div');
+    loadingaddress.style.position = 'absolute';
+    loadingaddress.style.top = '50px';
+    loadingaddress.style.left = '40px';
+    loadingaddress.style.width = '360px';
+    loadingaddress.style.height = '50px';
+    loadingaddress.style.zIndex = '1';
+    loadingaddress.style.fontSize = '11px';
+    loadingaddress.contentEditable = true;
+    loadingaddress.innerHTML=warehouseaddress[0];
+
+    printWindow.document.body.appendChild(loadingaddress);
+
+    //loading city
+    const  loadingcity= document.createElement('div');
+    loadingcity.style.position = 'absolute';
+    loadingcity.style.top = '200px';
+    loadingcity.style.left = '40px';
+    loadingcity.style.width = '360px';
+    loadingcity.style.height = '25px';
+    loadingcity.style.zIndex = '1';
+    loadingcity.style.fontSize = '11px';
+    loadingcity.contentEditable = true;
+    loadingcity.innerHTML=warehouseaddress[1];
+
+    printWindow.document.body.appendChild(loadingcity);
+
     //del address
     var deladdressfull=getaddress(clickeditem['joblabel']);
     const deladdress = document.createElement('div');
@@ -3219,7 +3248,7 @@ function printcmr(clickeditem,items){
     issuecity.style.width = '120px';
     issuecity.style.height = '20px';
     issuecity.style.zIndex = '1';
-    issuecity.textContent = 'Gronsveld';
+    issuecity.textContent = warehouseaddress[1];
 
     printWindow.document.body.appendChild(issuecity);
 
@@ -3234,6 +3263,17 @@ function printcmr(clickeditem,items){
     issuedate.textContent = getformatteddate(0);
 
     printWindow.document.body.appendChild(issuedate);
+
+    function getwarehouseaddress(){
+        if(currentwarehouse=="NL001"){
+            return ['CEEC SUPPLY CHAIN <br>Building 3, Schutteboendersweg 1, 6247EM Gronsveld','Gronsveld, The Netherlands'];
+        }
+        if(currentwarehouse=="DE001"){
+            return ['Blue Shark Trading &Logistics GmbH <br>Baumstr. 61 47198 Duisburg','Duisburg, Germany'];
+        }
+        
+        return ['',''];
+    }
 
 }
 function printSpecificContent(clickeditem) {
