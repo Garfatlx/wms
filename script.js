@@ -3954,7 +3954,9 @@ function jsonToCsv(jsonData,columntitle) {
             const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
             let value = row[originalKey];
             if (typeof value === 'string') {
-                value = value.replace(/\n/g, ';'); // Replace newline characters with a space
+                value = value.replace(/\n/g, ' '); // Replace newline characters with a space
+                value = value.replace(/"/g, '""'); // Escape double quotes
+                value = `"${value}"`; // Enclose in double quotes
             }
             return value;
         });
