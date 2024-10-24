@@ -3126,6 +3126,14 @@ function printcmr(clickeditem,items){
                 itemsdiv.appendChild(itemdiv);
             }
         });
+        const itemdiv = document.createElement('div');
+        itemdiv.style.display = 'flex';
+        itemdiv.style.marginBottom = '3px';
+        itemdiv.style.width = '100%';
+        itemdiv.style.fontSize = baseFontSize + 'px';
+        itemdiv.innerHTML = ' ';
+        itemsdiv.appendChild(itemdiv);
+        
         baseheight = itemsdiv.clientHeight;
         baseFontSize = baseFontSize - 2;
 
