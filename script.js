@@ -715,7 +715,7 @@ function showinventorysearchbox(){
         exportbutton.textContent = '导出CSV';
         exportbutton.addEventListener("click", function() {
             // Convert JSON data to CSV
-            const csvData = jsonToCsv(filteredinventory);
+            const csvData = jsonToCsv(filteredinventory,itemexporttilemapping);
 
             // Create a Blob from the CSV data
             const blob = new Blob([csvData], { type: 'text/csv;charset=utf-16;' });
