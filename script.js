@@ -3094,13 +3094,13 @@ function printcmr(clickeditem,items){
     itemsdiv.style.top = '385px';
     itemsdiv.style.left = '40px';
     itemsdiv.style.width = '635px';
-    // itemsdiv.style.height = '250px';
+    itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.fontSize = '10px';
     itemsdiv.contentEditable = true;
     printWindow.document.body.appendChild(itemsdiv);
-    while(baseheight>250 && baseFontSize>7){
+    while(baseheight>255 && baseFontSize>7){
         itemsdiv.innerHTML = '';
         items.forEach(function(item) {
             const itemdiv = document.createElement('div');
