@@ -3131,7 +3131,7 @@ function printcmr(clickeditem,items){
         itemdiv.style.marginBottom = '3px';
         itemdiv.style.width = '100%';
         itemdiv.style.fontSize = baseFontSize + 'px';
-        itemdiv.innerHTML = '|';
+        itemdiv.innerHTML = '.';
         itemsdiv.appendChild(itemdiv);
 
         baseheight = itemsdiv.clientHeight;
