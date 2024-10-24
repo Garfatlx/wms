@@ -3094,13 +3094,13 @@ function printcmr(clickeditem,items){
     itemsdiv.style.top = '385px';
     itemsdiv.style.left = '40px';
     itemsdiv.style.width = '635px';
-    itemsdiv.style.height = '250px';
+    // itemsdiv.style.height = '250px';
     itemsdiv.style.overflow = 'hide';
     itemsdiv.style.zIndex = '1';
     itemsdiv.style.fontSize = '10px';
     itemsdiv.contentEditable = true;
     printWindow.document.body.appendChild(itemsdiv);
-    while(baseheight>255 && baseFontSize>7){
+    while(baseheight>250 && baseFontSize>7){
         itemsdiv.innerHTML = '';
         items.forEach(function(item) {
             const itemdiv = document.createElement('div');
@@ -3130,6 +3130,18 @@ function printcmr(clickeditem,items){
         baseFontSize = baseFontSize - 2;
 
     }
+
+    const extraspace = document.createElement('div');
+    extraspace.style.position = 'absolute';
+    extraspace.style.top = '385px';
+    extraspace.style.left = '40px';
+    extraspace.style.width = '635px';
+    extraspace.style.height = '250px';
+    extraspace.style.overflow = 'hide';
+    extraspace.style.zIndex = '2';
+    extraspace.style.fontSize = '10px';
+    extraspace.contentEditable = true;
+    printWindow.document.body.appendChild(extraspace);
     
 
     
