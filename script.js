@@ -4347,22 +4347,33 @@ async function createinventoryoperationdiv(){
             }
         });
 
-        // Filter inventory IDs where the total pieces are zero
-        const balancedInventoryIds = Array.from(inwardMap.entries())
-            .filter(([inventoryid, pcs]) => pcs === 0)
-            .map(([inventoryid, pcs]) => inventoryid);
-
-        console.log('Balanced Inventory IDs:', balancedInventoryIds);
-
-        var deleteinventory = new FormData();
-        deleteinventory.append('inventoryids', balancedInventoryIds.join(','));
-        fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
-            method: 'POST',
-            body: deleteinventory,
-        }).then(response => response.json())
-        .then(data => {
-            sysresponse.innerHTML = data.msg;
+        const unbalancedInventory=completedinventory.filter(item => {
+            if(inwardMap.has(item.inventoryid)){
+                if(inwardMap.get(item.inventoryid)!=item.pcs){
+                    item.pcsdiff=inwardMap.get(item.inventoryid);
+                    return true;
+                }
+            }
         });
+
+        console.log(unbalancedInventory);
+
+        // // Filter inventory IDs where the total pieces are zero
+        // const balancedInventoryIds = Array.from(inwardMap.entries())
+        //     .filter(([inventoryid, pcs]) => pcs === 0)
+        //     .map(([inventoryid, pcs]) => inventoryid);
+
+        // console.log('Balanced Inventory IDs:', balancedInventoryIds);
+
+        // var deleteinventory = new FormData();
+        // deleteinventory.append('inventoryids', balancedInventoryIds.join(','));
+        // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+        //     method: 'POST',
+        //     body: deleteinventory,
+        // }).then(response => response.json())
+        // .then(data => {
+        //     sysresponse.innerHTML = data.msg;
+        // });
         
         
     });
@@ -4773,3 +4784,7 @@ const itemexporttilemapping = {
     'checked': '检查备忘',
     'createorder': '创建顺序',
 };
+
+function createappointmentwindow(){
+
+}
