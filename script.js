@@ -544,6 +544,7 @@ function showjobsearchbox(){
 function showinventorysearchbox(){
     // Clear previous elements in searchbox
     const searchbox = document.getElementById('searchbox');
+    searchbox.style.flexDirection = 'row';
     searchbox.innerHTML = '';
 
     // Create form element
@@ -4881,7 +4882,7 @@ function autoarrangeout(){
 
     });
 
-    
+
 
 }
 function createappointmentwindow(){
