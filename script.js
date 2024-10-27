@@ -2863,6 +2863,31 @@ async function showinventorydetail(inventory,thisrow){
     function createInventoryDetailInput(label, value, name) {
         const linecontrol = document.createElement('div');
         linecontrol.className = 'linecontrol';
+
+        if(label=="优先级"){
+            const priorityinput = document.createElement('select');
+            priorityinput.name = name;
+            priorityinput.className = 'lineinput';
+            priorityinput.style.width = '45px';
+            const priorityinputlabel = document.createElement('label');
+            priorityinputlabel.innerHTML = label;
+            priorityinputlabel.className = 'lineinputlabel';
+            linecontrol.appendChild(priorityinputlabel);
+            linecontrol.appendChild(priorityinput);
+            const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+            for (var i = 0; i < priorityoptions.length; i++) {
+                var option = document.createElement('option');
+                option.value = priorityoptions[i];
+                option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+                if (value == priorityoptions[i]) {
+                    option.selected = true; // Set the default value based on item['priority']
+                }
+                priorityinput.appendChild(option);
+            }
+
+            return;
+        }
+
         const input = document.createElement('input');
         input.type = 'text';
         input.name = name;
@@ -2901,6 +2926,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('渠道', inventory['channel']);
     createInventoryDetailInput('件数', inventory['pcs'], 'pcs');
     createInventoryDetailInput('托数', inventory['plt'], 'plt');
+    createInventoryDetailInput('优先级', inventory['priority'], 'priority');
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
