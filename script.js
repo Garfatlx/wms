@@ -3468,7 +3468,9 @@ function printinventorylabel(content){
 
             const line2 = document.createElement('div');
             line2.className = 'line';
-            line2.innerHTML = item['label']+"  "+ item['date'];
+            const date = new Date(item['date']);
+            const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            line2.innerHTML = item['label']+"  "+ formattedDate;
             secleft.appendChild(line2);
 
             const line3 = document.createElement('div');
