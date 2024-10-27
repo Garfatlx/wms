@@ -1790,6 +1790,18 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         };
 
     }
+
+    if(clickeditem=='' && activity=="出库"){
+        const autoarrangebutton = document.createElement("button");
+        autoarrangebutton.innerHTML = "自动排车";
+        autoarrangebutton.className = "button";
+        autoarrangebutton.style.marginLeft = '10px';
+        autoarrangebutton.style.display = 'none';
+        autoarrangebutton.addEventListener("click", function() {
+            autoarrangeout();
+        });
+        itemdetail.appendChild(autoarrangebutton);
+    }
     
     itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
     
@@ -4810,6 +4822,26 @@ const itemexporttilemapping = {
     'createorder': '创建顺序',
 };
 
+function autoarrangeout(){
+    const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    appointmentwindow.document.write('<html><head>');
+    appointmentwindow.document.write('<link href="autoarrange.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    appointmentwindow.document.write('</head><body>');
+    appointmentwindow.document.write('</body></html>');
+
+    const body=appointmentwindow.document.body;
+
+    const searchform=document.createElement('form');
+
+    const searchbox = document.createElement('div');
+    searchbox.className = 'searchbox';
+    searchbox.appendChild(createwarehouseselectiondiv());
+    searchform.appendChild(searchbox);
+
+    
+
+}
 function createappointmentwindow(){
     const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
