@@ -1798,7 +1798,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         autoarrangebutton.innerHTML = "自动排车";
         autoarrangebutton.className = "button";
         autoarrangebutton.style.marginLeft = '10px';
-        autoarrangebutton.style.display = 'none';
         autoarrangebutton.addEventListener("click", function() {
             autoarrangeout();
         });
