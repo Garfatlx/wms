@@ -140,7 +140,7 @@
                 checkinventorycretteria.append('id', searchedinventory['id']);
                 checkinventorycretteria.append('pcs', document.getElementById('pcs').value);
                 checkinventorycretteria.append('plt', document.getElementById('plt').value);
-                checkinventorycretteria.append('checkdate', getformatteddate(0));
+                checkinventorycretteria.append('checkdate', getCurrentFormattedDateTime());
                 fetch('https://garfat.xyz/index.php/home/Wms/checkinventory', {
                     method: 'POST',
                     body: checkinventorycretteria,
@@ -403,6 +403,17 @@
             var month = (1 + date.getMonth()).toString().padStart(2, '0');
             var day = date.getDate().toString().padStart(2, '0');
             return year + '-' + month + '-' + day;
+        }
+        function getCurrentFormattedDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
 
         function showinventorymap(warehouseinventory,activity,currentinventory,callback){
