@@ -1792,7 +1792,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     }
 
-    if(newadded && activity=="出库"){
+    if(newadded && activity=='出库'){
+        console.log("newadded");
         const autoarrangebutton = document.createElement("button");
         autoarrangebutton.innerHTML = "自动排车";
         autoarrangebutton.className = "button";
