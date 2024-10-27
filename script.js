@@ -2123,22 +2123,28 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
 
-    var priorityinput=document.createElement("select");
-    priorityinput.name="priority";
-    priorityinput.value=item!=''?item['priority']:5;
-    priorityinput.className="lineinput";
-    priorityinput.style.width="60px";
-    var priorityinputlabel=document.createElement("label");
-    priorityinputlabel.innerHTML="优先级";
-    priorityinputlabel.className="lineinputlabel";
-    detaillineform.appendChild(priorityinputlabel);
-    detaillineform.appendChild(priorityinput);
-    const priorityoptions = [0, 1, 2, 3, 4, 5,6,7,8,9,10];
-    for (var i = 0; i < priorityoptions.length; i++) {
-        var option = document.createElement("option");
-        option.value = priorityoptions[i];
-        option.text = priorityoptions[i];
-        priorityinput.appendChild(option);
+    if(activity=="入库"){
+        var priorityinput=document.createElement("select");
+        priorityinput.name="priority";
+        priorityinput.className="lineinput";
+        priorityinput.style.width="45px";
+        var priorityinputlabel=document.createElement("label");
+        priorityinputlabel.innerHTML="优先级";
+        priorityinputlabel.className="lineinputlabel";
+        detaillineform.appendChild(priorityinputlabel);
+        detaillineform.appendChild(priorityinput);
+        const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+        for (var i = 0; i < priorityoptions.length; i++) {
+            var option = document.createElement("option");
+            option.value = priorityoptions[i];
+            option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+            if (item && item['priority'] == priorityoptions[i]) {
+                option.selected = true; // Set the default value based on item['priority']
+            } else if (!item && priorityoptions[i] == 0) {
+                option.selected = true; // Set the default value to 5 if item is not defined
+            }
+            priorityinput.appendChild(option);
+        }
     }
     
     
