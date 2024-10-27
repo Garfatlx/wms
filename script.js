@@ -2122,6 +2122,24 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.className="lineinput";
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
+
+    var priorityinput=document.createElement("select");
+    priorityinput.name="priority";
+    priorityinput.value=item!=''?item['priority']:5;
+    priorityinput.className="lineinput";
+    priorityinput.style.width="60px";
+    var priorityinputlabel=document.createElement("label");
+    priorityinputlabel.innerHTML="优先级";
+    priorityinputlabel.className="lineinputlabel";
+    detaillineform.appendChild(priorityinputlabel);
+    detaillineform.appendChild(priorityinput);
+    const priorityoptions = [0, 1, 2, 3, 4, 5,6,7,8,9,10];
+    for (var i = 0; i < priorityoptions.length; i++) {
+        var option = document.createElement("option");
+        option.value = priorityoptions[i];
+        option.text = priorityoptions[i];
+        priorityinput.appendChild(option);
+    }
     
     
     detaillineform.appendChild(document.createElement("br"));
@@ -4787,5 +4805,12 @@ const itemexporttilemapping = {
 };
 
 function createappointmentwindow(){
+    const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    appointmentwindow.document.write('<html><head>');
+    appointmentwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    appointmentwindow.document.write('</head><body>');
+    appointmentwindow.document.write('</body></html>');
+
 
 }
