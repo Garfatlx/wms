@@ -4839,6 +4839,48 @@ function autoarrangeout(){
     searchbox.appendChild(createwarehouseselectiondiv());
     searchform.appendChild(searchbox);
 
+    const labelinput = document.createElement('input');
+    labelinput.type = 'text';
+    labelinput.name = 'label';
+    labelinput.placeholder = '仓点';
+    labelinput.style.width = '100px';
+    labelinput.style.fontSize = '14px';
+    labelinput.style.margin = '0px 0px 0px 0px';
+    const labelinputlabel = document.createElement('label');
+    labelinputlabel.htmlFor = 'label';
+    labelinputlabel.innerHTML = '仓点';
+    labelinputlabel.style.fontSize = '16px';
+    searchform.appendChild(labelinputlabel);
+    searchform.appendChild(labelinput);
+
+    const dateinput = document.createElement('input');
+    dateinput.type = 'date';
+    dateinput.name = 'date';
+    dateinput.style.width = '150px';
+    dateinput.style.fontSize = '16px';
+    dateinput.style.margin = '0px 0px 0px 0px';
+    const dateinputlabel = document.createElement('label');
+    dateinputlabel.htmlFor = 'date';
+    dateinputlabel.innerHTML = '预约日期';
+    dateinputlabel.style.fontSize = '16px';
+    searchform.appendChild(dateinputlabel);
+    searchform.appendChild(dateinput);
+
+    const searchbutton = document.createElement('button');
+    searchbutton.type = 'submit';
+    searchbutton.className = 'button';
+    searchbutton.innerHTML = '查询';
+    searchbutton.style.fontSize = '14px';
+    searchbutton.style.padding = '5px 5px';
+    searchform.appendChild(searchbutton);
+
+    searchform.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const searchcreteria = new FormData(searchform);
+
+    });
+
     
 
 }
