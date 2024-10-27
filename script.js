@@ -36,7 +36,7 @@ window.addEventListener("load", function(){
     var newoutjobbutton = document.getElementById("newoutjobbutton");
     newoutjobbutton.addEventListener("click", function() {
         if(access>0){
-            loaddetail("",'出库');
+            loaddetail("",'出库',null,true);
         }
     });
 
@@ -1792,7 +1792,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     }
 
-    if(clickeditem=='' && activity=="出库"){
+    if(newadded && activity=="出库"){
         const autoarrangebutton = document.createElement("button");
         autoarrangebutton.innerHTML = "自动排车";
         autoarrangebutton.className = "button";
@@ -4883,7 +4883,7 @@ function autoarrangeout(){
     searchform.appendChild(labelinput);
 
     const dateinput = document.createElement('input');
-    dateinput.type = 'date';
+    dateinput.type = 'datetime-local';
     dateinput.name = 'date';
     dateinput.style.width = '150px';
     dateinput.style.fontSize = '16px';
