@@ -1,0 +1,5 @@
+.searchbox{
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+}
