@@ -1769,6 +1769,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                                 "locationb": "",
                                 "inventoryid": constructinventoryid(j),
                                 "id": "",
+                                "priority":json[i]['拦截暂扣']=="是"?-6:0,
                                 "createtime": Date.now(),
                             });
                             j++;
