@@ -4865,7 +4865,20 @@ function autoarrangeout(){
 
     const searchbox = document.createElement('div');
     searchbox.className = 'searchbox';
-    searchbox.appendChild(createwarehouseselectiondiv());
+
+    const warehouseselectiondiv = createwarehouseselectiondiv();
+
+    if(access==3){
+        warehouseselectiondiv.querySelector('select').value = currentwarehouse;
+        warehouseselectiondiv.querySelector('select').disabled = true;
+        const hidewarehouse = document.createElement('input');
+        hidewarehouse.type = 'hidden';
+        hidewarehouse.name = 'warehouse';
+        hidewarehouse.value = currentwarehouse;
+        searchbox.appendChild(hidewarehouse);
+    }
+
+    searchbox.appendChild(warehouseselectiondiv);
     searchform.appendChild(searchbox);
 
     const labelinput = document.createElement('input');
@@ -4923,6 +4936,8 @@ function autoarrangeout(){
         event.preventDefault();
 
         const searchcreteria = new FormData(searchform);
+        console.log(searchcreteria.get('label'));
+
         searchcreteria.remove('date');
 
         const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
