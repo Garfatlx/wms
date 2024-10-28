@@ -1025,7 +1025,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             // addjobline.append('jobid', jobid);
             addjobline.append('jobid', addjob.get('jobid'));
             addjobline.append('activity', addjob.get('activity'));
-            // addjobline.append('date', addjob.get('date'));
+            addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
             addjobline.append('warehouse', addjob.get('warehouse'));
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
@@ -1792,16 +1792,16 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     }
 
-    if(newadded && activity=='出库'){
-        const autoarrangebutton = document.createElement("button");
-        autoarrangebutton.innerHTML = "自动排车";
-        autoarrangebutton.className = "button";
-        autoarrangebutton.style.marginLeft = '10px';
-        autoarrangebutton.addEventListener("click", function() {
-            autoarrangeout();
-        });
-        itemdetail.appendChild(autoarrangebutton);
-    }
+    // if(newadded && activity=='出库'){
+    //     const autoarrangebutton = document.createElement("button");
+    //     autoarrangebutton.innerHTML = "自动排车";
+    //     autoarrangebutton.className = "button";
+    //     autoarrangebutton.style.marginLeft = '10px';
+    //     autoarrangebutton.addEventListener("click", function() {
+    //         autoarrangeout();
+    //     });
+    //     itemdetail.appendChild(autoarrangebutton);
+    // }
     
     itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
     
