@@ -1770,6 +1770,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                                 "inventoryid": constructinventoryid(j),
                                 "id": "",
                                 "priority":json[i]['拦截暂扣']=="是"?-6:0,
+                                "plttype":json[i]['托盘类型']?json[i]['托盘类型']:"",
                                 "createtime": Date.now(),
                             });
                             j++;
