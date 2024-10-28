@@ -2885,6 +2885,7 @@ async function showinventorydetail(inventory,thisrow){
             priorityinputlabel.className = 'lineinputlabel';
             linecontrol.appendChild(priorityinputlabel);
             linecontrol.appendChild(priorityinput);
+            updateinventoryform.appendChild(linecontrol);
             const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
             for (var i = 0; i < priorityoptions.length; i++) {
                 var option = document.createElement('option');
