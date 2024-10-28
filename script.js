@@ -2133,6 +2133,7 @@ function createdetailline(nid, item, activity, cancelable) {
     const plttypecon=item['plttype']?item['plttype']:"";
     const plttypeinput=createplttypeselectiondiv(plttypecon);
     plttypeinput.style.marginBottom = '5px';
+    plttypeinput.style.display = 'inline-flex';
     detaillineform.appendChild(plttypeinput);
 
     var selectchannel=document.createElement("input");
@@ -4604,7 +4605,7 @@ function createplttypeselectiondiv(selectedplttype){
     const plttypeselectioninput = document.createElement('select');
     plttypeselectioninput.name = 'plttype';
     plttypeselectioninput.id = 'plttypeselection';
-    plttypeselectioninput.style.width = '70px';
+    plttypeselectioninput.style.width = '65px';
     plttypeselectioninput.style.fontSize = '14px';
     plttypeselectioninput.style.margin = '0px 0px 0px 0px';
 
