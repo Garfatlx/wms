@@ -4599,11 +4599,12 @@ function createplttypeselectiondiv(selectedplttype){
     const plttypeselectiondiv=document.createElement('div');
     plttypeselectiondiv.style.display = 'flex';
     plttypeselectiondiv.style.flexDirection = 'row';
+    plttypeselectiondiv.style.width="120px";
 
     const plttypeselectioninput = document.createElement('select');
     plttypeselectioninput.name = 'plttype';
     plttypeselectioninput.id = 'plttypeselection';
-    plttypeselectioninput.style.width = '60px';
+    plttypeselectioninput.style.width = '70px';
     plttypeselectioninput.style.fontSize = '14px';
     plttypeselectioninput.style.margin = '0px 0px 0px 0px';
 
