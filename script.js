@@ -4932,8 +4932,12 @@ function autoarrangeout(){
     searchbutton.style.padding = '5px 5px';
     searchform.appendChild(searchbutton);
 
+    const searchresultdiv = document.createElement('div');
+    searchresultdiv.id = 'searchresult';
+
     searchform.addEventListener('submit', async function(event) {
         event.preventDefault();
+        searchresultdiv.innerHTML = '';
 
         const searchcreteria = new FormData(searchform);
         console.log(searchcreteria.get('label'));
@@ -4970,23 +4974,26 @@ function autoarrangeout(){
         var selecteditems = [];
         const batchnumber = Number(batchnumberinput.value);
         let volumnsum = -60*(batchnumber-1);
+        let volumnsum2 = -60*(batchnumber-1);
         let pltsum = -33*(batchnumber-1);
+        let pltsum2 = -33*(batchnumber-1);
         inventorycandidates.forEach(item => {
             volumnsum += Number(item.cbm);
             console.log(volumnsum);
             pltsum += item.plt?Number(item.plt):0;
-            if(volumnsum>=0 || pltsum>=0){
+            if((volumnsum>=0 || pltsum>=0) && (volumnsum2<60 && pltsum2<33)){
                 console.log(item);
                 selecteditems.push(item);
                 item['selected']=true;
-            }
-            if (volumnsum> 60 || pltsum>33) {
+            }else{
                 item['selected']=false;
             }
+            volumnsum2 += Number(item.cbm);
+            pltsum2 += item.plt?Number(item.plt):0;
         });
 
         const inventorytable = createcandidatetable(inventorycandidates,selecteditems);
-        body.appendChild(inventorytable);
+        searchresultdiv.appendChild(inventorytable);
 
     });
 
