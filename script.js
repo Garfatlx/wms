@@ -4938,7 +4938,7 @@ function autoarrangeout(){
         const searchcreteria = new FormData(searchform);
         console.log(searchcreteria.get('label'));
 
-        searchcreteria.remove('date');
+        searchcreteria.delete('date');
 
         const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
             method: 'POST',
