@@ -36,7 +36,7 @@ window.addEventListener("load", function(){
     var newoutjobbutton = document.getElementById("newoutjobbutton");
     newoutjobbutton.addEventListener("click", function() {
         if(access>0){
-            loaddetail("",'出库');
+            loaddetail("",'出库',null,true);
         }
     });
 
