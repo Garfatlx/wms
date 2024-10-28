@@ -1793,7 +1793,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     }
 
     if(newadded && activity=='出库'){
-        console.log("newadded");
         const autoarrangebutton = document.createElement("button");
         autoarrangebutton.innerHTML = "自动排车";
         autoarrangebutton.className = "button";
@@ -4852,7 +4851,7 @@ const itemexporttilemapping = {
 };
 
 function autoarrangeout(){
-    const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
+    const appointmentwindow = window.open('', '', 'height=1200px,width=1600px');
     var timestamp = new Date().getTime(); // Get current timestamp
     appointmentwindow.document.write('<html><head>');
     appointmentwindow.document.write('<link href="autoarrange.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
@@ -4862,6 +4861,7 @@ function autoarrangeout(){
     const body=appointmentwindow.document.body;
 
     const searchform=document.createElement('form');
+    body.appendChild(searchform);
 
     const searchbox = document.createElement('div');
     searchbox.className = 'searchbox';
@@ -4895,6 +4895,22 @@ function autoarrangeout(){
     searchform.appendChild(dateinputlabel);
     searchform.appendChild(dateinput);
 
+    const batchnumberinput = document.createElement('input');
+    batchnumberinput.type = 'text';
+    batchnumberinput.name = 'batchnumber';
+    batchnumberinput.value = '1';
+    batchnumberinput.placeholder = '批次号';
+    batchnumberinput.style.width = '40px';
+    batchnumberinput.style.fontSize = '14px';
+    batchnumberinput.style.margin = '0px 0px 0px 0px';
+    const batchnumberinputlabel = document.createElement('label');
+    batchnumberinputlabel.htmlFor = 'batchnumber';
+    batchnumberinputlabel.innerHTML = '批次号';
+    batchnumberinputlabel.style.fontSize = '16px';
+    searchform.appendChild(batchnumberinputlabel);
+    searchform.appendChild(batchnumberinput);
+
+
     const searchbutton = document.createElement('button');
     searchbutton.type = 'submit';
     searchbutton.className = 'button';
@@ -4903,15 +4919,127 @@ function autoarrangeout(){
     searchbutton.style.padding = '5px 5px';
     searchform.appendChild(searchbutton);
 
-    searchform.addEventListener('submit', function(event) {
+    searchform.addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const searchcreteria = new FormData(searchform);
+        searchcreteria.remove('date');
+
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+            method: 'POST',
+            body: searchcreteria,
+        });
+        const data = await response.json();
+        const searhresult = data['data'];
+
+        const inventorycandidates = searhresult.filter(item => {
+            const today = new Date().toISOString().split('T')[0];
+            if(item.status=='预约' && new Date(item.date).getTime() < new Date(today).getTime()){
+                return false;
+            }
+            if(dateinput.value){
+                if(new Date(item.date).getTime() > new Date(dateinput.value).getTime()){
+                    return false;
+                }
+            }
+            return true;
+        });
+        inventorycandidates.sort((a, b) => {
+            const priorityComparison = b.priority - a.priority;
+            if (priorityComparison !== 0) {
+                return priorityComparison;
+            }
+            return a.date.localeCompare(b.date);
+        });
+
+        const selecteditems = [];
+        const batchnumber = Number(batchnumberinput.value);
+        let volumnsum = -60*(batchnumber-1);
+        let pltsum = -33*(batchnumber-1);
+        inventorycandidates.forEach(item => {
+            volumnsum += Number(item.cbm);
+            pltsum += item.plt?Number(item.plt):0;
+            if(volumnsum>0 || pltsum>0){
+                selecteditems.push(item);
+                item['selected']=true;
+            }
+            item['selected']=false;
+            if (volumnsum> 60 || pltsum>33) {
+                return;
+            }
+        });
+
+        const inventorytable = createcandidatetable(inventorycandidates);
+        body.appendChild(inventorytable);
 
     });
 
 
 
+    function createcandidatetable(data){
+        var table = document.createElement("table");
+        table.className = "inventory-table";
+
+        // Create table header
+        var thead = document.createElement("thead");
+        thead.className = "inventory-table-header";
+        var headerRow = document.createElement("tr");
+        var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","体积","优先级","创建日期","仓库"];
+        if(access==3){
+            headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","体积","优先级","创建日期"];
+        }
+        headers.forEach(function(headerText, index) {
+            var th = document.createElement("th");
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        var tbody = document.createElement("tbody");
+        tbody.id = "inventory-table-body";
+        tbody.className = "inventory-table-body";
+        data.forEach(function(item) {
+            var row = document.createElement("tr");
+            row.className = "inventory-table-row";
+            if(item.status!="完成"){
+                row.style.color = "grey";
+            }
+            if(item['selected']){
+                row.style.backgroundColor = 'rgb(73 162 233)';
+            }
+            const priorityshow = item.priority==-6?'拦截':item.priority;
+            var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt,item.cbm,priorityshow, item.date,item.warehouse];
+            if(access==3){
+                columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt,item.cbm,priorityshow, item.date];
+            }
+            columns.forEach(function(columnText) {
+                var td = document.createElement("td");
+                td.textContent = columnText;
+                row.appendChild(td);
+            });
+            tbody.appendChild(row);
+
+            row.addEventListener("click", function() {
+                if(item['selected']){
+                    item['selected']=false;
+                    this.style.backgroundColor = '';
+                    const index = selecteditems.findIndex(selectedItem => selectedItem.id === item.id);
+                    if (index !== -1) {
+                        selecteditems.splice(index, 1);
+                    }
+                }else{
+                    this.style.backgroundColor = 'rgb(73 162 233)';
+                    selecteditems.push(item);
+                    item['selected']=true;
+                }
+
+            });
+        });
+        table.appendChild(tbody);
+        return table;
+    }
 }
 function createappointmentwindow(){
     const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
