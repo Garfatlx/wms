@@ -544,6 +544,7 @@ function showjobsearchbox(){
 function showinventorysearchbox(){
     // Clear previous elements in searchbox
     const searchbox = document.getElementById('searchbox');
+    searchbox.style.flexDirection = 'row';
     searchbox.innerHTML = '';
 
     // Create form element
@@ -1790,6 +1791,17 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         };
 
     }
+
+    // if(newadded && activity=='出库'){
+    //     const autoarrangebutton = document.createElement("button");
+    //     autoarrangebutton.innerHTML = "自动排车";
+    //     autoarrangebutton.className = "button";
+    //     autoarrangebutton.style.marginLeft = '10px';
+    //     autoarrangebutton.addEventListener("click", function() {
+    //         autoarrangeout();
+    //     });
+    //     itemdetail.appendChild(autoarrangebutton);
+    // }
     
     itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
     
@@ -2122,6 +2134,30 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.className="lineinput";
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
+
+    if(activity=="入库"){
+        var priorityinput=document.createElement("select");
+        priorityinput.name="priority";
+        priorityinput.className="lineinput";
+        priorityinput.style.width="45px";
+        var priorityinputlabel=document.createElement("label");
+        priorityinputlabel.innerHTML="优先级";
+        priorityinputlabel.className="lineinputlabel";
+        detaillineform.appendChild(priorityinputlabel);
+        detaillineform.appendChild(priorityinput);
+        const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+        for (var i = 0; i < priorityoptions.length; i++) {
+            var option = document.createElement("option");
+            option.value = priorityoptions[i];
+            option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+            if (item && item['priority'] == priorityoptions[i]) {
+                option.selected = true; // Set the default value based on item['priority']
+            } else if (!item && priorityoptions[i] == 0) {
+                option.selected = true; // Set the default value to 5 if item is not defined
+            }
+            priorityinput.appendChild(option);
+        }
+    }
     
     
     detaillineform.appendChild(document.createElement("br"));
@@ -2826,6 +2862,31 @@ async function showinventorydetail(inventory,thisrow){
     function createInventoryDetailInput(label, value, name) {
         const linecontrol = document.createElement('div');
         linecontrol.className = 'linecontrol';
+
+        if(label=="优先级"){
+            const priorityinput = document.createElement('select');
+            priorityinput.name = name;
+            priorityinput.className = 'lineinput';
+            priorityinput.style.width = '45px';
+            const priorityinputlabel = document.createElement('label');
+            priorityinputlabel.innerHTML = label;
+            priorityinputlabel.className = 'lineinputlabel';
+            linecontrol.appendChild(priorityinputlabel);
+            linecontrol.appendChild(priorityinput);
+            const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+            for (var i = 0; i < priorityoptions.length; i++) {
+                var option = document.createElement('option');
+                option.value = priorityoptions[i];
+                option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+                if (value == priorityoptions[i]) {
+                    option.selected = true; // Set the default value based on item['priority']
+                }
+                priorityinput.appendChild(option);
+            }
+
+            return;
+        }
+
         const input = document.createElement('input');
         input.type = 'text';
         input.name = name;
@@ -2864,6 +2925,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('渠道', inventory['channel']);
     createInventoryDetailInput('件数', inventory['pcs'], 'pcs');
     createInventoryDetailInput('托数', inventory['plt'], 'plt');
+    createInventoryDetailInput('优先级', inventory['priority'], 'priority');
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
     createInventoryDetailItem('备注', inventory['note']);
@@ -3431,7 +3493,9 @@ function printinventorylabel(content){
 
             const line2 = document.createElement('div');
             line2.className = 'line';
-            line2.innerHTML = item['label']+"  "+ item['date'];
+            const date = new Date(item['date']);
+            const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            line2.innerHTML = item['label']+"  "+ formattedDate;
             secleft.appendChild(line2);
 
             const line3 = document.createElement('div');
@@ -4786,6 +4850,219 @@ const itemexporttilemapping = {
     'createorder': '创建顺序',
 };
 
+function autoarrangeout(){
+    const appointmentwindow = window.open('', '', 'height=1200px,width=1600px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    appointmentwindow.document.write('<html><head>');
+    appointmentwindow.document.write('<link href="autoarrange.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    appointmentwindow.document.write('</head><body>');
+    appointmentwindow.document.write('</body></html>');
+
+    const body=appointmentwindow.document.body;
+
+    const searchform=document.createElement('form');
+    body.appendChild(searchform);
+
+    const searchbox = document.createElement('div');
+    searchbox.className = 'searchbox';
+
+    const warehouseselectiondiv = createwarehouseselectiondiv();
+
+    if(access==3){
+        warehouseselectiondiv.querySelector('select').value = currentwarehouse;
+        warehouseselectiondiv.querySelector('select').disabled = true;
+        const hidewarehouse = document.createElement('input');
+        hidewarehouse.type = 'hidden';
+        hidewarehouse.name = 'warehouse';
+        hidewarehouse.value = currentwarehouse;
+        searchbox.appendChild(hidewarehouse);
+    }
+
+    searchbox.appendChild(warehouseselectiondiv);
+    searchform.appendChild(searchbox);
+
+    const labelinput = document.createElement('input');
+    labelinput.type = 'text';
+    labelinput.name = 'label';
+    labelinput.placeholder = '仓点';
+    labelinput.style.width = '100px';
+    labelinput.style.fontSize = '14px';
+    labelinput.style.margin = '0px 0px 0px 0px';
+    const labelinputlabel = document.createElement('label');
+    labelinputlabel.htmlFor = 'label';
+    labelinputlabel.innerHTML = '仓点';
+    labelinputlabel.style.fontSize = '16px';
+    searchform.appendChild(labelinputlabel);
+    searchform.appendChild(labelinput);
+
+    const dateinput = document.createElement('input');
+    dateinput.type = 'datetime-local';
+    dateinput.name = 'date';
+    dateinput.style.width = '150px';
+    dateinput.style.fontSize = '16px';
+    dateinput.style.margin = '0px 0px 0px 0px';
+    const dateinputlabel = document.createElement('label');
+    dateinputlabel.htmlFor = 'date';
+    dateinputlabel.innerHTML = '预约日期';
+    dateinputlabel.style.fontSize = '16px';
+    searchform.appendChild(dateinputlabel);
+    searchform.appendChild(dateinput);
+
+    const batchnumberinput = document.createElement('input');
+    batchnumberinput.type = 'text';
+    batchnumberinput.name = 'batchnumber';
+    batchnumberinput.value = '1';
+    batchnumberinput.placeholder = '批次号';
+    batchnumberinput.style.width = '40px';
+    batchnumberinput.style.fontSize = '14px';
+    batchnumberinput.style.margin = '0px 0px 0px 0px';
+    const batchnumberinputlabel = document.createElement('label');
+    batchnumberinputlabel.htmlFor = 'batchnumber';
+    batchnumberinputlabel.innerHTML = '批次号';
+    batchnumberinputlabel.style.fontSize = '16px';
+    searchform.appendChild(batchnumberinputlabel);
+    searchform.appendChild(batchnumberinput);
+
+
+    const searchbutton = document.createElement('button');
+    searchbutton.type = 'submit';
+    searchbutton.className = 'button';
+    searchbutton.innerHTML = '查询';
+    searchbutton.style.fontSize = '14px';
+    searchbutton.style.padding = '5px 5px';
+    searchform.appendChild(searchbutton);
+
+    searchform.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const searchcreteria = new FormData(searchform);
+        console.log(searchcreteria.get('label'));
+
+        searchcreteria.delete('date');
+
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+            method: 'POST',
+            body: searchcreteria,
+        });
+        const data = await response.json();
+        const searhresult = data['data'];
+
+        const inventorycandidates = searhresult.filter(item => {
+            const today = new Date().toISOString().split('T')[0];
+            if(item.status=='预约' && new Date(item.date).getTime() < new Date(today).getTime()){
+                return false;
+            }
+            if(dateinput.value){
+                if(new Date(item.date).getTime() > new Date(dateinput.value).getTime()){
+                    return false;
+                }
+            }
+            return true;
+        });
+        inventorycandidates.sort((a, b) => {
+            const priorityComparison = b.priority - a.priority;
+            if (priorityComparison !== 0) {
+                return priorityComparison;
+            }
+            return a.date.localeCompare(b.date);
+        });
+
+        var selecteditems = [];
+        const batchnumber = Number(batchnumberinput.value);
+        let volumnsum = -60*(batchnumber-1);
+        let pltsum = -33*(batchnumber-1);
+        inventorycandidates.forEach(item => {
+            volumnsum += Number(item.cbm);
+            pltsum += item.plt?Number(item.plt):0;
+            if(volumnsum>=0 || pltsum>=0){
+                selecteditems.push(item);
+                item['selected']=true;
+            }
+            item['selected']=false;
+            if (volumnsum> 60 || pltsum>33) {
+                return;
+            }
+        });
+
+        const inventorytable = createcandidatetable(inventorycandidates,selecteditems);
+        body.appendChild(inventorytable);
+
+    });
+
+
+
+    function createcandidatetable(data,selecteditems){
+        var table = document.createElement("table");
+        table.className = "inventory-table";
+
+        // Create table header
+        var thead = document.createElement("thead");
+        thead.className = "inventory-table-header";
+        var headerRow = document.createElement("tr");
+        var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","体积","优先级","创建日期","仓库"];
+        if(access==3){
+            headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","体积","优先级","创建日期"];
+        }
+        headers.forEach(function(headerText, index) {
+            var th = document.createElement("th");
+            th.textContent = headerText;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Create table body
+        var tbody = document.createElement("tbody");
+        tbody.id = "inventory-table-body";
+        tbody.className = "inventory-table-body";
+        data.forEach(function(item) {
+            var row = document.createElement("tr");
+            row.className = "inventory-table-row";
+            if(item.status!="完成"){
+                row.style.color = "grey";
+            }
+            if(item['selected']){
+                row.style.backgroundColor = 'rgb(73 162 233)';
+            }
+            const priorityshow = item.priority==-6?'拦截':item.priority;
+            var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt,item.cbm,priorityshow, item.date,item.warehouse];
+            if(access==3){
+                columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt,item.cbm,priorityshow, item.date];
+            }
+            columns.forEach(function(columnText) {
+                var td = document.createElement("td");
+                td.textContent = columnText;
+                row.appendChild(td);
+            });
+            tbody.appendChild(row);
+
+            row.addEventListener("click", function() {
+                if(item['selected']){
+                    item['selected']=false;
+                    this.style.backgroundColor = '';
+                    const index = selecteditems.findIndex(selectedItem => selectedItem.id === item.id);
+                    if (index !== -1) {
+                        selecteditems.splice(index, 1);
+                    }
+                }else{
+                    this.style.backgroundColor = 'rgb(73 162 233)';
+                    selecteditems.push(item);
+                    item['selected']=true;
+                }
+
+            });
+        });
+        table.appendChild(tbody);
+        return table;
+    }
+}
 function createappointmentwindow(){
+    const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    appointmentwindow.document.write('<html><head>');
+    appointmentwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    appointmentwindow.document.write('</head><body>');
+    appointmentwindow.document.write('</body></html>');
+
 
 }
