@@ -4953,6 +4953,10 @@ function autoarrangeout(){
     searchform.appendChild(dateinputlabel);
     searchform.appendChild(dateinput);
 
+    const plttypeinput = createplttypeselectiondiv();
+    plttypeinput.style.display = 'inline-flex';
+    searchform.appendChild(plttypeinput);
+
     const batchnumberinput = document.createElement('input');
     batchnumberinput.type = 'text';
     batchnumberinput.name = 'batchnumber';
@@ -5024,7 +5028,7 @@ function autoarrangeout(){
         let pltsum = -33*(batchnumber-1);
         let pltsum2 = -33*(batchnumber-1);
         inventorycandidates.forEach(item => {
-            volumnsum += Number(item.cbm);
+            volumnsum += Number(item.cbm)*Number(item.pcs);
             console.log(volumnsum);
             pltsum += item.plt?Number(item.plt):0;
             if((volumnsum>=0 || pltsum>=0) && (volumnsum2<60 && pltsum2<33)){
