@@ -5003,7 +5003,7 @@ function autoarrangeout(){
 
         const inventorycandidates = searhresult.filter(item => {
             const today = new Date().toISOString().split('T')[0];
-            if(item.status=='预约' && new Date(item.date).getTime() < new Date(today).getTime()){
+            if(item.status=='预报' && new Date(item.date).getTime() < new Date(today).getTime()){
                 return false;
             }
             if(dateinput.value){
