@@ -1031,10 +1031,6 @@ async function addnewjob(clickeditem,detaillinenumber){
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
             addjobline.set('checked', checkedstatus);
 
-            for (let [key, value] of addjobline.entries()) {
-                console.log(`${key}: ${value}`);
-            }
-
             httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
                 method: 'POST',
                 body: addjobline,
@@ -1796,16 +1792,16 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     }
 
-    // if(newadded && activity=='出库'){
-    //     const autoarrangebutton = document.createElement("button");
-    //     autoarrangebutton.innerHTML = "自动排车";
-    //     autoarrangebutton.className = "button";
-    //     autoarrangebutton.style.marginLeft = '10px';
-    //     autoarrangebutton.addEventListener("click", function() {
-    //         autoarrangeout();
-    //     });
-    //     itemdetail.appendChild(autoarrangebutton);
-    // }
+    if(newadded && activity=='出库'){
+        const autoarrangebutton = document.createElement("button");
+        autoarrangebutton.innerHTML = "自动排车";
+        autoarrangebutton.className = "button";
+        autoarrangebutton.style.marginLeft = '10px';
+        autoarrangebutton.addEventListener("click", function() {
+            autoarrangeout();
+        });
+        itemdetail.appendChild(autoarrangebutton);
+    }
     
     itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
     
@@ -4979,6 +4975,7 @@ function autoarrangeout(){
             volumnsum += Number(item.cbm);
             pltsum += item.plt?Number(item.plt):0;
             if(volumnsum>=0 || pltsum>=0){
+                console.log(item);
                 selecteditems.push(item);
                 item['selected']=true;
             }
