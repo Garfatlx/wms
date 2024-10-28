@@ -1783,6 +1783,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                     }
                     for (var i = 0; i < concludeitem.length; i++) {
                         detaillinenumber++;
+                        concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem['pcs']) / 100;
+                        concludeitem[i]['kgs'] = Math.round(concludeitem[i]['kgs'] * 100/concludeitem['pcs']) / 100;
                         createdetailline(i,concludeitem[i],"入库",true);
                     }
 
@@ -2128,6 +2130,11 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input2label);
     detaillineform.appendChild(input2);
 
+    const plttypecon=item['plttype']?item['plttype']:"";
+    const plttypeinput=createplttypeselectiondiv(plttypecon);
+    plttypeinput.style.marginBottom = '5px';
+    detaillineform.appendChild(plttypeinput);
+
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
     selectchannel.name="channel";
@@ -2136,29 +2143,7 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
 
-    // if(activity=="入库"){
-        var priorityinput=document.createElement("select");
-        priorityinput.name="priority";
-        priorityinput.className="lineinput";
-        priorityinput.style.width="45px";
-        var priorityinputlabel=document.createElement("label");
-        priorityinputlabel.innerHTML="优先级";
-        priorityinputlabel.className="lineinputlabel";
-        detaillineform.appendChild(priorityinputlabel);
-        detaillineform.appendChild(priorityinput);
-        const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
-        for (var i = 0; i < priorityoptions.length; i++) {
-            var option = document.createElement("option");
-            option.value = priorityoptions[i];
-            option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
-            if (item && item['priority'] == priorityoptions[i]) {
-                option.selected = true; // Set the default value based on item['priority']
-            } else if (!item && priorityoptions[i] == 0) {
-                option.selected = true; // Set the default value to 5 if item is not defined
-            }
-            priorityinput.appendChild(option);
-        }
-    // }
+    
     
     
     detaillineform.appendChild(document.createElement("br"));
@@ -2226,7 +2211,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input12.style.width="80px";
     input12.value=item['kgs']?item['kgs']:'';
     var input12label=document.createElement("label");
-    input12label.innerHTML="重量(KG):";
+    input12label.innerHTML="重量(KG)/件:";
     input12label.htmlFor=input12.id;
     input12label.className="lineinputlabel";
     input12label.htmlFor=input12;
@@ -2241,12 +2226,36 @@ function createdetailline(nid, item, activity, cancelable) {
     input13.style.width="80px";
     input13.value=item['cbm']?item['cbm']:'';
     var input13label=document.createElement("label");
-    input13label.innerHTML="体积(CBM):";
+    input13label.innerHTML="体积(CBM)/件:";
     input13label.htmlFor=input13.id;
     input13label.className="lineinputlabel";
     input13label.htmlFor=input13;
     linecontrol.appendChild(input13label);
     linecontrol.appendChild(input13);
+
+    if(activity=="入库"){
+        var priorityinput=document.createElement("select");
+        priorityinput.name="priority";
+        priorityinput.className="lineinput";
+        priorityinput.style.width="45px";
+        var priorityinputlabel=document.createElement("label");
+        priorityinputlabel.innerHTML="优先级";
+        priorityinputlabel.className="lineinputlabel";
+        linecontrol.appendChild(priorityinputlabel);
+        linecontrol.appendChild(priorityinput);
+        const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+        for (var i = 0; i < priorityoptions.length; i++) {
+            var option = document.createElement("option");
+            option.value = priorityoptions[i];
+            option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+            if (item && item['priority'] == priorityoptions[i]) {
+                option.selected = true; // Set the default value based on item['priority']
+            } else if (!item && priorityoptions[i] == 0) {
+                option.selected = true; // Set the default value to 5 if item is not defined
+            }
+            priorityinput.appendChild(option);
+        }
+    }
 
     detaillineform.appendChild(linecontrol);
 
@@ -2929,6 +2938,8 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailInput('优先级', inventory['priority'], 'priority');
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
+    createInventoryDetailItem('重量（KGS）/件', inventory['kgs']);
+    createInventoryDetailItem('体积（CBM）/件', inventory['cbm']);
     createInventoryDetailItem('备注', inventory['note']);
     createInventoryDetailItem('创建时间', inventory['date']);
     createInventoryDetailItem('最后盘库时间', inventory['checkdate']);
@@ -4583,6 +4594,37 @@ function createwarehouseselectiondiv(selectedwarehouse){
     warehouseselectiondiv.appendChild(warehouseselectioninput);
 
     return warehouseselectiondiv;
+}
+function createplttypeselectiondiv(selectedplttype){
+    const plttypeselectiondiv=document.createElement('div');
+    plttypeselectiondiv.style.display = 'flex';
+    plttypeselectiondiv.style.flexDirection = 'row';
+
+    const plttypeselectioninput = document.createElement('select');
+    plttypeselectioninput.name = 'plttype';
+    plttypeselectioninput.id = 'plttypeselection';
+    plttypeselectioninput.style.width = '60px';
+    plttypeselectioninput.style.fontSize = '14px';
+    plttypeselectioninput.style.margin = '0px 0px 0px 0px';
+
+    const plttypeselectionlabel = document.createElement('label');
+    plttypeselectionlabel.htmlFor = 'plttypeselection';
+    plttypeselectionlabel.innerHTML = '托盘类型';
+    plttypeselectionlabel.style.fontSize = '16px';
+
+    const plttypeoptions = ['','EUR', 'Block'];
+    plttypeoptions.forEach(plttype => {
+        const option = document.createElement('option');
+        option.value = plttype;
+        option.innerHTML = plttype;
+        plttypeselectioninput.appendChild(option);
+    });
+    plttypeselectioninput.value = selectedplttype?selectedplttype:'';
+
+    plttypeselectiondiv.appendChild(plttypeselectionlabel);
+    plttypeselectiondiv.appendChild(plttypeselectioninput);
+
+    return plttypeselectiondiv;
 }
 
 async function showitemsOrganised(searchcreteria,callback){
