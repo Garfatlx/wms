@@ -1025,7 +1025,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             // addjobline.append('jobid', jobid);
             addjobline.append('jobid', addjob.get('jobid'));
             addjobline.append('activity', addjob.get('activity'));
-            addjobline.append('date', addjob.get('date'));
+            // addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
             addjobline.append('warehouse', addjob.get('warehouse'));
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
