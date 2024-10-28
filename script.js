@@ -1030,7 +1030,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             addjobline.append('warehouse', addjob.get('warehouse'));
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
             addjobline.set('checked', checkedstatus);
-
+            console.log(addjobline);
             httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
                 method: 'POST',
                 body: addjobline,
