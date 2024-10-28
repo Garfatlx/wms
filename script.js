@@ -2898,6 +2898,13 @@ async function showinventorydetail(inventory,thisrow){
 
             return;
         }
+        if(label=="托盘类型"){
+            const plttypeinput = createplttypeselectiondiv(value);
+            plttypeinput.style.display = 'inline-flex';
+            linecontrol.appendChild(plttypeinput);
+            updateinventoryform.appendChild(linecontrol);
+            return;
+        }
 
         const input = document.createElement('input');
         input.type = 'text';
@@ -2937,6 +2944,7 @@ async function showinventorydetail(inventory,thisrow){
     createInventoryDetailItem('渠道', inventory['channel']);
     createInventoryDetailInput('件数', inventory['pcs'], 'pcs');
     createInventoryDetailInput('托数', inventory['plt'], 'plt');
+    createInventoryDetailInput('托盘类型', inventory['plttype'], 'plttype');
     createInventoryDetailInput('优先级', inventory['priority'], 'priority');
     createInventoryDetailItem('要求', inventory['requirement']);
     createInventoryDetailItem('FBA', inventory['fba']);
