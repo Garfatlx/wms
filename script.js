@@ -4967,14 +4967,14 @@ function autoarrangeout(){
             return a.date.localeCompare(b.date);
         });
 
-        const selecteditems = [];
+        var selecteditems = [];
         const batchnumber = Number(batchnumberinput.value);
         let volumnsum = -60*(batchnumber-1);
         let pltsum = -33*(batchnumber-1);
         inventorycandidates.forEach(item => {
             volumnsum += Number(item.cbm);
             pltsum += item.plt?Number(item.plt):0;
-            if(volumnsum>0 || pltsum>0){
+            if(volumnsum>=0 || pltsum>=0){
                 selecteditems.push(item);
                 item['selected']=true;
             }
@@ -4984,14 +4984,14 @@ function autoarrangeout(){
             }
         });
 
-        const inventorytable = createcandidatetable(inventorycandidates);
+        const inventorytable = createcandidatetable(inventorycandidates,selecteditems);
         body.appendChild(inventorytable);
 
     });
 
 
 
-    function createcandidatetable(data){
+    function createcandidatetable(data,selecteditems){
         var table = document.createElement("table");
         table.className = "inventory-table";
 
