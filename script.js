@@ -4978,8 +4978,9 @@ function autoarrangeout(){
                 console.log(item);
                 selecteditems.push(item);
                 item['selected']=true;
+            }else{
+                item['selected']=false;
             }
-            item['selected']=false;
             if (volumnsum> 60 || pltsum>33) {
                 return;
             }
