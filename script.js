@@ -1025,7 +1025,7 @@ async function addnewjob(clickeditem,detaillinenumber){
             // addjobline.append('jobid', jobid);
             addjobline.append('jobid', addjob.get('jobid'));
             addjobline.append('activity', addjob.get('activity'));
-            // addjobline.append('date', addjob.get('date'));
+            addjobline.append('date', addjob.get('date'));
             addjobline.append('status', addjob.get('status'));
             addjobline.append('warehouse', addjob.get('warehouse'));
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
@@ -2139,7 +2139,7 @@ function createdetailline(nid, item, activity, cancelable) {
     selectchannel.style.width="90px";
     selectchannel.value=item['channel']?item['channel']:'';
 
-    if(activity=="入库"){
+    // if(activity=="入库"){
         var priorityinput=document.createElement("select");
         priorityinput.name="priority";
         priorityinput.className="lineinput";
@@ -2161,7 +2161,7 @@ function createdetailline(nid, item, activity, cancelable) {
             }
             priorityinput.appendChild(option);
         }
-    }
+    // }
     
     
     detaillineform.appendChild(document.createElement("br"));
