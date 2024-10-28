@@ -4973,6 +4973,7 @@ function autoarrangeout(){
         let pltsum = -33*(batchnumber-1);
         inventorycandidates.forEach(item => {
             volumnsum += Number(item.cbm);
+            console.log(volumnsum);
             pltsum += item.plt?Number(item.plt):0;
             if(volumnsum>=0 || pltsum>=0){
                 console.log(item);
