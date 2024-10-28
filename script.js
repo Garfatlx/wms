@@ -4934,6 +4934,7 @@ function autoarrangeout(){
 
     const searchresultdiv = document.createElement('div');
     searchresultdiv.id = 'searchresult';
+    body.appendChild(searchresultdiv);
 
     searchform.addEventListener('submit', async function(event) {
         event.preventDefault();
