@@ -4680,6 +4680,11 @@ async function showitemsOrganised(searchcreteria,callback){
     if (actionToken !== latestActionToken) {
         return;
     }
+
+    if(!data['data']){
+        document.getElementById("activejobs").innerHTML = '无数据';
+        return;
+    }
     //filter out the unvalid activity
     const outactivitydata = filterunvalidactivity(data['data']);
     document.getElementById("activejobs").innerHTML = '';
