@@ -4685,7 +4685,7 @@ async function showitemsOrganised(searchcreteria,callback){
         return;
     }
 
-    if(data['data'].length==0){
+    if(!data['data']){
         document.getElementById("activejobs").innerHTML = '无数据';
         return;
     }
