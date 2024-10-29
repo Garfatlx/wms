@@ -1799,7 +1799,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                         concludeitem[i]['kgs'] = Math.round(concludeitem[i]['kgs'] * 100/concludeitem['pcs']) / 100;
                         createdetailline(i,concludeitem[i],"入库",true);
                     }
-
+                    console.log("cc");
+                    console.log(concludeitem[0]['cbm']);
+                    console.log(concludeitem);
                     
                 };
             }
