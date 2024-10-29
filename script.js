@@ -5094,7 +5094,7 @@ function autoarrangeout(){
 
             const selecteditems = items.filter(item => item['selected']);
 
-            var clickeditem = {  "joblabel":joblable,
+            var clickeditem = {  "joblabel":labelinput.value,
                 "customer":'',
                 "date":dateinput.value?dateinput.value: Date.now(),
                 "activity":"出库",
