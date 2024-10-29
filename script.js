@@ -1788,6 +1788,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
                     }
+                    console.log(concludeitem);
                     for (var i = 0; i < concludeitem.length; i++) {
                         detaillinenumber++;
                         concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem['pcs']) / 100;
@@ -4658,7 +4659,7 @@ async function showitemsOrganised(searchcreteria,callback){
         if (actionToken !== latestActionToken) {
             return;
         }
-        if(data1['data'].length==0){
+        if(!data['data']){
             document.getElementById("activejobs").innerHTML = '无数据';
             return;
         }
