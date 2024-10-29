@@ -4658,7 +4658,7 @@ async function showitemsOrganised(searchcreteria,callback){
         if (actionToken !== latestActionToken) {
             return;
         }
-        if(!data1['data']){
+        if(data1['data'].length==0){
             document.getElementById("activejobs").innerHTML = '无数据';
             return;
         }
@@ -4685,7 +4685,7 @@ async function showitemsOrganised(searchcreteria,callback){
         return;
     }
 
-    if(!data['data']){
+    if(data['data'].length==0){
         document.getElementById("activejobs").innerHTML = '无数据';
         return;
     }
