@@ -5058,10 +5058,8 @@ function autoarrangeout(){
         let pltsum2 = -33*(batchnumber-1);
         inventorycandidates.forEach(item => {
             volumnsum += Number(item.cbm)*Number(item.pcs);
-            console.log(volumnsum);
             pltsum += item.plt?Number(item.plt):0;
             if((volumnsum>=0 || pltsum>=0) && (volumnsum2<60 && pltsum2<33)){
-                console.log(item);
                 selecteditems.push(item);
                 item['selected']=true;
             }else{
@@ -5099,6 +5097,10 @@ function autoarrangeout(){
                 "date":dateinput.value?dateinput.value: Date.now(),
                 "activity":"出库",
                 "status":"预报",
+                "deladdress":"",
+                "note":"",
+                "oderid":"",
+                "reference":"",
                 
             };
             loaddetail(clickeditem,"出库",undefined,true);
