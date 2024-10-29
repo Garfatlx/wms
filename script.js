@@ -1788,6 +1788,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
                         console.log(Number(json[i]['CMB（立方数）']));
+                        console.log(concludeitem);
                     }
                     console.log(concludeitem);
                     for (var i = 0; i < concludeitem.length; i++) {
