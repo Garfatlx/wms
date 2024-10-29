@@ -1202,7 +1202,7 @@ async function showitems(searchcreteria,callback){
         return;
     }
 
-    if(data['data'].length==0){
+    if(!data['data']){
         alert("没有找到相关数据。");
         document.getElementById("activejobs").innerHTML="";
         return;
