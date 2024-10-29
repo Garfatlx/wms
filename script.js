@@ -4928,11 +4928,16 @@ function autoarrangeout(){
 
     const body=appointmentwindow.document.body;
 
-    const searchform=document.createElement('form');
-    body.appendChild(searchform);
-
     const searchbox = document.createElement('div');
     searchbox.className = 'searchbox';
+    body.appendChild(searchbox);
+
+    const searchform=document.createElement('form');
+    searchbox.appendChild(searchform);
+
+    const arrangebuttonslot = document.createElement('div');
+    arrangebuttonslot.className = 'arrangebuttonslot';
+    searchbox.appendChild(arrangebuttonslot);    
 
     const warehouseselectiondiv = createwarehouseselectiondiv();
 
@@ -4943,11 +4948,11 @@ function autoarrangeout(){
         hidewarehouse.type = 'hidden';
         hidewarehouse.name = 'warehouse';
         hidewarehouse.value = currentwarehouse;
-        searchbox.appendChild(hidewarehouse);
+        searchform.appendChild(hidewarehouse);
     }
 
-    searchbox.appendChild(warehouseselectiondiv);
-    searchform.appendChild(searchbox);
+    searchform.appendChild(warehouseselectiondiv);
+    
 
     const labelinput = document.createElement('input');
     labelinput.type = 'text';
@@ -5011,6 +5016,7 @@ function autoarrangeout(){
     searchform.addEventListener('submit', async function(event) {
         event.preventDefault();
         searchresultdiv.innerHTML = '';
+        arrangebuttonslot.innerHTML = '';
 
         const searchcreteria = new FormData(searchform);
         console.log(searchcreteria.get('label'));
@@ -5068,9 +5074,42 @@ function autoarrangeout(){
         const inventorytable = createcandidatetable(inventorycandidates,selecteditems);
         searchresultdiv.appendChild(inventorytable);
 
+        createarrangebutton(inventorycandidates);
+
     });
 
+    function createarrangebutton(items){
+        const arrangebutton = document.createElement('button');
+        arrangebutton.type = 'button';
+        arrangebutton.className = 'button';
+        arrangebutton.innerHTML = '生成预约';
+        arrangebutton.style.margin = '20px 0px 0px 0px';
+        arrangebutton.style.fontSize = '16px';
+        arrangebutton.style.width = '200px';
+        arrangebutton.style.padding = '5px 5px';
+        arrangebuttonslot.appendChild(arrangebutton);
 
+        arrangebutton.addEventListener('click', async function() {
+            
+
+            const selecteditems = items.filter(item => item['selected']);
+
+            var clickeditem = {  "joblabel":joblable,
+                "customer":'',
+                "date":dateinput.value?dateinput.value: Date.now(),
+                "activity":"出库",
+                "status":"预报",
+                
+            };
+            loaddetail(clickeditem,"出库",undefined,true);
+
+            for(const item of selecteditems){
+                createdetailline(1,item,'出库',true);
+            }
+
+            appointmentwindow.close();
+        });
+    }
 
     function createcandidatetable(data,selecteditems){
         var table = document.createElement("table");
