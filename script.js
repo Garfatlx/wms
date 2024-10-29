@@ -1787,21 +1787,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                             concludeitem[index].kgs += (json[i]['Weight KG（重量）'] && !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量）']) : 0;
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
-                        console.log("aa");
-                        console.log(concludeitem[0].cbm);
                     }
-                    console.log("bb");
-                    console.log(concludeitem[0]['cbm']);
-                    console.log(concludeitem);
                     for (var i = 0; i < concludeitem.length; i++) {
                         detaillinenumber++;
-                        concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem['pcs']) / 100;
-                        concludeitem[i]['kgs'] = Math.round(concludeitem[i]['kgs'] * 100/concludeitem['pcs']) / 100;
+                        concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem[i]['pcs']) / 100;
+                        concludeitem[i]['kgs'] = Math.round(concludeitem[i]['kgs'] * 100/concludeitem[i]['pcs']) / 100;
                         createdetailline(i,concludeitem[i],"入库",true);
                     }
-                    console.log("cc");
-                    console.log(concludeitem[0]['cbm']);
-                    console.log(concludeitem);
                     
                 };
             }
