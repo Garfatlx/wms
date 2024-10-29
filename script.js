@@ -1790,7 +1790,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                         console.log("aa");
                         console.log(concludeitem[0].cbm);
                     }
-                    console.log(concludeitem);
+                    console.log("bb");
+                    console.log(concludeitem[0].cbm);
                     for (var i = 0; i < concludeitem.length; i++) {
                         detaillinenumber++;
                         concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem['pcs']) / 100;
