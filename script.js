@@ -1787,6 +1787,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                             concludeitem[index].kgs += (json[i]['Weight KG（重量）'] && !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量）']) : 0;
                             concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
                         }
+                        console.log(json[i]);
                     }
                     console.log(concludeitem);
                     for (var i = 0; i < concludeitem.length; i++) {
