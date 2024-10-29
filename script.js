@@ -4658,6 +4658,10 @@ async function showitemsOrganised(searchcreteria,callback){
         if (actionToken !== latestActionToken) {
             return;
         }
+        if(!data1['data']){
+            document.getElementById("activejobs").innerHTML = '无数据';
+            return;
+        }
         const inventoryids = data1['data'].map(item => item.inventoryid);
         searchcreteria.delete('orderid');
         searchcreteria.append('inventoryids', inventoryids.join(','));
