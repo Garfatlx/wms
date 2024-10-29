@@ -5047,7 +5047,7 @@ function autoarrangeout(){
             }else{
                 item['selected']=false;
             }
-            volumnsum2 += Number(item.cbm);
+            volumnsum2 += Number(item.cbm)*Number(item.pcs);
             pltsum2 += item.plt?Number(item.plt):0;
         });
 
