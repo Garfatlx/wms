@@ -1201,6 +1201,10 @@ async function showitems(searchcreteria,callback){
     if (actionToken !== latestActionToken) {
         return;
     }
+
+    if(data['data'].length==0){
+        alert("没有找到相关数据。");
+    }
     //save data for export use
     searchedreports = data['data'];
     document.getElementById("exportbutton").disabled = false;
