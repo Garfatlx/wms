@@ -5098,8 +5098,8 @@ function autoarrangeout(){
                 "activity":"出库",
                 "status":"预报",
                 "deladdress":"",
-                "note":"",
-                "oderid":"",
+                "ordernote":"",
+                "orderid":"",
                 "reference":"",
                 
             };
