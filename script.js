@@ -2505,6 +2505,12 @@ function createjob(jobcontent,parentdiv,replacement){
     listItem3.textContent = jobcontent['date'];
     itemLine2.appendChild(listItem3);
 
+    //check if the job has warning
+    if(jobcontent['warning']){
+        activejob.style.border="2px solid red";
+        itemLine2.style.backgroundColor="red";
+    }
+
     if(access!=3){
         const itemLine5 = document.createElement('div');
         itemLine5.className = 'itemline';
