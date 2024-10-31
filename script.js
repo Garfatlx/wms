@@ -1123,9 +1123,9 @@ function createinventorytable(data){
     var thead = document.createElement("thead");
     thead.className = "inventory-table-header";
     var headerRow = document.createElement("tr");
-    var headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期","仓库"];
+    var headers = ["客户", "渠道","箱号/单号", "箱唛","仓点", "件数", "托数","创建日期","仓库"];
     if(access==3){
-        headers = ["客户", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
+        headers = ["客户", "渠道", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
     }
     headers.forEach(function(headerText, index) {
         var th = document.createElement("th");
@@ -1152,9 +1152,9 @@ function createinventorytable(data){
         if(item.status!="完成"){
             row.style.color = "grey";
         }
-        var columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date,item.warehouse];
+        var columns = [item.customer,item.channel,item.container,item.marks,item.label, item.pcs, item.plt, item.date,item.warehouse];
         if(access==3){
-            columns = [item.customer,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
+            columns = [item.customer,item.channel,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
         }
         columns.forEach(function(columnText) {
             var td = document.createElement("td");
