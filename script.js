@@ -1095,14 +1095,15 @@ async function showinventory(searchcreteria){
     if (actionToken !== latestActionToken) {
         return;
     }
-    searchedinventory = data['data'];
-    filteredinventory = data['data'];
+    const cleaninventorydata=filterunvalidinventory(data['data']);
+    searchedinventory = cleaninventorydata;
+    filteredinventory = cleaninventorydata;
     showinventorymap.disabled = false;
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
     
     // Append table to activejobs element
-    const table = createinventorytable(data['data']);
+    const table = createinventorytable(cleaninventorydata);
     activejobs.appendChild(table);
 }
 async function searchinventory(searchcreteria){
@@ -4863,6 +4864,13 @@ async function showitemsOrganised(searchcreteria,callback){
 }
 
 function filterunvalidactivity(data){
+    const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
+    return data.filter(item => {
+        const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
+        return !(item.status == '预报' && itemDate < today) && item.pcs > 0;
+    });
+}
+function filterunvalidinventory(data){
     const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
     return data.filter(item => {
         const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
