@@ -2507,8 +2507,8 @@ function createjob(jobcontent,parentdiv,replacement){
 
     //check if the job has warning
     if(jobcontent['warning']){
-        activejob.style.border="2px solid red";
-        itemLine2.style.backgroundColor="red";
+        activejob.style.border="2px solid #ef9696";
+        itemLine2.style.backgroundColor="#ef9696";
     }
 
     if(access!=3){
