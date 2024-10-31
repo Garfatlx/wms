@@ -51,6 +51,7 @@ window.addEventListener("load", function(){
                 searchcreteria.append("status", '全部');
             }
             searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+            searchcreteria.append("includeunfinished", "true");
             showjobsearchbox();
             searchjobs(searchcreteria);
         }
@@ -147,10 +148,11 @@ function login(){
                     document.getElementById("activitylog").click();
                     
                 }else{
-                    var searchcreteria = new FormData();
-                    searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-                    showjobsearchbox();
-                    searchjobs(searchcreteria);
+                    document.getElementById("currentjobs").click();
+                    // var searchcreteria = new FormData();
+                    // searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+                    // showjobsearchbox();
+                    // searchjobs(searchcreteria);
                 }
                 
             }else{
@@ -476,6 +478,7 @@ function showjobsearchbox(){
             searchcreteria.append("status", '全部');
         }
         searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+        searchcreteria.append("includeunfinished", "true");
         searchjobs(searchcreteria,function(){
             const warehouseSelectinput=divContainer1.querySelector('select');
             if(warehouseSelectinput){
