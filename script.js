@@ -3538,7 +3538,8 @@ function printinventorylabel(content){
 
             const line3 = document.createElement('div');
             line3.className = 'line';
-            line3.innerHTML = item['pcs'] + '件 ' + item['plt'] + '托';
+            const pltc= item['plt']&&item['plt']>0?item['plt']:'_____';
+            line3.innerHTML = item['pcs'] + '件 ' + pltc + '托';
             secleft.appendChild(line3);
 
             const qrcodecontainer = document.createElement('div');
