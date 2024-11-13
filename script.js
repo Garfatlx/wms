@@ -2075,22 +2075,22 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var detaillines = document.getElementsByClassName("detaillineform");
         for (var i = 0; i < detaillines.length; i++) {
             var detailline = detaillines[i];
-            if (detailline.getElementsByName("plttype")[0].value == "") {
+            if (detailline.querySelector('select[name="plttype"]').value == "") {
                 alert("请填写完出货类型，散货或整托");
                 readytosubmit = false;
                 break;
             }
-            if (detailline.getElementsByName("plttype")[0].value != "") {
-                if (detailline.getElementsByName("plt")[0].value == "") {
-                    detailline.getElementsByName("plt")[0].style.backgroundColor = "red";
-                    detailline.getElementsByName("plt")[0].focus();
+            if (detailline.querySelector('select[name="plttype"]').value != "") {
+                if (detailline.querySelector('input[name="plt"]').value == "") {
+                    detailline.querySelector('input[name="plt"]').style.backgroundColor = "red";
+                    detailline.querySelector('input[name="plt"]').focus();
                     alert("请填写完预计打托数");
                     readytosubmit = false;
                     break;
                 }
-                if (detailline.getElementsByName("oogplt")[0].value == "") {
-                    detailline.getElementsByName("oogplt")[0].style.backgroundColor = "red";
-                    detailline.getElementsByName("oogplt")[0].focus();
+                if (detailline.querySelector('select[name="oogplt"]').value == "") {
+                    detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "red";
+                    detailline.querySelector('select[name="oogplt"]').focus();
                     alert("请填写完是否可超尺寸");
                     readytosubmit = false;
                     break;
