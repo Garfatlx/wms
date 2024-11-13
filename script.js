@@ -4678,7 +4678,7 @@ function createplttypeselectiondiv(selectedplttype){
     plttypeselectionlabel.innerHTML = '托盘类型';
     plttypeselectionlabel.style.fontSize = '16px';
 
-    const plttypeoptions = ['','散货','EUR', 'Block'];
+    const plttypeoptions = ['','EU-FBA','Normal-EU', 'Block'];
     plttypeoptions.forEach(plttype => {
         const option = document.createElement('option');
         option.value = plttype;
