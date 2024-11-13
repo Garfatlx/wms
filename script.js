@@ -2219,7 +2219,7 @@ function createdetailline(nid, item, activity, cancelable) {
         option.text = oogpltoptions[i];
         if (item && item['oogplt'] == oogpltoptions[i]) {
             option.selected = true; // Set the default value based on item['oogplt']
-        } else if (!item && oogpltoptions[i] == "") {
+        } else if (!item && oogpltoptions[i] == "散货") {
             option.selected = true; // Set the default value to "普通" if item is not defined
         }
         oogplt.appendChild(option);
@@ -5350,4 +5350,32 @@ function createcoolinput(name,nameplate,placeholder,value,noneditable){
         input.style.backgroundColor = 'lightgrey';
     }
     return inputdiv;
+}
+function createcoolselect(name,nameplate,options,value,noneditable){
+    const selectdiv = document.createElement('div');
+    selectdiv.className = 'coolinput';
+    const select = document.createElement('select');
+    select.className='coolinputinput';
+    select.name = name;
+    select.value = value;
+    const label = document.createElement('label');
+    label.innerHTML = nameplate;
+    label.className='coolinputlabel';
+
+    options.forEach(option => {
+        const optionelement = document.createElement('option');
+        optionelement.value = option;
+        optionelement.innerHTML = option;
+        select.appendChild(optionelement);
+    });
+
+    selectdiv.appendChild(label);
+    selectdiv.appendChild(select);
+
+    if(noneditable){
+        select.readOnly = true;
+        select.style.backgroundColor = 'lightgrey';
+    }
+
+    return selectdiv;
 }
