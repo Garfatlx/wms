@@ -48,3 +48,14 @@
   .coolinput input[type=text].coolinputinput:focus {
     outline: none;
   }
+  .coolinput select.coolinputinput {
+    padding: 5px 5px;
+    font-size: 0.75rem;
+    border: 2px balck solid;
+    border-radius: 2px;
+    background: #e8e8e8;
+  }
+  
+  .coolinput select.coolinputinput:focus {
+    outline: none;
+  }
