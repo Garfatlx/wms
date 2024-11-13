@@ -1993,6 +1993,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }
             }
         }
+
+        if(newadded && access==2){
+            if(checkreadytosubmit()==false){
+                return;
+            }
+        }
         const activeJobs = document.getElementById("activejobs");
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
@@ -2064,6 +2070,35 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         }
     });
     
+    function checkreadytosubmit(){
+        var readytosubmit=true;
+        var detaillines = document.getElementsByClassName("detaillineform");
+        for (var i = 0; i < detaillines.length; i++) {
+            var detailline = detaillines[i];
+            if (detailline.getElementsByName("plttype")[0].value == "") {
+                alert("请填写完出货类型，散货或整托");
+                readytosubmit = false;
+                break;
+            }
+            if (detailline.getElementsByName("plttype")[0].value != "") {
+                if (detailline.getElementsByName("plt")[0].value == "") {
+                    detailline.getElementsByName("plt")[0].style.backgroundColor = "red";
+                    detailline.getElementsByName("plt")[0].focus();
+                    alert("请填写完预计打托数");
+                    readytosubmit = false;
+                    break;
+                }
+                if (detailline.getElementsByName("oogplt")[0].value == "") {
+                    detailline.getElementsByName("oogplt")[0].style.backgroundColor = "red";
+                    detailline.getElementsByName("oogplt")[0].focus();
+                    alert("请填写完是否可超尺寸");
+                    readytosubmit = false;
+                    break;
+                }
+            }
+        }
+        return readytosubmit;
+    }
 }
 
 function createdetailline(nid, item, activity, cancelable) {
@@ -4690,7 +4725,7 @@ function createplttypeselectiondiv(selectedplttype){
     plttypeselectionlabel.innerHTML = '托盘类型';
     plttypeselectionlabel.style.fontSize = '16px';
 
-    const plttypeoptions = ['','EU-FBA','Normal-EU', 'Block'];
+    const plttypeoptions = ['','散货','EU-FBA','Normal-EU', 'Block'];
     plttypeoptions.forEach(plttype => {
         const option = document.createElement('option');
         option.value = plttype;
