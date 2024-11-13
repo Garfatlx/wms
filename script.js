@@ -2172,7 +2172,7 @@ function createdetailline(nid, item, activity, cancelable) {
     oogplt.placeholder = "是否可超尺寸";
     oogplt.className = "lineinput";
     oogplt.style.width = "100px";
-    const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
+    const oogpltoptions = ["", "严格亚马逊规格", "可超托盘尺寸"];
     for (var i = 0; i < oogpltoptions.length; i++) {
         var option = document.createElement("option");
         option.value = oogpltoptions[i];
