@@ -2134,20 +2134,20 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(input2);
 
 
-    var input2=document.createElement("input");
-    input2.type="text";
-    input2.name="plt";
-    input2.className="lineinput";
-    input2.style.width="35px";
-    input2.value=item!=''?item['plt']:'';
-    input2.onblur=function(){
+    const pltinput=document.createElement("input");
+    pltinput.type="text";
+    pltinput.name="plt";
+    pltinput.className="lineinput";
+    pltinput.style.width="35px";
+    pltinput.value=item!=''?item['plt']:'';
+    pltinput.onblur=function(){
         sumpcsplt();
     };
-    var input2label=document.createElement("label");
-    input2label.innerHTML="托数";
-    input2label.className="lineinputlabel";
-    detaillineform.appendChild(input2label);
-    detaillineform.appendChild(input2);
+    const pltinputlabel=document.createElement("label");
+    pltinputlabel.innerHTML="托数";
+    pltinputlabel.className="lineinputlabel";
+    detaillineform.appendChild(pltinputlabel);
+    detaillineform.appendChild(pltinput);
 
     
     detaillineform.appendChild(document.createElement("br"));
@@ -2185,6 +2185,18 @@ function createdetailline(nid, item, activity, cancelable) {
         oogplt.appendChild(option);
     }
     pltreqlinecontrol.appendChild(oogplt);
+
+    plttypeinput.querySelector('select').addEventListener("change", function() {
+        if (this.value !== "") {
+            if(oogplt.value==""){
+                oogplt.value="严格亚马逊规格";
+            }
+            if(!pltinput.value){
+                alert("请先输入预计托数");
+                pltinput.focus();
+            }
+        }
+    });
 
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
