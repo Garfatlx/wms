@@ -2458,7 +2458,7 @@ function createdetailline(nid, item, activity, cancelable) {
 
     setTimeout(() => {
         detaillineform.style.opacity="1";
-        detaillineform.style.height="158px";
+        detaillineform.style.height="190px";
     },1);
     
 
