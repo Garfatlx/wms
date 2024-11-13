@@ -2081,15 +2081,18 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 break;
             }
             if (detailline.querySelector('select[name="plttype"]').value != "") {
+                if (detailline.querySelector('select[name="plttype"]').value == "散货") {
+                    continue;
+                }
                 if (detailline.querySelector('input[name="plt"]').value == "") {
-                    detailline.querySelector('input[name="plt"]').style.backgroundColor = "red";
+                    detailline.querySelector('input[name="plt"]').style.backgroundColor = "pink";
                     detailline.querySelector('input[name="plt"]').focus();
                     alert("请填写完预计打托数");
                     readytosubmit = false;
                     break;
                 }
                 if (detailline.querySelector('select[name="oogplt"]').value == "") {
-                    detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "red";
+                    detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
                     detailline.querySelector('select[name="oogplt"]').focus();
                     alert("请填写完是否可超尺寸");
                     readytosubmit = false;
@@ -2222,12 +2225,16 @@ function createdetailline(nid, item, activity, cancelable) {
     pltreqlinecontrol.appendChild(oogplt);
 
     plttypeinput.querySelector('select').addEventListener("change", function() {
-        if (this.value !== "") {
+        if (this.value != "") {
+            if(this.value=="散货"){
+                pltinput.value = 0;
+                oogplt.value = "";
+                return;
+            }
             if(oogplt.value==""){
                 oogplt.value="严格亚马逊规格";
             }
             if(!pltinput.value){
-                alert("请先输入预计托数");
                 pltinput.focus();
             }
         }
