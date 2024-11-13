@@ -1961,6 +1961,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
         }
     }
+    if(access==2 && newadded){
+        submitbutton.removeAttribute("disabled");
+    }
     
     // closebutton.removeAttribute("disabled");
     addnew.addEventListener("click", function(){
@@ -5220,7 +5223,7 @@ function showinvoicewindow(selecledjob){
     const mainboady = document.createElement('div');
     mainboady.className = 'mainbody';
     body.appendChild(mainboady);
-    
+
     const jobdetaildiv = document.createElement('div');
     jobdetaildiv.className = 'jobdetail';
 
