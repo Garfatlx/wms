@@ -1995,10 +1995,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         }
 
         //check plt information intactly
+        if(newadded){
             if(checkreadytosubmit()==false){
                 return;
             }
-        
+        }
         const activeJobs = document.getElementById("activejobs");
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
