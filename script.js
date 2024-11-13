@@ -1471,6 +1471,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         statusinput.value="未预约";
         detailform.appendChild(statusinput);
     }else{
+        if(clickeditem['status'] && clickeditem['status']=="未预约"){
+            clickeditem['status'] = "预报";
+        }
         const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
         taskstatusbar.style.position="absolute";
         taskstatusbar.style.right="100px";
