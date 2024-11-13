@@ -2152,15 +2152,18 @@ function createdetailline(nid, item, activity, cancelable) {
     
     detaillineform.appendChild(document.createElement("br"));
 
+    const pltreqlinecontrol = document.createElement("div");
+    pltreqlinecontrol.className = "linecontrol";
+    detaillineform.appendChild(pltreqlinecontrol);
     const pltrequirementtitle = document.createElement("div");
     pltrequirementtitle.innerHTML = "打托要求：";
-    detaillineform.appendChild(pltrequirementtitle);
+    pltreqlinecontrol.appendChild(pltrequirementtitle);
 
     const plttypecon=item['plttype']?item['plttype']:"";
     const plttypeinput=createplttypeselectiondiv(plttypecon);
     plttypeinput.style.marginBottom = '5px';
     plttypeinput.style.display = 'inline-flex';
-    detaillineform.appendChild(plttypeinput);
+    pltreqlinecontrol.appendChild(plttypeinput);
 
     const oogplt = document.createElement("select");
     oogplt.name = "oogplt";
@@ -2178,7 +2181,7 @@ function createdetailline(nid, item, activity, cancelable) {
         }
         oogplt.appendChild(option);
     }
-    detaillineform.appendChild(oogplt);
+    pltreqlinecontrol.appendChild(oogplt);
 
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
