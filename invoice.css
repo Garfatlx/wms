@@ -22,12 +22,12 @@
     flex-direction: column;
     width: fit-content;
     position: static;
-    max-width: 240px;
+    max-width: 50px;
   }
   
   .coolinput label.coolinputtext {
     font-size: 0.75rem;
-    color: #818CF8;
+    color: black;
     font-weight: 700;
     position: relative;
     top: 0.5rem;
@@ -38,9 +38,9 @@
   }
   
   .coolinput input[type=text].coolinputinput {
-    padding: 11px 10px;
+    padding: 5px 5px;
     font-size: 0.75rem;
-    border: 2px #818CF8 solid;
+    border: 2px balck solid;
     border-radius: 2px;
     background: #e8e8e8;
   }
