@@ -1982,10 +1982,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             alert("请选择仓库");
             return;
         }
-        if(document.getElementById("statusvalue-4").checked==true){
-            if(document.getElementById("cannotcomplete")){
-                alert("有未完成附加服务，请先完成附加服务！");
-                return;
+        if(document.getElementById("statusvalue-4")){
+            if(document.getElementById("statusvalue-4").checked==true){
+                if(document.getElementById("cannotcomplete")){
+                    alert("有未完成附加服务，请先完成附加服务！");
+                    return;
+                }
             }
         }
         const activeJobs = document.getElementById("activejobs");
