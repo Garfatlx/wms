@@ -2153,6 +2153,7 @@ function createdetailline(nid, item, activity, cancelable) {
     detaillineform.appendChild(document.createElement("br"));
 
     const pltreqlinecontrol = document.createElement("div");
+    pltreqlinecontrol.style.display = "inline-flex";
     pltreqlinecontrol.className = "linecontrol";
     detaillineform.appendChild(pltreqlinecontrol);
     const pltrequirementtitle = document.createElement("div");
@@ -2167,6 +2168,8 @@ function createdetailline(nid, item, activity, cancelable) {
 
     const oogplt = document.createElement("select");
     oogplt.name = "oogplt";
+    oogplt.style.marginLeft = "10px";
+    oogplt.placeholder = "是否可超尺寸";
     oogplt.className = "lineinput";
     oogplt.style.width = "100px";
     const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
@@ -2194,7 +2197,6 @@ function createdetailline(nid, item, activity, cancelable) {
     
     
     
-    detaillineform.appendChild(document.createElement("br"));
     var input8=document.createElement("input");
     input8.type="text";
     input8.name="marks";
