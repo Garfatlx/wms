@@ -5206,3 +5206,53 @@ function createappointmentwindow(){
 
 
 }
+
+function showinvoicewindow(selecledjob){
+    const invoicewindow = window.open('', '', 'height=1200px,width=1200px');
+    var timestamp = new Date().getTime(); // Get current timestamp
+    invoicewindow.document.write('<html><head>');
+    invoicewindow.document.write('<link href="invoice.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    invoicewindow.document.write('</head><body>');
+    invoicewindow.document.write('</body></html>');
+
+    const body=invoicewindow.document.body;
+
+    const mainboady = document.createElement('div');
+    mainboady.className = 'mainbody';
+    body.appendChild(mainboady);
+    
+    const jobdetaildiv = document.createElement('div');
+    jobdetaildiv.className = 'jobdetail';
+
+
+    function createinvoiceblock(){
+        const invoiceblock = document.createElement('div');
+        invoiceblock.className = 'invoiceblock';
+        body.appendChild(invoiceblock);
+
+    }
+
+}
+
+function createcoolinput(name,nameplate,placeholder,value,noneditable){
+    const inputdiv = document.createElement('div');
+    inputdiv.className = 'coolinput';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className='coolinputinput';
+    input.name = name;
+    input.value = value;
+    input.placeholder = placeholder;
+    const label = document.createElement('label');
+    label.innerHTML = nameplate;
+    label.className='coolinputlabel';
+
+    inputdiv.appendChild(label);
+    inputdiv.appendChild(input);
+
+    if(noneditable){
+        input.readOnly = true;
+        input.style.backgroundColor = 'lightgrey';
+    }
+    return inputdiv;
+}
