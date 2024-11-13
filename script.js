@@ -2003,6 +2003,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         addnewjob(clickeditem,detaillinenumber).then(async function(){
             sysresponse.innerHTML="任务保存成功";
             if(access==2){
+                itemdetail.innerHTML="";
                 return;
             }
             var searchnewadded = new FormData();
