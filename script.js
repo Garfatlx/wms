@@ -2212,7 +2212,7 @@ function createdetailline(nid, item, activity, cancelable) {
     oogplt.placeholder = "是否可超尺寸";
     oogplt.className = "lineinput";
     oogplt.style.width = "100px";
-    const oogpltoptions = ["", "严格亚马逊规格", "可超托盘尺寸"];
+    const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
     for (var i = 0; i < oogpltoptions.length; i++) {
         var option = document.createElement("option");
         option.value = oogpltoptions[i];
@@ -2234,7 +2234,7 @@ function createdetailline(nid, item, activity, cancelable) {
                 return;
             }
             if(oogplt.value==""){
-                oogplt.value="严格亚马逊规格";
+                oogplt.value="不可超托盘尺寸";
             }
             if(!pltinput.value){
                 pltinput.focus();
@@ -3238,7 +3238,7 @@ function getaddress(reforigin){
         return ['XOR1<br>2449 Rue Denis Papin, FR-77550', 'Réau, France'];
     }else if (ref === 'STR2') {
         return ['STR2<br>Oggenhauser Hauptstrasse 151, DE-89522', 'Heidenheim an der Brenz, Bayern, Germany'];
-    }else if (ref === 'XPO1') {
+    }else if (ref === 'XPO1' && ref==='Slam') {
         return ['Slam Sp.z.o.o<br>Am Zeugamt 4, DE-04758', 'Oschatz, Germany']; 
     }else if (ref === 'DHL PAKET') {
         return ['DHL Freight Hagen<br>Dolomitstraße 20, DE-58099', 'Hagen, Germany']; 
