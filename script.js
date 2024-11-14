@@ -3246,6 +3246,8 @@ function getaddress(reforigin){
         return ["DPD Belgium Depot<br>Rue de l'Arbre Saint-Michel 99, 4400 Flemalle", 'Flemalle, Belgium']; 
     }else if (ref === 'DHL EXPRESS') {
         return ['DHL Maastricht<br>Aviation Valley, Engelandlaan 7, NL-6199 AN', 'Maastricht, Netherlands']; 
+    }else if (ref === 'XGEB') {
+        return ['XGEB<br>Steinauer Weg 7B, Aurach, 91589 Bavaria', 'Bavaria, Germany'];
     }else{
         return null;
     }
