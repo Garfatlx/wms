@@ -1464,7 +1464,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     }
     
-    if(newadded && access==2){
+    if((newadded && access==2) || (clickeditem!='' && clickeditem['status']=="未预约")){
         const statusinput=document.createElement("input");
         statusinput.type="hidden";
         statusinput.name="status";
