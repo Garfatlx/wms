@@ -1943,9 +1943,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         printcmrbutton.disabled = true;
         printlabelbutton.disabled = true;
         printcmrbutton.disabled = true;
-        if (clickeditem && clickeditem['status'] != '未预约') {
-            submitbutton.disabled = true;
-            cancelButton.disabled = true;
+        if (clickeditem['status'] == '未预约') {
+            submitbutton.removeAttribute("disabled");
+            cancelButton.removeAttribute("disabled");
         }
     }
     if(access==1 || access==3){
@@ -1963,9 +1963,6 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 addvasbutton[i].removeAttribute("disabled");
             }
         }
-    }
-    if(access==2 && newadded){
-        submitbutton.removeAttribute("disabled");
     }
     
     // closebutton.removeAttribute("disabled");
