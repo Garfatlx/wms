@@ -1950,13 +1950,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         //     cancelButton.removeAttribute("disabled");
         // }
         
-        if (clickeditem['status'] && clickeditem['status'] != '未预约') {
+        if (clickeditem['status'] && clickeditem['status'] != '未预约' && !newadded) {
             submitbutton.disabled = true;
             cancelButton.disabled = true;
-        }
-        if(newadded){
-            submitbutton.removeAttribute("disabled");
-            cancelButton.removeAttribute("disabled");
         }
     }
     if(access==1 || access==3){
