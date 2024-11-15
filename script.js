@@ -2954,9 +2954,9 @@ function constructinventoryid(i){
     var datepart=new Date(jobdate);
     var datestring=""+(1 + datepart.getMonth()).toString().padStart(2, '0')+datepart.getDate().toString().padStart(2, '0');
     var containerpart=document.getElementById("joblabelinput").value.trim();
-    var time4dig = Math.floor((Date.now() % 100000000) / 10000);
+    var time4dig = Date.now() % 100000000;
     var last4=containerpart.length>3?containerpart.substr(containerpart.length - 3):containerpart;
-    var inventoryid=""+last4+datestring+time4dig+i;
+    var inventoryid=""+datestring+time4dig+i;
     return inventoryid;
 }
 
