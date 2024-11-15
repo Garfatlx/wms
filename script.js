@@ -1783,7 +1783,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                                 "inventoryid": constructinventoryid(j),
                                 "id": "",
                                 "priority":json[i]['拦截暂扣']=="是"?-6:0,
-                                "plttype":json[i]['托盘类型']?json[i]['托盘类型']:"",
+                                "plttype":json[i]['散货/托盘类型']?json[i]['散货/托盘类型']:"散货",
+                                "oogplt":json[i]['托盘操作要求']?json[i]['托盘操作要求']:"",
                                 "createtime": Date.now(),
                             });
                             j++;
