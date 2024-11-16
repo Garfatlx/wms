@@ -122,7 +122,7 @@ function login(){
                 customername=xhr.response["data"]["customer"];
                 currentwarehouse=xhr.response["data"]["warehouse"];
 
-                if(access==1 || access==3){
+                if(access>0){
                     document.getElementById("newinjobbutton").removeAttribute('disabled');
                     document.getElementById("newoutjobbutton").removeAttribute('disabled');
 
