@@ -5488,7 +5488,7 @@ function showinvoicewindow(clickeditem,items){
 
             addnewbutton.addEventListener('click', function() {
                 const newinvoiceline = createinvoiceline({name2:itemnameinput.value});
-                invoiceline.getParentNode().insertBefore(newinvoiceline, invoiceline);
+                invoiceline.parentElement.insertBefore(newinvoiceline, invoiceline);
                 itemnameinput.value = '';
             });
             return invoiceline;
