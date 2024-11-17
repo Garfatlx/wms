@@ -5446,9 +5446,15 @@ function showinvoicewindow(clickeditem,items){
     invoiceform.className = 'invoiceform';
     invoicedetaildiv.appendChild(invoiceform);
 
+    invoiceform.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const invoicecontent = new FormData(invoiceform);
+        console.log(invoicecontent);
+    });
+
     const invoiceblock1 = createitemblock('卸货费：');
     invoiceform.appendChild(invoiceblock1);
-    const invoiceline1 = createinvoiceline(undefined,datalist1);
+    const invoiceline1 = createinvoiceline(undefined,'dischargefeelist');
     invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
 
 
@@ -5474,7 +5480,8 @@ function showinvoicewindow(clickeditem,items){
             const itemnameinput = document.createElement('input');
             itemnameinput.type = 'text';
             itemnameinput.placeholder = '项目名称';
-            itemnameinput.list = namedatalist;
+            itemnameinput.setAttribute('list', namedatalist);
+
             const addnewbutton = document.createElement('button');
             addnewbutton.type = 'submit';
             addnewbutton.innerHTML = '+';
