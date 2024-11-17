@@ -106,7 +106,27 @@ window.addEventListener("load", function(){
     });
     document.body.appendChild(datalist2);
 
+    refreshAt(0,0,0);
+
 });
+
+function refreshAt(hours, minutes, seconds) {
+    var now = new Date();
+    var then = new Date();
+
+    if(now.getHours() > hours ||
+       (now.getHours() == hours && now.getMinutes() > minutes) ||
+        now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
+        then.setDate(now.getDate() + 1);
+    }
+    then.setHours(hours);
+    then.setMinutes(minutes);
+    then.setSeconds(seconds);
+
+    var timeout = (then.getTime() - now.getTime());
+    setTimeout(function() { window.location.reload(true); }, timeout);
+    console.log("refreshed at "+then+" in "+timeout+" milliseconds");
+}
 
 function login(){
     
@@ -1349,6 +1369,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     var printlabelbutton=document.createElement("button");
     printlabelbutton.innerHTML="&#x1F5B6 标签";
     printlabelbutton.className="button";
+
+    const invoicebutton = document.createElement('button');
+    invoicebutton.innerHTML = '账单';
+    invoicebutton.style.marginLeft = '10px';
+    invoicebutton.className = 'button';
     
     // var closebutton=document.createElement("button");
     // closebutton.innerHTML="✕";
@@ -1365,6 +1390,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
     controlbar.appendChild(printlabelbutton);
+    if(access==1 || access==3){
+        controlbar.appendChild(invoicebutton);
+    }
     // controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
