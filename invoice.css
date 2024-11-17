@@ -25,6 +25,24 @@
     height: 100%;
 }
 
+.invoiceblock{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid black;
+    box-shadow:  0px 2px 5px rgba(0,0,0,0.25);
+    transition:0.5s;
+    border-radius: 2px;
+    margin: 10px 0;
+}
+.invoiceblock:hover{
+    box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
+}
+
 .coolinput {
     display: flex;
     flex-direction: column;
@@ -66,4 +84,90 @@
   
   .coolinput select.coolinputinput:focus {
     outline: none;
+  }
+
+  .button {
+    font-family: inherit;
+    border: none;
+    /* outline: 1px dotted rgb(37, 37, 37);
+    outline-offset: -4px; */
+    background: hsl(0deg 0% 75%);
+    box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 5px 8px;
+    transition: 0.2s;
+}
+
+.button:active {
+    box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+    background: hsl(0, 0%, 88%);
+}
+
+.itemblock {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: static;
+  width: 600px;
+  max-width: 600px;
+  }
+
+  .itemblock .blocktitle {
+  font-size: 18px;
+  color: #176dee;
+  font-weight: 700;
+  position: relative;
+  top: 0.5rem;
+  margin: 0 0 0 7px;
+  padding: 0 3px;
+  background: #ffffff;
+  width: fit-content;
+  }
+
+  .itemblock .blockcontent {
+  padding: 8px 8px;
+  font-size: 0.75rem;
+  border: 2px #176dee solid;
+  border-radius: 4px;
+  box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
+  transition: 0.5s;
+  display: flex;
+
+  flex-wrap: wrap;
+  /* background: #e8e8e8; */
+  }
+
+  .addnewinput {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .addnewinput input[type="text"] {
+    width: 200px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .addnewinput button[type="submit"] {
+    background-color: #4e99e9;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: .9s ease;
+  }
+  
+  .addnewinput button[type="submit"]:hover {
+    transform: scale(1.1);
+    color: rgb(255, 255, 255);
+    background-color: blue;
   }

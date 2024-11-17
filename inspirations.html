@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Inspirations</title>
+    </head>
+    <body>
+        <datalist id="loadingcost">
+            <option value="Internet Explorer">
+            <option value="Firefox">
+            <option value="Chrome">
+            <option value="Opera">
+            <option value="Safari">
+        </datalist>
+        <div class="card">
+            <div class="loader">
+              <div>loading</div>
+              <div class="words">
+                <span class="word">buttons</span>
+                <span class="word">forms</span>
+                <span class="word">switches</span>
+                <span class="word">cards</span>
+                <span class="word">buttons</span>
+              </div>
+            </div>
+          </div>
+          <div class="itemblock">
+            <div class="blocktitle">Name:</div>
+            <div class="blockcontent">
+                <input class="input" placeholder="typed here..." name="text" type="text" list="loadingcost"/>
+                <input class="input" placeholder="typed here..." name="text" type="text" />
+                <select class="input" placeholder="typed here..." name="text">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+            <!-- <input type="text" placeholder="Write here..." name="input" class="input"> -->
+        </div>
+
+    </body>
+    <style type="text/css">
+        /* From Uiverse.io by kennyotsu */ 
+        .card {
+        /* color used to softly clip top and bottom of the .words container */
+        /* --bg-color: #212121; */
+        background-color: var(--bg-color);
+        padding: 5px;
+        width: 200px;
+        border-radius: 2px;
+        }
+        .loader {
+        color: rgb(124, 124, 124);
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-size: 25px;
+        -webkit-box-sizing: content-box;
+        box-sizing: content-box;
+        height: 30px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        border-radius: 8px;
+        }
+
+        .words {
+        overflow: hidden;
+        position: relative;
+        }
+        .words::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            var(--bg-color) 10%,
+            transparent 30%,
+            transparent 70%,
+            var(--bg-color) 90%
+        );
+        z-index: 20;
+        }
+
+        .word {
+        display: block;
+        height: 100%;
+        padding-left: 6px;
+        color: #956afa;
+        animation: spin_4991 8s infinite;
+        }
+        .loader:hover .word{
+        animation-play-state: paused;
+        }
+
+        @keyframes spin_4991 {
+        10% {
+            -webkit-transform: translateY(-102%);
+            transform: translateY(-102%);
+        }
+
+        25% {
+            -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+        }
+
+        35% {
+            -webkit-transform: translateY(-202%);
+            transform: translateY(-202%);
+        }
+
+        50% {
+            -webkit-transform: translateY(-200%);
+            transform: translateY(-200%);
+        }
+
+        60% {
+            -webkit-transform: translateY(-302%);
+            transform: translateY(-302%);
+        }
+
+        75% {
+            -webkit-transform: translateY(-300%);
+            transform: translateY(-300%);
+        }
+
+        85% {
+            -webkit-transform: translateY(-402%);
+            transform: translateY(-402%);
+        }
+
+        100% {
+            -webkit-transform: translateY(-400%);
+            transform: translateY(-400%);
+        }
+        }
+
+        .itemblock {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        position: static;
+        width: 600px;
+        max-width: 600px;
+        }
+
+        .itemblock .blocktitle {
+        font-size: 18px;
+        color: #176dee;
+        font-weight: 700;
+        position: relative;
+        top: 0.5rem;
+        margin: 0 0 0 7px;
+        padding: 0 3px;
+        background: #ffffff;
+        width: fit-content;
+        }
+
+        .itemblock .blockcontent {
+        padding: 8px 8px;
+        font-size: 0.75rem;
+        border: 2px #176dee solid;
+        border-radius: 4px;
+        box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
+        transition: 0.5s;
+        display: flex;
+
+        flex-wrap: wrap;
+        /* background: #e8e8e8; */
+        }
+
+        .itemblock .blockcontent:focus {
+            box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
+            transition: 0.5s;
+        }
+
+        .input {
+        max-width: 190px;
+        background-color: transparent;
+        border: 2px solid transparent;
+        color: rgb(0, 0, 0);
+        padding: 5px;
+        box-shadow: 2px 2px 2px rgb(146, 145, 145),
+            inset 2px 2px 2px rgb(219, 219, 219),
+            -1px -1px 20px rgba(206, 206, 206, 0.781);
+        outline: none;
+        border-radius: 2px;
+        font-size: 16px;
+        }
+
+    </style>
+</html>

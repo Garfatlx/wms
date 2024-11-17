@@ -5350,10 +5350,57 @@ function showinvoicewindow(clickeditem,items){
 
     const body=invoicewindow.document.body;
 
+    const datalist1 = document.createElement('datalist');
+    datalist1.id = 'dischargefeelist';
+    const dischargefees = ['卸货费','卸货费2','卸货费3'];
+    dischargefees.forEach(fee => {
+        const option = document.createElement('option');
+        option.value = fee;
+        datalist1.appendChild(option);
+    });
+    body.appendChild(datalist1);
+
+
+
+
     const buttonsdiv = document.createElement('div');
     buttonsdiv.className = 'buttonsdiv';
     body.appendChild(buttonsdiv);
     body.appendChild(document.createElement('hr'));
+
+    const submitbutton = document.createElement('button');
+    submitbutton.type = 'button';
+    submitbutton.className = 'button';
+    submitbutton.innerHTML = '提交';
+    submitbutton.style.fontSize = '16px';
+    submitbutton.style.padding = '5px 5px';
+    buttonsdiv.appendChild(submitbutton);
+
+    const templateselectiondiv = document.createElement('div');
+    templateselectiondiv.className = 'templateselectiondiv';
+    templateselectiondiv.style.margin = '0px 0px 0px 10px';
+    body.appendChild(templateselectiondiv);
+
+    const invoicetemplate = document.createElement('select');
+    invoicetemplate.name = 'invoicetemplate';
+    invoicetemplate.id = 'invoicetemplate';
+    invoicetemplate.style.width = '200px';
+    invoicetemplate.style.fontSize = '16px';
+    invoicetemplate.style.margin = '0px 0px 0px 0px';
+    const invoicetemplatelabel = document.createElement('label');
+    invoicetemplatelabel.htmlFor = 'invoicetemplate';
+    invoicetemplatelabel.innerHTML = '账单模板';
+    invoicetemplatelabel.style.fontSize = '16px';
+    templateselectiondiv.appendChild(invoicetemplatelabel);
+    templateselectiondiv.appendChild(invoicetemplate);
+
+    const invoicetemplateoptions = ['','账单模板1', '账单模板2', '账单模板3'];
+    invoicetemplateoptions.forEach(template => {
+        const option = document.createElement('option');
+        option.value = template;
+        option.innerHTML = template;
+        invoicetemplate.appendChild(option);
+    });
 
     const mainboady = document.createElement('div');
     mainboady.className = 'mainbody';
@@ -5373,10 +5420,10 @@ function showinvoicewindow(clickeditem,items){
     jobdetaildiv.innerHTML = '';
     var tempElement = document.createElement('div');
     tempElement.style.fontFamily = 'Arial, sans-serif';
-    var temph1 = document.createElement('h1');
+    var temph1 = document.createElement('h2');
     temph1.innerHTML = clickeditem['customer'];
     tempElement.appendChild(temph1);
-    var temph1 = document.createElement('h1');
+    var temph1 = document.createElement('h2');
     temph1.innerHTML = clickeditem['reference']?clickeditem['joblabel']+ ' ' + clickeditem['reference']:clickeditem['joblabel'];
     tempElement.appendChild(temph1);
     var hr = document.createElement('hr');
@@ -5392,16 +5439,85 @@ function showinvoicewindow(clickeditem,items){
     tempElement.appendChild(p);
     jobdetaildiv.appendChild(tempElement);
 
+    //create invoicedetail
+    invoicedetaildiv.innerHTML = '';
+    const invoiceform = document.createElement('form');
+    invoiceform.className = 'invoiceform';
+    invoicedetaildiv.appendChild(invoiceform);
 
-    function createinvoiceblock(){
+    const invoiceblock1 = createinvoiceblock('卸货费：');
+    invoiceform.appendChild(invoiceblock1);
+    const invoiceline1 = createinvoiceline(undefined,datalist1);
+    invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
+
+
+    function createinvoicedetail(invoicecontent){
+        invoiceform.innerHTML = '';
+        for (const key in invoicecontent) {
+            
+        }
+    }
+
+
+    function createinvoiceblock(blocktitle){
         const invoiceblock = document.createElement('div');
         invoiceblock.className = 'invoiceblock';
         body.appendChild(invoiceblock);
 
+        const invoicetitle = document.createElement('div');
+        invoicetitle.className = 'invoicetitle';
+        invoicetitle.innerHTML = blocktitle;
+        invoiceblock.appendChild(invoicetitle);
+        invoiceblock.appendChild(document.createElement('hr'));
+        return invoiceblock;
+    }
+
+    function createinvoiceline(item,namedatalist){
+        const invoiceline = document.createElement('div');
+        invoiceline.className = 'invoiceline';
+
+        if(!item){
+            const addnewinput = document.createElement('div');
+            addnewinput.className = 'addnewinput';
+            const itemnameinput = document.createElement('input');
+            itemnameinput.type = 'text';
+            itemnameinput.placeholder = '项目名称';
+            itemnameinput.list = namedatalist;
+            const addnewbutton = document.createElement('button');
+            addnewbutton.type = 'submit';
+            addnewbutton.innerHTML = '+';
+            addnewinput.appendChild(itemnameinput);
+            addnewinput.appendChild(addnewbutton);
+            invoiceline.appendChild(addnewinput);
+        }
+        const invoicelabel = document.createElement('div');
+        invoicelabel.className = 'invoicelabel';
+        invoicelabel.innerHTML = label;
+        const invoicevalue = document.createElement('div');
+        invoicevalue.className = 'invoicevalue';
+        invoicevalue.innerHTML = value;
+        invoiceline.appendChild(invoicelabel);
+        invoiceline.appendChild(invoicevalue);
+        return invoiceline;
     }
 
 }
 
+function createitemblock(title,item){
+    const itemblock = document.createElement('div');
+    itemblock.className = 'itemblock';
+
+    const blocktitle = document.createElement('div');
+    blocktitle.innerHTML = title;
+    blocktitle.className = 'blocktitle';
+    itemblock.appendChild(itemlabel);
+
+    const blockcontent = document.createElement('div');
+    blockcontent.className = 'blockcontent';
+    itemblock.appendChild(itemvalue);
+
+    return itemblock;
+}
 function createcoolinput(name,nameplate,placeholder,value,noneditable){
     const inputdiv = document.createElement('div');
     inputdiv.className = 'coolinput';
