@@ -5350,6 +5350,11 @@ function showinvoicewindow(selecledjob,items){
 
     const body=invoicewindow.document.body;
 
+    const buttonsdiv = document.createElement('div');
+    buttonsdiv.className = 'buttonsdiv';
+    body.appendChild(buttonsdiv);
+    body.appendChild(document.createElement('hr'));
+
     const mainboady = document.createElement('div');
     mainboady.className = 'mainbody';
     body.appendChild(mainboady);
@@ -5363,6 +5368,29 @@ function showinvoicewindow(selecledjob,items){
     const invoicedetaildiv = document.createElement('div');
     invoicedetaildiv.className = 'invoicedetail';
     mainboady.appendChild(invoicedetaildiv);
+
+    //create jobdetail
+    jobdetaildiv.innerHTML = '';
+    var tempElement = document.createElement('div');
+    tempElement.style.fontFamily = 'Arial, sans-serif';
+    var temph1 = document.createElement('h1');
+    temph1.innerHTML = clickeditem['customer'];
+    tempElement.appendChild(temph1);
+    var temph1 = document.createElement('h1');
+    temph1.innerHTML = clickeditem['reference']?clickeditem['joblabel']+ ' ' + clickeditem['reference']:clickeditem['joblabel'];
+    tempElement.appendChild(temph1);
+    var hr = document.createElement('hr');
+    tempElement.appendChild(hr);
+    var p = document.createElement('p');
+    p.innerHTML = clickeditem['date'];
+    tempElement.appendChild(p);
+    var p = document.createElement('p');
+    p.innerHTML = clickeditem['overview'];
+    tempElement.appendChild(p);
+    var p = document.createElement('p');
+    p.innerHTML = clickeditem['ordernote'];
+    tempElement.appendChild(p);
+    jobdetaildiv.appendChild(tempElement);
 
 
     function createinvoiceblock(){
