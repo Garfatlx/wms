@@ -5466,9 +5466,6 @@ function showinvoicewindow(clickeditem,items){
     }
 
 
-    function createinvoiceblock(blocktitle){
-       
-    }
 
     function createinvoiceline(item,namedatalist){
         const invoiceline = document.createElement('div');
@@ -5479,7 +5476,7 @@ function showinvoicewindow(clickeditem,items){
             addnewinput.className = 'addnewinput';
             const itemnameinput = document.createElement('input');
             itemnameinput.type = 'text';
-            itemnameinput.placeholder = '项目名称';
+            itemnameinput.placeholder = '条目名称';
             itemnameinput.setAttribute('list', namedatalist);
 
             const addnewbutton = document.createElement('button');
@@ -5488,8 +5485,68 @@ function showinvoicewindow(clickeditem,items){
             addnewinput.appendChild(itemnameinput);
             addnewinput.appendChild(addnewbutton);
             invoiceline.appendChild(addnewinput);
+
+            addnewbutton.addEventListener('click', function() {
+                const newinvoiceline = createinvoiceline({name2:itemnameinput.value});
+                invoiceline.getParentNode().insertBefore(newinvoiceline, invoiceline);
+                itemnameinput.value = '';
+            });
+            return invoiceline;
         }
         
+        const itemnameinput = document.createElement('input');
+        itemnameinput.className = 'inputbox';
+        itemnameinput.type = 'text';
+        itemnameinput.name = 'name2';
+        itemnameinput.value = item['name2'];
+        itemnameinput.placeholder = '条目名称';
+        itemnameinput.setAttribute('list', namedatalist);
+
+        invoiceline.appendChild(itemnameinput);
+
+        const itemunitinput = document.createElement('select');
+        itemunitinput.className = 'inputbox';
+        itemunitinput.name = 'unit';
+        itemunitinput.value = item['unit']?item['unit']:'';
+        const itemunitoptions = ['','每箱','每托','每单','每标签','每小时'];
+        itemunitoptions.forEach(unit => {
+            const option = document.createElement('option');
+            option.value = unit;
+            option.innerHTML = unit;
+            itemunitinput.appendChild(option);
+        });
+        invoiceline.appendChild(itemunitinput);
+
+        const itempriceinput = document.createElement('input');
+        itempriceinput.className = 'inputbox';
+        itempriceinput.type = 'text';
+        itempriceinput.name = 'price';
+        itempriceinput.value = item['price']?item['price']:'';
+        itempriceinput.placeholder = '单价';
+        invoiceline.appendChild(itempriceinput);
+
+        const itemquantityinput = document.createElement('input');
+        itemquantityinput.className = 'inputbox';
+        itemquantityinput.type = 'text';
+        itemquantityinput.name = 'quantity';
+        itemquantityinput.value = item['quantity']?item['quantity']:'';
+        itemquantityinput.placeholder = '数量';
+        invoiceline.appendChild(itemquantityinput);
+
+        const deletelinebutton = document.createElement('button');
+        deletelinebutton.type = 'button';
+        deletelinebutton.innerHTML = '-';
+        deletelinebutton.style.margin = '0px 0px 0px 10px';
+        invoiceline.appendChild(deletelinebutton);
+
+        deletelinebutton.addEventListener('click', function() {
+            invoiceline.remove();
+        });
+
+
+
+
+
         return invoiceline;
     }
 
