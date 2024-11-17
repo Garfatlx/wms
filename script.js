@@ -2104,6 +2104,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             // ...
         }
     });
+    invoicebutton.addEventListener("click", function() {
+        showinvoicewindow(clickeditem,items);
+    });
     
     function checkreadytosubmit(){
         var readytosubmit=true;
@@ -5337,7 +5340,7 @@ function createappointmentwindow(){
 
 }
 
-function showinvoicewindow(selecledjob){
+function showinvoicewindow(selecledjob,items){
     const invoicewindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     invoicewindow.document.write('<html><head>');
@@ -5353,6 +5356,13 @@ function showinvoicewindow(selecledjob){
 
     const jobdetaildiv = document.createElement('div');
     jobdetaildiv.className = 'jobdetail';
+    mainboady.appendChild(jobdetaildiv);
+
+    mainboady.appendChild(document.createElement('hr'));
+
+    const invoicedetaildiv = document.createElement('div');
+    invoicedetaildiv.className = 'invoicedetail';
+    mainboady.appendChild(invoicedetaildiv);
 
 
     function createinvoiceblock(){
