@@ -5340,7 +5340,7 @@ function createappointmentwindow(){
 
 }
 
-function showinvoicewindow(selecledjob,items){
+function showinvoicewindow(clickeditem,items){
     const invoicewindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     invoicewindow.document.write('<html><head>');
