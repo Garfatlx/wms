@@ -5490,14 +5490,7 @@ function showinvoicewindow(clickeditem,items){
             addnewinput.appendChild(addnewbutton);
             invoiceline.appendChild(addnewinput);
         }
-        const invoicelabel = document.createElement('div');
-        invoicelabel.className = 'invoicelabel';
-        invoicelabel.innerHTML = label;
-        const invoicevalue = document.createElement('div');
-        invoicevalue.className = 'invoicevalue';
-        invoicevalue.innerHTML = value;
-        invoiceline.appendChild(invoicelabel);
-        invoiceline.appendChild(invoicevalue);
+        
         return invoiceline;
     }
 
