@@ -5365,6 +5365,7 @@ function showinvoicewindow(clickeditem,items){
 
     const buttonsdiv = document.createElement('div');
     buttonsdiv.className = 'buttonsdiv';
+    
     body.appendChild(buttonsdiv);
     body.appendChild(document.createElement('hr'));
 
@@ -5445,7 +5446,7 @@ function showinvoicewindow(clickeditem,items){
     invoiceform.className = 'invoiceform';
     invoicedetaildiv.appendChild(invoiceform);
 
-    const invoiceblock1 = createinvoiceblock('卸货费：');
+    const invoiceblock1 = createitemblock('卸货费：');
     invoiceform.appendChild(invoiceblock1);
     const invoiceline1 = createinvoiceline(undefined,datalist1);
     invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
@@ -5460,16 +5461,7 @@ function showinvoicewindow(clickeditem,items){
 
 
     function createinvoiceblock(blocktitle){
-        const invoiceblock = document.createElement('div');
-        invoiceblock.className = 'invoiceblock';
-        body.appendChild(invoiceblock);
-
-        const invoicetitle = document.createElement('div');
-        invoicetitle.className = 'invoicetitle';
-        invoicetitle.innerHTML = blocktitle;
-        invoiceblock.appendChild(invoicetitle);
-        invoiceblock.appendChild(document.createElement('hr'));
-        return invoiceblock;
+       
     }
 
     function createinvoiceline(item,namedatalist){
