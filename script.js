@@ -5495,11 +5495,11 @@ function createitemblock(title,item){
     const blocktitle = document.createElement('div');
     blocktitle.innerHTML = title;
     blocktitle.className = 'blocktitle';
-    itemblock.appendChild(itemlabel);
+    itemblock.appendChild(blocktitle);
 
     const blockcontent = document.createElement('div');
     blockcontent.className = 'blockcontent';
-    itemblock.appendChild(itemvalue);
+    itemblock.appendChild(blockcontent);
 
     return itemblock;
 }
