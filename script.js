@@ -5376,33 +5376,33 @@ function showinvoicewindow(clickeditem,items){
     submitbutton.style.padding = '5px 5px';
     buttonsdiv.appendChild(submitbutton);
 
-    const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
-    buttonsdiv.appendChild(templateselectiondiv);
-
-    // const templateselectiondiv = document.createElement('div');
-    // templateselectiondiv.className = 'templateselectiondiv';
-    // templateselectiondiv.style.margin = '0px 0px 0px 10px';
+    // const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     // buttonsdiv.appendChild(templateselectiondiv);
 
-    // const invoicetemplate = document.createElement('select');
-    // invoicetemplate.name = 'invoicetemplate';
-    // invoicetemplate.id = 'invoicetemplate';
-    // invoicetemplate.style.width = '200px';
-    // invoicetemplate.style.fontSize = '16px';
-    // invoicetemplate.style.margin = '0px 0px 0px 0px';
-    // const invoicetemplatelabel = document.createElement('label');
-    // invoicetemplatelabel.htmlFor = 'invoicetemplate';
-    // invoicetemplatelabel.innerHTML = '账单模板';
-    // invoicetemplatelabel.style.fontSize = '16px';
-    // templateselectiondiv.appendChild(invoicetemplatelabel);
-    // templateselectiondiv.appendChild(invoicetemplate);
-    // const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
-    // invoicetemplateoptions.forEach(template => {
-    //     const option = document.createElement('option');
-    //     option.value = template;
-    //     option.innerHTML = template;
-    //     invoicetemplate.appendChild(option);
-    // });
+    const templateselectiondiv = document.createElement('div');
+    templateselectiondiv.className = 'templateselectiondiv';
+    templateselectiondiv.style.margin = '0px 0px 0px 10px';
+    buttonsdiv.appendChild(templateselectiondiv);
+
+    const invoicetemplate = document.createElement('select');
+    invoicetemplate.name = 'invoicetemplate';
+    invoicetemplate.id = 'invoicetemplate';
+    invoicetemplate.style.width = '200px';
+    invoicetemplate.style.fontSize = '16px';
+    invoicetemplate.style.margin = '0px 0px 0px 0px';
+    const invoicetemplatelabel = document.createElement('label');
+    invoicetemplatelabel.htmlFor = 'invoicetemplate';
+    invoicetemplatelabel.innerHTML = '账单模板';
+    invoicetemplatelabel.style.fontSize = '16px';
+    templateselectiondiv.appendChild(invoicetemplatelabel);
+    templateselectiondiv.appendChild(invoicetemplate);
+    const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
+    invoicetemplateoptions.forEach(template => {
+        const option = document.createElement('option');
+        option.value = template;
+        option.innerHTML = template;
+        invoicetemplate.appendChild(option);
+    });
 
     body.appendChild(document.createElement('hr'));
 
@@ -5510,26 +5510,26 @@ function showinvoicewindow(clickeditem,items){
 
         invoiceline.appendChild(itemname2input);
 
-        const itemunitinput = document.createElement('select');
-        itemunitinput.className = 'inputbox';
-        itemunitinput.name = 'unit';
-        itemunitinput.value = item['unit']?item['unit']:'';
-        const itemunitoptions = ['','每箱','每托','每单','每仓点','每标签','每小时'];
-        itemunitoptions.forEach(unit => {
-            const option = document.createElement('option');
-            option.value = unit;
-            option.innerHTML = unit;
-            itemunitinput.appendChild(option);
-        });
-        invoiceline.appendChild(itemunitinput);
+        // const itemunitinput = document.createElement('select');
+        // itemunitinput.className = 'inputbox';
+        // itemunitinput.name = 'unit';
+        // itemunitinput.value = item['unit']?item['unit']:'';
+        // const itemunitoptions = ['','每箱','每托','每单','每仓点','每标签','每小时'];
+        // itemunitoptions.forEach(unit => {
+        //     const option = document.createElement('option');
+        //     option.value = unit;
+        //     option.innerHTML = unit;
+        //     itemunitinput.appendChild(option);
+        // });
+        // invoiceline.appendChild(itemunitinput);
 
-        const itempriceinput = document.createElement('input');
-        itempriceinput.className = 'inputbox';
-        itempriceinput.type = 'text';
-        itempriceinput.name = 'price';
-        itempriceinput.value = item['price']?item['price']:'';
-        itempriceinput.placeholder = '单价';
-        invoiceline.appendChild(itempriceinput);
+        // const itempriceinput = document.createElement('input');
+        // itempriceinput.className = 'inputbox';
+        // itempriceinput.type = 'text';
+        // itempriceinput.name = 'price';
+        // itempriceinput.value = item['price']?item['price']:'';
+        // itempriceinput.placeholder = '单价';
+        // invoiceline.appendChild(itempriceinput);
 
         const itemquantityinput = document.createElement('input');
         itemquantityinput.className = 'inputbox';
