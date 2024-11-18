@@ -1989,6 +1989,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         printbutton.removeAttribute("disabled");
         printcmrbutton.removeAttribute("disabled");
         printlabelbutton.removeAttribute("disabled");
+        invoicebutton.removeAttribute("disabled");
         var fileInputs = itemdetail.getElementsByClassName("file");
         for (var i = 0; i < fileInputs.length; i++) {
             fileInputs[i].removeAttribute("disabled");
@@ -5491,7 +5492,7 @@ function showinvoicewindow(clickeditem,items){
     invoiceform.appendChild(invoiceblock7);
     const invoiceline7 = createinvoiceline(clickeditem,undefined,'其他费用','dischargefeelist');
     invoiceblock7.querySelector('.blockcontent').appendChild(invoiceline7);
-    
+
 
 
 
