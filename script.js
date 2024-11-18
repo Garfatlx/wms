@@ -5459,7 +5459,7 @@ function showinvoicewindow(clickeditem,items){
 
     const invoiceblock1 = createitemblock('卸货费');
     invoiceform.appendChild(invoiceblock1);
-    const invoiceline1 = createinvoiceline(jobinfo,undefined,'卸货费','dischargefeelist');
+    const invoiceline1 = createinvoiceline(clickeditem,undefined,'卸货费','dischargefeelist');
     invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
 
 
@@ -5549,7 +5549,7 @@ function showinvoicewindow(clickeditem,items){
         invoiceline.appendChild(createhiddeninput('jobid',jobinfo['jobid']));
         invoiceline.appendChild(createhiddeninput('date',jobinfo['date']));
         invoiceline.appendChild(createhiddeninput('customer',jobinfo['customer']));
-        invoiceline.appendChild(createhiddeninput('invoiceid',jobinfo['invoiceid']));
+        // invoiceline.appendChild(createhiddeninput('invoiceid',jobinfo['invoiceid']));
 
         deletelinebutton.addEventListener('click', function() {
             invoiceline.remove();
