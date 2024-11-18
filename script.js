@@ -5396,16 +5396,17 @@ function showinvoicewindow(clickeditem,items){
     // invoicetemplatelabel.style.fontSize = '16px';
     // templateselectiondiv.appendChild(invoicetemplatelabel);
     // templateselectiondiv.appendChild(invoicetemplate);
+    // const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
+    // invoicetemplateoptions.forEach(template => {
+    //     const option = document.createElement('option');
+    //     option.value = template;
+    //     option.innerHTML = template;
+    //     invoicetemplate.appendChild(option);
+    // });
 
     body.appendChild(document.createElement('hr'));
 
-    const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
-    invoicetemplateoptions.forEach(template => {
-        const option = document.createElement('option');
-        option.value = template;
-        option.innerHTML = template;
-        invoicetemplate.appendChild(option);
-    });
+    
 
     const mainboady = document.createElement('div');
     mainboady.className = 'mainbody';
