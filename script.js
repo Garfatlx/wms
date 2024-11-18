@@ -5492,7 +5492,7 @@ function showinvoicewindow(clickeditem,items){
             invoiceline.appendChild(addnewinput);
 
             addnewbutton.addEventListener('click', function() {
-                const newinvoiceline = createinvoiceline({name2:itemnameinput.value});
+                const newinvoiceline = createinvoiceline(jobinfo,{name2:itemnameinput.value},name1,namedatalist);
                 invoiceline.parentElement.insertBefore(newinvoiceline, invoiceline);
                 itemnameinput.value = '';
             });
