@@ -1401,6 +1401,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     detailform.appendChild(titleLine);
 
     //customer line
+
     var linecontrol0=document.createElement("div");
     linecontrol0.className="input-container";
     var inputbottomline=document.createElement("div");
@@ -1539,6 +1540,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
     const bulkstatus=clickeditem['bulkstatus']?clickeditem['bulkstatus']:"";
     const bulkstatusdiv = createbulkstatusselectiondiv(bulkstatus);
+    bulkstatusdiv.style.marginLeft = '20px';
     warehouseandbulkstatusline.appendChild(bulkstatusdiv);
 
 
@@ -1581,6 +1583,26 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     input0label.style.margin="0px 0px 0px 0px";
     line7control.appendChild(input0label);
     line7control.appendChild(input0);
+
+    if(activity == '入库') {
+        const line8control = document.createElement('div');
+        line8control.className = 'flexlinecontrol';
+        line8control.style.marginBottom = '5px';
+        detailform.appendChild(line8control);
+
+        const invoicetemplate=clickeditem['invoicetemplate']?clickeditem['invoicetemplate']:"";
+        const inputcustomer=document.getElementById("customerinput").value;
+        const invoicetemplateselect=createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),invoicetemplate);
+        line8control.addEventListener("click", function() {
+            invoicetemplateselect.remove();
+            const invoicetemplateselect=createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),invoicetemplate);
+            line8control.appendChild(invoicetemplateselect);
+        });
+        
+        line8control.appendChild(invoicetemplateselect);
+
+
+    }
 
 
     var activityInput = document.createElement("input");
@@ -5332,7 +5354,7 @@ function showinvoicewindow(clickeditem,items){
     // const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     // buttonsdiv.appendChild(templateselectiondiv);
 
-    const templateselectiondiv = createinvoicetemplateselectiondiv(['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
+    const templateselectiondiv = createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']));
     buttonsdiv.appendChild(templateselectiondiv);
     body.appendChild(document.createElement('hr'));
 
@@ -5721,4 +5743,10 @@ function createcoolselect(name,nameplate,options,value,noneditable){
     }
 
     return selectdiv;
+}
+function getcustomerinvoicetempletelist(customer){
+    if(customer=='佳成'){
+        return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
+    }
+    return ['请填写客户名称','其他'];
 }
