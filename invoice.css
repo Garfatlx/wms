@@ -8,7 +8,7 @@
 .buttonsdiv{
     display: flex;
     width: 100%;
-    
+
 }
 .jobdetail{
     font-size: 20px;
@@ -144,7 +144,7 @@
   box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
   transition: 0.4s;
   display: flex;
-
+    flex-direction: column;
   flex-wrap: wrap;
   /* background: #e8e8e8; */
   }

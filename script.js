@@ -5381,13 +5381,13 @@ function showinvoicewindow(clickeditem,items){
 
     const templateselectiondiv = document.createElement('div');
     templateselectiondiv.className = 'templateselectiondiv';
-    templateselectiondiv.style.margin = '0px 0px 0px 10px';
+    templateselectiondiv.style.margin = '0px 0px 0px 50px';
     buttonsdiv.appendChild(templateselectiondiv);
 
     const invoicetemplate = document.createElement('select');
     invoicetemplate.name = 'invoicetemplate';
     invoicetemplate.id = 'invoicetemplate';
-    invoicetemplate.style.width = '200px';
+    invoicetemplate.style.width = '400px';
     invoicetemplate.style.fontSize = '16px';
     invoicetemplate.style.margin = '0px 0px 0px 0px';
     const invoicetemplatelabel = document.createElement('label');
@@ -5461,6 +5461,38 @@ function showinvoicewindow(clickeditem,items){
     invoiceform.appendChild(invoiceblock1);
     const invoiceline1 = createinvoiceline(clickeditem,undefined,'卸货费','dischargefeelist');
     invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
+
+    const invoiceblock2 = createitemblock('分拣费');
+    invoiceform.appendChild(invoiceblock2);
+    const invoiceline2 = createinvoiceline(clickeditem,undefined,'分拣费','dischargefeelist');
+    invoiceblock2.querySelector('.blockcontent').appendChild(invoiceline2);
+
+    const invoiceblock3 = createitemblock('装货费');
+    invoiceform.appendChild(invoiceblock3);
+    const invoiceline3 = createinvoiceline(clickeditem,undefined,'装货费','dischargefeelist');
+    invoiceblock3.querySelector('.blockcontent').appendChild(invoiceline3);
+
+    const invoiceblock4 = createitemblock('打托费');
+    invoiceform.appendChild(invoiceblock4);
+    const invoiceline4 = createinvoiceline(clickeditem,undefined,'打托费','dischargefeelist');
+    invoiceblock4.querySelector('.blockcontent').appendChild(invoiceline4);
+
+    const invoiceblock5 = createitemblock('贴标费');
+    invoiceform.appendChild(invoiceblock5);
+    const invoiceline5 = createinvoiceline(clickeditem,undefined,'贴标费','dischargefeelist');
+    invoiceblock5.querySelector('.blockcontent').appendChild(invoiceline5);
+
+    const invoiceblock6 = createitemblock('仓储费');
+    invoiceform.appendChild(invoiceblock6);
+    const invoiceline6 = createinvoiceline(clickeditem,undefined,'仓储费','dischargefeelist');
+    invoiceblock6.querySelector('.blockcontent').appendChild(invoiceline6);
+
+    const invoiceblock7 = createitemblock('其他费用');
+    invoiceform.appendChild(invoiceblock7);
+    const invoiceline7 = createinvoiceline(clickeditem,undefined,'其他费用','dischargefeelist');
+    invoiceblock7.querySelector('.blockcontent').appendChild(invoiceline7);
+    
+
 
 
     function createinvoicedetail(invoicecontent){
