@@ -1607,7 +1607,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             // Append the new options
             line8control.appendChild(invoicetemplateselect);
         });
-        
+
         line8control.appendChild(invoicetemplateselect);
 
 
@@ -5364,6 +5364,7 @@ function showinvoicewindow(clickeditem,items){
     // buttonsdiv.appendChild(templateselectiondiv);
 
     const templateselectiondiv = createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']));
+    templateselectiondiv.style.margin = '0px 0px 0px 50px';
     buttonsdiv.appendChild(templateselectiondiv);
     body.appendChild(document.createElement('hr'));
 
@@ -5655,7 +5656,7 @@ function createbulkstatusselectiondiv(selectedstatus){
 function createinvoicetemplateselectiondiv(options,selectedtemplate){
     const templateselectiondiv = document.createElement('div');
     templateselectiondiv.className = 'selectiondiv';
-    templateselectiondiv.style.margin = '0px 0px 0px 50px';
+    templateselectiondiv.style.margin = '0px 0px 0px 0px';
 
     const invoicetemplate = document.createElement('select');
     invoicetemplate.name = 'invoicetemplate';
