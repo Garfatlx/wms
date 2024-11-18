@@ -5367,8 +5367,7 @@ function showinvoicewindow(clickeditem,items){
     buttonsdiv.className = 'buttonsdiv';
     
     body.appendChild(buttonsdiv);
-    body.appendChild(document.createElement('hr'));
-
+    
     const submitbutton = document.createElement('button');
     submitbutton.type = 'button';
     submitbutton.className = 'button';
@@ -5377,25 +5376,30 @@ function showinvoicewindow(clickeditem,items){
     submitbutton.style.padding = '5px 5px';
     buttonsdiv.appendChild(submitbutton);
 
-    const templateselectiondiv = document.createElement('div');
-    templateselectiondiv.className = 'templateselectiondiv';
-    templateselectiondiv.style.margin = '0px 0px 0px 10px';
-    body.appendChild(templateselectiondiv);
+    const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
+    buttonsdiv.appendChild(templateselectiondiv);
 
-    const invoicetemplate = document.createElement('select');
-    invoicetemplate.name = 'invoicetemplate';
-    invoicetemplate.id = 'invoicetemplate';
-    invoicetemplate.style.width = '200px';
-    invoicetemplate.style.fontSize = '16px';
-    invoicetemplate.style.margin = '0px 0px 0px 0px';
-    const invoicetemplatelabel = document.createElement('label');
-    invoicetemplatelabel.htmlFor = 'invoicetemplate';
-    invoicetemplatelabel.innerHTML = '账单模板';
-    invoicetemplatelabel.style.fontSize = '16px';
-    templateselectiondiv.appendChild(invoicetemplatelabel);
-    templateselectiondiv.appendChild(invoicetemplate);
+    // const templateselectiondiv = document.createElement('div');
+    // templateselectiondiv.className = 'templateselectiondiv';
+    // templateselectiondiv.style.margin = '0px 0px 0px 10px';
+    // buttonsdiv.appendChild(templateselectiondiv);
 
-    const invoicetemplateoptions = ['','账单模板1', '账单模板2', '账单模板3'];
+    // const invoicetemplate = document.createElement('select');
+    // invoicetemplate.name = 'invoicetemplate';
+    // invoicetemplate.id = 'invoicetemplate';
+    // invoicetemplate.style.width = '200px';
+    // invoicetemplate.style.fontSize = '16px';
+    // invoicetemplate.style.margin = '0px 0px 0px 0px';
+    // const invoicetemplatelabel = document.createElement('label');
+    // invoicetemplatelabel.htmlFor = 'invoicetemplate';
+    // invoicetemplatelabel.innerHTML = '账单模板';
+    // invoicetemplatelabel.style.fontSize = '16px';
+    // templateselectiondiv.appendChild(invoicetemplatelabel);
+    // templateselectiondiv.appendChild(invoicetemplate);
+
+    body.appendChild(document.createElement('hr'));
+
+    const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
     invoicetemplateoptions.forEach(template => {
         const option = document.createElement('option');
         option.value = template;
@@ -5452,9 +5456,9 @@ function showinvoicewindow(clickeditem,items){
         console.log(invoicecontent);
     });
 
-    const invoiceblock1 = createitemblock('卸货费：');
+    const invoiceblock1 = createitemblock('卸货费');
     invoiceform.appendChild(invoiceblock1);
-    const invoiceline1 = createinvoiceline(undefined,'dischargefeelist');
+    const invoiceline1 = createinvoiceline(jobinfo,undefined,'卸货费','dischargefeelist');
     invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
 
 
@@ -5467,7 +5471,7 @@ function showinvoicewindow(clickeditem,items){
 
 
 
-    function createinvoiceline(item,namedatalist){
+    function createinvoiceline(jobinfo,item,name1,namedatalist){
         const invoiceline = document.createElement('div');
         invoiceline.className = 'invoiceline';
 
@@ -5494,21 +5498,22 @@ function showinvoicewindow(clickeditem,items){
             return invoiceline;
         }
         
-        const itemnameinput = document.createElement('input');
-        itemnameinput.className = 'inputbox';
-        itemnameinput.type = 'text';
-        itemnameinput.name = 'name2';
-        itemnameinput.value = item['name2'];
-        itemnameinput.placeholder = '条目名称';
-        itemnameinput.setAttribute('list', namedatalist);
+        const itemname2input = document.createElement('input');
+        itemname2input.className = 'inputbox';
+        itemname2input.style.width = '200px';
+        itemname2input.type = 'text';
+        itemname2input.name = 'name2';
+        itemname2input.value = item['name2'];
+        itemname2input.placeholder = '条目名称';
+        itemname2input.setAttribute('list', namedatalist);
 
-        invoiceline.appendChild(itemnameinput);
+        invoiceline.appendChild(itemname2input);
 
         const itemunitinput = document.createElement('select');
         itemunitinput.className = 'inputbox';
         itemunitinput.name = 'unit';
         itemunitinput.value = item['unit']?item['unit']:'';
-        const itemunitoptions = ['','每箱','每托','每单','每标签','每小时'];
+        const itemunitoptions = ['','每箱','每托','每单','每仓点','每标签','每小时'];
         itemunitoptions.forEach(unit => {
             const option = document.createElement('option');
             option.value = unit;
@@ -5539,6 +5544,12 @@ function showinvoicewindow(clickeditem,items){
         deletelinebutton.style.margin = '0px 0px 0px 10px';
         invoiceline.appendChild(deletelinebutton);
 
+        invoiceline.appendChild(createhiddeninput('name1',name1));
+        invoiceline.appendChild(createhiddeninput('jobid',jobinfo['jobid']));
+        invoiceline.appendChild(createhiddeninput('date',jobinfo['date']));
+        invoiceline.appendChild(createhiddeninput('customer',jobinfo['customer']));
+        invoiceline.appendChild(createhiddeninput('invoiceid',jobinfo['invoiceid']));
+
         deletelinebutton.addEventListener('click', function() {
             invoiceline.remove();
         });
@@ -5551,13 +5562,19 @@ function showinvoicewindow(clickeditem,items){
     }
 
 }
-
+function createhiddeninput(name,value){
+    const hiddeninput = document.createElement('input');
+    hiddeninput.type = 'hidden';
+    hiddeninput.name = name;
+    hiddeninput.value = value;
+    return hiddeninput;
+}
 function createitemblock(title,item){
     const itemblock = document.createElement('div');
     itemblock.className = 'itemblock';
 
     const blocktitle = document.createElement('div');
-    blocktitle.innerHTML = title;
+    blocktitle.innerHTML = title+':';
     blocktitle.className = 'blocktitle';
     itemblock.appendChild(blocktitle);
 
