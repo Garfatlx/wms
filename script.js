@@ -1593,9 +1593,18 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         const invoicetemplate=clickeditem['invoicetemplate']?clickeditem['invoicetemplate']:"";
         const inputcustomer=document.getElementById("customerinput").value;
         const invoicetemplateselect=createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),invoicetemplate);
-        line8control.addEventListener("click", function() {
-            invoicetemplateselect.remove();
-            const invoicetemplateselect=createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),invoicetemplate);
+        
+        document.getElementById("customerinput").addEventListener("input", function() {
+            const inputcustomer = this.value;
+            const invoicetemplate = clickeditem['invoicetemplate'] ? clickeditem['invoicetemplate'] : "";
+            const invoicetemplateselect = createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer), invoicetemplate);
+        
+            // Clear the previous options
+            while (line8control.firstChild) {
+                line8control.removeChild(line8control.firstChild);
+            }
+        
+            // Append the new options
             line8control.appendChild(invoicetemplateselect);
         });
         
@@ -5651,7 +5660,7 @@ function createinvoicetemplateselectiondiv(options,selectedtemplate){
     const invoicetemplate = document.createElement('select');
     invoicetemplate.name = 'invoicetemplate';
     invoicetemplate.id = 'invoicetemplate';
-    invoicetemplate.style.width = '400px';
+    invoicetemplate.style.width = '300px';
     invoicetemplate.style.fontSize = '16px';
     invoicetemplate.style.margin = '0px 0px 0px 0px';
     const invoicetemplatelabel = document.createElement('label');
