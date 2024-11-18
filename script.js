@@ -1527,11 +1527,21 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     linecontrol0.appendChild(input0label);
     linecontrol0.appendChild(input0);
 
-    //add warehouse selection
+    //add warehouse selection and bulk status line
+    const warehouseandbulkstatusline = document.createElement('div');
+    warehouseandbulkstatusline.className = 'flexlinecontrol';
+    warehouseandbulkstatusline.style.marginBottom = '5px';
+    detailform.appendChild(warehouseandbulkstatusline);
+
     const selectedwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
     const warehouseselec=createwarehouseselectiondiv(selectedwarehouse);
-    warehouseselec.style.marginBottom = '5px';
-    linecontrol0.appendChild(warehouseselec);
+    warehouseandbulkstatusline.appendChild(warehouseselec);
+
+    const bulkstatus=clickeditem['bulkstatus']?clickeditem['bulkstatus']:"";
+    const bulkstatusdiv = createbulkstatusselectiondiv(bulkstatus);
+    warehouseandbulkstatusline.appendChild(bulkstatusdiv);
+
+
     if(access==3){
         warehouseselec.querySelector('select').value = currentwarehouse;
         warehouseselec.querySelector('select').disabled = true;
@@ -1542,9 +1552,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         linecontrol0.appendChild(hidewarehouse);
     }
 
+    const line7control = document.createElement('div');
+    line7control.className = 'flexlinecontrol';
+    line7control.style.marginBottom = '5px';
+    detailform.appendChild(line7control);
+
     if (activity == '出库') {
-        var linecontrol0=document.createElement("div");
-        linecontrol0.className="linecontrol";
+        
         var input0=document.createElement("textarea");
         input0.name="deladdress";
         input0.className="lineinput";
@@ -1553,9 +1567,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var input0label=document.createElement("label");
         input0label.innerHTML="送货地址";
         input0label.className="lineinputlabel";
-        linecontrol0.appendChild(input0label);
-        linecontrol0.appendChild(input0);
-        detailform.appendChild(linecontrol0);
+        line7control.appendChild(input0label);
+        line7control.appendChild(input0);
     }
     
     var input0=document.createElement("textarea");
@@ -1566,10 +1579,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     input0label.innerHTML="备注";
     input0label.className="lineinputlabel";
     input0label.style.margin="0px 0px 0px 0px";
-    linecontrol0.appendChild(input0label);
-    linecontrol0.appendChild(input0);
+    line7control.appendChild(input0label);
+    line7control.appendChild(input0);
 
-    detailform.appendChild(linecontrol0);
 
     var activityInput = document.createElement("input");
     activityInput.type = "hidden";
@@ -4726,67 +4738,7 @@ async function createinventoryoperationdiv(){
 
 }
 
-function createwarehouseselectiondiv(selectedwarehouse){
-    const warehouseselectiondiv=document.createElement('div');
-    warehouseselectiondiv.style.display = 'flex';
-    warehouseselectiondiv.style.flexDirection = 'row';
 
-    const warehouseselectioninput = document.createElement('select');
-    warehouseselectioninput.name = 'warehouse';
-    warehouseselectioninput.id = 'warehouseselection';
-    warehouseselectioninput.style.width = '60px';
-    warehouseselectioninput.style.fontSize = '14px';
-    warehouseselectioninput.style.margin = '0px 0px 0px 0px';
-
-    const warehouseoptions = ['','NL001', 'DE001'];
-    warehouseoptions.forEach(warehouse => {
-        const option = document.createElement('option');
-        option.value = warehouse;
-        option.innerHTML = warehouse;
-        warehouseselectioninput.appendChild(option);
-    });
-    warehouseselectioninput.value = selectedwarehouse?selectedwarehouse:'';
-    const warehouseselectionlabel = document.createElement('label');
-    warehouseselectionlabel.htmlFor = 'warehouseselection';
-    warehouseselectionlabel.innerHTML = '仓库';
-    warehouseselectionlabel.style.fontSize = '16px';
-
-    warehouseselectiondiv.appendChild(warehouseselectionlabel);
-    warehouseselectiondiv.appendChild(warehouseselectioninput);
-
-    return warehouseselectiondiv;
-}
-function createplttypeselectiondiv(selectedplttype){
-    const plttypeselectiondiv=document.createElement('div');
-    plttypeselectiondiv.style.display = 'flex';
-    plttypeselectiondiv.style.flexDirection = 'row';
-
-    const plttypeselectioninput = document.createElement('select');
-    plttypeselectioninput.name = 'plttype';
-    plttypeselectioninput.id = 'plttypeselection';
-    plttypeselectioninput.style.width = '50px';
-    plttypeselectioninput.style.fontSize = '14px';
-    plttypeselectioninput.style.margin = '0px 0px 0px 0px';
-
-    const plttypeselectionlabel = document.createElement('label');
-    plttypeselectionlabel.htmlFor = 'plttypeselection';
-    plttypeselectionlabel.innerHTML = '托盘类型';
-    plttypeselectionlabel.style.fontSize = '16px';
-
-    const plttypeoptions = ['','散货','EU-FBA','Normal-EU', 'Block'];
-    plttypeoptions.forEach(plttype => {
-        const option = document.createElement('option');
-        option.value = plttype;
-        option.innerHTML = plttype;
-        plttypeselectioninput.appendChild(option);
-    });
-    plttypeselectioninput.value = selectedplttype?selectedplttype:'';
-
-    plttypeselectiondiv.appendChild(plttypeselectionlabel);
-    plttypeselectiondiv.appendChild(plttypeselectioninput);
-
-    return plttypeselectiondiv;
-}
 
 async function showitemsOrganised(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
@@ -5380,31 +5332,8 @@ function showinvoicewindow(clickeditem,items){
     // const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     // buttonsdiv.appendChild(templateselectiondiv);
 
-    const templateselectiondiv = document.createElement('div');
-    templateselectiondiv.className = 'templateselectiondiv';
-    templateselectiondiv.style.margin = '0px 0px 0px 50px';
+    const templateselectiondiv = createinvoicetemplateselectiondiv(['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     buttonsdiv.appendChild(templateselectiondiv);
-
-    const invoicetemplate = document.createElement('select');
-    invoicetemplate.name = 'invoicetemplate';
-    invoicetemplate.id = 'invoicetemplate';
-    invoicetemplate.style.width = '400px';
-    invoicetemplate.style.fontSize = '16px';
-    invoicetemplate.style.margin = '0px 0px 0px 0px';
-    const invoicetemplatelabel = document.createElement('label');
-    invoicetemplatelabel.htmlFor = 'invoicetemplate';
-    invoicetemplatelabel.innerHTML = '账单模板';
-    invoicetemplatelabel.style.fontSize = '16px';
-    templateselectiondiv.appendChild(invoicetemplatelabel);
-    templateselectiondiv.appendChild(invoicetemplate);
-    const invoicetemplateoptions = ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3'];
-    invoicetemplateoptions.forEach(template => {
-        const option = document.createElement('option');
-        option.value = template;
-        option.innerHTML = template;
-        invoicetemplate.appendChild(option);
-    });
-
     body.appendChild(document.createElement('hr'));
 
     
@@ -5596,6 +5525,131 @@ function showinvoicewindow(clickeditem,items){
     }
 
 }
+
+//element creataion functions
+function createwarehouseselectiondiv(selectedwarehouse){
+    const warehouseselectiondiv=document.createElement('div');
+    warehouseselectiondiv.className = 'selectiondiv';
+    warehouseselectiondiv.style.display = 'flex';
+    warehouseselectiondiv.style.flexDirection = 'row';
+
+    const warehouseselectioninput = document.createElement('select');
+    warehouseselectioninput.name = 'warehouse';
+    warehouseselectioninput.id = 'warehouseselection';
+    warehouseselectioninput.style.width = '60px';
+    warehouseselectioninput.style.fontSize = '14px';
+    warehouseselectioninput.style.margin = '0px 0px 0px 0px';
+
+    const warehouseoptions = ['','NL001', 'DE001'];
+    warehouseoptions.forEach(warehouse => {
+        const option = document.createElement('option');
+        option.value = warehouse;
+        option.innerHTML = warehouse;
+        warehouseselectioninput.appendChild(option);
+    });
+    warehouseselectioninput.value = selectedwarehouse?selectedwarehouse:'';
+    const warehouseselectionlabel = document.createElement('label');
+    warehouseselectionlabel.htmlFor = 'warehouseselection';
+    warehouseselectionlabel.innerHTML = '仓库';
+    warehouseselectionlabel.style.fontSize = '16px';
+
+    warehouseselectiondiv.appendChild(warehouseselectionlabel);
+    warehouseselectiondiv.appendChild(warehouseselectioninput);
+
+    return warehouseselectiondiv;
+}
+function createplttypeselectiondiv(selectedplttype){
+    const plttypeselectiondiv=document.createElement('div');
+    plttypeselectiondiv.className = 'selectiondiv';
+    plttypeselectiondiv.style.display = 'flex';
+    plttypeselectiondiv.style.flexDirection = 'row';
+
+    const plttypeselectioninput = document.createElement('select');
+    plttypeselectioninput.name = 'plttype';
+    plttypeselectioninput.id = 'plttypeselection';
+    plttypeselectioninput.style.width = '50px';
+    plttypeselectioninput.style.fontSize = '14px';
+    plttypeselectioninput.style.margin = '0px 0px 0px 0px';
+
+    const plttypeselectionlabel = document.createElement('label');
+    plttypeselectionlabel.htmlFor = 'plttypeselection';
+    plttypeselectionlabel.innerHTML = '托盘类型';
+    plttypeselectionlabel.style.fontSize = '16px';
+
+    const plttypeoptions = ['','散货','EU-FBA','Normal-EU', 'Block'];
+    plttypeoptions.forEach(plttype => {
+        const option = document.createElement('option');
+        option.value = plttype;
+        option.innerHTML = plttype;
+        plttypeselectioninput.appendChild(option);
+    });
+    plttypeselectioninput.value = selectedplttype?selectedplttype:'';
+
+    plttypeselectiondiv.appendChild(plttypeselectionlabel);
+    plttypeselectiondiv.appendChild(plttypeselectioninput);
+
+    return plttypeselectiondiv;
+}
+function createbulkstatusselectiondiv(selectedstatus){
+    const bulkstatusselectiondiv=document.createElement('div');
+    bulkstatusselectiondiv.style.display = 'flex';
+    bulkstatusselectiondiv.style.flexDirection = 'row';
+
+    const bulkstatusselectioninput = document.createElement('select');
+    bulkstatusselectioninput.name = 'bulkstatus';
+    bulkstatusselectioninput.id = 'bulkstatusselection';
+    bulkstatusselectioninput.style.width = '100px';
+    bulkstatusselectioninput.style.fontSize = '14px';
+    bulkstatusselectioninput.style.margin = '0px 0px 0px 0px';
+
+    const bulkstatusselectionlabel = document.createElement('label');
+    bulkstatusselectionlabel.htmlFor = 'bulkstatusselection';
+    bulkstatusselectionlabel.innerHTML = '任务操作类型';
+    bulkstatusselectionlabel.style.fontSize = '16px';
+
+    const bulkstatusoptions = ['散货','托盘','退件'];
+    bulkstatusoptions.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.innerHTML = status;
+        bulkstatusselectioninput.appendChild(option);
+    });
+    bulkstatusselectioninput.value = selectedstatus?selectedstatus:'散货';
+
+    bulkstatusselectiondiv.appendChild(bulkstatusselectionlabel);
+    bulkstatusselectiondiv.appendChild(bulkstatusselectioninput);
+
+    return bulkstatusselectiondiv;
+}
+function createinvoicetemplateselectiondiv(options,selectedtemplate){
+    const templateselectiondiv = document.createElement('div');
+    templateselectiondiv.className = 'selectiondiv';
+    templateselectiondiv.style.margin = '0px 0px 0px 50px';
+
+    const invoicetemplate = document.createElement('select');
+    invoicetemplate.name = 'invoicetemplate';
+    invoicetemplate.id = 'invoicetemplate';
+    invoicetemplate.style.width = '400px';
+    invoicetemplate.style.fontSize = '16px';
+    invoicetemplate.style.margin = '0px 0px 0px 0px';
+    const invoicetemplatelabel = document.createElement('label');
+    invoicetemplatelabel.htmlFor = 'invoicetemplate';
+    invoicetemplatelabel.innerHTML = '账单模板';
+    invoicetemplatelabel.style.fontSize = '16px';
+    templateselectiondiv.appendChild(invoicetemplatelabel);
+    templateselectiondiv.appendChild(invoicetemplate);
+    const invoicetemplateoptions = options;
+    invoicetemplateoptions.forEach(template => {
+        const option = document.createElement('option');
+        option.value = template;
+        option.innerHTML = template;
+        invoicetemplate.appendChild(option);
+    });
+    invoicetemplate.value = selectedtemplate?selectedtemplate:'';
+
+    return templateselectiondiv;
+}
+
 function createhiddeninput(name,value){
     const hiddeninput = document.createElement('input');
     hiddeninput.type = 'hidden';
