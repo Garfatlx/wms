@@ -1590,14 +1590,14 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         line8control.style.marginBottom = '5px';
         detailform.appendChild(line8control);
 
-        const invoicetemplate=clickeditem['invoicetemplate']?clickeditem['invoicetemplate']:"";
+        const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:"";
         const inputcustomer=document.getElementById("customerinput").value;
-        const invoicetemplateselect=createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),invoicetemplate);
+        const quotetemplateselect=createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),quotetemplate);
         
         document.getElementById("customerinput").addEventListener("input", function() {
             const inputcustomer = this.value;
-            const invoicetemplate = clickeditem['invoicetemplate'] ? clickeditem['invoicetemplate'] : "";
-            const invoicetemplateselect = createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer), invoicetemplate);
+            const quotetemplate = clickeditem['quotetemplate'] ? clickeditem['quotetemplate'] : "";
+            const quotetemplateselect = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer), quotetemplate);
         
             // Clear the previous options
             while (line8control.firstChild) {
@@ -1605,10 +1605,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
         
             // Append the new options
-            line8control.appendChild(invoicetemplateselect);
+            line8control.appendChild(quotetemplateselect);
         });
 
-        line8control.appendChild(invoicetemplateselect);
+        line8control.appendChild(quotetemplateselect);
 
 
     }
@@ -5360,10 +5360,10 @@ function showinvoicewindow(clickeditem,items){
     submitbutton.style.padding = '5px 5px';
     buttonsdiv.appendChild(submitbutton);
 
-    // const templateselectiondiv = createcoolselect('invoicetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
+    // const templateselectiondiv = createcoolselect('quotetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     // buttonsdiv.appendChild(templateselectiondiv);
 
-    const templateselectiondiv = createinvoicetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']));
+    const templateselectiondiv = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']));
     templateselectiondiv.style.margin = '0px 0px 0px 50px';
     buttonsdiv.appendChild(templateselectiondiv);
     body.appendChild(document.createElement('hr'));
@@ -5653,31 +5653,31 @@ function createbulkstatusselectiondiv(selectedstatus){
 
     return bulkstatusselectiondiv;
 }
-function createinvoicetemplateselectiondiv(options,selectedtemplate){
+function createquotetemplateselectiondiv(options,selectedtemplate){
     const templateselectiondiv = document.createElement('div');
     templateselectiondiv.className = 'selectiondiv';
     templateselectiondiv.style.margin = '0px 0px 0px 0px';
 
-    const invoicetemplate = document.createElement('select');
-    invoicetemplate.name = 'invoicetemplate';
-    invoicetemplate.id = 'invoicetemplate';
-    invoicetemplate.style.width = '300px';
-    invoicetemplate.style.fontSize = '16px';
-    invoicetemplate.style.margin = '0px 0px 0px 0px';
-    const invoicetemplatelabel = document.createElement('label');
-    invoicetemplatelabel.htmlFor = 'invoicetemplate';
-    invoicetemplatelabel.innerHTML = '账单模板';
-    invoicetemplatelabel.style.fontSize = '16px';
-    templateselectiondiv.appendChild(invoicetemplatelabel);
-    templateselectiondiv.appendChild(invoicetemplate);
-    const invoicetemplateoptions = options;
-    invoicetemplateoptions.forEach(template => {
+    const quotetemplate = document.createElement('select');
+    quotetemplate.name = 'quotetemplate';
+    quotetemplate.id = 'quotetemplate';
+    quotetemplate.style.width = '300px';
+    quotetemplate.style.fontSize = '16px';
+    quotetemplate.style.margin = '0px 0px 0px 0px';
+    const quotetemplatelabel = document.createElement('label');
+    quotetemplatelabel.htmlFor = 'quotetemplate';
+    quotetemplatelabel.innerHTML = '账单模板';
+    quotetemplatelabel.style.fontSize = '16px';
+    templateselectiondiv.appendChild(quotetemplatelabel);
+    templateselectiondiv.appendChild(quotetemplate);
+    const quotetemplateoptions = options;
+    quotetemplateoptions.forEach(template => {
         const option = document.createElement('option');
         option.value = template;
         option.innerHTML = template;
-        invoicetemplate.appendChild(option);
+        quotetemplate.appendChild(option);
     });
-    invoicetemplate.value = selectedtemplate?selectedtemplate:'';
+    quotetemplate.value = selectedtemplate?selectedtemplate:'';
 
     return templateselectiondiv;
 }
