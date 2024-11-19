@@ -13,7 +13,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.09";
+    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.10";
     
     //page fist load
     // var searchcreteria = new FormData();
@@ -5666,7 +5666,7 @@ function createquotetemplateselectiondiv(options,selectedtemplate){
     quotetemplate.style.margin = '0px 0px 0px 0px';
     const quotetemplatelabel = document.createElement('label');
     quotetemplatelabel.htmlFor = 'quotetemplate';
-    quotetemplatelabel.innerHTML = '账单模板';
+    quotetemplatelabel.innerHTML = '报价模板';
     quotetemplatelabel.style.fontSize = '16px';
     templateselectiondiv.appendChild(quotetemplatelabel);
     templateselectiondiv.appendChild(quotetemplate);
