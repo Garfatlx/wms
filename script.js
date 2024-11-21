@@ -4489,6 +4489,7 @@ async function createinventoryoperationdiv(){
         }
         const checkdate = new Date(checkdateinput.value).getTime();
         var uncheckedinventory = searchedinventory.filter(item => new Date(item.checkdate).getTime() < checkdate);
+        uncheckedinventory=uncheckedinventory.filter(item => new Date(item.date).getTime() < checkdate);
         uncheckedinventory=uncheckedinventory.filter(item => item.status=='完成');
         const uncheckedinventorytotalpcs = uncheckedinventory.reduce((sum, item) => sum + Number(item.pcs), 0);
         //add confirmation dialog to delete the unchecked inventory
@@ -4497,32 +4498,20 @@ async function createinventoryoperationdiv(){
             
             // const uncheckedinventoryids=['718','719'];
             console.log(uncheckedinventoryids);
-            const deleteinventory = new FormData();
-            deleteinventory.append('ids', uncheckedinventoryids.join(','));
+            // const deleteinventory = new FormData();
+            // deleteinventory.append('ids', uncheckedinventoryids.join(','));
 
-            fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
-                method: 'POST',
-                body: deleteinventory,
-            }).then(response => response.json())
-            .then(data => {
-                if (data.msg === '删除成功') {
-                    createinventoryoperationdiv();
-                }
-            });
+            // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+            //     method: 'POST',
+            //     body: deleteinventory,
+            // }).then(response => response.json())
+            // .then(data => {
+            //     if (data.msg === '删除成功') {
+            //         createinventoryoperationdiv();
+            //     }
+            // });
             
         }
-        // const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
-        // const deleteinventory = new FormData();
-        // deleteinventory.append('ids', uncheckedinventoryids.join(','));
-        // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventory', {
-        //     method: 'POST',
-        //     body: deleteinventory,
-        // }).then(response => response.json())
-        // .then(data => {
-        //     if (data.status === 'success') {
-        //         createinventoryoperationdiv();
-        //     }
-        // });
     });
 
     deletenoncompletedbutton.addEventListener('click', async function() {
