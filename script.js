@@ -4529,7 +4529,7 @@ async function createinventoryoperationdiv(){
             const uncheckedinventoryids = uncheckedinventory.map(item => item.id);
             
             // const uncheckedinventoryids=['718','719'];
-            console.log(uncheckedinventoryids);
+            console.log(uncheckedinventory);
             // const deleteinventory = new FormData();
             // deleteinventory.append('ids', uncheckedinventoryids.join(','));
 
