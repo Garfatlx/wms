@@ -3172,6 +3172,15 @@ async function showinventorydetail(inventory,thisrow){
     selectlocationbutton.style.padding = '5px 5px';
     inventorydetail.appendChild(selectlocationbutton);
 
+    const checkinventorybutton = document.createElement('button');
+    checkinventorybutton.type = 'button';
+    checkinventorybutton.className = 'button';
+    checkinventorybutton.innerHTML = '确认库存';
+    checkinventorybutton.style.fontSize = '14px';
+    checkinventorybutton.style.padding = '5px 5px';
+    inventorydetail.appendChild(checkinventorybutton);
+
+
     updateinventoryform.addEventListener('submit', async function(event) {
         console.log('submit');
         event.preventDefault();
@@ -3237,11 +3246,34 @@ async function showinventorydetail(inventory,thisrow){
         printinventorylabel(inventory);
     });
 
+    checkinventorybutton.addEventListener('click', async function() {
+        const confirmCheck = confirm('确定盘库库存编号 ' + inventory['inventoryid'] + ' ?');
+        if (confirmCheck) {
+            const today = new Date();
+
+            const checkcreteria = new FormData();
+            checkcreteria.append('id', inventory['id']);
+            checkcreteria.append('checkdate', today.toISOString());
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/checkinventory', {
+                method: 'POST',
+                body: checkcreteria,
+            });
+            const data = await response.json();
+
+            if (data['error_code'] == 0) {
+                alert('库存编号 ' + inventory['inventoryid'] + ' 已确认');
+                inventory['checkdate'] = data['checkdate'];
+                createInventoryDetailItem('最后盘库时间', inventory['checkdate']);
+            }
+        }
+    });
+
     if(access!=1 && access!=3){
         submitbutton.disabled = true;
         deleteButton.disabled = true;
         labelbutton.disabled = true;
         selectlocationbutton.disabled = true;
+        checkinventorybutton.disabled = true;
     }
 
 }
