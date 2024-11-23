@@ -1033,7 +1033,11 @@ async function addnewjob(clickeditem,detaillinenumber){
         httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
             method: 'POST',
             body: addjob,
-        }));
+        }).then(response => response.json()).then(data => {
+            console.log(data);
+        })
+    
+        );
         
         const detaillineForms = document.getElementsByClassName('detaillineform');
         for (let i = 0; i < detaillineForms.length; i++) {
