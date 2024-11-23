@@ -1034,9 +1034,9 @@ async function addnewjob(clickeditem,detaillinenumber){
             method: 'POST',
             body: addjob,
         })
-        // .then(response => response.json()).then(data => {
-        //     console.log(data);
-        // })
+        .then(response => response.json()).then(data => {
+            console.log(data);
+        })
     
         );
         
