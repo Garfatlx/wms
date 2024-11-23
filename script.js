@@ -5529,9 +5529,13 @@ function showinvoicewindow(clickeditem,items){
 }
 
 function sendemail(sendto,subject,content){
+    const formData = new FormData();
+    formData.append('sendto', sendto);
+    formData.append('subject', subject);
+    formData.append('content', content);
     fetch('https://garfat.xyz/index.php/home/Wms/sendemail', {
         method: 'POST',
-        body: JSON.stringify({sendto:sendto,subject:subject,content:content}),
+        body: formData,
     }).then(response => response.json()).then(data => {
         console.log(data);
     });
