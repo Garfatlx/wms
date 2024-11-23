@@ -1033,9 +1033,10 @@ async function addnewjob(clickeditem,detaillinenumber){
         httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
             method: 'POST',
             body: addjob,
-        }).then(response => response.json()).then(data => {
-            console.log(data);
         })
+        // .then(response => response.json()).then(data => {
+        //     console.log(data);
+        // })
     
         );
         
