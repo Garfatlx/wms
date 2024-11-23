@@ -1034,10 +1034,6 @@ async function addnewjob(clickeditem,detaillinenumber){
             method: 'POST',
             body: addjob,
         })
-        .then(response => response.json()).then(data => {
-            console.log(data);
-        })
-    
         );
         
         const detaillineForms = document.getElementsByClassName('detaillineform');
@@ -2103,6 +2099,19 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 
                 createjob(newaddedjob,activeJobs);
             }
+
+            if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
+                const sendto=getemailaddress(newaddedjob['customer']);
+                if(sendto){
+                    const mailsubject = "任务完成通知 "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
+                    const mailcontent = "主题任务入库完成，入库数据如下 \n"+newaddedjob['overview']+ "\n 请登录系统查看详情";
+                    sendemail(sendto,mailsubject,mailcontent);
+                }else{
+                    //alert("无法发送邮件，请检查客户邮箱地址");
+                }
+            }
+            
+
             itemdetail.innerHTML="";
         })
         .catch(function(){
@@ -2932,28 +2941,6 @@ function createstatusbar(currentstatus,status1,status2,status3,status4){
     // detailform.appendChild(statusRadioInput);
 }
 
-function getlocation(ref){
-    if (ref === 'STR1') {
-        return ['1', 'A'];
-    } else if (ref === 'HAJ1') {
-        return ['2', 'B'];
-    } else if (ref === 'WRO5') {
-        return ['3', 'C'];
-    } else{
-        return null;
-    }
-}
-//get formatted date, targetdate is the number of days from today
-function getformatteddate(targetdate){
-    var today = new Date();
-    var date = new Date(today);
-    date.setDate(date.getDate() + targetdate);
-    var year = date.getFullYear();
-    var month = (1 + date.getMonth()).toString().padStart(2, '0');
-    var day = date.getDate().toString().padStart(2, '0');
-    return year + '-' + month + '-' + day;
-}
-
 function sortTable(columnIndex,secondindex) {
     var tbody = document.getElementById('inventory-table-body');
     var rows = Array.from(tbody.querySelectorAll("tr"));
@@ -3328,47 +3315,6 @@ async function showactivitydetail(activity){
     var job = data["data"][0];
     createActivityDetailItem('相关任务：', "");
     createjob(job,activitydetail);
-    
-}
-
-function getaddress(reforigin){
-   const ref = reforigin.trim().toUpperCase();
-    if (ref === 'STR1') {
-        return ['STR1 <br>Im Buchbusch 1, DE-75177', 'Pforzheim, Baden-Württemberg, Germany'];
-    } else if (ref === 'HAJ1') {
-        return ['HAJ1 <br>Zur Alten Molkerei 1, DE-38350', 'Helmstedt, Lower Saxony, Germany'];
-    } else if (ref === 'WRO5') {
-        return ['Finsterwalder Transport und Logistik GmbH <br>Schieferstraße 16,  DE-06126', 'Halle (saale), Germany'];
-    } else if (ref === 'DTM2') {
-        return ['DTM2<br>Kaltbandstrasse 4, DE-44145', 'Dortmund, North Rhine-Westphalia, Germany'];
-    } else if (ref === 'DTM1') {
-        return ['DTM1 <br>Raiffeisenstraße 1, DE-59368', 'Werne, Nordrhein-Westfalen, Germany'];
-    }else if (ref === 'LEJ3') {
-        return ['LEJ3 <br>Bielefelder Straße 9, DE-39171', 'Suelzetal, Saxony-Anhalt, Germany']; 
-    }else if (ref === 'DPD') {
-        return ["DPD Belgium Depot<br>Rue de l'Arbe Saint-Michel 99, 4400 Flémalle", 'Flémalle, Belgium']; 
-    }else if (ref === 'XSC1') {
-        return ['XSC1<br>Hans-Geiger-Strasse 7, DE-67661', 'Kaiserslautern, Rhineland-Palatinate, Germany']; 
-    }else if (ref === 'CDG7') {
-        return ['CDG7<br>1 Av. Alain Boucher, FR-60300', 'Senlis, Oise, France'];
-    }else if (ref === 'XOR1') {
-        return ['XOR1<br>2449 Rue Denis Papin, FR-77550', 'Réau, France'];
-    }else if (ref === 'STR2') {
-        return ['STR2<br>Oggenhauser Hauptstrasse 151, DE-89522', 'Heidenheim an der Brenz, Bayern, Germany'];
-    }else if (ref === 'XPO1' && ref==='Slam') {
-        return ['Slam Sp.z.o.o<br>Am Zeugamt 4, DE-04758', 'Oschatz, Germany']; 
-    }else if (ref === 'DHL PAKET') {
-        return ['DHL Freight Hagen<br>Dolomitstraße 20, DE-58099', 'Hagen, Germany']; 
-    }else if (ref === 'DPD') {
-        return ["DPD Belgium Depot<br>Rue de l'Arbre Saint-Michel 99, 4400 Flemalle", 'Flemalle, Belgium']; 
-    }else if (ref === 'DHL EXPRESS') {
-        return ['DHL Maastricht<br>Aviation Valley, Engelandlaan 7, NL-6199 AN', 'Maastricht, Netherlands']; 
-    }else if (ref === 'XGEB') {
-        return ['XGEB<br>Steinauer Weg 7B, Aurach, 91589 Bavaria', 'Bavaria, Germany'];
-    }else{
-        return null;
-    }
-    
     
 }
 
@@ -4795,8 +4741,6 @@ async function createinventoryoperationdiv(){
 
 }
 
-
-
 async function showitemsOrganised(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
     const actionToken = Symbol();
@@ -5584,6 +5528,14 @@ function showinvoicewindow(clickeditem,items){
 
 }
 
+function sendemail(sendto,subject,content){
+    fetch('https://garfat.xyz/index.php/home/Wms/sendemail', {
+        method: 'POST',
+        body: JSON.stringify({sendto:sendto,subject:subject,content:content}),
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+    });
+}
 //element creataion functions
 function createwarehouseselectiondiv(selectedwarehouse){
     const warehouseselectiondiv=document.createElement('div');
@@ -5780,9 +5732,85 @@ function createcoolselect(name,nameplate,options,value,noneditable){
 
     return selectdiv;
 }
+
+
+//get functions
 function getcustomerinvoicetempletelist(customer){
     if(customer=='佳成'){
         return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
     }
     return ['请填写客户名称','其他'];
+}
+
+function getaddress(reforigin){
+    const ref = reforigin.trim().toUpperCase();
+     if (ref === 'STR1') {
+         return ['STR1 <br>Im Buchbusch 1, DE-75177', 'Pforzheim, Baden-Württemberg, Germany'];
+     } else if (ref === 'HAJ1') {
+         return ['HAJ1 <br>Zur Alten Molkerei 1, DE-38350', 'Helmstedt, Lower Saxony, Germany'];
+     } else if (ref === 'WRO5') {
+         return ['Finsterwalder Transport und Logistik GmbH <br>Schieferstraße 16,  DE-06126', 'Halle (saale), Germany'];
+     } else if (ref === 'DTM2') {
+         return ['DTM2<br>Kaltbandstrasse 4, DE-44145', 'Dortmund, North Rhine-Westphalia, Germany'];
+     } else if (ref === 'DTM1') {
+         return ['DTM1 <br>Raiffeisenstraße 1, DE-59368', 'Werne, Nordrhein-Westfalen, Germany'];
+     }else if (ref === 'LEJ3') {
+         return ['LEJ3 <br>Bielefelder Straße 9, DE-39171', 'Suelzetal, Saxony-Anhalt, Germany']; 
+     }else if (ref === 'DPD') {
+         return ["DPD Belgium Depot<br>Rue de l'Arbe Saint-Michel 99, 4400 Flémalle", 'Flémalle, Belgium']; 
+     }else if (ref === 'XSC1') {
+         return ['XSC1<br>Hans-Geiger-Strasse 7, DE-67661', 'Kaiserslautern, Rhineland-Palatinate, Germany']; 
+     }else if (ref === 'CDG7') {
+         return ['CDG7<br>1 Av. Alain Boucher, FR-60300', 'Senlis, Oise, France'];
+     }else if (ref === 'XOR1') {
+         return ['XOR1<br>2449 Rue Denis Papin, FR-77550', 'Réau, France'];
+     }else if (ref === 'STR2') {
+         return ['STR2<br>Oggenhauser Hauptstrasse 151, DE-89522', 'Heidenheim an der Brenz, Bayern, Germany'];
+     }else if (ref === 'XPO1' && ref==='Slam') {
+         return ['Slam Sp.z.o.o<br>Am Zeugamt 4, DE-04758', 'Oschatz, Germany']; 
+     }else if (ref === 'DHL PAKET') {
+         return ['DHL Freight Hagen<br>Dolomitstraße 20, DE-58099', 'Hagen, Germany']; 
+     }else if (ref === 'DPD') {
+         return ["DPD Belgium Depot<br>Rue de l'Arbre Saint-Michel 99, 4400 Flemalle", 'Flemalle, Belgium']; 
+     }else if (ref === 'DHL EXPRESS') {
+         return ['DHL Maastricht<br>Aviation Valley, Engelandlaan 7, NL-6199 AN', 'Maastricht, Netherlands']; 
+     }else if (ref === 'XGEB') {
+         return ['XGEB<br>Steinauer Weg 7B, Aurach, 91589 Bavaria', 'Bavaria, Germany'];
+     }else{
+         return null;
+     }
+     
+     
+ }
+
+ function getlocation(ref){
+    if (ref === 'STR1') {
+        return ['1', 'A'];
+    } else if (ref === 'HAJ1') {
+        return ['2', 'B'];
+    } else if (ref === 'WRO5') {
+        return ['3', 'C'];
+    } else{
+        return null;
+    }
+}
+//get formatted date, targetdate is the number of days from today
+function getformatteddate(targetdate){
+    var today = new Date();
+    var date = new Date(today);
+    date.setDate(date.getDate() + targetdate);
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth()).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    return year + '-' + month + '-' + day;
+}
+
+function getemailaddress(customer){
+    if(customer=='test'){
+        return 'garfat@live.com';
+    }
+    if(customer=='佳成'){
+        return null;
+    }
+    return null;
 }
