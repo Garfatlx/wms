@@ -2104,7 +2104,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
                 const sendto=getemailaddress(newaddedjob['customer']);
                 if(sendto){
-                    const mailsubject = "任务完成通知 "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
+                    const mailsubject = "系统通知: "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
                     const mailcontent = "主题任务入库完成，入库数据如下 \n"+newaddedjob['overview'].replace(/<br \/>/g, '\n')+ "\n 请登录系统查看详情";
                     sendemail(sendto,mailsubject,mailcontent);
                 }else{
