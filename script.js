@@ -2100,11 +2100,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 createjob(newaddedjob,activeJobs);
             }
 
+            //send email to customer
             if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
                 const sendto=getemailaddress(newaddedjob['customer']);
                 if(sendto){
                     const mailsubject = "任务完成通知 "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
-                    const mailcontent = "主题任务入库完成，入库数据如下 \n"+newaddedjob['overview']+ "\n 请登录系统查看详情";
+                    const mailcontent = "主题任务入库完成，入库数据如下 \n"+newaddedjob['overview'].replace(/<br \/>/g, '\n')+ "\n 请登录系统查看详情";
                     sendemail(sendto,mailsubject,mailcontent);
                 }else{
                     //alert("无法发送邮件，请检查客户邮箱地址");
