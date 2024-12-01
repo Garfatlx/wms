@@ -2101,7 +2101,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             // });
             // const data = await response.json();
             // const newaddedjob = data["data"][0];
-            const newaddedjob = jobwithitems["job"][0];
+            const newaddedjob = jobwithitems["jobs"][0];
             const newaddeditems = jobwithitems["items"];
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
