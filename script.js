@@ -2130,10 +2130,10 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                     if(index==-1){
                         outemails.push({"customer":item['customer'],
                                         "email":getemailaddress(item['customer']),
-                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+showedorderid+'出库完成',
-                                        "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"/n"});
+                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+" 单号"+showedorderid+' 出库完成',
+                                        "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n"});
                     }else{
-                        outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"/n";
+                        outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n";
                     }
                 });
                 outemails.forEach(function(email){
