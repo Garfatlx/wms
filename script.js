@@ -5555,9 +5555,46 @@ async function searchjobwithitems(searchcreteria){
 
     const data = await response.json();
 
-    console.log(data);
+    const jobs = data['data']['job'];
+    const items = data['data']['items'];
 
-    return data;
+    jobs.forEach(job => {
+        job["overview"] = '';
+        items.forEach((item, key2) => {
+            if (item.pcs <= 0) {
+                return;
+            }
+            let plttype = '';
+            if (item.plttype && item.plttype !== '散货') {
+                plttype = item.plttype + '托盘打托 ' + item.oogplt;
+            }
+            if (jobout.activity === '入库') {
+                if (item.plt === 0) {
+                    if (item.channel === '拦截暂扣') {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    }
+                } else {
+                    if (item.channel === '拦截暂扣') {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    }
+                }
+            } else {
+                if (item.plt === 0) {
+                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                } else {
+                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                }
+            }
+        });
+
+    });
+    console.log({'jobs':jobs,'items':items});
+
+    return {'jobs':jobs,'items':items};
 }
 
 //element creataion functions
