@@ -2092,12 +2092,17 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
             var searchnewadded = new FormData();
             searchnewadded.append("jobid",jobid.value);
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-                method: 'POST',
-                body: searchnewadded,
-            });
-            const data = await response.json();
-            const newaddedjob = data["data"][0];
+
+            const jobwithitems=await searchjobwithitems(searchnewadded);
+
+            // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+            //     method: 'POST',
+            //     body: searchnewadded,
+            // });
+            // const data = await response.json();
+            // const newaddedjob = data["data"][0];
+            const newaddedjob = jobwithitems["job"][0];
+            const newaddeditems = jobwithitems["items"];
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
             }else{
@@ -2115,6 +2120,29 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }else{
                     //alert("无法发送邮件，请检查客户邮箱地址");
                 }
+            }
+            if(newaddedjob['status']=="完成" && newaddedjob['activity']=="出库"){
+                var outemails=[];
+                const showedorderid=newaddedjob['orderid']?newaddedjob['orderid']:"";
+                newaddeditems.forEach(function(item){
+                    var index = outemails.findIndex(x => x['customer'] == item['customer']);
+                    const pltinfo=item['plt']==0?"":item['plt']+"托";
+                    if(index==-1){
+                        outemails.push({"customer":item['customer'],
+                                        "email":getemailaddress(item['customer']),
+                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+showedorderid+'出库完成',
+                                        "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"/n"});
+                    }else{
+                        outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"/n";
+                    }
+                });
+                outemails.forEach(function(email){
+                    if(email['email']){
+                        const emailbody = "主题任务出库完成，出库数据如下 \n"+email['bodycontent']+ "\n 请登录系统查看详情";
+                        sendemail(email['email'],email['subject'],emailbody);
+                    }
+                }
+                );
             }
             
 
