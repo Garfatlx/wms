@@ -106,6 +106,11 @@ window.addEventListener("load", function(){
     });
     document.body.appendChild(datalist2);
 
+    //testing code
+    var searchcreteria = new FormData();
+    searchcreteria.append("jobid", "1732890217735");   
+    searchjobwithitems(searchcreteria);
+
     refreshAt(0,0,0);
 
 });
@@ -5541,6 +5546,20 @@ function sendemail(sendto,subject,content){
         console.log(data);
     });
 }
+
+async function searchjobwithitems(searchcreteria){
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobwithitems', {
+        method: 'POST',
+        body: searchcreteria,
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+
+    return data;
+}
+
 //element creataion functions
 function createwarehouseselectiondiv(selectedwarehouse){
     const warehouseselectiondiv=document.createElement('div');
