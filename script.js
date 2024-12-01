@@ -5568,7 +5568,7 @@ async function searchjobwithitems(searchcreteria){
             if (item.plttype && item.plttype !== '散货') {
                 plttype = item.plttype + '托盘打托 ' + item.oogplt;
             }
-            if (jobout.activity === '入库') {
+            if (job.activity === '入库') {
                 if (item.plt === 0) {
                     if (item.channel === '拦截暂扣') {
                         job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
