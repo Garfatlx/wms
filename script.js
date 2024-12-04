@@ -1598,12 +1598,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
         const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:"";
         const inputcustomer=document.getElementById("customerinput").value;
-        const quotetemplateselect=createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),quotetemplate);
+        const quotetemplateselect=createquotetemplateselectiondiv(Object.keys(getcustomerinvoicetempletelist(inputcustomer)),quotetemplate);
         
         document.getElementById("customerinput").addEventListener("input", function() {
             const inputcustomer = this.value;
             const quotetemplate = clickeditem['quotetemplate'] ? clickeditem['quotetemplate'] : "";
-            const quotetemplateselect = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer), quotetemplate);
+            const quotetemplateselect = createquotetemplateselectiondiv(Object.keys(getcustomerinvoicetempletelist(inputcustomer)), quotetemplate);
         
             // Clear the previous options
             while (line8control.firstChild) {
@@ -5377,7 +5377,7 @@ async function showinvoicewindow(clickeditem,items){
     // buttonsdiv.appendChild(templateselectiondiv);
 
     const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:'';
-    const templateselectiondiv = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']),quotetemplate);
+    const templateselectiondiv = createquotetemplateselectiondiv(Object.keys(getcustomerinvoicetempletelist(clickeditem['customer'])),quotetemplate);
     templateselectiondiv.style.margin = '0px 0px 0px 50px';
     buttonsdiv.appendChild(templateselectiondiv);
     body.appendChild(document.createElement('hr'));
@@ -5826,10 +5826,10 @@ function createcoolselect(name,nameplate,options,value,noneditable){
 //get functions
 function getcustomerinvoicetempletelist(customer){
     if(customer=='佳成'){
-        // return {'':'unitprice','佳成-单项目收费报价':'unitprice', '佳成-一口价方案有效期2024年8月1日至2025年3月31日':'lumpsumprice', '其他':'unitprice'};
+        return {'':'unitprice','佳成-单项目收费报价':'unitprice', '佳成-一口价方案有效期2024年8月1日至2025年3月31日':'lumpsumprice', '其他':'unitprice'};
         return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
     }
-    // return {'':'unitprice','其他':'unitprice'};
+    return {'':'unitprice','其他':'unitprice'};
     return ['','其他'];
 }
 
