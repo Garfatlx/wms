@@ -13,7 +13,7 @@ window.addEventListener("load", function(){
     
     access=-1;
     sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.10";
+    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.12";
     
     //page fist load
     // var searchcreteria = new FormData();
@@ -105,6 +105,11 @@ window.addEventListener("load", function(){
         datalist2.appendChild(option);
     });
     document.body.appendChild(datalist2);
+
+    //testing code
+    var searchcreteria = new FormData();
+    searchcreteria.append("jobid", "1732890217735");   
+    searchjobwithitems(searchcreteria);
 
     refreshAt(0,0,0);
 
@@ -2087,12 +2092,17 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
             var searchnewadded = new FormData();
             searchnewadded.append("jobid",jobid.value);
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-                method: 'POST',
-                body: searchnewadded,
-            });
-            const data = await response.json();
-            const newaddedjob = data["data"][0];
+
+            const jobwithitems=await searchjobwithitems(searchnewadded);
+
+            // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+            //     method: 'POST',
+            //     body: searchnewadded,
+            // });
+            // const data = await response.json();
+            // const newaddedjob = data["data"][0];
+            const newaddedjob = jobwithitems["jobs"][0];
+            const newaddeditems = jobwithitems["items"];
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
             }else{
@@ -2110,6 +2120,29 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }else{
                     //alert("无法发送邮件，请检查客户邮箱地址");
                 }
+            }
+            if(newaddedjob['status']=="完成" && newaddedjob['activity']=="出库"){
+                var outemails=[];
+                const showedorderid=newaddedjob['orderid']?newaddedjob['orderid']:"";
+                newaddeditems.forEach(function(item){
+                    var index = outemails.findIndex(x => x['customer'] == item['customer']);
+                    const pltinfo=item['plt']==0?"":item['plt']+"托";
+                    if(index==-1){
+                        outemails.push({"customer":item['customer'],
+                                        "email":getemailaddress(item['customer']),
+                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+" 单号"+showedorderid+' 出库完成',
+                                        "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n"});
+                    }else{
+                        outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n";
+                    }
+                });
+                outemails.forEach(function(email){
+                    if(email['email']){
+                        const emailbody = "主题任务出库完成，出库数据如下 \n"+email['bodycontent']+ "\n 请登录系统查看详情";
+                        sendemail(email['email'],email['subject'],emailbody);
+                    }
+                }
+                );
             }
             
 
@@ -5530,6 +5563,57 @@ function sendemail(sendto,subject,content){
         console.log(data);
     });
 }
+
+async function searchjobwithitems(searchcreteria){
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobwithitems', {
+        method: 'POST',
+        body: searchcreteria,
+    });
+
+    const data = await response.json();
+
+    const jobs = data['data']['job'];
+    const items = data['data']['items'];
+
+    jobs.forEach(job => {
+        job["overview"] = '';
+        items.forEach((item, key2) => {
+            if (item.pcs <= 0) {
+                return;
+            }
+            let plttype = '';
+            if (item.plttype && item.plttype !== '散货') {
+                plttype = item.plttype + '托盘打托 ' + item.oogplt;
+            }
+            if (job.activity === '入库') {
+                if (item.plt === 0) {
+                    if (item.channel === '拦截暂扣') {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    }
+                } else {
+                    if (item.channel === '拦截暂扣') {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    }
+                }
+            } else {
+                if (item.plt === 0) {
+                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                } else {
+                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                }
+            }
+        });
+
+    });
+    console.log({'jobs':jobs,'items':items});
+
+    return {'jobs':jobs,'items':items};
+}
+
 //element creataion functions
 function createwarehouseselectiondiv(selectedwarehouse){
     const warehouseselectiondiv=document.createElement('div');
@@ -5804,7 +5888,7 @@ function getemailaddress(customer){
         return 'garfat@live.com';
     }
     if(customer=='佳成'){
-        return null;
+        return "mcck_cz@jcex.com";
     }
     return null;
 }
