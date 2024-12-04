@@ -5457,44 +5457,28 @@ function showinvoicewindow(clickeditem,items){
             invoiceline.appendChild(addnewinput);
 
             addnewbutton.addEventListener('click', function() {
-                const newinvoiceline = createinvoiceline(jobinfo,{name2:itemnameinput.value},name1,namedatalist);
+                const newinvoiceline = createinvoiceline(jobinfo,{chargeitem:itemnameinput.value},name1,namedatalist);
                 invoiceline.parentElement.insertBefore(newinvoiceline, invoiceline);
                 itemnameinput.value = '';
             });
             return invoiceline;
         }
+
+        const invoicelineform = document.createElement('form');
+        invoicelineform.className = 'invoicelineform';
+
+        invoiceline.appendChild(invoicelineform);
         
         const itemname2input = document.createElement('input');
         itemname2input.className = 'inputbox';
         itemname2input.style.width = '200px';
         itemname2input.type = 'text';
-        itemname2input.name = 'name2';
-        itemname2input.value = item['name2'];
+        itemname2input.name = 'chargeitem';
+        itemname2input.value = item['chargeitem'];
         itemname2input.placeholder = '条目名称';
         itemname2input.setAttribute('list', namedatalist);
 
-        invoiceline.appendChild(itemname2input);
-
-        // const itemunitinput = document.createElement('select');
-        // itemunitinput.className = 'inputbox';
-        // itemunitinput.name = 'unit';
-        // itemunitinput.value = item['unit']?item['unit']:'';
-        // const itemunitoptions = ['','每箱','每托','每单','每仓点','每标签','每小时'];
-        // itemunitoptions.forEach(unit => {
-        //     const option = document.createElement('option');
-        //     option.value = unit;
-        //     option.innerHTML = unit;
-        //     itemunitinput.appendChild(option);
-        // });
-        // invoiceline.appendChild(itemunitinput);
-
-        // const itempriceinput = document.createElement('input');
-        // itempriceinput.className = 'inputbox';
-        // itempriceinput.type = 'text';
-        // itempriceinput.name = 'price';
-        // itempriceinput.value = item['price']?item['price']:'';
-        // itempriceinput.placeholder = '单价';
-        // invoiceline.appendChild(itempriceinput);
+        invoicelineform.appendChild(itemname2input);
 
         const itemquantityinput = document.createElement('input');
         itemquantityinput.className = 'inputbox';
@@ -5502,25 +5486,30 @@ function showinvoicewindow(clickeditem,items){
         itemquantityinput.name = 'quantity';
         itemquantityinput.value = item['quantity']?item['quantity']:'';
         itemquantityinput.placeholder = '数量';
-        invoiceline.appendChild(itemquantityinput);
+        invoicelineform.appendChild(itemquantityinput);
 
         const deletelinebutton = document.createElement('button');
         deletelinebutton.type = 'button';
         deletelinebutton.innerHTML = '-';
         deletelinebutton.style.margin = '0px 0px 0px 10px';
-        invoiceline.appendChild(deletelinebutton);
+        invoicelineform.appendChild(deletelinebutton);
 
-        invoiceline.appendChild(createhiddeninput('name1',name1));
-        invoiceline.appendChild(createhiddeninput('jobid',jobinfo['jobid']));
-        invoiceline.appendChild(createhiddeninput('date',jobinfo['date']));
-        invoiceline.appendChild(createhiddeninput('customer',jobinfo['customer']));
+        
+        invoicelineform.appendChild(createhiddeninput('chargecat',name1));
+        invoicelineform.appendChild(createhiddeninput('status',"新添加"));
+        invoicelineform.appendChild(createhiddeninput('jobid',jobinfo['jobid']));
+        invoicelineform.appendChild(createhiddeninput('date',new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16)));
+        invoicelineform.appendChild(createhiddeninput('invoicedate',jobinfo['date']));
+        invoicelineform.appendChild(createhiddeninput('customer',jobinfo['customer']));
         // invoiceline.appendChild(createhiddeninput('invoiceid',jobinfo['invoiceid']));
 
         deletelinebutton.addEventListener('click', function() {
             invoiceline.remove();
         });
 
-
+        invoicelineform.addEventListener('submit', async function(event) {
+            event.preventDefault();
+        });
 
 
 
