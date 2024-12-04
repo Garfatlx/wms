@@ -1598,12 +1598,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
         const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:"";
         const inputcustomer=document.getElementById("customerinput").value;
-        const quotetemplateselect=createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer),quotetemplate);
+        const quotetemplateselect=createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer).keys,quotetemplate);
         
         document.getElementById("customerinput").addEventListener("input", function() {
             const inputcustomer = this.value;
             const quotetemplate = clickeditem['quotetemplate'] ? clickeditem['quotetemplate'] : "";
-            const quotetemplateselect = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer), quotetemplate);
+            const quotetemplateselect = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(inputcustomer).keys, quotetemplate);
         
             // Clear the previous options
             while (line8control.firstChild) {
@@ -5328,7 +5328,7 @@ function createappointmentwindow(){
 
 }
 
-function showinvoicewindow(clickeditem,items){
+async function showinvoicewindow(clickeditem,items){
     const invoicewindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
     invoicewindow.document.write('<html><head>');
@@ -5338,18 +5338,27 @@ function showinvoicewindow(clickeditem,items){
 
     const body=invoicewindow.document.body;
 
+    //create a datalists
     const datalist1 = document.createElement('datalist');
     datalist1.id = 'dischargefeelist';
     const dischargefees = ['卸货费','卸货费2','卸货费3'];
     dischargefees.forEach(fee => {
         const option = document.createElement('option');
         option.value = fee;
+        option.innerHTML = fee;
         datalist1.appendChild(option);
     });
     body.appendChild(datalist1);
 
-
-
+    //loaddate
+    var searchcreteria = new FormData();
+    searchcreteria.append('jobid', clickeditem['jobid']);
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinvoiceitem', {
+        method: 'POST',
+        body: searchcreteria,
+    });
+    const data = await response.json();
+    const invoiceitems = data['data'];
 
     const buttonsdiv = document.createElement('div');
     buttonsdiv.className = 'buttonsdiv';
@@ -5367,7 +5376,8 @@ function showinvoicewindow(clickeditem,items){
     // const templateselectiondiv = createcoolselect('quotetemplate','账单模板',['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '账单模板3']);
     // buttonsdiv.appendChild(templateselectiondiv);
 
-    const templateselectiondiv = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']));
+    const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:'';
+    const templateselectiondiv = createquotetemplateselectiondiv(getcustomerinvoicetempletelist(clickeditem['customer']).keys,quotetemplate);
     templateselectiondiv.style.margin = '0px 0px 0px 50px';
     buttonsdiv.appendChild(templateselectiondiv);
     body.appendChild(document.createElement('hr'));
@@ -5413,7 +5423,7 @@ function showinvoicewindow(clickeditem,items){
 
     //create invoicedetail
     invoicedetaildiv.innerHTML = '';
-    const invoiceform = document.createElement('form');
+    const invoiceform = document.createElement('div');
     invoiceform.className = 'invoiceform';
     invoicedetaildiv.appendChild(invoiceform);
 
@@ -5516,8 +5526,8 @@ function showinvoicewindow(clickeditem,items){
         const itemquantityinput = document.createElement('input');
         itemquantityinput.className = 'inputbox';
         itemquantityinput.type = 'text';
-        itemquantityinput.name = 'quantity';
-        itemquantityinput.value = item['quantity']?item['quantity']:'';
+        itemquantityinput.name = 'qty';
+        itemquantityinput.value = item['qty']?item['qty']:'';
         itemquantityinput.placeholder = '数量';
         invoicelineform.appendChild(itemquantityinput);
 
@@ -5534,6 +5544,7 @@ function showinvoicewindow(clickeditem,items){
         invoicelineform.appendChild(createhiddeninput('date',new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16)));
         invoicelineform.appendChild(createhiddeninput('invoicedate',jobinfo['date']));
         invoicelineform.appendChild(createhiddeninput('customer',jobinfo['customer']));
+        invoicelineform.appendChild(createhiddeninput('quotetmp',jobinfo['quotetemplate']));
         // invoiceline.appendChild(createhiddeninput('invoiceid',jobinfo['invoiceid']));
 
         deletelinebutton.addEventListener('click', function() {
@@ -5815,9 +5826,10 @@ function createcoolselect(name,nameplate,options,value,noneditable){
 //get functions
 function getcustomerinvoicetempletelist(customer){
     if(customer=='佳成'){
-        return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
+        return {'':'unitprice','佳成-单项目收费报价':'unitprice', '佳成-一口价方案有效期2024年8月1日至2025年3月31日':'lumpsumprice', '其他':'unitprice'};
+        // return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
     }
-    return ['请填写客户名称','其他'];
+    return {'':'unitprice','其他':'unitprice'};
 }
 
 function getaddress(reforigin){
