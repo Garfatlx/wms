@@ -5427,12 +5427,6 @@ async function showinvoicewindow(clickeditem,items){
     invoiceform.className = 'invoiceform';
     invoicedetaildiv.appendChild(invoiceform);
 
-    invoiceform.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const invoicecontent = new FormData(invoiceform);
-        console.log(invoicecontent);
-    });
-
     const invoiceblock1 = createitemblock('卸货费');
     invoiceform.appendChild(invoiceblock1);
     const invoiceline1 = createinvoiceline(clickeditem,undefined,'卸货费','dischargefeelist');
