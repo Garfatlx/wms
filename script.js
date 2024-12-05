@@ -5366,7 +5366,7 @@ async function showinvoicewindow(clickeditem,items){
         body: searchcreteria,
     });
     const data = await response.json();
-    const invoiceitems = data['data'];
+    const invoiceitems = data['data']?data['data']:[];
 
     const buttonsdiv = document.createElement('div');
     buttonsdiv.className = 'buttonsdiv';
@@ -5433,53 +5433,66 @@ async function showinvoicewindow(clickeditem,items){
     invoicedetaildiv.innerHTML = '';
     const templatelist = getcustomerinvoicetempletelist(clickeditem['customer']);
     if(templatelist[quotetemplate]=='unitprice'){
-        invoicedetaildiv.appendChild(createunitpricetemplate(clickeditem,items));
+        invoicedetaildiv.appendChild(createunitpricetemplate(clickeditem,invoiceitems));
     }
     if(templatelist[quotetemplate]=='lumpsumprice'){
-        invoicedetaildiv.appendChild(createlumpsumtemplate(clickeditem,items));
+        invoicedetaildiv.appendChild(createlumpsumtemplate(clickeditem,invoiceitems));
     }
-    function createunitpricetemplate(clickeditem,items){
+    function createunitpricetemplate(clickeditem,invoiceitems){
         const invoiceform = document.createElement('div');
         invoiceform.className = 'invoiceform';
         const invoiceblock1 = createitemblock('卸货费');
+        invoiceblock1.id = '卸货费';
         invoiceform.appendChild(invoiceblock1);
         const invoiceline1 = createinvoiceline(clickeditem,undefined,'卸货费','dischargefeelist');
         invoiceblock1.querySelector('.blockcontent').appendChild(invoiceline1);
 
         const invoiceblock2 = createitemblock('分拣费');
+        invoiceblock2.id = '分拣费';
         invoiceform.appendChild(invoiceblock2);
         const invoiceline2 = createinvoiceline(clickeditem,undefined,'分拣费','dischargefeelist');
         invoiceblock2.querySelector('.blockcontent').appendChild(invoiceline2);
 
         const invoiceblock3 = createitemblock('装货费');
+        invoiceblock3.id = '装货费';
         invoiceform.appendChild(invoiceblock3);
         const invoiceline3 = createinvoiceline(clickeditem,undefined,'装货费','dischargefeelist');
         invoiceblock3.querySelector('.blockcontent').appendChild(invoiceline3);
 
         const invoiceblock4 = createitemblock('打托费');
+        invoiceblock4.id = '打托费';
         invoiceform.appendChild(invoiceblock4);
         const invoiceline4 = createinvoiceline(clickeditem,undefined,'打托费','dischargefeelist');
         invoiceblock4.querySelector('.blockcontent').appendChild(invoiceline4);
 
         const invoiceblock5 = createitemblock('贴标费');
+        invoiceblock5.id = '贴标费';
         invoiceform.appendChild(invoiceblock5);
         const invoiceline5 = createinvoiceline(clickeditem,undefined,'贴标费','dischargefeelist');
         invoiceblock5.querySelector('.blockcontent').appendChild(invoiceline5);
 
         const invoiceblock6 = createitemblock('仓储费');
+        invoiceblock6.id = '仓储费';
         invoiceform.appendChild(invoiceblock6);
         const invoiceline6 = createinvoiceline(clickeditem,undefined,'仓储费','dischargefeelist');
         invoiceblock6.querySelector('.blockcontent').appendChild(invoiceline6);
 
         const invoiceblock7 = createitemblock('其他费用');
+        invoiceblock7.id = '其他费用';
         invoiceform.appendChild(invoiceblock7);
         const invoiceline7 = createinvoiceline(clickeditem,undefined,'其他费用','dischargefeelist');
         invoiceblock7.querySelector('.blockcontent').appendChild(invoiceline7);
 
+        invoiceitems.forEach(item => {
+            const blockselected = document.getElementById(item['chargecat']);
+            const invoiceline = createinvoiceline(clickeditem,item,item['chargecat'],'dischargefeelist');
+            blockselected.inertBefore(invoiceline, blockselected.firstChild);
+        });
+
         return invoiceform;
     }
 
-    function createlumpsumtemplate(clickeditem,items){}
+    function createlumpsumtemplate(clickeditem,invoiceitems){}
     
 
 
