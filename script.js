@@ -2076,6 +2076,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }
             }
         }
+        console.log(document.getElementById("customerinput").value);
+        console.log(document.getElementById("quotetemplate").value);
+        console.log(getcustomerinvoicetempletelist(document.getElementById('customerinput').value).length);
         if(access==2 && getcustomerinvoicetempletelist(document.getElementById('customerinput').value).length>1 && document.getElementById('quotetemplate').value==''){
             alert("请选择发票模板");
             return;
