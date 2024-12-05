@@ -2076,10 +2076,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }
             }
         }
-        if(access==2 && activity=="入库" && Object.keys(getcustomerinvoicetempletelist(document.getElementById('customerinput').value)).length>1 && document.getElementById('quotetemplate').value==''){
-            alert("请选择发票模板");
-            return;
+        if(activity=="入库"){
+            if(access==2 && Object.keys(getcustomerinvoicetempletelist(document.getElementById('customerinput').value)).length>1 && document.getElementById('quotetemplate').value==''){
+                alert("请选择发票模板");
+                return;
+            }
         }
+        
 
 
         //check plt information intactly
