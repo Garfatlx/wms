@@ -2117,13 +2117,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 
                 createjob(newaddedjob,activeJobs);
             }
-
+            const now=new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16);
             //send email to customer
             if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
                 const sendto=getemailaddress(newaddedjob['customer']);
                 if(sendto){
                     const mailsubject = "系统通知: "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
-                    const mailcontent = "主题任务入库完成，入库数据如下 \n"+newaddedjob['overview'].replace(/<br \/>/g, '\n')+ "\n 请登录系统查看详情";
+                    const mailcontent = "主题任务入库完成，系统完成时间"+now+"。入库数据如下 \n"+newaddedjob['overview'].replace(/<br \/>/g, '\n')+ "\n 请登录系统查看详情";
                     sendemail(sendto,mailsubject,mailcontent);
                 }else{
                     //alert("无法发送邮件，请检查客户邮箱地址");
@@ -2131,14 +2131,14 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
             if(newaddedjob['status']=="完成" && newaddedjob['activity']=="出库"){
                 var outemails=[];
-                const showedorderid=newaddedjob['orderid']?newaddedjob['orderid']:"";
+                const showedorderid=newaddedjob['orderid']?'订单号（ISA）：'+newaddedjob['orderid']:"";
                 newaddeditems.forEach(function(item){
                     var index = outemails.findIndex(x => x['customer'] == item['customer']);
                     const pltinfo=item['plt']==0?"":item['plt']+"托";
                     if(index==-1){
                         outemails.push({"customer":item['customer'],
                                         "email":getemailaddress(item['customer']),
-                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+" 单号"+showedorderid+' 出库完成',
+                                        "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+" "+showedorderid+' 出库完成',
                                         "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n"});
                     }else{
                         outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n";
@@ -2146,7 +2146,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 });
                 outemails.forEach(function(email){
                     if(email['email']){
-                        const emailbody = "主题任务出库完成，出库数据如下 \n"+email['bodycontent']+ "\n 请登录系统查看详情";
+                        const emailbody = "主题任务入库完成，"+showedorderid+"。系统完成时间"+now+"。出库数据如下 \n"+email['bodycontent']+ "\n 请登录系统查看详情";
                         sendemail(email['email'],email['subject'],emailbody);
                     }
                 }
