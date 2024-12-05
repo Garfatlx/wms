@@ -2076,6 +2076,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 }
             }
         }
+        if(access==2 && getcustomerinvoicetempletelist(document.getElementById('cusotmerinput').value).length>1 && document.getElementById('quotetemplate').value==''){
+            alert("请选择发票模板");
+            return;
+        }
+
 
         //check plt information intactly
         if(newadded){
@@ -5835,7 +5840,7 @@ function getcustomerinvoicetempletelist(customer){
         return {'':'unitprice','佳成-单项目收费报价':'unitprice', '佳成-一口价方案有效期2024年8月1日至2025年3月31日':'lumpsumprice', '其他':'unitprice'};
         return ['','佳成-单项目收费报价', '佳成-一口价方案有效期2024年8月1日至2025年3月31日', '其他'];
     }
-    return {'':'unitprice','其他':'unitprice'};
+    return {'':'unitprice'};
     return ['','其他'];
 }
 
