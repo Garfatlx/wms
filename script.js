@@ -2294,20 +2294,20 @@ function createdetailline(nid, item, activity, cancelable) {
         // }
     };
     
-    var input2=document.createElement("input");
-    input2.type="text";
-    input2.name="pcs";
-    input2.className="lineinput";
-    input2.style.width="35px";
-    input2.value=item!=''?item['pcs']:'';
-    var input2label=document.createElement("label");
-    input2label.innerHTML="件数";
-    input2label.className="lineinputlabel";
-    input2.onblur=function(){
+    const pcsinput=document.createElement("input");
+    pcsinput.type="text";
+    pcsinput.name="pcs";
+    pcsinput.className="lineinput";
+    pcsinput.style.width="35px";
+    pcsinput.value=item!=''?item['pcs']:'';
+    const pcsinputlabel=document.createElement("label");
+    pcsinputlabel.innerHTML="件数";
+    pcsinputlabel.className="lineinputlabel";
+    pcsinput.onblur=function(){
         sumpcsplt();
     };
-    detaillineform.appendChild(input2label);
-    detaillineform.appendChild(input2);
+    detaillineform.appendChild(pcsinputlabel);
+    detaillineform.appendChild(pcsinput);
 
 
     const pltinput=document.createElement("input");
@@ -2587,7 +2587,7 @@ function createdetailline(nid, item, activity, cancelable) {
             method: 'POST',
             body: searchcreteria,
         }).then(response => response.json()).then(data => {
-            if (data['data']) {
+            if (data['data'] && pcsinput.value != 0) {
                 const cannotcomplete = document.createElement("div");
                 cannotcomplete.innerHTML = "该库存项目有未完成的附加任务!";
                 cannotcomplete.id = "cannotcomplete";
