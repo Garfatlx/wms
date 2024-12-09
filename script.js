@@ -5893,8 +5893,10 @@ function getaddress(reforigin){
      }else if (ref === 'DHL EXPRESS') {
          return ['DHL Maastricht<br>Aviation Valley, Engelandlaan 7, NL-6199 AN', 'Maastricht, Netherlands']; 
      }else if (ref === 'XGEB') {
-         return ['XGEB<br>Steinauer Weg 7B, Aurach, 91589 Bavaria', 'Bavaria, Germany'];
-     }else{
+         return ['LEG1<br>Amazonstraße 1, Leipzig, Saxony 04347', 'Saxony, Germany'];
+     }else if (ref === 'LEG1') {
+        return ['XGEB<br>Steinauer Weg 7B, Aurach, 91589 Bavaria', 'Bavaria, Germany'];
+    }else{
          return null;
      }
      
