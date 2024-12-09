@@ -1464,7 +1464,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         input0.type="text";
         input0.name="reference";
         input0.id="referenceinput";
-        input0.required=true;
+        // input0.required=true;
         input0.value=((clickeditem!='')?clickeditem['reference']:"");
         var input0label=document.createElement("label");
         input0label.innerHTML="提货码";
@@ -1485,12 +1485,12 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         var input0=document.createElement("input");
         input0.type="text";
         input0.name="orderid";
-        input0.id="referenceinput";
-        input0.required=true;
+        input0.id="orderidinput";
+        // input0.required=true;
         input0.value=((clickeditem!='')?clickeditem['orderid']:"");
         var input0label=document.createElement("label");
         input0label.innerHTML="订单号";
-        input0label.htmlFor="referenceinput";
+        input0label.htmlFor="orderidinput";
         input0label.className="label";
         detailform.appendChild(linecontrol0);
         linecontrol0.appendChild(input0);
