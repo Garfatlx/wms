@@ -1686,7 +1686,6 @@ async function showinovicedata(searchcreteria){
     // Append table to activejobs element
     activejobs.appendChild(table);
 
-    sortTable(5,3);
 }
 
 // functions
