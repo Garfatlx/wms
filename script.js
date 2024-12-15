@@ -39,6 +39,7 @@ window.addEventListener("load", function(){
             loaddetail("",'出库',null,true);
         }
     });
+    
 
     
 
@@ -80,6 +81,12 @@ window.addEventListener("load", function(){
 
                 
             }
+        }
+    });
+    var activitylog = document.getElementById("invoicelog");
+    activitylog.addEventListener("click", function() {
+        if(access==1 || access==3){
+            
         }
     });
 
@@ -188,105 +195,112 @@ function login(){
     xhr.responseType="json";
     xhr.send(loginform);
 }
+async function addnewjob(clickeditem,detaillinenumber){
 
-function searchjobs(searchcreteria,callback){
-    showloading(document.getElementById("activejobs"));
-    if(access==2){
-        searchcreteria.append("customer", customername);
+    var addjob = new FormData(document.getElementById("detailform"));
+    
+    if (!addjob.get('date')) {
+        alert('Please set a date');
+        return;
     }
-    if(access==3){
-        searchcreteria.append("warehouse", currentwarehouse);
-    }
-    currentjobpagecontent='jobs';
-    const actionToken = Symbol();
-    latestActionToken = actionToken;
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                if (actionToken !== latestActionToken) {
-                    return;
-                }
-                document.getElementById("activejobs").innerHTML="";
-                
-                searchedjobs=xhr.response["data"];
-                for (var i = 0; i < xhr.response["data"].length; i++) {
-                    createjob(xhr.response["data"][i],document.getElementById("activejobs"));
-                }
-                sysresponse.innerHTML=xhr.response["msg"];
 
-                if(callback){
-                    callback();
-                }
-            }else{
-                sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="";
-                sysresponse.innerHTML="没有找到任务。";
-            }
+    if (addjob.get('status') == '完成') {
+        if (confirm("确认任务已完成?")) {
+            // Code to execute if user confirms update
+        } else {
+            // Code to execute if user cancels update
+            return;
         }
     }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
-
-    // pre load inventory data
-    searchinventory(new FormData()).then(data => {
-        searchedinventory = data;
-    });
-}
-function searchitems(searchcreteria){
-    if(access==2){
-        searchcreteria.append("customer", customername);
-    }
-    if(access==3){
-        searchcreteria.append("warehouse", currentwarehouse);
-    }
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                return xhr.response["data"];
-                sysresponse.innerHTML=xhr.response["msg"];
-            }
-        }
-    }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
-}
-function searchvas(searchcreteria){
-    showloading(document.getElementById("activejobs"));
-    currentjobpagecontent='vas';
-    const actionToken = Symbol();
-    latestActionToken = actionToken;
-
-    const xhr  = new XMLHttpRequest();
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchvas", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                if (actionToken !== latestActionToken) {
-                    return;
-                }
-                // return xhr.response["data"];
-                sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="";
-                for (var i = 0; i < xhr.response["data"].length; i++) {
-                    createvasjob(xhr.response["data"][i],document.getElementById("activejobs"));
-                }
-            }else{
-                sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="";
-                sysresponse.innerHTML="没有找到任务。";
-            }
-        }
-    }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
 
     
+    //check whether this job is already finished
+    var checkingjob = new FormData();
+    checkingjob.append("jobid", addjob.get('jobid'));
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+        method: 'POST',
+        body: checkingjob,
+    });
+    const data = await response.json();
+    if (data['data'] && data['data'][0].status == '完成') {
+        alert('任务已完成，无法修改');
+        return;
+    }
+    
+    // new code start here
+    return new Promise((resolve, reject) => {
+        // Array to hold all HTTP request promises
+        let httpRequests = [];
+
+        // Example HTTP request using fetch (replace with actual HTTP requests)
+        httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
+            method: 'POST',
+            body: addjob,
+        })
+        );
+        
+        const detaillineForms = document.getElementsByClassName('detaillineform');
+        for (let i = 0; i < detaillineForms.length; i++) {
+            const addjobline = new FormData(detaillineForms[i]);
+            if (addjob.get('activity') == '入库') {
+                addjobline.append('container', addjob.get('joblabel'));
+                addjobline.set('customer', addjob.get('customer'));
+            } else {
+                addjobline.append('orderid', addjob.get('orderid'));
+                addjobline.append('label', addjob.get('joblabel'));
+            }
+            // addjobline.append('jobid', jobid);
+            addjobline.append('jobid', addjob.get('jobid'));
+            addjobline.append('activity', addjob.get('activity'));
+            addjobline.append('date', addjob.get('date'));
+            addjobline.append('status', addjob.get('status'));
+            addjobline.append('warehouse', addjob.get('warehouse'));
+            var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
+            addjobline.set('checked', checkedstatus);
+
+            httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
+                method: 'POST',
+                body: addjobline,
+            }));
+            
+            if(addjob.get('activity')=="入库"){
+                httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                    method: 'POST',
+                    body: addjobline,
+                }));
+            }else{
+                if (addjob.get('status') == '完成') {
+                    httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                        method: 'POST',
+                        body: addjobline,
+                    }));
+                }
+            }
+            
+        }
+        // document.getElementById("itemdetail").innerHTML = "";
+        // Wait for all HTTP requests to complete
+        Promise.all(httpRequests)
+            .then(responses => {
+                // All HTTP requests are completed
+                resolve();
+            })
+            .catch(error => {
+                // Handle any errors
+                console.log(error);
+                console.log(addjobline.get('label'));
+                reject(error);
+            });
+    });
+
+    
+
 }
 
+
+
+
+// search boxes
 function showjobsearchbox(){
     // Clear previous elements in searchbox
     const searchbox = document.getElementById('searchbox');
@@ -997,106 +1011,51 @@ function showitemsearchbox(){
         document.body.removeChild(a);
     });
 }
-async function addnewjob(clickeditem,detaillinenumber){
 
-    var addjob = new FormData(document.getElementById("detailform"));
-    
-    if (!addjob.get('date')) {
-        alert('Please set a date');
-        return;
+function searchjobs(searchcreteria,callback){
+    showloading(document.getElementById("activejobs"));
+    if(access==2){
+        searchcreteria.append("customer", customername);
     }
-
-    if (addjob.get('status') == '完成') {
-        if (confirm("确认任务已完成?")) {
-            // Code to execute if user confirms update
-        } else {
-            // Code to execute if user cancels update
-            return;
-        }
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
     }
-
-    
-    //check whether this job is already finished
-    var checkingjob = new FormData();
-    checkingjob.append("jobid", addjob.get('jobid'));
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-        method: 'POST',
-        body: checkingjob,
-    });
-    const data = await response.json();
-    if (data['data'] && data['data'][0].status == '完成') {
-        alert('任务已完成，无法修改');
-        return;
-    }
-    
-    // new code start here
-    return new Promise((resolve, reject) => {
-        // Array to hold all HTTP request promises
-        let httpRequests = [];
-
-        // Example HTTP request using fetch (replace with actual HTTP requests)
-        httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
-            method: 'POST',
-            body: addjob,
-        })
-        );
-        
-        const detaillineForms = document.getElementsByClassName('detaillineform');
-        for (let i = 0; i < detaillineForms.length; i++) {
-            const addjobline = new FormData(detaillineForms[i]);
-            if (addjob.get('activity') == '入库') {
-                addjobline.append('container', addjob.get('joblabel'));
-                addjobline.set('customer', addjob.get('customer'));
-            } else {
-                addjobline.append('orderid', addjob.get('orderid'));
-                addjobline.append('label', addjob.get('joblabel'));
-            }
-            // addjobline.append('jobid', jobid);
-            addjobline.append('jobid', addjob.get('jobid'));
-            addjobline.append('activity', addjob.get('activity'));
-            addjobline.append('date', addjob.get('date'));
-            addjobline.append('status', addjob.get('status'));
-            addjobline.append('warehouse', addjob.get('warehouse'));
-            var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
-            addjobline.set('checked', checkedstatus);
-
-            httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
-                method: 'POST',
-                body: addjobline,
-            }));
-            
-            if(addjob.get('activity')=="入库"){
-                httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
-                    method: 'POST',
-                    body: addjobline,
-                }));
-            }else{
-                if (addjob.get('status') == '完成') {
-                    httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
-                        method: 'POST',
-                        body: addjobline,
-                    }));
+    currentjobpagecontent='jobs';
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                if (actionToken !== latestActionToken) {
+                    return;
                 }
+                document.getElementById("activejobs").innerHTML="";
+                
+                searchedjobs=xhr.response["data"];
+                for (var i = 0; i < xhr.response["data"].length; i++) {
+                    createjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                }
+                sysresponse.innerHTML=xhr.response["msg"];
+
+                if(callback){
+                    callback();
+                }
+            }else{
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="";
+                sysresponse.innerHTML="没有找到任务。";
             }
-            
         }
-        // document.getElementById("itemdetail").innerHTML = "";
-        // Wait for all HTTP requests to complete
-        Promise.all(httpRequests)
-            .then(responses => {
-                // All HTTP requests are completed
-                resolve();
-            })
-            .catch(error => {
-                // Handle any errors
-                console.log(error);
-                console.log(addjobline.get('label'));
-                reject(error);
-            });
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+
+    // pre load inventory data
+    searchinventory(new FormData()).then(data => {
+        searchedinventory = data;
     });
-
-    
-
 }
 async function showinventory(searchcreteria){
     showloading(document.getElementById("activejobs"));
@@ -1140,76 +1099,27 @@ async function searchinventory(searchcreteria){
     const data = await response.json();
     return data['data'];
 }
-function createinventorytable(data){
 
-    var table = document.createElement("table");
-    table.className = "inventory-table";
 
-    // Create table header
-    var thead = document.createElement("thead");
-    thead.className = "inventory-table-header";
-    var headerRow = document.createElement("tr");
-    var headers = ["客户", "需求","箱号/单号", "箱唛","仓点", "件数", "托数","创建日期","仓库"];
-    if(access==3){
-        headers = ["客户", "需求", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
+function searchitems(searchcreteria){
+    if(access==2){
+        searchcreteria.append("customer", customername);
     }
-    headers.forEach(function(headerText, index) {
-        var th = document.createElement("th");
-        th.textContent = headerText;
-        th.addEventListener("click", function() {
-            sortTable(index);
-        });
-
-        headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    var previousRow = null;
-    var previousRowOriginalColor = "";
-
-    // Create table body
-    var tbody = document.createElement("tbody");
-    tbody.id = "inventory-table-body";
-    tbody.className = "inventory-table-body";
-    data.forEach(function(item) {
-        var row = document.createElement("tr");
-        row.className = "inventory-table-row";
-        if(item.status!="完成"){
-            row.style.color = "grey";
-        }
-        var columns = [item.customer,item.requirement,item.container,item.marks,item.label, item.pcs, item.plt, item.date,item.warehouse];
-        if(access==3){
-            columns = [item.customer,item.requirement,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
-        }
-        columns.forEach(function(columnText) {
-            var td = document.createElement("td");
-            td.textContent = columnText;
-            row.appendChild(td);
-        });
-        tbody.appendChild(row);
-
-        row.addEventListener("click", function() {
-            if(previousRow){
-                previousRow.style.backgroundColor = previousRowOriginalColor;
+    if(access==3){
+        searchcreteria.append("warehouse", currentwarehouse);
+    }
+    const xhr  = new XMLHttpRequest();  
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                return xhr.response["data"];
+                sysresponse.innerHTML=xhr.response["msg"];
             }
-            previousRowOriginalColor=this.style.backgroundColor;
-            this.style.backgroundColor = 'rgb(73 162 233)';
-            previousRow = this;
-            
-            if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
-                detaillinenumber++;
-                item['id'] = '';
-                createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
-            }else{
-                showinventorydetail(item,this);
-                // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
-            }
-            
-        });
-    });
-    table.appendChild(tbody);
-    return table;
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
 }
 async function showitems(searchcreteria,callback){
     showloading(document.getElementById("activejobs"));
@@ -1325,6 +1235,110 @@ async function showitems(searchcreteria,callback){
     if(callback){
         callback();
     }
+}
+function searchvas(searchcreteria){
+    showloading(document.getElementById("activejobs"));
+    currentjobpagecontent='vas';
+    const actionToken = Symbol();
+    latestActionToken = actionToken;
+
+    const xhr  = new XMLHttpRequest();
+    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchvas", true);
+    xhr.onreadystatechange= () => {
+        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+            if(xhr.response["error_code"]==0){
+                if (actionToken !== latestActionToken) {
+                    return;
+                }
+                // return xhr.response["data"];
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="";
+                for (var i = 0; i < xhr.response["data"].length; i++) {
+                    createvasjob(xhr.response["data"][i],document.getElementById("activejobs"));
+                }
+            }else{
+                sysresponse.innerHTML=xhr.response["msg"];
+                document.getElementById("activejobs").innerHTML="";
+                sysresponse.innerHTML="没有找到任务。";
+            }
+        }
+    }
+    xhr.responseType="json";
+    xhr.send(searchcreteria);
+
+    
+}
+
+function createinventorytable(data){
+
+    var table = document.createElement("table");
+    table.className = "inventory-table";
+
+    // Create table header
+    var thead = document.createElement("thead");
+    thead.className = "inventory-table-header";
+    var headerRow = document.createElement("tr");
+    var headers = ["客户", "需求","箱号/单号", "箱唛","仓点", "件数", "托数","创建日期","仓库"];
+    if(access==3){
+        headers = ["客户", "需求", "箱号/单号", "箱唛","仓点", "件数", "托数","创建日期"];
+    }
+    headers.forEach(function(headerText, index) {
+        var th = document.createElement("th");
+        th.textContent = headerText;
+        th.addEventListener("click", function() {
+            sortTable(index);
+        });
+
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    var previousRow = null;
+    var previousRowOriginalColor = "";
+
+    // Create table body
+    var tbody = document.createElement("tbody");
+    tbody.id = "inventory-table-body";
+    tbody.className = "inventory-table-body";
+    data.forEach(function(item) {
+        var row = document.createElement("tr");
+        row.className = "inventory-table-row";
+        if(item.status!="完成"){
+            row.style.color = "grey";
+        }
+        var columns = [item.customer,item.requirement,item.container,item.marks,item.label, item.pcs, item.plt, item.date,item.warehouse];
+        if(access==3){
+            columns = [item.customer,item.requirement,item.container,item.marks,item.label, item.pcs, item.plt, item.date];
+        }
+        columns.forEach(function(columnText) {
+            var td = document.createElement("td");
+            td.textContent = columnText;
+            row.appendChild(td);
+        });
+        tbody.appendChild(row);
+
+        row.addEventListener("click", function() {
+            if(previousRow){
+                previousRow.style.backgroundColor = previousRowOriginalColor;
+            }
+            previousRowOriginalColor=this.style.backgroundColor;
+            this.style.backgroundColor = 'rgb(73 162 233)';
+            previousRow = this;
+            
+            if(document.getElementById("detailform")!=null && document.getElementById("statuslog").innerHTML!="完成"){
+                detaillinenumber++;
+                item['id'] = '';
+                createdetailline(detaillinenumber,item,document.getElementById("jobactivity").value,true);
+            }else{
+                showinventorydetail(item,this);
+                // alert("您可以打开一个出库任务后，点击一个库存项目将其添加到任务中。");
+            }
+            
+        });
+    });
+    table.appendChild(tbody);
+    return table;
 }
 async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     showcontrolpanel();
