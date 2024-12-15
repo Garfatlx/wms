@@ -1647,13 +1647,12 @@ async function showinovicedata(searchcreteria){
     var tbody = document.createElement("tbody");
     tbody.className = "inventory-table-body";
     tbody.id = "inventory-table-body";
+    var totalar=0;
+    var totalap=0;
     data['data'].forEach(function(item) {
         var row = document.createElement("tr");
         row.className = "inventory-table-row";
-        //style each row based on status
-        if(item.status!="完成"){
-            row.classList.add('tablerownoncompleted');
-        }
+        
         var columns = [item.customer, item.joblabel,item.warehouse, item.date, item.labelcount, item.pcs,item.eurplt, item.blockplt, item.ar, item.ap];
         columns.forEach(function(columnText,index) {
             var td = document.createElement("td");
@@ -1671,6 +1670,9 @@ async function showinovicedata(searchcreteria){
             //         }
             //     }
             // }
+
+            totalap+=parseFloat(item.ap);
+            totalar+=parseFloat(item.ar);
             row.addEventListener("click", function() {
                 if(previousRow){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
@@ -1688,6 +1690,16 @@ async function showinovicedata(searchcreteria){
 
     // Append table to activejobs element
     activejobs.appendChild(table);
+
+    // create summary
+    const summary = document.createElement('div');
+    summary.style.marginTop = '10px';
+    summary.style.fontSize = '1.2em';
+    summary.style.dwidth = '100%';
+    summary.style.textAlign = 'center';
+    summary.display = 'block';
+    activejobs.appendChild(summary);
+    summary.innerHTML = `总应收: ${totalar.toFixed(2)}; 总应付: ${totalap.toFixed(2)}`;
 
 }
 
