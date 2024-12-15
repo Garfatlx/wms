@@ -86,7 +86,10 @@ window.addEventListener("load", function(){
     var activitylog = document.getElementById("invoicelog");
     activitylog.addEventListener("click", function() {
         if(access==1 || access==3){
+            document.getElementById("activejobs").innerHTML="";
             showinvoicesearchbox();
+        }else{
+            sysresponse.innerHTML="功能未开放";
         }
     });
 
