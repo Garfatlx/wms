@@ -1680,9 +1680,9 @@ async function showinovicedata(searchcreteria){
             //         }
             //     }
             // }
-
-            totalap+=item.ap;
-            totalar+=item.ar;
+            console.log(item.ap);
+            totalap+=parseFloat(item.ap);
+            totalar+=parseFloat(item.ar);
             row.addEventListener("click", function() {
                 if(previousRow){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
@@ -1709,7 +1709,7 @@ async function showinovicedata(searchcreteria){
     summary.style.textAlign = 'center';
     summary.display = 'block';
     invoicediv.appendChild(summary);
-    summary.innerHTML = `总应收: ${totalar}; 总应付: ${totalap}`;
+    summary.innerHTML = `总应收: ${totalar.toFixed(2)}; 总应付: ${totalap.toFixed(2)}`;
 
 }
 
