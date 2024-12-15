@@ -86,7 +86,7 @@ window.addEventListener("load", function(){
     var activitylog = document.getElementById("invoicelog");
     activitylog.addEventListener("click", function() {
         if(access==1 || access==3){
-            
+            showinvoicesearchbox();
         }
     });
 
