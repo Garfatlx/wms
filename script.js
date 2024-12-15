@@ -1681,8 +1681,8 @@ async function showinovicedata(searchcreteria){
             //     }
             // }
 
-            totalap+=parseFloat(item.ap);
-            totalar+=parseFloat(item.ar);
+            totalap+=item.ap;
+            totalar+=item.ar;
             row.addEventListener("click", function() {
                 if(previousRow){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
