@@ -1620,10 +1620,20 @@ async function showinovicedata(searchcreteria){
  
     var activejobs = document.getElementById("activejobs");
     activejobs.innerHTML="";
+
+    const invoicediv=document.createElement("div");
+    invoicediv.style.display = 'flex';
+    invoicediv.style.flexDirection = 'column';
+    invoicediv.style.alignItems = 'center';
+    invoicediv.style.justifyContent = 'center';
+    invoicediv.style.width = '100%';
+
+    activejobs.appendChild(invoicediv);
     
     // Create table element
     var table = document.createElement("table");
     table.className = "inventory-table";
+    table.style.maxWidth = '1000px';
 
     // Create table header
     var thead = document.createElement("thead");
@@ -1689,7 +1699,7 @@ async function showinovicedata(searchcreteria){
     table.appendChild(tbody);
 
     // Append table to activejobs element
-    activejobs.appendChild(table);
+    invoicediv.appendChild(table);
 
     // create summary
     const summary = document.createElement('div');
@@ -1698,7 +1708,7 @@ async function showinovicedata(searchcreteria){
     summary.style.dwidth = '100%';
     summary.style.textAlign = 'center';
     summary.display = 'block';
-    activejobs.appendChild(summary);
+    invoicediv.appendChild(summary);
     summary.innerHTML = `总应收: ${totalar.toFixed(2)}; 总应付: ${totalap.toFixed(2)}`;
 
 }
