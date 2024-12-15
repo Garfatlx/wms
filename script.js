@@ -1680,9 +1680,7 @@ async function showinovicedata(searchcreteria){
             //         }
             //     }
             // }
-            console.log(item.ap);
-            totalap+=parseFloat(item.ap);
-            totalar+=parseFloat(item.ar);
+            
             row.addEventListener("click", function() {
                 if(previousRow){
                     previousRow.style.backgroundColor = previousRowOriginalColor;
@@ -1693,6 +1691,9 @@ async function showinovicedata(searchcreteria){
                 
             });
         });
+        console.log(item.ap);
+        totalap+=parseFloat(item.ap);
+        totalar+=parseFloat(item.ar);
         tbody.appendChild(row);
 
     });
