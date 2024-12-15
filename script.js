@@ -1709,7 +1709,7 @@ async function showinovicedata(searchcreteria){
     summary.style.textAlign = 'center';
     summary.display = 'block';
     invoicediv.appendChild(summary);
-    summary.innerHTML = `总应收: ${totalar.toFixed(2)}; 总应付: ${totalap.toFixed(2)}`;
+    summary.innerHTML = `总应收: ${totalar}; 总应付: ${totalap}`;
 
 }
 
