@@ -6150,9 +6150,9 @@ function getformatteddate(targetdate){
 }
 
 function getemailaddress(customer){
-    if(customer=='test'){
-        return 'garfat@live.com';
-    }
+    // if(customer=='test'){
+    //     return 'garfat@live.com';
+    // }
     if(customer=='佳成'){
         return "mcck_cz@jcex.com";
     }
