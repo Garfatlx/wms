@@ -6156,6 +6156,9 @@ function getemailaddress(customer){
     if(customer=='佳成'){
         return "mcck_cz@jcex.com";
     }
+    if(customer=='QOT'){
+        return "allqod@quanoutong.com";
+    }
     return null;
 }
 const itemexporttilemapping = {
