@@ -2509,8 +2509,11 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         
         if (clickeditem['status'] && clickeditem['status'] != '未预约' && !newadded) {
             submitbutton.disabled = true;
-            const tooltip = createTooltip("任务已确认预约，如需修改请联系管理员");
-            submitbutton.insertAdjacentElement('afterend', tooltip);
+            const tooltip = document.createElement('span');
+            tooltip.className = 'tooltip';
+            tooltip.innerHTML = '任务已确认预约，如需修改请联系管理员';
+            submitbutton.appendChild(tooltip);
+            
             cancelButton.disabled = true;
         }
     }
