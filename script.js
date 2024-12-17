@@ -2509,6 +2509,8 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         
         if (clickeditem['status'] && clickeditem['status'] != '未预约' && !newadded) {
             submitbutton.disabled = true;
+            const tooltip = createTooltip("任务已确认预约，如需修改请联系管理员");
+            submitbutton.insertAdjacentElement('afterend', tooltip);
             cancelButton.disabled = true;
         }
     }
@@ -3484,27 +3486,7 @@ function sortTable(columnIndex,secondindex) {
         tbody.appendChild(row);
     });
 }
-function createTooltip(message){
-    // Create container div
-    const tooltipContainer = document.createElement('div');
-    tooltipContainer.className = 'tooltip-container';
 
-    // Create tooltip text span
-    const tooltipText = document.createElement('span');
-    tooltipText.className = 'tooltip-text';
-    tooltipText.innerHTML = '&#128712';
-
-    // Create tooltip span
-    const tooltip = document.createElement('span');
-    tooltip.className = 'tooltip';
-    tooltip.textContent = message;
-
-    // Append spans to container
-    tooltipContainer.appendChild(tooltipText);
-    tooltipContainer.appendChild(tooltip);
-
-    return tooltipContainer;
-}
 function sumpcsplt(){
     var pcsInputs = document.getElementById("itemdetail").querySelectorAll("input[name='pcs']");
     var pcsCount = 0;
@@ -5381,6 +5363,27 @@ function autoarrangeout(){
         table.appendChild(tbody);
         return table;
     }
+}
+function createTooltip(message){
+    // Create container div
+    const tooltipContainer = document.createElement('div');
+    tooltipContainer.className = 'tooltip-container';
+
+    // Create tooltip text span
+    const tooltipText = document.createElement('span');
+    tooltipText.className = 'tooltip-text';
+    tooltipText.innerHTML = '&#128712';
+
+    // Create tooltip span
+    const tooltip = document.createElement('span');
+    tooltip.className = 'tooltip';
+    tooltip.textContent = message;
+
+    // Append spans to container
+    tooltipContainer.appendChild(tooltipText);
+    tooltipContainer.appendChild(tooltip);
+
+    return tooltipContainer;
 }
 function createappointmentwindow(){
     const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
