@@ -5868,36 +5868,9 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
             }
         });
     }
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
-        const selectedLocationString = selectedLocations.join(',');
-        mapwindow.close();
-        console.log(selectedLocationString);
-        if (callback) {
-            callback(selectedLocationString);
-        }
-    });
+    
 
-    function constructskudiv(id){
-        const sku = document.createElement('div');
-        sku.className = 'sku';
-        sku.id = "div"+id;
-        const skuinput = document.createElement('input');
-        skuinput.type = 'checkbox';
-        skuinput.name = 'inventoryloc';
-        skuinput.id = id;
-        skuinput.className = 'skuinput';
-        skuinput.value = id;
-        skuinput.disabled = false;
-        const skuinputlabel = document.createElement('label');
-        skuinputlabel.htmlFor = id;
-        skuinputlabel.className = 'skulabel';
-        skuinputlabel.innerHTML = id;
-        sku.appendChild(skuinput);
-        sku.appendChild(skuinputlabel);
-        return sku;
-    }
+    
 }
 
 //element creataion functions
