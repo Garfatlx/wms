@@ -99,6 +99,7 @@ body {
 }
 .sku:hover {
     opacity: 1;
+    z-index: 10;
 }
 .button {
     font-family: inherit;
@@ -160,7 +161,7 @@ body {
 }
 
 .sku:hover .tooltip {
-    top: 120%;
+    top: 160%;
     opacity: 1;
     visibility: visible;
     background: #9ce0b6;
