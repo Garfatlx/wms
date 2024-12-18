@@ -3762,6 +3762,7 @@ async function showinventorydetail(inventory,thisrow){
             }
         }
     });
+    
 
     if(access!=1 && access!=3){
         submitbutton.disabled = true;
@@ -5868,6 +5869,16 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
             }
         });
     }
+    mapwindow.document.getElementById('mapform').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
+        const selectedLocationString = selectedLocations.join(',');
+        mapwindow.close();
+        console.log(selectedLocationString);
+        if (callback) {
+            callback(selectedLocationString);
+        }
+    });
     
 
     

@@ -10,6 +10,7 @@
     <script>
         const form = document.createElement('form');
         form.style.display='block';
+        form.id='mapform';
         const submitbutton = document.createElement('button');
         submitbutton.type = 'submit';
         submitbutton.className = 'button';
@@ -113,16 +114,16 @@
             }
         }
 
-        form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
-            const selectedLocationString = selectedLocations.join(',');
-            mapwindow.close();
-            console.log(selectedLocationString);
-            if (callback) {
-                callback(selectedLocationString);
-            }
-        });
+        // form.addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     const selectedLocations = Array.from(mapwindow.document.querySelectorAll('input[name="inventoryloc"]:checked')).map(checkbox => checkbox.value);
+        //     const selectedLocationString = selectedLocations.join(',');
+        //     mapwindow.close();
+        //     console.log(selectedLocationString);
+        //     if (callback) {
+        //         callback(selectedLocationString);
+        //     }
+        // });
 
         function constructskudiv(id){
             const sku = document.createElement('div');
