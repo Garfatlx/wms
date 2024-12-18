@@ -99,7 +99,6 @@ body {
 }
 .sku:hover {
     opacity: 1;
-    z-index: 10;
 }
 .button {
     font-family: inherit;
@@ -167,4 +166,7 @@ body {
     background: #9ce0b6;
     transform: translate(-50%, -5px);
     z-index: 2;
+}
+.sku:hover .skulabel {
+    z-index: 5;
 }
