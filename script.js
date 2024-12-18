@@ -5670,117 +5670,118 @@ function addnewvaswindow(clickeditem,callback){
     }));
 }
 function showinventorymap(warehouseinventory,activity,currentinventory,callback){
-    var mapwindow = window.open('', '', 'height=1200px,width=1200px');
-    var timestamp = new Date().getTime(); // Get current timestamp
-    mapwindow.document.write('<html><head>');
-    mapwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
-    mapwindow.document.write('</head><body>');
-    mapwindow.document.write('</body></html>');
+    var mapwindow = window.open('DE001.html', '');
+    // var mapwindow = window.open('', '', 'height=1200px,width=1200px');
+    // var timestamp = new Date().getTime(); // Get current timestamp
+    // mapwindow.document.write('<html><head>');
+    // mapwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
+    // mapwindow.document.write('</head><body>');
+    // mapwindow.document.write('</body></html>');
 
-    const form = document.createElement('form');
-    form.style.display='block';
-    const submitbutton = document.createElement('button');
-    submitbutton.type = 'submit';
-    submitbutton.className = 'button';
-    submitbutton.innerHTML = '提交';
-    submitbutton.style.fontSize = '14px';
-    submitbutton.style.padding = '5px 5px';
+    // const form = document.createElement('form');
+    // form.style.display='block';
+    // const submitbutton = document.createElement('button');
+    // submitbutton.type = 'submit';
+    // submitbutton.className = 'button';
+    // submitbutton.innerHTML = '提交';
+    // submitbutton.style.fontSize = '14px';
+    // submitbutton.style.padding = '5px 5px';
 
-    form.appendChild(submitbutton);
+    // form.appendChild(submitbutton);
 
-    const warehouseA = document.createElement('div');
-    warehouseA.className = 'warA';
-    mapwindow.document.body.appendChild(form);
-    form.appendChild(warehouseA);
+    // const warehouseA = document.createElement('div');
+    // warehouseA.className = 'warA';
+    // mapwindow.document.body.appendChild(form);
+    // form.appendChild(warehouseA);
 
-    const warAleft = document.createElement('div');
-    warAleft.className = 'warAleft';
+    // const warAleft = document.createElement('div');
+    // warAleft.className = 'warAleft';
 
-    const passway = document.createElement('div');
-    passway.className = 'passway';
-    passway.innerHTML = '';
+    // const passway = document.createElement('div');
+    // passway.className = 'passway';
+    // passway.innerHTML = '';
 
-    const warAright = document.createElement('div');
-    warAright.className = 'warAright';
+    // const warAright = document.createElement('div');
+    // warAright.className = 'warAright';
 
     
-    warehouseA.appendChild(warAleft);
-    warehouseA.appendChild(passway);
-    warehouseA.appendChild(warAright);
+    // warehouseA.appendChild(warAleft);
+    // warehouseA.appendChild(passway);
+    // warehouseA.appendChild(warAright);
 
-    //Warehouse A left side
-    for(var i=1;i<=10;i++){
-        var asileid=i<10?"AL0"+i:"AL"+i;
-        const asileleft = document.createElement('div');
-        asileleft.className = 'asileleft';
-        warAleft.appendChild(asileleft);
+    // //Warehouse A left side
+    // for(var i=1;i<=10;i++){
+    //     var asileid=i<10?"AL0"+i:"AL"+i;
+    //     const asileleft = document.createElement('div');
+    //     asileleft.className = 'asileleft';
+    //     warAleft.appendChild(asileleft);
 
-        const asilelabel = document.createElement('div');
-        asilelabel.className = 'asilelabel';
-        asilelabel.innerHTML = asileid;
-        asileleft.appendChild(asilelabel);
+    //     const asilelabel = document.createElement('div');
+    //     asilelabel.className = 'asilelabel';
+    //     asilelabel.innerHTML = asileid;
+    //     asileleft.appendChild(asilelabel);
 
-        for(var j=0;j<24;j++){
-            var idrow="0"+(Math.floor(j/12)+1);
-            var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
-            var skuid=asileid+idrow+idcolumn;
+    //     for(var j=0;j<24;j++){
+    //         var idrow="0"+(Math.floor(j/12)+1);
+    //         var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
+    //         var skuid=asileid+idrow+idcolumn;
 
-            const sku = document.createElement('div');
-            sku.className = 'sku';
-            sku.id = "div"+skuid;
-            const skuinput = document.createElement('input');
-            skuinput.type = 'checkbox';
-            skuinput.name = 'inventoryloc';
-            skuinput.id = skuid;
-            skuinput.className = 'skuinput';
-            skuinput.value = skuid;
-            skuinput.disabled = false;
-            const skuinputlabel = document.createElement('label');
-            skuinputlabel.htmlFor = skuid;
-            skuinputlabel.className = 'skulabel';
-            skuinputlabel.innerHTML = j%12+1;
-            sku.appendChild(skuinput);
-            sku.appendChild(skuinputlabel);
-            asileleft.appendChild(sku);
-        }
-    }
+    //         const sku = document.createElement('div');
+    //         sku.className = 'sku';
+    //         sku.id = "div"+skuid;
+    //         const skuinput = document.createElement('input');
+    //         skuinput.type = 'checkbox';
+    //         skuinput.name = 'inventoryloc';
+    //         skuinput.id = skuid;
+    //         skuinput.className = 'skuinput';
+    //         skuinput.value = skuid;
+    //         skuinput.disabled = false;
+    //         const skuinputlabel = document.createElement('label');
+    //         skuinputlabel.htmlFor = skuid;
+    //         skuinputlabel.className = 'skulabel';
+    //         skuinputlabel.innerHTML = j%12+1;
+    //         sku.appendChild(skuinput);
+    //         sku.appendChild(skuinputlabel);
+    //         asileleft.appendChild(sku);
+    //     }
+    // }
 
-    //Warehouse A right side
-    for(var i=1;i<=20;i++){
-        var asileid=i<10?"AR0"+i:"AR"+i;
-        const asileright = document.createElement('div');
-        asileright.className = 'asileright';
-        warAright.appendChild(asileright);
+    // //Warehouse A right side
+    // for(var i=1;i<=20;i++){
+    //     var asileid=i<10?"AR0"+i:"AR"+i;
+    //     const asileright = document.createElement('div');
+    //     asileright.className = 'asileright';
+    //     warAright.appendChild(asileright);
 
-        const asilelabel = document.createElement('div');
-        asilelabel.className = 'asilelabel';
-        asilelabel.innerHTML = asileid;
-        asileright.appendChild(asilelabel);
+    //     const asilelabel = document.createElement('div');
+    //     asilelabel.className = 'asilelabel';
+    //     asilelabel.innerHTML = asileid;
+    //     asileright.appendChild(asilelabel);
 
-        for(var j=21;j>=0;j--){
-            var idrow="0"+(2-Math.floor(j/11));
-            var idcolumn=j%11+1<10?"0"+(j%11+1):j%11+1;
-            var skuid=asileid+idrow+idcolumn;
+    //     for(var j=21;j>=0;j--){
+    //         var idrow="0"+(2-Math.floor(j/11));
+    //         var idcolumn=j%11+1<10?"0"+(j%11+1):j%11+1;
+    //         var skuid=asileid+idrow+idcolumn;
 
-            const sku = document.createElement('div');
-            sku.className = 'sku';
-            sku.id = "div"+skuid;
-            const skuinput = document.createElement('input');
-            skuinput.type = 'checkbox';
-            skuinput.name = 'inventoryloc';
-            skuinput.id = skuid;
-            skuinput.className = 'skuinput';
-            skuinput.value = skuid;
-            skuinput.disabled = false;
-            const skuinputlabel = document.createElement('label');
-            skuinputlabel.htmlFor = skuid;
-            skuinputlabel.className = 'skulabel';
-            skuinputlabel.innerHTML = j%11+1;
-            sku.appendChild(skuinput);
-            sku.appendChild(skuinputlabel);
-            asileright.appendChild(sku);
-        }
-    }
+    //         const sku = document.createElement('div');
+    //         sku.className = 'sku';
+    //         sku.id = "div"+skuid;
+    //         const skuinput = document.createElement('input');
+    //         skuinput.type = 'checkbox';
+    //         skuinput.name = 'inventoryloc';
+    //         skuinput.id = skuid;
+    //         skuinput.className = 'skuinput';
+    //         skuinput.value = skuid;
+    //         skuinput.disabled = false;
+    //         const skuinputlabel = document.createElement('label');
+    //         skuinputlabel.htmlFor = skuid;
+    //         skuinputlabel.className = 'skulabel';
+    //         skuinputlabel.innerHTML = j%11+1;
+    //         sku.appendChild(skuinput);
+    //         sku.appendChild(skuinputlabel);
+    //         asileright.appendChild(sku);
+    //     }
+    // }
 
     warehouseinventory.forEach(inventory => {
         if(inventory['inventoryloc'] ){
@@ -5877,6 +5878,26 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
             callback(selectedLocationString);
         }
     });
+
+    function constructskudiv(id){
+        const sku = document.createElement('div');
+        sku.className = 'sku';
+        sku.id = "div"+id;
+        const skuinput = document.createElement('input');
+        skuinput.type = 'checkbox';
+        skuinput.name = 'inventoryloc';
+        skuinput.id = id;
+        skuinput.className = 'skuinput';
+        skuinput.value = id;
+        skuinput.disabled = false;
+        const skuinputlabel = document.createElement('label');
+        skuinputlabel.htmlFor = id;
+        skuinputlabel.className = 'skulabel';
+        skuinputlabel.innerHTML = id;
+        sku.appendChild(skuinput);
+        sku.appendChild(skuinputlabel);
+        return sku;
+    }
 }
 
 //element creataion functions

@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DE001 Warehouse</title>
+        <link rel="stylesheet" href="inventorymap.css?v=1.0">
+    </head>
+    <body>
+    </body>
+    <script>
+        const form = document.createElement('form');
+        form.style.display='block';
+        const submitbutton = document.createElement('button');
+        submitbutton.type = 'submit';
+        submitbutton.className = 'button';
+        submitbutton.innerHTML = '提交';
+        submitbutton.style.fontSize = '14px';
+        submitbutton.style.padding = '5px 5px';
+
+        form.appendChild(submitbutton);
+
+        const warehouseA = document.createElement('div');
+        warehouseA.className = 'warA';
+        document.body.appendChild(form);
+        form.appendChild(warehouseA);
+
+        const warAleft = document.createElement('div');
+        warAleft.className = 'warAleft';
+
+        const passway = document.createElement('div');
+        passway.className = 'passway';
+        passway.innerHTML = '';
+
+        const warAright = document.createElement('div');
+        warAright.className = 'warAright';
+
+        
+        warehouseA.appendChild(warAleft);
+        warehouseA.appendChild(passway);
+        warehouseA.appendChild(warAright);
+
+        //Warehouse A left side
+        for(var i=1;i<=10;i++){
+            var asileid=i<10?"AL0"+i:"AL"+i;
+            const asileleft = document.createElement('div');
+            asileleft.className = 'asileleft';
+            warAleft.appendChild(asileleft);
+
+            const asilelabel = document.createElement('div');
+            asilelabel.className = 'asilelabel';
+            asilelabel.innerHTML = asileid;
+            asileleft.appendChild(asilelabel);
+
+            for(var j=0;j<24;j++){
+                var idrow="0"+(Math.floor(j/12)+1);
+                var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
+                var skuid=asileid+idrow+idcolumn;
+
+                const sku = document.createElement('div');
+                sku.className = 'sku';
+                sku.id = "div"+skuid;
+                const skuinput = document.createElement('input');
+                skuinput.type = 'checkbox';
+                skuinput.name = 'inventoryloc';
+                skuinput.id = skuid;
+                skuinput.className = 'skuinput';
+                skuinput.value = skuid;
+                skuinput.disabled = false;
+                const skuinputlabel = document.createElement('label');
+                skuinputlabel.htmlFor = skuid;
+                skuinputlabel.className = 'skulabel';
+                skuinputlabel.innerHTML = j%12+1;
+                sku.appendChild(skuinput);
+                sku.appendChild(skuinputlabel);
+                asileleft.appendChild(sku);
+            }
+        }
+
+        //Warehouse A right side
+        for(var i=1;i<=20;i++){
+            var asileid=i<10?"AR0"+i:"AR"+i;
+            const asileright = document.createElement('div');
+            asileright.className = 'asileright';
+            warAright.appendChild(asileright);
+
+            const asilelabel = document.createElement('div');
+            asilelabel.className = 'asilelabel';
+            asilelabel.innerHTML = asileid;
+            asileright.appendChild(asilelabel);
+
+            for(var j=21;j>=0;j--){
+                var idrow="0"+(2-Math.floor(j/11));
+                var idcolumn=j%11+1<10?"0"+(j%11+1):j%11+1;
+                var skuid=asileid+idrow+idcolumn;
+
+                const sku = document.createElement('div');
+                sku.className = 'sku';
+                sku.id = "div"+skuid;
+                const skuinput = document.createElement('input');
+                skuinput.type = 'checkbox';
+                skuinput.name = 'inventoryloc';
+                skuinput.id = skuid;
+                skuinput.className = 'skuinput';
+                skuinput.value = skuid;
+                skuinput.disabled = false;
+                const skuinputlabel = document.createElement('label');
+                skuinputlabel.htmlFor = skuid;
+                skuinputlabel.className = 'skulabel';
+                skuinputlabel.innerHTML = j%11+1;
+                sku.appendChild(skuinput);
+                sku.appendChild(skuinputlabel);
+                asileright.appendChild(sku);
+            }
+        }
+    </script>
+</html>
