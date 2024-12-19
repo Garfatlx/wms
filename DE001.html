@@ -51,6 +51,7 @@
                 .catch(error => {
                     console.error('Error loading the Excel file:', error);
                 });
+            window.opener.postMessage('maploaded', '*');
         });
 
         // document.getElementById('fileInput').addEventListener('change', function(event) {
