@@ -36,9 +36,21 @@
             const asilelabel = document.createElement('div');
             asilelabel.className = 'asilelabel';
             asilelabel.innerHTML = asileid+"道";
-            asileleft.appendChild(asilelabel);
+            asile.appendChild(asilelabel);
 
-            for(var j=0;j<24;j++){
+
+            const asilegrid = document.createElement('div');
+            asilegrid.className = 'asilegrid';
+            asile.appendChild(asilegrid);
+
+            const numberofrows=19;
+            if(i==4 || i==5 || i==6){
+                numberofrows=67;
+            }
+            if(i==4 || i==5 || i==6){
+                numberofrows=67;
+            }
+            for(var j=1;j<=19;j++){
                 var idrow="0"+(Math.floor(j/12)+1);
                 var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
                 var skuid=asileid+idrow+idcolumn;

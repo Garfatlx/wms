@@ -55,6 +55,7 @@ window.addEventListener("load", function(){
             searchcreteria.append("includeunfinished", "true");
             showjobsearchbox();
             searchjobs(searchcreteria);
+            currentjobpagecontent='jobs';
         }
     });
     var currentinventory = document.getElementById("currentinventory");
@@ -174,6 +175,7 @@ function login(){
                             searchcreteria.append("status", "未预约");
                             showjobsearchbox();
                             searchjobs(searchcreteria);
+                            currentjobpagecontent='unappoint';
                     });
                 }
                 
@@ -455,6 +457,9 @@ function showjobsearchbox(){
         if(access==2){
             searchcreteria.append("status", '全部');
         }
+        if(currentjobpagecontent=='unappoint'){
+            searchcreteria.append("status", "未预约");
+        }
         if(searchcreteria.get("date")!=""){
             if(currentjobpagecontent=='jobs'){
                 searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
@@ -508,6 +513,7 @@ function showjobsearchbox(){
                 warehouseSelectinput.dispatchEvent(new Event('change'));
             }
         });
+        jobpagecontent='jobs';
         noshowcompletedinput.checked = false;
     });
     var searchtoday = document.getElementById("searchtoday");
@@ -525,6 +531,7 @@ function showjobsearchbox(){
                 warehouseSelectinput.dispatchEvent(new Event('change'));
             }
         });
+        jobpagecontent='jobs';
         noshowcompletedinput.checked = false;
     });
     var searchtomorrow = document.getElementById("searchtomorrow");
@@ -540,6 +547,7 @@ function showjobsearchbox(){
                 warehouseSelectinput.dispatchEvent(new Event('change'));
             }
         });
+        jobpagecontent='jobs';
         noshowcompletedinput.checked = false;
     });
     var searcvas = document.getElementById("searcvas");
@@ -551,6 +559,7 @@ function showjobsearchbox(){
         }
         searchcreteria.append("status", "未完成");
         searchvas(searchcreteria);
+        jobpagecontent='vas';
         noshowcompletedinput.checked = true;
     });
 
@@ -1134,7 +1143,7 @@ function searchjobs(searchcreteria,callback){
     if(access==3){
         searchcreteria.append("warehouse", currentwarehouse);
     }
-    currentjobpagecontent='jobs';
+    // currentjobpagecontent='jobs';
     const actionToken = Symbol();
     latestActionToken = actionToken;
     const xhr  = new XMLHttpRequest();  
