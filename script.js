@@ -5839,6 +5839,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                 }
                 if(activity=="入库"){
                     currentinventory.forEach(inventory => {
+                        console.log(inventory);
                         if(inventory['inventoryloc']){
                             const locations = inventory['inventoryloc'].split(',');
                             console.log(locations);
