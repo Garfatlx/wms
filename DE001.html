@@ -7,10 +7,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     </head>
     <body>
+        <input type="file" id="fileInput" />
+        <div id="layoutContainer"></div>
     </body>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileName = '德仓库位编号.xlsx'; // Specify your file name here
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileName = '德仓库位编号.xlsx'; // Your Excel file name here
 
             fetch(fileName)
                 .then(response => {
@@ -25,7 +28,20 @@
                     // Assuming the first sheet contains the layout
                     const firstSheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[firstSheetName];
-                    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    // Get the sheet's range to detect irregular layouts
+                    const range = XLSX.utils.decode_range(worksheet['!ref']);
+                    const rows = [];
+
+                    for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+                        const row = [];
+                        for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
+                            const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+                            const cell = worksheet[cellAddress];
+                            row.push(cell ? cell.v : null);
+                        }
+                        rows.push(row);
+                    }
 
                     generateLayout(rows);
                 })
@@ -34,28 +50,61 @@
                 });
         });
 
+        // document.getElementById('fileInput').addEventListener('change', function(event) {
+        //     const file = event.target.files[0];
+        //     if (!file) return;
+
+        //     const reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         const data = new Uint8Array(e.target.result);
+        //         const workbook = XLSX.read(data, { type: 'array' });
+
+        //         // Assuming the first sheet contains the layout
+        //         const firstSheetName = workbook.SheetNames[0];
+        //         const worksheet = workbook.Sheets[firstSheetName];
+
+        //         // Get the sheet's range to detect irregular layouts
+        //         const range = XLSX.utils.decode_range(worksheet['!ref']);
+        //         const rows = [];
+
+        //         for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+        //             const row = [];
+        //             for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
+        //                 const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+        //                 const cell = worksheet[cellAddress];
+        //                 row.push(cell ? cell.v : null);
+        //             }
+        //             rows.push(row);
+        //         }
+
+        //         generateLayout(rows);
+        //     };
+        //     reader.readAsArrayBuffer(file);
+        // });
+
         function generateLayout(rows) {
             const container = document.getElementById('layoutContainer');
             container.innerHTML = ''; // Clear previous layout
 
             const table = document.createElement('table');
-            rows.forEach(row => {
+            const columnStates = {}; // Track toggle states for columns
+
+            rows.forEach((row, rowIndex) => {
                 const tr = document.createElement('tr');
-                row.forEach(slotId => {
+                row.forEach((slotId, colIndex) => {
                     const td = document.createElement('td');
-                    if (slotId) {
-                        const checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.id = slotId;
-                        checkbox.name = 'slot';
-                        checkbox.value = slotId;
 
-                        const label = document.createElement('label');
-                        label.htmlFor = slotId;
-                        label.innerText = slotId;
-
-                        td.appendChild(checkbox);
-                        td.appendChild(label);
+                    if (rowIndex === 0 && slotId) {
+                        // Add column headers in the first row
+                        td.innerText = slotId;
+                        td.className = 'column-header';
+                        td.dataset.colIndex = colIndex; // Store column index
+                        columnStates[colIndex] = false; // Initialize toggle state
+                        td.addEventListener('click', () => toggleColumn(colIndex, table, columnStates));
+                    } else if (slotId) {
+                        // Add checkboxes for other rows
+                        const sku = constructskudiv(slotId);
+                        td.appendChild(sku);
                     }
                     tr.appendChild(td);
                 });
@@ -63,6 +112,22 @@
             });
 
             container.appendChild(table);
+        }
+
+        function toggleColumn(colIndex, table, columnStates) {
+            const rows = table.querySelectorAll('tr');
+            const toggleState = !columnStates[colIndex]; // Get the current toggle state and invert it
+            columnStates[colIndex] = toggleState; // Update the toggle state
+
+            rows.forEach((row, rowIndex) => {
+                const cell = row.children[colIndex];
+                if (cell) {
+                    const checkbox = cell.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        checkbox.checked = toggleState; // Set checkbox based on toggle state
+                    }
+                }
+            });
         }
         // const form = document.createElement('form');
         // form.style.display='block';
@@ -164,9 +229,30 @@
         }
     </script>
     <style type="text/css">
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding:0 5px;
+            width: 40px;
+            height: 37px;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+        .column-header {
+            font-weight: bold;
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+
         body {
             font-family: Arial, sans-serif;
         }
+        
         .warA {
             display: inline-grid;
             grid-template-columns: repeat(25, 40px);
@@ -247,10 +333,10 @@
             position: relative;
         }
         .sku {
-            width: 20px;
-            height: 20px;
-            font-size: 15px;
-            font-weight: bold;
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+            /* font-weight: bold; */
             border: solid 1px #000;
             display: flex;
             align-items: center;
