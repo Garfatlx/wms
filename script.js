@@ -5682,7 +5682,7 @@ function addnewvaswindow(clickeditem,callback){
     }));
 }
 function showinventorymap(warehouseinventory,activity,currentinventory,callback){
-    var mapwindow = window.open('DE001.html', '');
+    
     // var mapwindow = window.open('', '', 'height=1200px,width=1200px');
     // var timestamp = new Date().getTime(); // Get current timestamp
     // mapwindow.document.write('<html><head>');
@@ -5794,6 +5794,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
     //         asileright.appendChild(sku);
     //     }
     // }
+    var mapwindow = window.open('DE001.html', '');
     mapwindow.onload = function() {
         warehouseinventory.forEach(inventory => {
             if(inventory['inventoryloc'] ){
