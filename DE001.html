@@ -4,76 +4,132 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DE001 Warehouse</title>
         <!-- <link rel="stylesheet" href="inventorymap.css?v=1.2"> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     </head>
     <body>
     </body>
     <script>
-        const form = document.createElement('form');
-        form.style.display='block';
-        form.id='mapform';
-        const submitbutton = document.createElement('button');
-        submitbutton.type = 'submit';
-        submitbutton.className = 'button';
-        submitbutton.innerHTML = '提交';
-        submitbutton.style.fontSize = '14px';
-        submitbutton.style.padding = '5px 5px';
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileName = '德仓库位编号.xlsx'; // Specify your file name here
 
-        form.appendChild(submitbutton);
+            fetch(fileName)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch file: ${fileName}`);
+                    }
+                    return response.arrayBuffer();
+                })
+                .then(data => {
+                    const workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
 
-        const warehouseA = document.createElement('div');
-        warehouseA.className = 'warA';
-        document.body.appendChild(form);
-        form.appendChild(warehouseA);
+                    // Assuming the first sheet contains the layout
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    generateLayout(rows);
+                })
+                .catch(error => {
+                    console.error('Error loading the Excel file:', error);
+                });
+        });
+
+        function generateLayout(rows) {
+            const container = document.getElementById('layoutContainer');
+            container.innerHTML = ''; // Clear previous layout
+
+            const table = document.createElement('table');
+            rows.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(slotId => {
+                    const td = document.createElement('td');
+                    if (slotId) {
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = slotId;
+                        checkbox.name = 'slot';
+                        checkbox.value = slotId;
+
+                        const label = document.createElement('label');
+                        label.htmlFor = slotId;
+                        label.innerText = slotId;
+
+                        td.appendChild(checkbox);
+                        td.appendChild(label);
+                    }
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+
+            container.appendChild(table);
+        }
+        // const form = document.createElement('form');
+        // form.style.display='block';
+        // form.id='mapform';
+        // const submitbutton = document.createElement('button');
+        // submitbutton.type = 'submit';
+        // submitbutton.className = 'button';
+        // submitbutton.innerHTML = '提交';
+        // submitbutton.style.fontSize = '14px';
+        // submitbutton.style.padding = '5px 5px';
+
+        // form.appendChild(submitbutton);
+
+        // const warehouseA = document.createElement('div');
+        // warehouseA.className = 'warA';
+        // document.body.appendChild(form);
+        // form.appendChild(warehouseA);
 
         
-        for(var i=1;i<=25;i++){
+        // for(var i=1;i<=25;i++){
 
-            var asileid=i<=21?""+i:String.fromCharCode(64 + (i - 21));
-            const asile=document.createElement('div');
-            asile.className = 'asile';
-            warehouseA.appendChild(asile);
+        //     var asileid=i<=21?""+i:String.fromCharCode(64 + (i - 21));
+        //     const asile=document.createElement('div');
+        //     asile.className = 'asile';
+        //     warehouseA.appendChild(asile);
 
-            const asilelabel = document.createElement('div');
-            asilelabel.className = 'asilelabel';
-            asilelabel.innerHTML = asileid+"道";
-            asile.appendChild(asilelabel);
+        //     const asilelabel = document.createElement('div');
+        //     asilelabel.className = 'asilelabel';
+        //     asilelabel.innerHTML = asileid+"道";
+        //     asile.appendChild(asilelabel);
 
 
-            const asilegrid = document.createElement('div');
-            asilegrid.className = 'asilegrid';
-            asile.appendChild(asilegrid);
+        //     const asilegrid = document.createElement('div');
+        //     asilegrid.className = 'asilegrid';
+        //     asile.appendChild(asilegrid);
 
-            const numberofrows=19;
-            if(i==4 || i==5 || i==6){
-                numberofrows=67;
-            }
-            if(i==4 || i==5 || i==6){
-                numberofrows=67;
-            }
-            for(var j=1;j<=19;j++){
-                var idrow="0"+(Math.floor(j/12)+1);
-                var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
-                var skuid=asileid+idrow+idcolumn;
+        //     const numberofrows=19;
+        //     if(i==4 || i==5 || i==6){
+        //         numberofrows=67;
+        //     }
+        //     if(i==4 || i==5 || i==6){
+        //         numberofrows=67;
+        //     }
+        //     for(var j=1;j<=19;j++){
+        //         var idrow="0"+(Math.floor(j/12)+1);
+        //         var idcolumn=j%12+1<10?"0"+(j%12+1):j%12+1;
+        //         var skuid=asileid+idrow+idcolumn;
 
-                const sku = document.createElement('div');
-                sku.className = 'sku';
-                sku.id = "div"+skuid;
-                const skuinput = document.createElement('input');
-                skuinput.type = 'checkbox';
-                skuinput.name = 'inventoryloc';
-                skuinput.id = skuid;
-                skuinput.className = 'skuinput';
-                skuinput.value = skuid;
-                skuinput.disabled = false;
-                const skuinputlabel = document.createElement('label');
-                skuinputlabel.htmlFor = skuid;
-                skuinputlabel.className = 'skulabel';
-                skuinputlabel.innerHTML = j%12+1;
-                sku.appendChild(skuinput);
-                sku.appendChild(skuinputlabel);
-                asileleft.appendChild(sku);
-            }
-        }
+        //         const sku = document.createElement('div');
+        //         sku.className = 'sku';
+        //         sku.id = "div"+skuid;
+        //         const skuinput = document.createElement('input');
+        //         skuinput.type = 'checkbox';
+        //         skuinput.name = 'inventoryloc';
+        //         skuinput.id = skuid;
+        //         skuinput.className = 'skuinput';
+        //         skuinput.value = skuid;
+        //         skuinput.disabled = false;
+        //         const skuinputlabel = document.createElement('label');
+        //         skuinputlabel.htmlFor = skuid;
+        //         skuinputlabel.className = 'skulabel';
+        //         skuinputlabel.innerHTML = j%12+1;
+        //         sku.appendChild(skuinput);
+        //         sku.appendChild(skuinputlabel);
+        //         asileleft.appendChild(sku);
+        //     }
+        // }
 
         
         // form.addEventListener('submit', function(event) {
