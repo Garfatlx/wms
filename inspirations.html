@@ -37,7 +37,27 @@
             <!-- <input type="text" placeholder="Write here..." name="input" class="input"> -->
         </div>
 
+        <div id="response"></div>
+
     </body>
+    <script>
+
+        async function getResponse() {
+            const response = await fetch('https://authorization-server.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    client_id: 'amzn1.application-oa2-client.456a538ed611489ca2849945c0895c8b',
+                    scope:'shipping orders profile'
+                 })
+            });
+            const data = await response.json();
+            return data;
+        }
+        document.getElementById('response').innerHTML = getResponse();
+    </script>
     <style type="text/css">
         /* From Uiverse.io by kennyotsu */ 
         .card {

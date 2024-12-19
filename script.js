@@ -2326,7 +2326,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                                 "label": json[i]['仓点'],
                                 "marks": json[i]['单号/箱唛'] ? json[i]['单号/箱唛'] : "",
                                 "deladdress": json[i]['Delivery Address （派送地址）'] ? json[i]['Delivery Address （派送地址）'] : "",
-                                "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":"",
+                                "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":channelmark=="不卸货"?"不卸货":"",
                                 "fba": json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "",
                                 "pcs": json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0,
                                 "cbm": (json[i]['CMB（立方数）'] && !isNaN(Number(json[i]['CMB（立方数）'])))? Number(json[i]['CMB（立方数）']) : 0,
