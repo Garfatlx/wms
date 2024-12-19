@@ -5110,7 +5110,6 @@ async function searchjobwithitems(searchcreteria){
         });
 
     });
-    console.log({'jobs':jobs,'items':items});
 
     return {'jobs':jobs,'items':items};
 }
@@ -5839,10 +5838,8 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                 }
                 if(activity=="入库"){
                     currentinventory.forEach(inventory => {
-                        console.log(inventory);
                         if(inventory['inventoryloc']){
                             const locations = inventory['inventoryloc'].split(',');
-                            console.log(locations);
                             locations.forEach(loc => {
                                 const location = mapwindow.document.getElementById('div' + loc.trim());
                                 if (location) {
