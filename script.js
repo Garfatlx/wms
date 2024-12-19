@@ -2918,7 +2918,7 @@ function createdetailline(nid, item, activity, cancelable) {
     input3.className="lineinput";
     input3.value=item!=''?item['note']:'';
     var input3label=document.createElement("label");
-    input3label.innerHTML="备注";
+    input3label.innerHTML="仓库备注";
     input3label.className="lineinputlabel";
     detaillineform.appendChild(input3label);
     detaillineform.appendChild(input3);
