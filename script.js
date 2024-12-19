@@ -451,13 +451,14 @@ function showjobsearchbox(){
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
+        console.log(jobpagecontent);
         var searchcreteria = new FormData(form);
         searchcreteria.delete('warehouse');
 
         if(access==2){
             searchcreteria.append("status", '全部');
         }
-        if(currentjobpagecontent=='unappoint'){
+        if(currentjobpagecontent=='unappoint' && !searchcreteria.get("status")){
             searchcreteria.append("status", "未预约");
         }
         if(searchcreteria.get("date")!=""){
@@ -522,6 +523,7 @@ function showjobsearchbox(){
         if(access==2){
             searchcreteria.append("status", '全部');
         }
+        jobpagecontent='jobs';
         searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
         searchcreteria.append("includeunfinished", "true");
         searchjobs(searchcreteria,function(){
@@ -531,7 +533,7 @@ function showjobsearchbox(){
                 warehouseSelectinput.dispatchEvent(new Event('change'));
             }
         });
-        jobpagecontent='jobs';
+        
         noshowcompletedinput.checked = false;
     });
     var searchtomorrow = document.getElementById("searchtomorrow");
