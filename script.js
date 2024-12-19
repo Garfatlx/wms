@@ -461,7 +461,7 @@ function showjobsearchbox(){
             searchcreteria.append("status", "未预约");
         }
         if(searchcreteria.get("date")!=""){
-            if(currentjobpagecontent=='jobs'){
+            if(currentjobpagecontent=='jobs' || currentjobpagecontent=='unappoint'){
                 searchcreteria.set("date", searchcreteria.get('date') + " 23:59:59");
             }
             if(currentjobpagecontent=='vas'){
@@ -471,7 +471,7 @@ function showjobsearchbox(){
         if(searchcreteria.get("searchref")=="" && searchcreteria.get("date")==""){
             alert("请输入搜索条件。");
         }else{
-            if(currentjobpagecontent=='jobs'){
+            if(currentjobpagecontent=='jobs' || currentjobpagecontent=='unappoint'){
                 searchjobs(searchcreteria,function(){
                     const warehouseSelectinput=divContainer1.querySelector('select');
                     if(warehouseSelectinput){
