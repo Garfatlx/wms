@@ -3029,21 +3029,21 @@ function createdetailline(nid, item, activity, cancelable) {
     linecontrol0.appendChild(input5);
 
     //Disable this function temporarily!!!!!!!!
-    // const selectlocationbutton = document.createElement("button");
-    // selectlocationbutton.type = "button";
-    // selectlocationbutton.className = "button";
-    // selectlocationbutton.innerHTML = "选择库位";
-    // selectlocationbutton.style.fontSize = "14px";
-    // selectlocationbutton.style.padding = "5px 10px";
-    // selectlocationbutton.style.margin = "0px 10px";
+    const selectlocationbutton = document.createElement("button");
+    selectlocationbutton.type = "button";
+    selectlocationbutton.className = "button";
+    selectlocationbutton.innerHTML = "选择库位";
+    selectlocationbutton.style.fontSize = "14px";
+    selectlocationbutton.style.padding = "5px 10px";
+    selectlocationbutton.style.margin = "0px 10px";
 
-    // linecontrol0.appendChild(selectlocationbutton);
-    // selectlocationbutton.addEventListener("click", function() {
-    //     // showinventorymap(searchedinventory,activity,[item],locationinput);
-    //     showinventorymap(searchedinventory,activity,[item],function(selectedlocations){
-    //         locationinput.value = selectedlocations;
-    //     });
-    // });
+    linecontrol0.appendChild(selectlocationbutton);
+    selectlocationbutton.addEventListener("click", function() {
+        // showinventorymap(searchedinventory,activity,[item],locationinput);
+        showinventorymap(searchedinventory,activity,[item],function(selectedlocations){
+            locationinput.value = selectedlocations;
+        });
+    });
 
     if (activity == '入库') {
         const addvasbutton = document.createElement("button");
