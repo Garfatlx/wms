@@ -5841,6 +5841,7 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
                     currentinventory.forEach(inventory => {
                         if(inventory['inventoryloc']){
                             const locations = inventory['inventoryloc'].split(',');
+                            console.log(locations);
                             locations.forEach(loc => {
                                 const location = mapwindow.document.getElementById('div' + loc.trim());
                                 if (location) {
