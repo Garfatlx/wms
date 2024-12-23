@@ -2036,7 +2036,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         detailform.appendChild(docknumber);
 
         dockappointmentbutton.addEventListener('click', function() {
-
+            showdockappointments(clickeditem);
         });
             
     }
@@ -5702,7 +5702,7 @@ function addnewvaswindow(clickeditem,callback){
         vaswindow.close();
     }));
 }
-function showdockappointments(){
+function showdockappointments(currentjob){
     const appointmentwindow = window.open('appointment.html', '');
     appointmentwindow.onload = function() {
         appointmentwindow.document.getElementById('date-picker').valueAsDate = new Date();
