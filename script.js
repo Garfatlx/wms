@@ -5702,10 +5702,11 @@ function addnewvaswindow(clickeditem,callback){
         vaswindow.close();
     }));
 }
-function showdockappointments(currentjob){
+async function showdockappointments(currentjob){
     const appointmentwindow = window.open('appointment.html', '');
     appointmentwindow.onload = function() {
-        appointmentwindow.document.getElementById('date-picker').valueAsDate = new Date();
+        const datepicker = appointmentwindow.document.getElementById('date-picker');
+        datepicker.valueAsDate = new Date();
 
         const slots = [
         { label: 'Shift 1', start: '09:00', end: '11:30' },
@@ -5715,12 +5716,7 @@ function showdockappointments(currentjob){
         { label: 'Shift 2', start: '17:00', end: '18:30' }
         ];
 
-        const appointments = [
-        { dock: 1, time: '09:30', label: 'DHL paket' ,bulkstatus:'托盘',activity:'入库' },
-        { dock: 2, time: '12:00', label: 'ITM2' ,bulkstatus:'散货',activity:'出库' },
-        { dock: 3, time: '14:45', label: 'QOT',bulkstatus:'托盘',activity:'入库' },
-        { dock: 4, time: '15:30', label: 'HAJ1',bulkstatus:'散货' ,activity:'出库' }
-        ];
+        const appointments = searchedjobs;
 
         const tableBody = appointmentwindow.document.getElementById('schedule-body');
         let selectedCell = null;
@@ -5728,48 +5724,48 @@ function showdockappointments(currentjob){
         let selectedDock = null;
 
         function isWithinSlot(appointmentTime, slotStart, slotEnd) {
-        const [appHour, appMin] = appointmentTime.split(':').map(Number);
-        const [startHour, startMin] = slotStart.split(':').map(Number);
-        const [endHour, endMin] = slotEnd.split(':').map(Number);
+            const [appHour, appMin] = appointmentTime.split(':').map(Number);
+            const [startHour, startMin] = slotStart.split(':').map(Number);
+            const [endHour, endMin] = slotEnd.split(':').map(Number);
 
-        const appTime = appHour * 60 + appMin;
-        const startTime = startHour * 60 + startMin;
-        const endTime = endHour * 60 + endMin;
+            const appTime = appHour * 60 + appMin;
+            const startTime = startHour * 60 + startMin;
+            const endTime = endHour * 60 + endMin;
 
-        return appTime >= startTime && appTime < endTime;
+            return appTime >= startTime && appTime < endTime;
         }
 
         function generateTimeSelector(cell, start, end, dock) {
-        if (selectedCell && selectedCell !== cell) {
-            selectedCell.innerHTML = ""; // Clear previous selector
-            selectedCell.classList.remove('selected');
-        }
-        selectedCell = cell;
-        selectedDock = dock;
-        if(cell.querySelector('select')) {
-            return;
-        }
-        const select = document.createElement('select');
-        select.value = start;
-        select.onchange = (e) => selectedTime = e.target.value;
-        let [startHour, startMin] = start.split(':').map(Number);
-        let [endHour, endMin] = end.split(':').map(Number);
-        let currentTime = startHour * 60 + startMin;
-        const endTime = endHour * 60 + endMin;
+            if (selectedCell && selectedCell !== cell) {
+                selectedCell.innerHTML = ""; // Clear previous selector
+                selectedCell.classList.remove('selected');
+            }
+            selectedCell = cell;
+            selectedDock = dock;
+            if(cell.querySelector('select')) {
+                return;
+            }
+            const select = document.createElement('select');
+            select.value = start;
+            select.onchange = (e) => selectedTime = e.target.value;
+            let [startHour, startMin] = start.split(':').map(Number);
+            let [endHour, endMin] = end.split(':').map(Number);
+            let currentTime = startHour * 60 + startMin;
+            const endTime = endHour * 60 + endMin;
 
-        while (currentTime <= endTime) {
-            const hour = String(Math.floor(currentTime / 60)).padStart(2, '0');
-            const minute = String(currentTime % 60).padStart(2, '0');
-            const time = `${hour}:${minute}`;
-            const option = document.createElement('option');
-            option.value = time;
-            option.textContent = time;
-            select.appendChild(option);
-            currentTime += 30; // Increment by 30 minutes
-        }
+            while (currentTime <= endTime) {
+                const hour = String(Math.floor(currentTime / 60)).padStart(2, '0');
+                const minute = String(currentTime % 60).padStart(2, '0');
+                const time = `${hour}:${minute}`;
+                const option = document.createElement('option');
+                option.value = time;
+                option.textContent = time;
+                select.appendChild(option);
+                currentTime += 30; // Increment by 30 minutes
+            }
 
-        cell.appendChild(select);
-        cell.classList.add('selected');
+            cell.appendChild(select);
+            cell.classList.add('selected');
         }
 
         slots.forEach((slot, rowIndex) => {
