@@ -58,106 +58,128 @@
     <tbody id="schedule-body">
     </tbody>
   </table>
+
   <button id="submit-btn" style="margin-top: 20px;">Submit Appointment</button>
 
   <script>
-    const slots = [
-      { label: 'Shift 1', start: '09:00', end: '11:30' },
-      { label: 'Shift 1', start: '11:45', end: '14:15' },
-      { label: 'Break', start: '', end: '', break: true },
-      { label: 'Shift 2', start: '14:30', end: '17:30' },
-      { label: 'Shift 2', start: '17:00', end: '18:30' }
-    ];
+    // document.getElementById('date-picker').valueAsDate = new Date();
 
-    const appointments = [
-      { dock: 1, time: '09:30', label: 'DHL paket' },
-      { dock: 2, time: '12:00', label: 'ITM2' },
-      { dock: 3, time: '14:45', label: 'QOT' },
-      { dock: 4, time: '15:30', label: 'HAJ1' }
-    ];
+    // const slots = [
+    //   { label: 'Shift 1', start: '09:00', end: '11:30' },
+    //   { label: 'Shift 1', start: '11:45', end: '14:15' },
+    //   { label: 'Break', start: '', end: '', break: true },
+    //   { label: 'Shift 2', start: '14:30', end: '17:30' },
+    //   { label: 'Shift 2', start: '17:00', end: '18:30' }
+    // ];
 
-    const tableBody = document.getElementById('schedule-body');
-    let selectedCell = null;
-    let selectedTime = null;
+    // const appointments = [
+    //   { dock: 1, time: '09:30', label: 'DHL paket' ,bulkstatus:'托盘',activity:'入库' },
+    //   { dock: 2, time: '12:00', label: 'ITM2' ,bulkstatus:'散货',activity:'出库' },
+    //   { dock: 3, time: '14:45', label: 'QOT',bulkstatus:'托盘',activity:'入库' },
+    //   { dock: 4, time: '15:30', label: 'HAJ1',bulkstatus:'散货' ,activity:'出库' }
+    // ];
 
-    function isWithinSlot(appointmentTime, slotStart, slotEnd) {
-      const [appHour, appMin] = appointmentTime.split(':').map(Number);
-      const [startHour, startMin] = slotStart.split(':').map(Number);
-      const [endHour, endMin] = slotEnd.split(':').map(Number);
+    // const tableBody = document.getElementById('schedule-body');
+    // let selectedCell = null;
+    // let selectedTime = null;
+    // let selectedDock = null;
 
-      const appTime = appHour * 60 + appMin;
-      const startTime = startHour * 60 + startMin;
-      const endTime = endHour * 60 + endMin;
+    // function isWithinSlot(appointmentTime, slotStart, slotEnd) {
+    //   const [appHour, appMin] = appointmentTime.split(':').map(Number);
+    //   const [startHour, startMin] = slotStart.split(':').map(Number);
+    //   const [endHour, endMin] = slotEnd.split(':').map(Number);
 
-      return appTime >= startTime && appTime < endTime;
-    }
+    //   const appTime = appHour * 60 + appMin;
+    //   const startTime = startHour * 60 + startMin;
+    //   const endTime = endHour * 60 + endMin;
 
-    function generateTimeSelector(cell, start, end) {
-      if (selectedCell && selectedCell !== cell) {
-        selectedCell.innerHTML = ""; // Clear previous selector
-        selectedCell.classList.remove('selected');
-      }
-      selectedCell = cell;
-      if(cell.querySelector('select')) {
-        return;
-      }
-      const select = document.createElement('select');
-      select.value = start;
-      select.onchange = (e) => selectedTime = e.target.value;
-      let [startHour, startMin] = start.split(':').map(Number);
-      let [endHour, endMin] = end.split(':').map(Number);
-      let currentTime = startHour * 60 + startMin;
-      const endTime = endHour * 60 + endMin;
+    //   return appTime >= startTime && appTime < endTime;
+    // }
 
-      while (currentTime <= endTime) {
-        const hour = String(Math.floor(currentTime / 60)).padStart(2, '0');
-        const minute = String(currentTime % 60).padStart(2, '0');
-        const time = `${hour}:${minute}`;
-        const option = document.createElement('option');
-        option.value = time;
-        option.textContent = time;
-        select.appendChild(option);
-        currentTime += 30; // Increment by 30 minutes
-      }
+    // function generateTimeSelector(cell, start, end, dock) {
+    //   if (selectedCell && selectedCell !== cell) {
+    //     selectedCell.innerHTML = ""; // Clear previous selector
+    //     selectedCell.classList.remove('selected');
+    //   }
+    //   selectedCell = cell;
+    //   selectedDock = dock;
+    //   if(cell.querySelector('select')) {
+    //     return;
+    //   }
+    //   const select = document.createElement('select');
+    //   select.value = start;
+    //   select.onchange = (e) => selectedTime = e.target.value;
+    //   let [startHour, startMin] = start.split(':').map(Number);
+    //   let [endHour, endMin] = end.split(':').map(Number);
+    //   let currentTime = startHour * 60 + startMin;
+    //   const endTime = endHour * 60 + endMin;
 
-      cell.appendChild(select);
-      cell.classList.add('selected');
-    }
+    //   while (currentTime <= endTime) {
+    //     const hour = String(Math.floor(currentTime / 60)).padStart(2, '0');
+    //     const minute = String(currentTime % 60).padStart(2, '0');
+    //     const time = `${hour}:${minute}`;
+    //     const option = document.createElement('option');
+    //     option.value = time;
+    //     option.textContent = time;
+    //     select.appendChild(option);
+    //     currentTime += 30; // Increment by 30 minutes
+    //   }
 
-    slots.forEach((slot, rowIndex) => {
-      const row = document.createElement('tr');
+    //   cell.appendChild(select);
+    //   cell.classList.add('selected');
+    // }
 
-      const slotCell = document.createElement('td');
-      slotCell.textContent = `${slot.label} ${slot.start}-${slot.end}`;
-      row.appendChild(slotCell);
+    // slots.forEach((slot, rowIndex) => {
+    //   const row = document.createElement('tr');
 
-      for (let dock = 1; dock <= 4; dock++) {
-        const cell = document.createElement('td');
-        const appointment = appointments.find(app => app.dock === dock && isWithinSlot(app.time, slot.start, slot.end));
+    //   const slotCell = document.createElement('td');
+    //   slotCell.textContent = `${slot.label} ${slot.start}-${slot.end}`;
+    //   row.appendChild(slotCell);
 
-        if (slot.break) {
-          cell.classList.add('break');
-        } else if (appointment) {
-          cell.classList.add('unavailable');
-          cell.innerHTML = `${appointment.label}`;
-        } else {
-          cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end);
-        }
+    //   for (let dock = 1; dock <= 4; dock++) {
+    //     const cell = document.createElement('td');
+    //     const appointment = appointments.find(app => app.dock === dock && isWithinSlot(app.time, slot.start, slot.end));
 
-        row.appendChild(cell);
-      }
-      tableBody.appendChild(row);
-    });
+    //     if (slot.break) {
+    //       cell.classList.add('break');
+    //     } else if (appointment) {
+    //       cell.classList.add('unavailable');
+    //       cell.style.backgroundColor = getcolor(appointment);
+    //       cell.innerHTML = `${appointment.label}`;
+    //     } else {
+    //       cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+    //     }
 
-    document.getElementById('submit-btn').onclick = () => {
-      const date = document.getElementById('date-picker').value;
-      const selectedTime = document.querySelector('select')?.value;
-      if (date && selectedCell && selectedTime) {
-        alert(`Appointment scheduled at ${date} ${selectedTime}:00`);
-      } else {
-        alert('Please select a date, slot, and time first!');
-      }
-    };
+    //     row.appendChild(cell);
+    //   }
+    //   tableBody.appendChild(row);
+    // });
+
+    // document.getElementById('submit-btn').onclick = () => {
+    //   const date = document.getElementById('date-picker').value;
+    //   const selectedTime = document.querySelector('select')?.value;
+    //   if (date && selectedCell && selectedTime) {
+    //     alert(`Appointment scheduled at Dock ${selectedDock}, ${date} ${selectedTime}:00`);
+    //   } else {
+    //     alert('Please select a date, slot, and time first!');
+    //   }
+    // };
+
+    // function getcolor(job){
+    //   if(job['bulkstatus'] == '托盘' && job ['activity']== '入库'){
+    //     return '#F4E651';
+    //   }
+    //   if(job['bulkstatus'] == '托盘' && job['activity'] == '出库'){
+    //     return '#A8EAE4';
+    //   }
+    //   if(job['bulkstatus'] == '散货' && job['activity'] == '入库'){
+    //     return '#F4B7BE';
+    //   }
+    //   if(job['bulkstatus'] == '散货' && job['activity'] == '出库'){
+    //     return '#99DDFF';
+    //   }
+    //   return 'gray';
+    // }
   </script>
 </body>
 </html>
