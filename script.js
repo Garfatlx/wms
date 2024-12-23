@@ -2025,7 +2025,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     linecontrol0.appendChild(dateinput);
 
     // dock appointment button
-    if (access == 1 && access == 3) {
+    if (access == 1 || access == 3) {
         const dockappointmentbutton = document.createElement('button');
         dockappointmentbutton.innerHTML = '预约';
         dockappointmentbutton.className = 'button';
