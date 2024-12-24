@@ -39,16 +39,34 @@
       background-color: #4CAF50;
       color: white;
     }
+    .button {
+            font-family: inherit;
+            border: none;
+            /* outline: 1px dotted rgb(37, 37, 37);
+            outline-offset: -4px; */
+            background: hsl(0deg 0% 75%);
+            box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 8px;
+            transition: 0.2s;
+        }
+
+        .button:active {
+            box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+            background: hsl(0, 0%, 88%);
+        }
   </style>
 </head>
 <body>
-  <h2>Dock Appointment Scheduler</h2>
-  <label for="date-picker">Select Date:</label>
-  <input type="date" id="date-picker" />
+  <h2>垛口时间预约</h2>
+  <label for="date-picker" style="font-size: medium;">请选择日期:</label>
+  <input type="date" style="font-size: medium;" id="date-picker" />
   <table>
     <thead>
       <tr>
-        <th>Slot</th>
+        <th>垛口</th>
         <th>Dock 1 (LOOSE)</th>
         <th>Dock 2 (LOOSE)</th>
         <th>Gate 3 (Pallet)</th>
@@ -59,7 +77,7 @@
     </tbody>
   </table>
 
-  <button id="submit-btn" style="margin-top: 20px;">Submit Appointment</button>
+  <button id="submit-btn" style="margin-top: 20px;" class="button">提交选择</button>
 
   <script>
     // document.getElementById('date-picker').valueAsDate = new Date();
