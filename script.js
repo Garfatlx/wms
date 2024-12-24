@@ -5782,11 +5782,12 @@ async function showdockappointments(currentjob){
                     cell.classList.add('break');
                     } else if (appointment) {
                         if(currentjob && appointment['id'] == currentjob['id']){
-                            cell.classList.add('selected');
-                            selectedCell = cell;
-                            selectedDock = appointment['dock'];
-                            generateTimeSelector(cell, slot.start, slot.end, dock);
+                            // cell.classList.add('selected');
+                            // selectedCell = cell;
+                            // selectedDock = appointment['dock'];
+                            // generateTimeSelector(cell, slot.start, slot.end, dock);
                             cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+                            cell.onclick();
                         }else{
                             cell.classList.add('unavailable');
                             cell.style.backgroundColor = getcolor(appointment);
