@@ -5786,6 +5786,7 @@ async function showdockappointments(currentjob){
                             selectedCell = cell;
                             selectedDock = appointment['dock'];
                             generateTimeSelector(cell, slot.start, slot.end, dock);
+                            cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                         }else{
                             cell.classList.add('unavailable');
                             cell.style.backgroundColor = getcolor(appointment);
