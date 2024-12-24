@@ -5700,6 +5700,7 @@ async function showdockappointments(currentjob){
 
         datepicker.onchange = async function() {
             var searchcreteria = new FormData();
+            console.log(datepicker.value);
             searchcreteria.append('date', datepicker.value);
             searchcreteria.append('warehouse', currentwarehouse);
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
@@ -5755,6 +5756,8 @@ async function showdockappointments(currentjob){
                     const cell = document.createElement('td');
                     if(appointments){
                         const appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
+                    }else{
+                        const appointment = undefined;
                     }
                     if (slot.break) {
                     cell.classList.add('break');
