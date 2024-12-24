@@ -460,7 +460,7 @@ function showjobsearchbox(){
         showdockappointmentsbutton.textContent = '垛口信息';
 
         showdockappointmentsbutton.addEventListener("click", function() {
-            showdockappointments();
+            showdockappointments(undefined,'showdockappointments');
         });
 
         searchbox.appendChild(showdockappointmentsbutton);
@@ -5712,7 +5712,7 @@ function addnewvaswindow(clickeditem,callback){
         vaswindow.close();
     }));
 }
-async function showdockappointments(currentjob){
+async function showdockappointments(currentjob,page){
     const appointmentwindow = window.open('appointment.html', '');
     appointmentwindow.onload = function() {
         const datepicker = appointmentwindow.document.getElementById('date-picker');
@@ -5865,7 +5865,7 @@ async function showdockappointments(currentjob){
         appointmentwindow.document.getElementById('submit-btn').onclick = () => {
             const date = appointmentwindow.document.getElementById('date-picker').value;
             const selectedTime = appointmentwindow.document.querySelector('select')?.value;
-            if(!currentjob){
+            if(page=='showdockappointments'){
                 return;
             }
             if (date && selectedCell && selectedTime) {
