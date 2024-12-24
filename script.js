@@ -5722,6 +5722,8 @@ async function showdockappointments(currentjob){
 
         };
 
+        datepicker.onchange();
+
         const slots = [
             { label: 'Shift 1', start: '09:00', end: '11:30' },
             { label: 'Shift 1', start: '11:45', end: '14:15' },
