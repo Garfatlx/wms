@@ -5795,29 +5795,31 @@ async function showdockappointments(currentjob){
         });
 
         appointmentwindow.document.getElementById('submit-btn').onclick = () => {
-        const date = appointmentwindow.document.getElementById('date-picker').value;
-        const selectedTime = appointmentwindow.document.querySelector('select')?.value;
-        if (date && selectedCell && selectedTime) {
-            alert(`Appointment scheduled at Dock ${selectedDock}, ${date} ${selectedTime}:00`);
-        } else {
-            alert('Please select a date, slot, and time first!');
-        }
+            const date = appointmentwindow.document.getElementById('date-picker').value;
+            const selectedTime = appointmentwindow.document.querySelector('select')?.value;
+            if (date && selectedCell && selectedTime) {
+                document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
+                document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
+                alert(`Appointment scheduled at Dock ${selectedDock}, ${date} ${selectedTime}:00`);
+            } else {
+                alert('Please select a date, slot, and time first!');
+            }
         };
 
         function getcolor(job){
-        if(job['bulkstatus'] == '托盘' && job ['activity']== '入库'){
-            return '#F4E651';
-        }
-        if(job['bulkstatus'] == '托盘' && job['activity'] == '出库'){
-            return '#A8EAE4';
-        }
-        if(job['bulkstatus'] == '散货' && job['activity'] == '入库'){
-            return '#F4B7BE';
-        }
-        if(job['bulkstatus'] == '散货' && job['activity'] == '出库'){
-            return '#99DDFF';
-        }
-        return 'gray';
+            if(job['bulkstatus'] == '托盘' && job ['activity']== '入库'){
+                return '#F4E651';
+            }
+            if(job['bulkstatus'] == '托盘' && job['activity'] == '出库'){
+                return '#A8EAE4';
+            }
+            if(job['bulkstatus'] == '散货' && job['activity'] == '入库'){
+                return '#F4B7BE';
+            }
+            if(job['bulkstatus'] == '散货' && job['activity'] == '出库'){
+                return '#99DDFF';
+            }
+            return 'gray';
         }
     };
 }
