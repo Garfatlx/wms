@@ -448,6 +448,22 @@ function showjobsearchbox(){
     // Append form to body or any other container
     searchbox.appendChild(form);
 
+    // add show dock appointments button
+    if(access==1 || access==3){
+        const showdockappointmentsbutton = document.createElement('button');
+        showdockappointmentsbutton.className = 'button';
+        showdockappointmentsbutton.id = 'showdockappointmentsbutton';
+        showdockappointmentsbutton.style.display = 'inline-block';
+        showdockappointmentsbutton.style.marginLeft = '20px';
+        showdockappointmentsbutton.textContent = '垛口信息';
+
+        showdockappointmentsbutton.addEventListener("click", function() {
+            showdockappointments();
+        });
+
+        searchbox.appendChild(showdockappointmentsbutton);
+    }
+
     //search form
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -592,6 +608,8 @@ function showjobsearchbox(){
             }
         }
     });
+
+    
 }
 
 function showinventorysearchbox(){
@@ -5709,7 +5727,6 @@ async function showdockappointments(currentjob){
             });
             const data = await response.json();
             const appointments = data['data'];
-            console.log(appointments);
             generatetablebody(appointments);
 
         };
@@ -5758,14 +5775,17 @@ async function showdockappointments(currentjob){
                     var appointment = undefined;
                     if(appointments){
                         appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
-                        console.log(appointment);
                     }
                     if (slot.break) {
                     cell.classList.add('break');
                     } else if (appointment) {
-                    cell.classList.add('unavailable');
-                    cell.style.backgroundColor = getcolor(appointment);
-                    cell.innerHTML = `${appointment.joblabel}`;
+                        if(appointment['id'] == currentjob['id']){
+                            cell.classList.add('selected');
+                        }else{
+                            cell.classList.add('unavailable');
+                            cell.style.backgroundColor = getcolor(appointment);
+                            cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
+                        }
                     } else {
                     cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                     }
