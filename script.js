@@ -5753,14 +5753,15 @@ async function showdockappointments(currentjob){
     
                 for (let dock = 1; dock <= 4; dock++) {
                     const cell = document.createElement('td');
-                    const appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
-    
+                    if(appointments){
+                        const appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
+                    }
                     if (slot.break) {
                     cell.classList.add('break');
                     } else if (appointment) {
                     cell.classList.add('unavailable');
                     cell.style.backgroundColor = getcolor(appointment);
-                    cell.innerHTML = `${appointment.label}`;
+                    cell.innerHTML = `${appointment.joblabel}`;
                     } else {
                     cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                     }
