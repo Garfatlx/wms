@@ -5732,7 +5732,8 @@ async function showdockappointments(currentjob){
         let selectedDock = null;
 
         function isWithinSlot(appointmentTime, slotStart, slotEnd) {
-            const [appHour, appMin] = appointmentTime.split(':').map(Number);
+            const timePart = appointmentTime.split(' ')[1];
+            const [appHour, appMin] = timePart.split(':').map(Number);
             const [startHour, startMin] = slotStart.split(':').map(Number);
             const [endHour, endMin] = slotEnd.split(':').map(Number);
 
@@ -5756,7 +5757,6 @@ async function showdockappointments(currentjob){
                     const cell = document.createElement('td');
                     var appointment = undefined;
                     if(appointments){
-                        console.log(appointments);
                         appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
                         console.log(appointment);
                     }
