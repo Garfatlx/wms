@@ -5418,16 +5418,6 @@ function createTooltip(message){
 
     return tooltipContainer;
 }
-function createappointmentwindow(){
-    const appointmentwindow = window.open('', '', 'height=1200px,width=1200px');
-    var timestamp = new Date().getTime(); // Get current timestamp
-    appointmentwindow.document.write('<html><head>');
-    appointmentwindow.document.write('<link href="inventorymap.css?v=' + timestamp + '" rel="stylesheet" type="text/css">'); // Append timestamp
-    appointmentwindow.document.write('</head><body>');
-    appointmentwindow.document.write('</body></html>');
-
-
-}
 async function showinvoicewindow(clickeditem,items){
     const invoicewindow = window.open('', '', 'height=1200px,width=1200px');
     var timestamp = new Date().getTime(); // Get current timestamp
@@ -5718,6 +5708,7 @@ async function showdockappointments(currentjob){
             });
             const data = await response.json();
             const appointments = data['data'];
+            console.log(appointments);
             generatetablebody(appointments);
 
         };
