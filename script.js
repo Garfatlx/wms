@@ -5708,15 +5708,29 @@ async function showdockappointments(currentjob){
         const datepicker = appointmentwindow.document.getElementById('date-picker');
         datepicker.valueAsDate = new Date();
 
+        datepicker.onchange = async function() {
+            var searchcreteria = new FormData();
+            searchcreteria.append('date', datepicker.value);
+            searchcreteria.append('warehouse', currentwarehouse);
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
+                method: 'POST',
+                body: searchcreteria,
+            });
+            const data = await response.json();
+            const appointments = data['data'];
+            generatetablebody(appointments);
+
+        };
+
         const slots = [
-        { label: 'Shift 1', start: '09:00', end: '11:30' },
-        { label: 'Shift 1', start: '11:45', end: '14:15' },
-        { label: 'Break', start: '', end: '', break: true },
-        { label: 'Shift 2', start: '14:30', end: '17:30' },
-        { label: 'Shift 2', start: '17:00', end: '18:30' }
+            { label: 'Shift 1', start: '09:00', end: '11:30' },
+            { label: 'Shift 1', start: '11:45', end: '14:15' },
+            { label: 'Break', start: '', end: '', break: true },
+            { label: 'Shift 2', start: '14:30', end: '17:30' },
+            { label: 'Shift 2', start: '17:00', end: '18:30' }
         ];
 
-        const appointments = searchedjobs;
+        // const appointments = searchedjobs;
 
         const tableBody = appointmentwindow.document.getElementById('schedule-body');
         let selectedCell = null;
@@ -5733,6 +5747,35 @@ async function showdockappointments(currentjob){
             const endTime = endHour * 60 + endMin;
 
             return appTime >= startTime && appTime < endTime;
+        }
+
+        function generatetablebody(appointments) {
+            tableBody.innerHTML = '';
+            slots.forEach((slot, rowIndex) => {
+                const row = document.createElement('tr');
+    
+                const slotCell = document.createElement('td');
+                slotCell.textContent = `${slot.label} ${slot.start}-${slot.end}`;
+                row.appendChild(slotCell);
+    
+                for (let dock = 1; dock <= 4; dock++) {
+                    const cell = document.createElement('td');
+                    const appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
+    
+                    if (slot.break) {
+                    cell.classList.add('break');
+                    } else if (appointment) {
+                    cell.classList.add('unavailable');
+                    cell.style.backgroundColor = getcolor(appointment);
+                    cell.innerHTML = `${appointment.label}`;
+                    } else {
+                    cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+                    }
+    
+                    row.appendChild(cell);
+                }
+                tableBody.appendChild(row);
+            });
         }
 
         function generateTimeSelector(cell, start, end, dock) {
@@ -5768,31 +5811,31 @@ async function showdockappointments(currentjob){
             cell.classList.add('selected');
         }
 
-        slots.forEach((slot, rowIndex) => {
-        const row = document.createElement('tr');
+        // slots.forEach((slot, rowIndex) => {
+        //     const row = document.createElement('tr');
 
-        const slotCell = document.createElement('td');
-        slotCell.textContent = `${slot.label} ${slot.start}-${slot.end}`;
-        row.appendChild(slotCell);
+        //     const slotCell = document.createElement('td');
+        //     slotCell.textContent = `${slot.label} ${slot.start}-${slot.end}`;
+        //     row.appendChild(slotCell);
 
-        for (let dock = 1; dock <= 4; dock++) {
-            const cell = document.createElement('td');
-            const appointment = appointments.find(app => app.dock === dock && isWithinSlot(app.time, slot.start, slot.end));
+        //     for (let dock = 1; dock <= 4; dock++) {
+        //         const cell = document.createElement('td');
+        //         const appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
 
-            if (slot.break) {
-            cell.classList.add('break');
-            } else if (appointment) {
-            cell.classList.add('unavailable');
-            cell.style.backgroundColor = getcolor(appointment);
-            cell.innerHTML = `${appointment.label}`;
-            } else {
-            cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
-            }
+        //         if (slot.break) {
+        //         cell.classList.add('break');
+        //         } else if (appointment) {
+        //         cell.classList.add('unavailable');
+        //         cell.style.backgroundColor = getcolor(appointment);
+        //         cell.innerHTML = `${appointment.label}`;
+        //         } else {
+        //         cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+        //         }
 
-            row.appendChild(cell);
-        }
-        tableBody.appendChild(row);
-        });
+        //         row.appendChild(cell);
+        //     }
+        //     tableBody.appendChild(row);
+        // });
 
         appointmentwindow.document.getElementById('submit-btn').onclick = () => {
             const date = appointmentwindow.document.getElementById('date-picker').value;
@@ -5800,7 +5843,7 @@ async function showdockappointments(currentjob){
             if (date && selectedCell && selectedTime) {
                 document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
                 document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
-                alert(`Appointment scheduled at Dock ${selectedDock}, ${date} ${selectedTime}:00`);
+                appointmentwindow.close();
             } else {
                 alert('Please select a date, slot, and time first!');
             }
