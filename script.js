@@ -455,6 +455,8 @@ function showjobsearchbox(){
         showdockappointmentsbutton.id = 'showdockappointmentsbutton';
         showdockappointmentsbutton.style.display = 'inline-block';
         showdockappointmentsbutton.style.marginLeft = '20px';
+        showdockappointmentsbutton.style.marginTop = '4px';
+        showdockappointmentsbutton.style.height = '29.2px';
         showdockappointmentsbutton.textContent = '垛口信息';
 
         showdockappointmentsbutton.addEventListener("click", function() {
@@ -5779,7 +5781,7 @@ async function showdockappointments(currentjob){
                     if (slot.break) {
                     cell.classList.add('break');
                     } else if (appointment) {
-                        if(appointment['id'] == currentjob['id']){
+                        if(currentjob && appointment['id'] == currentjob['id']){
                             cell.classList.add('selected');
                         }else{
                             cell.classList.add('unavailable');
@@ -5858,6 +5860,9 @@ async function showdockappointments(currentjob){
         appointmentwindow.document.getElementById('submit-btn').onclick = () => {
             const date = appointmentwindow.document.getElementById('date-picker').value;
             const selectedTime = appointmentwindow.document.querySelector('select')?.value;
+            if(!currentjob){
+                return;
+            }
             if (date && selectedCell && selectedTime) {
                 document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
                 document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
