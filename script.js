@@ -5726,7 +5726,9 @@ async function showdockappointments(currentjob,page){
         const datepicker = appointmentwindow.document.getElementById('date-picker');
         datepicker.valueAsDate = new Date();
 
+        const loadingstatus = appointmentwindow.document.getElementById('loadingstatus');
         datepicker.onchange = async function() {
+            loadingstatus.innerHTML = '加载中...';
             var searchcreteria = new FormData();
             console.log(datepicker.value);
             searchcreteria.append('date', datepicker.value+' 23:59:59');
@@ -5738,6 +5740,7 @@ async function showdockappointments(currentjob,page){
             const data = await response.json();
             const appointments = data['data'];
             generatetablebody(appointments);
+            loadingstatus.innerHTML = '加载完成';
 
         };
 
