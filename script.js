@@ -5870,26 +5870,27 @@ async function showdockappointments(currentjob,page){
         //     tableBody.appendChild(row);
         // });
 
-        appointmentwindow.document.getElementById('submit-btn').onclick = () => {
-            const date = appointmentwindow.document.getElementById('date-picker').value;
-            const selectedTime = appointmentwindow.document.querySelector('select')?.value;
-            if(page=='showdockappointments'){
-                return;
-            }
-            if (date && selectedCell && selectedTime) {
-                document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
-                document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
-                document.getElementById('showdockinfo').innerHTML = `已预约垛口: ${selectedDock}`;
+        if(page!='showdockappointments'){
+            appointmentwindow.document.getElementById('submit-btn').onclick = () => {
+                const date = appointmentwindow.document.getElementById('date-picker').value;
+                const selectedTime = appointmentwindow.document.querySelector('select')?.value;
+                
+                if (date && selectedCell && selectedTime) {
+                    document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
+                    document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
+                    document.getElementById('showdockinfo').innerHTML = `已预约垛口: ${selectedDock}`;
+                    appointmentwindow.close();
+                } else {
+                    alert('Please select a date, slot, and time first!');
+                }
+            };
+            appointmentwindow.document.getElementById('cancel-btn').onclick = () => {
+                
+                document.getElementById('detailform').querySelector('input[name="dock"]').value = 'cancel';
+                document.getElementById('showdockinfo').innerHTML = ``;
                 appointmentwindow.close();
-            } else {
-                alert('Please select a date, slot, and time first!');
-            }
-        };
-        appointmentwindow.document.getElementById('cancel-btn').onclick = () => {
-            document.getElementById('detailform').querySelector('input[name="dock"]').value = 'cancel';
-            document.getElementById('showdockinfo').innerHTML = ``;
-            appointmentwindow.close();
-        };
+            };
+        }
 
         function getcolor(job){
             if(job['bulkstatus'] == '托盘' && job ['activity']== '入库'){
