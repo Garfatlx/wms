@@ -696,6 +696,7 @@ function showinventorysearchbox(){
             activeJobs.innerHTML = '';
             filteredinventory = filterinventory(searchcreteria);
             activeJobs.appendChild(createinventorytable(filteredinventory));
+            currentwarehouse=this.value;
         });
     }
 
