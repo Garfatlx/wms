@@ -2052,6 +2052,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         dockappointmentbutton.style.marginLeft = '10px';
         linecontrol0.appendChild(dockappointmentbutton);
 
+        const dockinfo = document.createElement('div');
+        dockinfo.id = 'showdockinfo';
+        linecontrol0.appendChild(dockinfo);
+
+        if(clickeditem['dock']){
+            dockinfo.innerHTML = '已预约垛口: ' + clickeditem['dock'];
+        }   
         const docknumber=createhiddeninput('dock',clickeditem['dock']?clickeditem['dock']:"");
         detailform.appendChild(docknumber);
 
@@ -5871,10 +5878,16 @@ async function showdockappointments(currentjob,page){
             if (date && selectedCell && selectedTime) {
                 document.getElementById('inputdate').value = ""+date+" "+selectedTime+":00";
                 document.getElementById('detailform').querySelector('input[name="dock"]').value = selectedDock;
+                document.getElementById('showdockinfo').innerHTML = `已预约垛口: ${selectedDock}`;
                 appointmentwindow.close();
             } else {
                 alert('Please select a date, slot, and time first!');
             }
+        };
+        appointmentwindow.document.getElementById('cancel-btn').onclick = () => {
+            document.getElementById('detailform').querySelector('input[name="dock"]').value = '';
+            document.getElementById('showdockinfo').innerHTML = ``;
+            appointmentwindow.close();
         };
 
         function getcolor(job){
