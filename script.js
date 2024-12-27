@@ -440,6 +440,7 @@ function showjobsearchbox(){
             for (var i = 0; i < filteredJobs.length; i++) {
                 createjob(filteredJobs[i],document.getElementById("activejobs"));
             }
+            currentwarehouse=this.value;
         });
     }
 
