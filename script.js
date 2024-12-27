@@ -6031,6 +6031,8 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
         alert('请先选择仓库');
         return;
     }
+    warehouseinventory.filter(inventory => inventory['warehouse'] === currentwarehouse);
+    
     var mapwindow = window.open(currentwarehouse+'.html', '');
     mapwindow.onload = function() {
         window.addEventListener('message', function(event) {
