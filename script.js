@@ -2054,6 +2054,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
         const dockinfo = document.createElement('div');
         dockinfo.id = 'showdockinfo';
+        dockinfo.style.display = 'inline-block';
         linecontrol0.appendChild(dockinfo);
 
         if(clickeditem['dock']){
@@ -5885,7 +5886,7 @@ async function showdockappointments(currentjob,page){
             }
         };
         appointmentwindow.document.getElementById('cancel-btn').onclick = () => {
-            document.getElementById('detailform').querySelector('input[name="dock"]').value = '';
+            document.getElementById('detailform').querySelector('input[name="dock"]').value = 'cancel';
             document.getElementById('showdockinfo').innerHTML = ``;
             appointmentwindow.close();
         };
