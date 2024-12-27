@@ -1,0 +1,376 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DE001 Warehouse</title>
+        <!-- <link rel="stylesheet" href="inventorymap.css?v=1.2"> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    </head>
+    <body>
+        <!-- <input type="file" id="fileInput" /> -->
+         <form id="mapform">
+            <button type="submit" class="button">提交</button>
+            <div id="layoutContainer"></div>
+        </form>
+    </body>
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileName = '德仓库位编号.xlsx'; // Your Excel file name here
+
+            fetch(fileName)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch file: ${fileName}`);
+                    }
+                    return response.arrayBuffer();
+                })
+                .then(data => {
+                    const workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
+
+                    // Assuming the first sheet contains the layout
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+
+                    // Get the sheet's range to detect irregular layouts
+                    const range = XLSX.utils.decode_range(worksheet['!ref']);
+                    const rows = [];
+
+                    for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+                        const row = [];
+                        for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
+                            const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+                            const cell = worksheet[cellAddress];
+                            row.push(cell ? cell.v : null);
+                        }
+                        rows.push(row);
+                    }
+
+                    generateLayout(rows);
+                    window.opener.postMessage('maploaded', '*');
+                })
+                .catch(error => {
+                    console.error('Error loading the Excel file:', error);
+                });
+            
+        });
+
+        // document.getElementById('fileInput').addEventListener('change', function(event) {
+        //     const file = event.target.files[0];
+        //     if (!file) return;
+
+        //     const reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         const data = new Uint8Array(e.target.result);
+        //         const workbook = XLSX.read(data, { type: 'array' });
+
+        //         // Assuming the first sheet contains the layout
+        //         const firstSheetName = workbook.SheetNames[0];
+        //         const worksheet = workbook.Sheets[firstSheetName];
+
+        //         // Get the sheet's range to detect irregular layouts
+        //         const range = XLSX.utils.decode_range(worksheet['!ref']);
+        //         const rows = [];
+
+        //         for (let rowNum = range.s.r; rowNum <= range.e.r; rowNum++) {
+        //             const row = [];
+        //             for (let colNum = range.s.c; colNum <= range.e.c; colNum++) {
+        //                 const cellAddress = XLSX.utils.encode_cell({ r: rowNum, c: colNum });
+        //                 const cell = worksheet[cellAddress];
+        //                 row.push(cell ? cell.v : null);
+        //             }
+        //             rows.push(row);
+        //         }
+
+        //         generateLayout(rows);
+        //     };
+        //     reader.readAsArrayBuffer(file);
+        // });
+
+        function generateLayout(rows) {
+            const container = document.getElementById('layoutContainer');
+            container.innerHTML = ''; // Clear previous layout
+
+            const table = document.createElement('table');
+            const columnStates = {}; // Track toggle states for columns
+
+            rows.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                row.forEach((slotId, colIndex) => {
+                    const td = document.createElement('td');
+
+                    if (rowIndex === 0 && slotId) {
+                        // Add column headers in the first row
+                        td.innerText = slotId;
+                        td.className = 'column-header';
+                        td.dataset.colIndex = colIndex; // Store column index
+                        columnStates[colIndex] = false; // Initialize toggle state
+                        td.addEventListener('click', () => toggleColumn(colIndex, table, columnStates));
+                    } else if (slotId) {
+                        // Add checkboxes for other rows
+                        const sku = constructskudiv(slotId);
+                        td.appendChild(sku);
+                    }
+                    tr.appendChild(td);
+                });
+                table.appendChild(tr);
+            });
+
+            container.appendChild(table);
+        }
+
+        function toggleColumn(colIndex, table, columnStates) {
+            const rows = table.querySelectorAll('tr');
+            const toggleState = !columnStates[colIndex]; // Get the current toggle state and invert it
+            columnStates[colIndex] = toggleState; // Update the toggle state
+
+            rows.forEach((row, rowIndex) => {
+                const cell = row.children[colIndex];
+                if (cell) {
+                    const checkbox = cell.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        checkbox.checked = toggleState; // Set checkbox based on toggle state
+                    }
+                }
+            });
+        }
+        
+
+        function constructskudiv(id){
+            const sku = document.createElement('div');
+            sku.className = 'sku';
+            sku.id = "div"+id;
+            const skuinput = document.createElement('input');
+            skuinput.type = 'checkbox';
+            skuinput.name = 'inventoryloc';
+            skuinput.id = id;
+            skuinput.className = 'skuinput';
+            skuinput.value = id;
+            skuinput.disabled = false;
+            const skuinputlabel = document.createElement('label');
+            skuinputlabel.htmlFor = id;
+            skuinputlabel.className = 'skulabel';
+            skuinputlabel.innerHTML = id;
+            sku.appendChild(skuinput);
+            sku.appendChild(skuinputlabel);
+            return sku;
+        }
+    </script>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding:0 5px;
+            width: 40px;
+            height: 37px;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+        .column-header {
+            font-weight: bold;
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .warA {
+            display: inline-grid;
+            grid-template-columns: repeat(25, 40px);
+            grid-template-rows: auto;
+            grid-gap: 5px;
+            justify-content: start;
+            align-content: start;
+            justify-items: start;
+            align-items: start;
+            margin: 0 auto;
+            border: solid 1px #000;
+        }
+        .asile {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: start;
+            align-items: start;
+            margin: 0 5px;
+            position: relative;
+            max-width: 40px;
+        }
+        .warAleft {
+            display: inline-block;
+            justify-self: start;
+        }
+        .asileleft {
+            display: grid;
+            grid-template-columns: repeat(12, 20px);
+            grid-template-rows: repeat(2, 20px);
+            grid-gap: 5px;
+            justify-content: center;
+            align-content: center;
+            justify-items: center;
+            align-items: center;
+            margin: 10px 5px;
+            position: relative;
+        }
+        .warAright {
+            display: inline-block;
+            justify-self: end;
+        }
+        .asileright {
+            display: grid;
+            grid-template-columns: repeat(11, 20px);
+            grid-template-rows: repeat(2, 20px);
+            grid-gap: 5px;
+            justify-content: center;
+            align-content: center;
+            justify-items: center;
+            align-items: center;
+            margin: 0 auto;
+            justify-self: end;
+            margin: 10px 5px;
+            position: relative;
+        }
+        .asilelabel {
+            position: relative;
+
+            width: 100%;
+            text-align: center;
+            text-wrap: break-word;
+            color: #000000;
+            opacity: 1;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+        .asilegrid {
+            display: grid;
+            grid-template-columns: repeat(12, 25px);
+            grid-gap: 5px;
+            justify-content: center;
+            align-content: center;
+            justify-items: center;
+            align-items: center;
+            margin: 0 ;
+            position: relative;
+        }
+        .sku {
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+            /* font-weight: bold; */
+            border: solid 1px #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.4;
+            user-select: none; 
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .sku input[type="checkbox"] {
+            display: none;
+        }
+        .skuinput{
+            display: none;
+        }
+        .skulabel {
+            display: block;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+        .sku:has(input:checked) {
+            background-color:rgba(86, 218, 74, 0.7);
+            opacity: 1;
+        }
+
+        .passway {
+            width: 100px;
+            height: 100%;
+            background-color: #ffffff;
+            margin: 0 auto;
+            border: solid 1px #838383;
+        }
+        .sku:hover {
+            opacity: 1;
+        }
+        .button {
+            font-family: inherit;
+            border: none;
+            /* outline: 1px dotted rgb(37, 37, 37);
+            outline-offset: -4px; */
+            background: hsl(0deg 0% 75%);
+            box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 15px;
+            transition: 0.2s;
+        }
+
+        .button:active {
+            box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+            background: hsl(0, 0%, 88%);
+        }
+        /* .tooltip-container {
+            position: relative;
+            display: inline-block;
+            margin: 5px 5px 10px 10px;
+        } */
+
+        .tooltip-text {
+            color: #333;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            position: absolute;
+            width: 200px;
+            top: 100%;
+            left: 50%;
+            font-size: 14px;
+            transform: translateX(-50%);
+            opacity: 0;
+            visibility: hidden;
+            background: #d2eed7;
+            color: #000000;
+            padding: 10px;
+            border-radius: 4px;
+            transition: opacity 0.3s, visibility 0.3s, top 0.3s, background 0.3s;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip::before {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent transparent #0b798a transparent;
+            transform: translateX(-50%);
+        }
+
+        .sku:hover .tooltip {
+            top: 120%;
+            opacity: 1;
+            visibility: visible;
+            background: #9ce0b6;
+            transform: translate(-50%, -5px);
+            z-index: 2;
+        }
+        .sku:hover .skulabel {
+            z-index: 5;
+        }
+    </style>
+</html>

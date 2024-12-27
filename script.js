@@ -6027,7 +6027,11 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
     //         asileright.appendChild(sku);
     //     }
     // }
-    var mapwindow = window.open('DE001.html', '');
+    if(!currentwarehouse){
+        alert('请先选择仓库');
+        return;
+    }
+    var mapwindow = window.open(currentwarehouse+'.html', '');
     mapwindow.onload = function() {
         window.addEventListener('message', function(event) {
             if (event.data === 'maploaded') {
