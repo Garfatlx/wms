@@ -5166,7 +5166,7 @@ async function searchjobwithitems(searchcreteria){
                 plttype = item.plttype + '托盘打托 ' + item.oogplt;
             }
             if (job.activity === '入库') {
-                if (item.plt === 0) {
+                if (item.plt == 0) {
                     if (item.channel === '拦截暂扣') {
                         item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
                         // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
@@ -5184,7 +5184,7 @@ async function searchjobwithitems(searchcreteria){
                     }
                 }
             } else {
-                if (item.plt === 0) {
+                if (item.plt == 0) {
                     item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
                     // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
                 } else {
