@@ -5132,8 +5132,7 @@ async function searchjobwithitems(searchcreteria){
 
     jobs.forEach(job => {
         job["overview"] = '';
-        const items = job['items'];
-        items.forEach((item, key2) => {
+        job['items'].forEach((item, key2) => {
             item["overview"] = '';
             if (item.pcs <= 0) {
                 return;
@@ -5174,9 +5173,9 @@ async function searchjobwithitems(searchcreteria){
 
     });
 
-    console.log({'jobs':jobs,'items':items});
+    console.log({'jobs':jobs,'items':jobs.map(job => job.items).flat()});
 
-    return {'jobs':jobs,'items':items};
+    return {'jobs':jobs,'items':jobs.map(job => job.items).flat()};
 }
 
 // create popup windows
