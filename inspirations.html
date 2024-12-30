@@ -38,6 +38,12 @@
         </div>
 
         <div id="response"></div>
+        <div>
+            <label >
+                <input id="checkboxtest" style="display: none;" type="checkbox" name="checkbox" value="1" class="input">
+                <span>Checkbox</span>
+            </label>
+        </div>
 
     </body>
     <script>
@@ -56,7 +62,11 @@
             const data = await response.json();
             return data;
         }
-        document.getElementById('response').innerHTML = getResponse();
+        // document.getElementById('response').innerHTML = getResponse();
+
+        document.getElementById('checkboxtest').addEventListener('click', function() {
+            console.log('clicked');
+        });
     </script>
     <style type="text/css">
         /* From Uiverse.io by kennyotsu */ 
