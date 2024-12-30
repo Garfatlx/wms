@@ -121,7 +121,6 @@ window.addEventListener("load", function(){
     var searchcreteria = new FormData();
     searchcreteria.append("jobid", "1732890217735");   
     const testdt=searchjobwithitems(searchcreteria);
-    console.log(testdt);
 
     refreshAt(0,0,0);
 
@@ -5165,6 +5164,8 @@ async function searchjobwithitems(searchcreteria){
         });
 
     });
+
+    console.log({'jobs':jobs,'items':items});
 
     return {'jobs':jobs,'items':items};
 }
