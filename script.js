@@ -1184,6 +1184,7 @@ function showinvoicesearchbox(){
 
 // loading papers
 function searchjobs(searchcreteria,callback){
+    console.log("searchjobs teiggered");
     showloading(document.getElementById("activejobs"));
     if(access==2){
         searchcreteria.append("customer", customername);
