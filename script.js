@@ -2647,14 +2647,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
 
             const jobwithitems=await searchjobwithitems(searchnewadded);
 
-            // const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-            //     method: 'POST',
-            //     body: searchnewadded,
-            // });
-            // const data = await response.json();
-            // const newaddedjob = data["data"][0];
             const newaddedjob = jobwithitems["jobs"][0];
-            const newaddeditems = jobwithitems["items"];
+            // const newaddeditems = jobwithitems["items"];
+            const newaddeditems = newaddedjob["items"];
             if(thisjobdiv){
                 createjob(newaddedjob,activeJobs,thisjobdiv);   
             }else{
@@ -5132,6 +5127,10 @@ async function searchjobwithitems(searchcreteria){
 
     jobs.forEach(job => {
         job["overview"] = '';
+        if (!job['items']) {
+            job['items'] = [];
+            return;
+        }
         job['items'].forEach((item, key2) => {
             item["overview"] = '';
             if (item.pcs <= 0) {
