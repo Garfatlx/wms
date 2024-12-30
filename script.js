@@ -118,9 +118,9 @@ window.addEventListener("load", function(){
     document.body.appendChild(datalist2);
 
     // testing code
-    var searchcreteria = new FormData();
-    searchcreteria.append("jobid", "1732890217735");   
-    const testdt=searchjobwithitems(searchcreteria);
+    // var searchcreteria = new FormData();
+    // searchcreteria.append("jobid", "1732890217735");   
+    // const testdt=searchjobwithitems(searchcreteria);
 
     refreshAt(0,0,0);
 
@@ -1171,12 +1171,12 @@ function searchjobs(searchcreteria,callback){
     latestActionToken = actionToken;
 
     searchjobwithitems(searchcreteria).then(data => {
+        console.log("aha");
         if (actionToken !== latestActionToken) {
             return;
         }
         document.getElementById("activejobs").innerHTML="";
         searchedjobs = data['jobs'];
-        console.log(searchedjobs);
         
         if(searchedjobs.length==0){
             sysresponse.innerHTML="没有找到任务。";
@@ -1190,7 +1190,7 @@ function searchjobs(searchcreteria,callback){
         }
     });
 
-
+    // // 老代码，一定时间后删除, 2024/12/30注
     // const xhr  = new XMLHttpRequest();  
     // xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
     // xhr.onreadystatechange= () => {
