@@ -5127,7 +5127,7 @@ async function searchjobwithitems(searchcreteria){
 
     // const jobs = data['data']['job'];
     // const items = data['data']['items'];
-    const jobs = data['data'][0];
+    const jobs = data['data'];
     const items = data['data'][0]['items'];
 
     jobs.forEach(job => {
