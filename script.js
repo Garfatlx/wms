@@ -1167,37 +1167,57 @@ function searchjobs(searchcreteria,callback){
     if(access==3){
         searchcreteria.append("warehouse", currentwarehouse);
     }
-    // currentjobpagecontent='jobs';
     const actionToken = Symbol();
     latestActionToken = actionToken;
-    const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
-    xhr.onreadystatechange= () => {
-        if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
-            if(xhr.response["error_code"]==0){
-                if (actionToken !== latestActionToken) {
-                    return;
-                }
-                document.getElementById("activejobs").innerHTML="";
-                
-                searchedjobs=xhr.response["data"];
-                for (var i = 0; i < xhr.response["data"].length; i++) {
-                    createjob(xhr.response["data"][i],document.getElementById("activejobs"));
-                }
-                sysresponse.innerHTML=xhr.response["msg"];
 
-                if(callback){
-                    callback();
-                }
-            }else{
-                sysresponse.innerHTML=xhr.response["msg"];
-                document.getElementById("activejobs").innerHTML="";
-                sysresponse.innerHTML="没有找到任务。";
+    searchjobwithitems(searchcreteria).then(data => {
+        if (actionToken !== latestActionToken) {
+            return;
+        }
+        document.getElementById("activejobs").innerHTML="";
+        searchedjobs = data['jobs'];
+        
+        if(searchedjobs.length==0){
+            sysresponse.innerHTML="没有找到任务。";
+        }else{
+            for (var i = 0; i < data.length; i++) {
+                createjob(data[i],document.getElementById("activejobs"));
             }
         }
-    }
-    xhr.responseType="json";
-    xhr.send(searchcreteria);
+        if(callback){
+            callback();
+        }
+    });
+
+
+    // const xhr  = new XMLHttpRequest();  
+    // xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+    // xhr.onreadystatechange= () => {
+    //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
+    //         if(xhr.response["error_code"]==0){
+    //             if (actionToken !== latestActionToken) {
+    //                 return;
+    //             }
+    //             document.getElementById("activejobs").innerHTML="";
+                
+    //             searchedjobs=xhr.response["data"];
+    //             for (var i = 0; i < xhr.response["data"].length; i++) {
+    //                 createjob(xhr.response["data"][i],document.getElementById("activejobs"));
+    //             }
+    //             sysresponse.innerHTML=xhr.response["msg"];
+
+    //             if(callback){
+    //                 callback();
+    //             }
+    //         }else{
+    //             sysresponse.innerHTML=xhr.response["msg"];
+    //             document.getElementById("activejobs").innerHTML="";
+    //             sysresponse.innerHTML="没有找到任务。";
+    //         }
+    //     }
+    // }
+    // xhr.responseType="json";
+    // xhr.send(searchcreteria);
 
     // pre load inventory data
     searchinventory(new FormData()).then(data => {
@@ -5119,6 +5139,10 @@ async function searchjobwithitems(searchcreteria){
     });
 
     const data = await response.json();
+
+    if (!data['data']) {
+        return{'jobs':[],'items':[]};
+    }
 
     // const jobs = data['data']['job'];
     // const items = data['data']['items'];
