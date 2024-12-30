@@ -5128,11 +5128,13 @@ async function searchjobwithitems(searchcreteria){
     // const jobs = data['data']['job'];
     // const items = data['data']['items'];
     const jobs = data['data'];
-    const items = data['data'][0]['items'];
+    
 
     jobs.forEach(job => {
         job["overview"] = '';
+        const items = job['items'];
         items.forEach((item, key2) => {
+            item["overview"] = '';
             if (item.pcs <= 0) {
                 return;
             }
@@ -5143,24 +5145,31 @@ async function searchjobwithitems(searchcreteria){
             if (job.activity === '入库') {
                 if (item.plt === 0) {
                     if (item.channel === '拦截暂扣') {
-                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
                     } else {
-                        job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                        // job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
                     }
                 } else {
                     if (item.channel === '拦截暂扣') {
-                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
                     } else {
-                        job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
                     }
                 }
             } else {
                 if (item.plt === 0) {
-                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
                 } else {
-                    job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
                 }
             }
+            job["overview"] += item["overview"];
         });
 
     });
