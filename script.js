@@ -538,6 +538,7 @@ function showjobsearchbox(){
     });
     var searchtoday = document.getElementById("searchtoday");
     searchtoday.addEventListener("click", function() {
+        console.log("searchtoday clicked");
         var searchcreteria = new FormData();
         if(access==2){
             searchcreteria.append("status", '全部');
