@@ -537,26 +537,48 @@ function showjobsearchbox(){
         noshowcompletedinput.checked = false;
     });
     const searchtoday = document.getElementById("searchtoday");
+    searchtoday.removeEventListener("click", searchTodayHandler);
+    searchtoday.addEventListener("click", searchTodayHandler);
 
-    searchtoday.addEventListener("click", function() {
+    // searchtoday.addEventListener("click", function() {
+    //     console.log("searchtoday clicked");
+    //     var searchcreteria = new FormData();
+    //     if(access==2){
+    //         searchcreteria.append("status", '全部');
+    //     }
+    //     currentjobpagecontent='jobs';
+    //     searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+    //     searchcreteria.append("includeunfinished", "true");
+    //     searchjobs(searchcreteria,function(){
+    //         const warehouseSelectinput=divContainer1.querySelector('select');
+    //         if(warehouseSelectinput){
+    //             console.log(warehouseSelectinput.value);
+    //             warehouseSelectinput.dispatchEvent(new Event('change'));
+    //         }
+    //     });
+        
+    //     noshowcompletedinput.checked = false;
+    // });
+    function searchTodayHandler() {
         console.log("searchtoday clicked");
         var searchcreteria = new FormData();
-        if(access==2){
+        if (access == 2) {
             searchcreteria.append("status", '全部');
         }
-        currentjobpagecontent='jobs';
-        searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+        currentjobpagecontent = 'jobs';
+        searchcreteria.append("date", getformatteddate(0) + " 23:59:59");
         searchcreteria.append("includeunfinished", "true");
-        searchjobs(searchcreteria,function(){
-            const warehouseSelectinput=divContainer1.querySelector('select');
-            if(warehouseSelectinput){
+        searchjobs(searchcreteria, function () {
+            const warehouseSelectinput = divContainer1.querySelector('select');
+            if (warehouseSelectinput) {
                 console.log(warehouseSelectinput.value);
                 warehouseSelectinput.dispatchEvent(new Event('change'));
             }
         });
-        
+    
         noshowcompletedinput.checked = false;
-    });
+    }
+
     var searchtomorrow = document.getElementById("searchtomorrow");
     searchtomorrow.addEventListener("click", function() {
         var searchcreteria = new FormData();
