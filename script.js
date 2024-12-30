@@ -117,7 +117,7 @@ window.addEventListener("load", function(){
     });
     document.body.appendChild(datalist2);
 
-    //testing code
+    // // testing code
     // var searchcreteria = new FormData();
     // searchcreteria.append("jobid", "1732890217735");   
     // searchjobwithitems(searchcreteria);
@@ -5118,15 +5118,17 @@ function sendemail(sendto,subject,content){
     });
 }
 async function searchjobwithitems(searchcreteria){
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobwithitems', {
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
         method: 'POST',
         body: searchcreteria,
     });
 
     const data = await response.json();
 
-    const jobs = data['data']['job'];
-    const items = data['data']['items'];
+    // const jobs = data['data']['job'];
+    // const items = data['data']['items'];
+    const jobs = data['data'][0];
+    const items = data['data'][0]['items'];
 
     jobs.forEach(job => {
         job["overview"] = '';
