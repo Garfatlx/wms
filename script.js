@@ -46,6 +46,7 @@ window.addEventListener("load", function(){
     //select page
     var currentjobs = document.getElementById("currentjobs");
     currentjobs.addEventListener("click", function() {
+        console.log("currentjobs clicked");
         if(access!=-1){
             var searchcreteria = new FormData();
             if(access==2){
@@ -536,6 +537,7 @@ function showjobsearchbox(){
         currentjobpagecontent='jobs';
         noshowcompletedinput.checked = false;
     });
+
     const searchtoday = document.getElementById("searchtoday");
     searchtoday.removeEventListener("click", searchTodayHandler);
     searchtoday.addEventListener("click", searchTodayHandler);
