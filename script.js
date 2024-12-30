@@ -536,7 +536,8 @@ function showjobsearchbox(){
         currentjobpagecontent='jobs';
         noshowcompletedinput.checked = false;
     });
-    var searchtoday = document.getElementById("searchtoday");
+    const searchtoday = document.getElementById("searchtoday");
+
     searchtoday.addEventListener("click", function() {
         console.log("searchtoday clicked");
         var searchcreteria = new FormData();
