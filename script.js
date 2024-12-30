@@ -1176,6 +1176,7 @@ function searchjobs(searchcreteria,callback){
         }
         document.getElementById("activejobs").innerHTML="";
         searchedjobs = data['jobs'];
+        console.log(searchedjobs);
         
         if(searchedjobs.length==0){
             sysresponse.innerHTML="没有找到任务。";
