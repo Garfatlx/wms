@@ -335,23 +335,23 @@ function showjobsearchbox(){
 
     // Function to create radio input with label
     const createRadioInput = (id, value, text, checked = false) => {
-    const label = document.createElement('label');
-    label.id = id;
+        const label = document.createElement('label');
+        label.id = id;
 
-    const input = document.createElement('input');
-    input.type = 'radio';
-    input.name = 'value-radio';
-    input.id = value;
-    input.value = value;
-    if (checked) input.checked = true;
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'value-radio';
+        input.id = value;
+        input.value = value;
+        if (checked) input.checked = true;
 
-    const span = document.createElement('span');
-    span.textContent = text;
+        const span = document.createElement('span');
+        span.textContent = text;
 
-    label.appendChild(input);
-    label.appendChild(span);
+        label.appendChild(input);
+        label.appendChild(span);
 
-    return label;
+        return label;
     };
 
     // Append radio inputs
@@ -538,8 +538,7 @@ function showjobsearchbox(){
         noshowcompletedinput.checked = false;
     });
 
-    const searchtoday = document.getElementById("searchtoday");
-    searchtoday.removeEventListener("click", searchTodayHandler);
+    const searchtoday = document.getElementById("searchtoday").querySelector('input');
     searchtoday.addEventListener("click", searchTodayHandler);
     // console.log(searchtoday._eventListeners[searchTodayHandler].length);
 
