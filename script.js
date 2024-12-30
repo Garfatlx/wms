@@ -120,7 +120,8 @@ window.addEventListener("load", function(){
     // testing code
     var searchcreteria = new FormData();
     searchcreteria.append("jobid", "1732890217735");   
-    searchjobwithitems(searchcreteria);
+    const testdt=searchjobwithitems(searchcreteria);
+    console.log(testdt);
 
     refreshAt(0,0,0);
 
