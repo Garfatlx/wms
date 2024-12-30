@@ -117,10 +117,10 @@ window.addEventListener("load", function(){
     });
     document.body.appendChild(datalist2);
 
-    // // testing code
-    // var searchcreteria = new FormData();
-    // searchcreteria.append("jobid", "1732890217735");   
-    // searchjobwithitems(searchcreteria);
+    // testing code
+    var searchcreteria = new FormData();
+    searchcreteria.append("jobid", "1732890217735");   
+    searchjobwithitems(searchcreteria);
 
     refreshAt(0,0,0);
 
