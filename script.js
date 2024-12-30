@@ -539,7 +539,7 @@ function showjobsearchbox(){
     const searchtoday = document.getElementById("searchtoday");
     searchtoday.removeEventListener("click", searchTodayHandler);
     searchtoday.addEventListener("click", searchTodayHandler);
-    console.log(searchtoday._eventListeners['click'].length);
+    // console.log(searchtoday._eventListeners[searchTodayHandler].length);
 
     // searchtoday.addEventListener("click", function() {
     //     console.log("searchtoday clicked");
