@@ -1181,8 +1181,8 @@ function searchjobs(searchcreteria,callback){
         if(searchedjobs.length==0){
             sysresponse.innerHTML="没有找到任务。";
         }else{
-            for (var i = 0; i < data.length; i++) {
-                createjob(data[i],document.getElementById("activejobs"));
+            for (var i = 0; i < data['jobs'].length; i++) {
+                createjob(data['jobs'][i],document.getElementById("activejobs"));
             }
         }
         if(callback){
