@@ -520,26 +520,27 @@ function showjobsearchbox(){
     });
 
     //search selected date
-    var searchyesterday = document.getElementById("searchyesterday");
-    searchyesterday.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        if(access==2){
-            searchcreteria.append("status", '全部');
-        }
-        searchcreteria.append("date", getformatteddate(-1)+" 23:59:59");
-        searchjobs(searchcreteria,function(){
-            const warehouseSelectinput=divContainer1.querySelector('select');
-            if(warehouseSelectinput){
-                console.log(warehouseSelectinput.value);
-                warehouseSelectinput.dispatchEvent(new Event('change'));
-            }
-        });
-        currentjobpagecontent='jobs';
-        noshowcompletedinput.checked = false;
-    });
+    const searchyesterday = document.getElementById("searchyesterday").querySelector('input');
+    searchyesterday.addEventListener("click", searchTodayHandler(-1));
+    // searchyesterday.addEventListener("click", function() {
+    //     var searchcreteria = new FormData();
+    //     if(access==2){
+    //         searchcreteria.append("status", '全部');
+    //     }
+    //     searchcreteria.append("date", getformatteddate(-1)+" 23:59:59");
+    //     searchjobs(searchcreteria,function(){
+    //         const warehouseSelectinput=divContainer1.querySelector('select');
+    //         if(warehouseSelectinput){
+    //             console.log(warehouseSelectinput.value);
+    //             warehouseSelectinput.dispatchEvent(new Event('change'));
+    //         }
+    //     });
+    //     currentjobpagecontent='jobs';
+    //     noshowcompletedinput.checked = false;
+    // });
 
     const searchtoday = document.getElementById("searchtoday").querySelector('input');
-    searchtoday.addEventListener("click", searchTodayHandler);
+    searchtoday.addEventListener("click", searchTodayHandler(0));
     // console.log(searchtoday._eventListeners[searchTodayHandler].length);
 
     // searchtoday.addEventListener("click", function() {
@@ -561,43 +562,26 @@ function showjobsearchbox(){
         
     //     noshowcompletedinput.checked = false;
     // });
-    function searchTodayHandler() {
-        console.log("searchtoday clicked");
-        var searchcreteria = new FormData();
-        if (access == 2) {
-            searchcreteria.append("status", '全部');
-        }
-        currentjobpagecontent = 'jobs';
-        searchcreteria.append("date", getformatteddate(0) + " 23:59:59");
-        searchcreteria.append("includeunfinished", "true");
-        searchjobs(searchcreteria, function () {
-            const warehouseSelectinput = divContainer1.querySelector('select');
-            if (warehouseSelectinput) {
-                console.log(warehouseSelectinput.value);
-                warehouseSelectinput.dispatchEvent(new Event('change'));
-            }
-        });
     
-        noshowcompletedinput.checked = false;
-    }
 
-    var searchtomorrow = document.getElementById("searchtomorrow");
-    searchtomorrow.addEventListener("click", function() {
-        var searchcreteria = new FormData();
-        if(access==2){
-            searchcreteria.append("status", '全部');
-        }
-        searchcreteria.append("date", getformatteddate(1)+" 23:59:59");
-        searchjobs(searchcreteria,function(){
-            const warehouseSelectinput=divContainer1.querySelector('select');
-            if(warehouseSelectinput){
-                warehouseSelectinput.dispatchEvent(new Event('change'));
-            }
-        });
-        currentjobpagecontent='jobs';
-        noshowcompletedinput.checked = false;
-    });
-    var searcvas = document.getElementById("searcvas");
+    const searchtomorrow = document.getElementById("searchtomorrow").querySelector('input');
+    searchtomorrow.addEventListener("click", searchTodayHandler(1));
+    // searchtomorrow.addEventListener("click", function() {
+    //     var searchcreteria = new FormData();
+    //     if(access==2){
+    //         searchcreteria.append("status", '全部');
+    //     }
+    //     searchcreteria.append("date", getformatteddate(1)+" 23:59:59");
+    //     searchjobs(searchcreteria,function(){
+    //         const warehouseSelectinput=divContainer1.querySelector('select');
+    //         if(warehouseSelectinput){
+    //             warehouseSelectinput.dispatchEvent(new Event('change'));
+    //         }
+    //     });
+    //     currentjobpagecontent='jobs';
+    //     noshowcompletedinput.checked = false;
+    // });
+    const searcvas = document.getElementById("searcvas").querySelector('input');
     searcvas.addEventListener("click", function() {
         sysresponse.innerHTML="附加任务";
         var searchcreteria = new FormData();
@@ -638,7 +622,25 @@ function showjobsearchbox(){
         }
     });
 
+    function searchTodayHandler(daytotoday) {
+        console.log("searchtoday clicked");
+        var searchcreteria = new FormData();
+        if (access == 2) {
+            searchcreteria.append("status", '全部');
+        }
+        currentjobpagecontent = 'jobs';
+        searchcreteria.append("date", getformatteddate(daytotoday) + " 23:59:59");
+        searchcreteria.append("includeunfinished", "true");
+        searchjobs(searchcreteria, function () {
+            const warehouseSelectinput = divContainer1.querySelector('select');
+            if (warehouseSelectinput) {
+                console.log(warehouseSelectinput.value);
+                warehouseSelectinput.dispatchEvent(new Event('change'));
+            }
+        });
     
+        noshowcompletedinput.checked = false;
+    }
 }
 
 function showinventorysearchbox(){
