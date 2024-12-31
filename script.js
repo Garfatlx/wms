@@ -4076,6 +4076,10 @@ async function checkandGeneratevasPlt(itemFormdata){
     if(pcs==0 || cbm==0){
         return;
     }
+    const plttype = itemFormdata.get('plttype');
+    if(plttype=="散货" || plttype==""){
+        return;
+    }
 
     //Check Threshold
     const estimateplt = Math.ceil(cbm*pcs / 1.5);
