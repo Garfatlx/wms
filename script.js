@@ -2813,13 +2813,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 if (detailline.querySelector('select[name="plttype"]').value == "散货") {
                     continue;
                 }
-                if (detailline.querySelector('input[name="plt"]').value == "") {
-                    detailline.querySelector('input[name="plt"]').style.backgroundColor = "pink";
-                    detailline.querySelector('input[name="plt"]').focus();
-                    alert("请填写完预计打托数");
-                    readytosubmit = false;
-                    break;
-                }
+                // if (detailline.querySelector('input[name="plt"]').value == "") {
+                //     detailline.querySelector('input[name="plt"]').style.backgroundColor = "pink";
+                //     detailline.querySelector('input[name="plt"]').focus();
+                //     alert("请填写完预计打托数");
+                //     readytosubmit = false;
+                //     break;
+                // }
                 if (detailline.querySelector('select[name="oogplt"]').value == "") {
                     detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
                     detailline.querySelector('select[name="oogplt"]').focus();
