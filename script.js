@@ -274,6 +274,10 @@ async function addnewjob(clickeditem,detaillinenumber){
                     method: 'POST',
                     body: addjobline,
                 }));
+                //check plt numbers
+                if(addjob.get('status') == '完成'){
+                    httpRequests.push(checkandGeneratevasPlt(addjobline));
+                }
             }else{
                 if (addjob.get('status') == '完成') {
                     httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
@@ -282,6 +286,8 @@ async function addnewjob(clickeditem,detaillinenumber){
                     }));
                 }
             }
+
+            
             
         }
         // document.getElementById("itemdetail").innerHTML = "";
@@ -3925,7 +3931,6 @@ async function showactivitydetail(activity){
     createjob(job,activitydetail);
     
 }
-
 function checkitem(array,key){
     if(!array[key]){
         return false;
@@ -3937,6 +3942,163 @@ function checkitem(array,key){
         return false;
     }
     return true;
+}
+function jsonToCsv(jsonData,columntitle) {
+    const csvRows = [];
+    const headers = Object.keys(jsonData[0]).map(key => columntitle[key] || key);
+    csvRows.push(headers.join(','));
+
+    for (const row of jsonData) {
+        const values = headers.map(header => {
+            const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
+            let value = row[originalKey];
+            if (typeof value === 'string') {
+                value = value.replace(/\n/g, ';'); // Replace newline characters with a space
+                value = value.replace(/"/g, '""'); // Escape double quotes
+                value = `"${value}"`; // Enclose in double quotes
+            }
+            return value;
+        });
+        csvRows.push(values.join(','));
+    }
+
+    return csvRows.join('\n');
+}
+function replacer(key, value) {
+    return value === null ? '' : value;
+}
+function filterunvalidactivity(data){
+    const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
+    return data.filter(item => {
+        const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
+        return !(item.status == '预报' && itemDate < today) && item.pcs > 0;
+    });
+}
+function filterunvalidinventory(data){
+    const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
+    return data.filter(item => {
+        const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
+        return !(item.status == '预报' && itemDate < today) && item.pcs > 0;
+    });
+}
+function adminauthorization(){
+    const adminpassword = prompt('请输入管理员密码');
+    if (adminpassword === 'Garfat') {
+        return true;
+    } else {
+        alert('密码错误');
+        return false;
+    }
+}
+function sendemail(sendto,subject,content){
+    const formData = new FormData();
+    formData.append('sendto', sendto);
+    formData.append('subject', subject);
+    formData.append('content', content);
+    fetch('https://garfat.xyz/index.php/home/Wms/sendemail', {
+        method: 'POST',
+        body: formData,
+    }).then(response => response.json()).then(data => {
+        console.log(data);
+    });
+}
+async function searchjobwithitems(searchcreteria){
+    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+        method: 'POST',
+        body: searchcreteria,
+    });
+
+    const data = await response.json();
+
+    if (!data['data']) {
+        return{'jobs':[],'items':[]};
+    }
+
+    // const jobs = data['data']['job'];
+    // const items = data['data']['items'];
+    const jobs = data['data'];
+    
+
+    jobs.forEach(job => {
+        job["overview"] = '';
+        if (!job['items']) {
+            job['items'] = [];
+            return;
+        }
+        job['items'].forEach((item, key2) => {
+            item["overview"] = '';
+            if (item.pcs <= 0) {
+                return;
+            }
+            let plttype = '';
+            if (item.plttype && item.plttype !== '散货') {
+                plttype = item.plttype + '托盘打托 ' + item.oogplt;
+            }
+            if (job.activity === '入库') {
+                if (item.plt == 0) {
+                    if (item.channel === '拦截暂扣') {
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                        // job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    }
+                } else {
+                    if (item.channel === '拦截暂扣') {
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
+                    } else {
+                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    }
+                }
+            } else {
+                if (item.plt == 0) {
+                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
+                } else {
+                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
+                }
+            }
+            job["overview"] += item["overview"];
+        });
+
+    });
+
+    console.log({'jobs':jobs,'items':jobs.map(job => job.items).flat()});
+
+    return {'jobs':jobs,'items':jobs.map(job => job.items).flat()};
+}
+async function checkandGeneratevasPlt(itemFormdata){
+    const pcs=parseInt(itemFormdata.get('pcs'));
+    const cbm=parseFloat(itemFormdata.get('cbm'));
+    if(pcs==0 || cbm==0){
+        return;
+    }
+
+    //Check Threshold
+    const estimateplt = Math.ceil(cbm*pcs / 1.5);
+    const plt = parseInt(itemFormdata.get('plt'));
+
+    if(plt>=estimateplt*1.2){
+        var uploaddata = new FormData();
+        itemFormdata.forEach((value, key) => {
+            uploaddata.append(key, value);
+        });
+        uploaddata.append('service', '异常打托');
+        uploaddata.set('status', '处理中');
+        uploaddata.append('instruction', '系统预估托数: '+estimateplt+' 实际托数: '+plt+' 请上传2+1货物打托照片');
+        uploaddata.append('deadline', itemFormdata.get('date'));
+        const response = await fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
+            method: 'POST',
+            body: uploaddata,
+        });
+        const data = await response.json();
+        alert(itemFormdata.get('label')+"系统预估托数: "+estimateplt+" 实际托数: "+plt+" 请在额外任务中上传2+1货物打托照片");
+    }
+    return;
+
 }
 
 // prints
@@ -4332,306 +4494,8 @@ function printinventorylabel(content){
 }
 
 
-function createcheckbox(id,name,checked,parent){
-    if (checked==1) {
-        parent.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
-    }
-    // Create container div
-    const container = document.createElement('div');
-    container.className = 'cbxcontainer';
 
-    // Create input element
-    const input = document.createElement('input');
-    input.style.display = 'none';
-    input.id = id;
-    input.name = name;
-    input.type = 'checkbox';
-    input.value = 1;
-    input.checked = checked==1?true:false;
-    
-
-    // Create label element
-    const label = document.createElement('label');
-    label.className = 'check';
-    label.htmlFor = id;
-
-    // Create SVG element
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 20 20');
-    svg.setAttribute('height', '20px');
-    svg.setAttribute('width', '20px');
-
-    // Create path element
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', 'M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z');
-
-    // Create polyline element
-    const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-    polyline.setAttribute('points', '1 9 7 14 15 4');
-
-    // Append path and polyline to SVG
-    svg.appendChild(path);
-    svg.appendChild(polyline);
-
-    // Append SVG to label
-    label.appendChild(svg);
-
-    // Append input and label to container
-    container.appendChild(input);
-    container.appendChild(label);
-
-    input.addEventListener('change', function() {
-        if (input.checked) {
-            parent.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
-        } else {
-            parent.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.25)';
-        }
-    });
-
-    return container;
-}
-
-function vasdetailform(clickeditem,callback,replacement){
-    function createinputelement(type,label, name, value) {
-        const inputdiv = document.createElement('div');
-        inputdiv.className = 'inputdiv';
-        inputdiv.style.margin='10px 0px';
-        const input = document.createElement('input');
-        input.type = type;
-        input.name = name;
-        input.value = value;
-        input.className = 'input';
-        const inputlabel = document.createElement('label');
-        inputlabel.htmlFor = name;
-        inputlabel.innerHTML = label;
-        inputlabel.className = 'label';
-        inputdiv.appendChild(inputlabel);
-        inputdiv.appendChild(input);
-        return inputdiv;
-    }
-    function createhideninput(name, value) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = name;
-        input.value = value;
-        return input;
-    }
-    const form = document.createElement('form');
-    form.style.display='block';
-    form.style.width = '500px';
-    form.style.position = 'relative';
-    const submitbutton = document.createElement('button');
-    submitbutton.type = 'submit';
-    submitbutton.className = 'button';
-    submitbutton.innerHTML = '提交';
-    submitbutton.style.fontSize = '14px';
-    submitbutton.style.padding = '5px 5px';
-
-    form.appendChild(submitbutton);
-
-    const taskstatusbar = createstatusbar((clickeditem['status']?clickeditem['status']:"预报"),'预报','处理中','暂停','完成');
-    taskstatusbar.style.position="absolute";
-    taskstatusbar.style.right="50px";
-    taskstatusbar.style.top="35px";
-    form.appendChild(taskstatusbar);
-
-    const serviceinput = createinputelement('text','服务：','service',clickeditem['service']?clickeditem['service']:''); 
-    serviceinput.querySelector('input').setAttribute('list', 'services');
-    serviceinput.querySelector('input').required = true;
-    serviceinput.querySelector('input').style.width = '150px';
-    serviceinput.style.fontSize = '20px';
-    serviceinput.style.fontWeight = 'bold';
-    form.appendChild(serviceinput);
-
-    const customerinput = createinputelement('text','客户：','customer',clickeditem['customer']?clickeditem['customer']:'');
-    customerinput.querySelector('input').style.width = '150px';
-    form.appendChild(customerinput);
-
-    const containerinput = createinputelement('text','箱号：','container',clickeditem['container']?clickeditem['container']:'');
-    containerinput.querySelector('input').style.width = '150px';
-    form.appendChild(containerinput);
-
-    const labelinput = createinputelement('text','仓点：','label',clickeditem['label']?clickeditem['label']:'');
-    labelinput.querySelector('input').style.width = '150px';
-    form.appendChild(labelinput);
-
-    const pcsinput = createinputelement('number','件数：','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
-    pcsinput.querySelector('input').style.width = '140px';
-    form.appendChild(pcsinput);
-
-    const deadlineinput = createinputelement('date','截止日期：','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
-    deadlineinput.querySelector('input').style.width = '160px';
-    deadlineinput.querySelector('input').required = true;
-    form.appendChild(deadlineinput);
-
-    form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
-    form.appendChild(createhideninput('createdate',clickeditem['createdate']?clickeditem['createdate']:getformatteddate(0)));
-
-    const instructioninputdiv=document.createElement('div');
-    instructioninputdiv.className = 'inputdiv';
-    const instructioninput = document.createElement('textarea');
-    instructioninput.name = 'instruction';
-    instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
-    instructioninput.className = 'input';
-    instructioninput.style.width = '600px';
-    instructioninput.style.height = '150px';
-    const instructioninputlabel = document.createElement('label');
-    instructioninputlabel.htmlFor = 'instruction';
-    instructioninputlabel.innerHTML = '操作指示：';
-    instructioninputlabel.className = 'label';
-    instructioninputdiv.appendChild(instructioninputlabel);
-    instructioninputdiv.appendChild(instructioninput);
-    form.appendChild(instructioninputdiv);
-
-    const noteinputdiv=document.createElement('div');
-    noteinputdiv.className = 'inputdiv';
-    const noteinput = document.createElement('textarea');
-    noteinput.name = 'note';
-    noteinput.value = clickeditem['note']?clickeditem['note']:'';
-    noteinput.className = 'input';
-    noteinput.style.width = '600px';
-    noteinput.style.height = '150px';
-    const noteinputlabel = document.createElement('label');
-    noteinputlabel.htmlFor = 'note';
-    noteinputlabel.innerHTML = '备注：';
-    noteinputlabel.className = 'label';
-    noteinputdiv.appendChild(noteinputlabel);
-    noteinputdiv.appendChild(noteinput);
-    form.appendChild(noteinputdiv);
-
-    const hidwarehouse=document.createElement('input');
-    hidwarehouse.type = 'hidden';
-    hidwarehouse.name = 'warehouse';
-    hidwarehouse.value = clickeditem['warehouse']?clickeditem['warehouse']:'';
-    form.appendChild(hidwarehouse);
-
-    //file upload section
-    const uploaddiv=document.createElement("div");
-    uploaddiv.className="uploaddiv";
-    uploaddiv.style.justifyContent="start";
-    for (var i = 1; i <= 5; i++) {
-        const uploadbuttonblock = document.createElement("div");
-        uploadbuttonblock.className="uploadbuttonblock";
-        uploadbuttonblock.style.margin="0px 10px";
-        uploadbuttonblock.style.wordBreak="break-all";
-        uploadbuttonblock.id="uploadbuttonblock"+i;
-
-        const uploadbutton = document.createElement("button");
-        uploadbutton.className="container-btn-file";
-        
-        uploadbutton.innerHTML="上传文件"+i;
-
-        const input = document.createElement("input");
-        input.type = "file";
-        input.id = "attachment"+i;
-        input.name = "attachment"+i;
-        input.className="file";
-        input.accept = "";
-        input.multiple = false;
-
-        const changestatuslog = document.createElement("input");
-        changestatuslog.type = "hidden";
-        changestatuslog.name = "changestatus"+i;
-        changestatuslog.value = 0;
-        
-        uploadbutton.appendChild(input);
-        uploadbuttonblock.appendChild(uploadbutton);
-        uploadbuttonblock.appendChild(changestatuslog);
-
-        const inumber = i;
-        if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
-            const fileLink = document.createElement("a");
-            fileLink.href = clickeditem['attachment'+i];
-
-            const decodedUrl = decodeURIComponent(clickeditem['attachment'+i]);
-            const urlParts = decodedUrl.split('/');
-            const fileName = urlParts[urlParts.length - 1];
-            
-            fileLink.textContent = fileName;
-            fileLink.className = "file-name";
-            fileLink.download = clickeditem['attachment'+i]; // Enable file download
-            uploadbuttonblock.appendChild(fileLink);
-        }
-        uploadbutton.addEventListener('change', function() {
-            var file = this.querySelector('input').files[0];
-            var filename = file.name;
-            var fileLink = document.createElement("a");
-            fileLink.href = URL.createObjectURL(file);
-            fileLink.textContent = filename;
-            fileLink.className = "file-name";
-            fileLink.download = filename; // Enable file download
-            uploadbuttonblock.appendChild(fileLink);
-            changestatuslog.value = 1;
-        });
-        
-        
-        
-        uploaddiv.appendChild(uploadbuttonblock);
-    }
-    form.appendChild(uploaddiv);
-
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        var formData = new FormData(form);
-        formData.append('jobid',clickeditem['jobid']?clickeditem['jobid']:'');
-        formData.append('inventoryid',clickeditem['inventoryid']?clickeditem['inventoryid']:'');
-        var vas = {};
-        formData.forEach((value, key) => {
-            vas[key] = value;
-        });
-        
-        fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
-            method: 'POST',
-            body: formData,
-        }).then(response => response.json())
-        .then(data => {
-            vas['responsemsg']=data.msg;
-            callback(vas);
-            //replace div
-            if(replacement){
-                var vasid=new FormData();
-                console.log(clickeditem['id']);
-                vasid.append('id',clickeditem['id']);
-                fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
-                    method: 'POST',
-                    body: vasid,
-                }).then(response => response.json())
-                .then(data => {
-                    createvasjob(data['data'][0],document.getElementById("activejobs"),replacement);
-                });
-            }
-        });
-        form.innerHTML = '上传中...';
-    });
-
-    return form;
-}
-
-function jsonToCsv(jsonData,columntitle) {
-    const csvRows = [];
-    const headers = Object.keys(jsonData[0]).map(key => columntitle[key] || key);
-    csvRows.push(headers.join(','));
-
-    for (const row of jsonData) {
-        const values = headers.map(header => {
-            const originalKey = Object.keys(columntitle).find(key => columntitle[key] === header) || header;
-            let value = row[originalKey];
-            if (typeof value === 'string') {
-                value = value.replace(/\n/g, ';'); // Replace newline characters with a space
-                value = value.replace(/"/g, '""'); // Escape double quotes
-                value = `"${value}"`; // Enclose in double quotes
-            }
-            return value;
-        });
-        csvRows.push(values.join(','));
-    }
-
-    return csvRows.join('\n');
-}
-function replacer(key, value) {
-    return value === null ? '' : value;
-}
-
+// create popup windows
 async function createinventoryoperationdiv(){
     
     const activeJobs = document.getElementById('activejobs');
@@ -5119,115 +4983,6 @@ async function createinventoryoperationdiv(){
     }
 
 }
-
-function filterunvalidactivity(data){
-    const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
-    return data.filter(item => {
-        const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
-        return !(item.status == '预报' && itemDate < today) && item.pcs > 0;
-    });
-}
-function filterunvalidinventory(data){
-    const today = new Date().setHours(0, 0, 0, 0); // Get today's date at midnight
-    return data.filter(item => {
-        const itemDate = new Date(item.date).setHours(0, 0, 0, 0); // Parse item date at midnight
-        return !(item.status == '预报' && itemDate < today) && item.pcs > 0;
-    });
-}
-
-
-function adminauthorization(){
-    const adminpassword = prompt('请输入管理员密码');
-    if (adminpassword === 'Garfat') {
-        return true;
-    } else {
-        alert('密码错误');
-        return false;
-    }
-}
-
-function sendemail(sendto,subject,content){
-    const formData = new FormData();
-    formData.append('sendto', sendto);
-    formData.append('subject', subject);
-    formData.append('content', content);
-    fetch('https://garfat.xyz/index.php/home/Wms/sendemail', {
-        method: 'POST',
-        body: formData,
-    }).then(response => response.json()).then(data => {
-        console.log(data);
-    });
-}
-async function searchjobwithitems(searchcreteria){
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
-        method: 'POST',
-        body: searchcreteria,
-    });
-
-    const data = await response.json();
-
-    if (!data['data']) {
-        return{'jobs':[],'items':[]};
-    }
-
-    // const jobs = data['data']['job'];
-    // const items = data['data']['items'];
-    const jobs = data['data'];
-    
-
-    jobs.forEach(job => {
-        job["overview"] = '';
-        if (!job['items']) {
-            job['items'] = [];
-            return;
-        }
-        job['items'].forEach((item, key2) => {
-            item["overview"] = '';
-            if (item.pcs <= 0) {
-                return;
-            }
-            let plttype = '';
-            if (item.plttype && item.plttype !== '散货') {
-                plttype = item.plttype + '托盘打托 ' + item.oogplt;
-            }
-            if (job.activity === '入库') {
-                if (item.plt == 0) {
-                    if (item.channel === '拦截暂扣') {
-                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
-                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + ':' + item.fba + '<br />';
-                    } else {
-                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
-                        // job.overview += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
-                    }
-                } else {
-                    if (item.channel === '拦截暂扣') {
-                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
-                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + ':' + item.fba + '<br />';
-                    } else {
-                        item["overview"] = item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
-                        // job["overview"] += item.createorder + '.' + item.label + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
-                    }
-                }
-            } else {
-                if (item.plt == 0) {
-                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
-                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + plttype + item.requirement + '<br />';
-                } else {
-                    item["overview"] = item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
-                    // job["overview"] += item.createorder + '.' + item.container + ':    ' + item.pcs + '件 ' + item.plt + '托  ' + plttype + item.requirement + '<br />';
-                }
-            }
-            job["overview"] += item["overview"];
-        });
-
-    });
-
-    console.log({'jobs':jobs,'items':jobs.map(job => job.items).flat()});
-
-    return {'jobs':jobs,'items':jobs.map(job => job.items).flat()};
-}
-
-// create popup windows
 function autoarrangeout(){
     const appointmentwindow = window.open('', '', 'height=1200px,width=1600px');
     var timestamp = new Date().getTime(); // Get current timestamp
@@ -6326,7 +6081,64 @@ function createquotetemplateselectiondiv(options,selectedtemplate){
 
     return templateselectiondiv;
 }
+function createcheckbox(id,name,checked,parent){
+    if (checked==1) {
+        parent.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+    }
+    // Create container div
+    const container = document.createElement('div');
+    container.className = 'cbxcontainer';
 
+    // Create input element
+    const input = document.createElement('input');
+    input.style.display = 'none';
+    input.id = id;
+    input.name = name;
+    input.type = 'checkbox';
+    input.value = 1;
+    input.checked = checked==1?true:false;
+    
+
+    // Create label element
+    const label = document.createElement('label');
+    label.className = 'check';
+    label.htmlFor = id;
+
+    // Create SVG element
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('height', '20px');
+    svg.setAttribute('width', '20px');
+
+    // Create path element
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z');
+
+    // Create polyline element
+    const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+    polyline.setAttribute('points', '1 9 7 14 15 4');
+
+    // Append path and polyline to SVG
+    svg.appendChild(path);
+    svg.appendChild(polyline);
+
+    // Append SVG to label
+    label.appendChild(svg);
+
+    // Append input and label to container
+    container.appendChild(input);
+    container.appendChild(label);
+
+    input.addEventListener('change', function() {
+        if (input.checked) {
+            parent.style.boxShadow = '0px 0px 6px 3px rgb(91 175 49)';
+        } else {
+            parent.style.boxShadow = '0px 2px 5px rgba(0,0,0,0.25)';
+        }
+    });
+
+    return container;
+}
 function createhiddeninput(name,value){
     const hiddeninput = document.createElement('input');
     hiddeninput.type = 'hidden';
@@ -6398,6 +6210,225 @@ function createcoolselect(name,nameplate,options,value,noneditable){
     }
 
     return selectdiv;
+}
+function vasdetailform(clickeditem,callback,replacement){
+    function createinputelement(type,label, name, value) {
+        const inputdiv = document.createElement('div');
+        inputdiv.className = 'inputdiv';
+        inputdiv.style.margin='10px 0px';
+        const input = document.createElement('input');
+        input.type = type;
+        input.name = name;
+        input.value = value;
+        input.className = 'input';
+        const inputlabel = document.createElement('label');
+        inputlabel.htmlFor = name;
+        inputlabel.innerHTML = label;
+        inputlabel.className = 'label';
+        inputdiv.appendChild(inputlabel);
+        inputdiv.appendChild(input);
+        return inputdiv;
+    }
+    function createhideninput(name, value) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        return input;
+    }
+    const form = document.createElement('form');
+    form.style.display='block';
+    form.style.width = '500px';
+    form.style.position = 'relative';
+    const submitbutton = document.createElement('button');
+    submitbutton.type = 'submit';
+    submitbutton.className = 'button';
+    submitbutton.innerHTML = '提交';
+    submitbutton.style.fontSize = '14px';
+    submitbutton.style.padding = '5px 5px';
+
+    form.appendChild(submitbutton);
+
+    const taskstatusbar = createstatusbar((clickeditem['status']?clickeditem['status']:"预报"),'预报','处理中','暂停','完成');
+    taskstatusbar.style.position="absolute";
+    taskstatusbar.style.right="50px";
+    taskstatusbar.style.top="35px";
+    form.appendChild(taskstatusbar);
+
+    const serviceinput = createinputelement('text','服务：','service',clickeditem['service']?clickeditem['service']:''); 
+    serviceinput.querySelector('input').setAttribute('list', 'services');
+    serviceinput.querySelector('input').required = true;
+    serviceinput.querySelector('input').style.width = '150px';
+    serviceinput.style.fontSize = '20px';
+    serviceinput.style.fontWeight = 'bold';
+    form.appendChild(serviceinput);
+
+    const customerinput = createinputelement('text','客户：','customer',clickeditem['customer']?clickeditem['customer']:'');
+    customerinput.querySelector('input').style.width = '150px';
+    form.appendChild(customerinput);
+
+    const containerinput = createinputelement('text','箱号：','container',clickeditem['container']?clickeditem['container']:'');
+    containerinput.querySelector('input').style.width = '150px';
+    form.appendChild(containerinput);
+
+    const labelinput = createinputelement('text','仓点：','label',clickeditem['label']?clickeditem['label']:'');
+    labelinput.querySelector('input').style.width = '150px';
+    form.appendChild(labelinput);
+
+    const pcsinput = createinputelement('number','件数：','pcs',clickeditem['pcs']?clickeditem['pcs']:'');
+    pcsinput.querySelector('input').style.width = '140px';
+    form.appendChild(pcsinput);
+    const pltinput = createinputelement('number','托数：','plt',clickeditem['plt']?clickeditem['plt']:'');
+    pltinput.querySelector('input').style.width = '140px';
+    form.appendChild(pltinput);
+
+
+    const deadlineinput = createinputelement('date','截止日期：','deadline',clickeditem['deadline']?clickeditem['deadline']:'');
+    deadlineinput.querySelector('input').style.width = '160px';
+    deadlineinput.querySelector('input').required = true;
+    form.appendChild(deadlineinput);
+
+    form.appendChild(createhideninput('id',clickeditem['id']?clickeditem['id']:''));
+    form.appendChild(createhideninput('createdate',clickeditem['createdate']?clickeditem['createdate']:getformatteddate(0)));
+
+    const instructioninputdiv=document.createElement('div');
+    instructioninputdiv.className = 'inputdiv';
+    const instructioninput = document.createElement('textarea');
+    instructioninput.name = 'instruction';
+    instructioninput.value = clickeditem['instruction']?clickeditem['instruction']:'';
+    instructioninput.className = 'input';
+    instructioninput.style.width = '600px';
+    instructioninput.style.height = '150px';
+    const instructioninputlabel = document.createElement('label');
+    instructioninputlabel.htmlFor = 'instruction';
+    instructioninputlabel.innerHTML = '操作指示：';
+    instructioninputlabel.className = 'label';
+    instructioninputdiv.appendChild(instructioninputlabel);
+    instructioninputdiv.appendChild(instructioninput);
+    form.appendChild(instructioninputdiv);
+
+    const noteinputdiv=document.createElement('div');
+    noteinputdiv.className = 'inputdiv';
+    const noteinput = document.createElement('textarea');
+    noteinput.name = 'note';
+    noteinput.value = clickeditem['note']?clickeditem['note']:'';
+    noteinput.className = 'input';
+    noteinput.style.width = '600px';
+    noteinput.style.height = '150px';
+    const noteinputlabel = document.createElement('label');
+    noteinputlabel.htmlFor = 'note';
+    noteinputlabel.innerHTML = '备注：';
+    noteinputlabel.className = 'label';
+    noteinputdiv.appendChild(noteinputlabel);
+    noteinputdiv.appendChild(noteinput);
+    form.appendChild(noteinputdiv);
+
+    const hidwarehouse=document.createElement('input');
+    hidwarehouse.type = 'hidden';
+    hidwarehouse.name = 'warehouse';
+    hidwarehouse.value = clickeditem['warehouse']?clickeditem['warehouse']:'';
+    form.appendChild(hidwarehouse);
+
+    //file upload section
+    const uploaddiv=document.createElement("div");
+    uploaddiv.className="uploaddiv";
+    uploaddiv.style.justifyContent="start";
+    for (var i = 1; i <= 5; i++) {
+        const uploadbuttonblock = document.createElement("div");
+        uploadbuttonblock.className="uploadbuttonblock";
+        uploadbuttonblock.style.margin="0px 10px";
+        uploadbuttonblock.style.wordBreak="break-all";
+        uploadbuttonblock.id="uploadbuttonblock"+i;
+
+        const uploadbutton = document.createElement("button");
+        uploadbutton.className="container-btn-file";
+        
+        uploadbutton.innerHTML="上传文件"+i;
+
+        const input = document.createElement("input");
+        input.type = "file";
+        input.id = "attachment"+i;
+        input.name = "attachment"+i;
+        input.className="file";
+        input.accept = "";
+        input.multiple = false;
+
+        const changestatuslog = document.createElement("input");
+        changestatuslog.type = "hidden";
+        changestatuslog.name = "changestatus"+i;
+        changestatuslog.value = 0;
+        
+        uploadbutton.appendChild(input);
+        uploadbuttonblock.appendChild(uploadbutton);
+        uploadbuttonblock.appendChild(changestatuslog);
+
+        const inumber = i;
+        if (clickeditem != '' && clickeditem['attachment'+i] != '' && clickeditem['attachment'+i] != null) {
+            const fileLink = document.createElement("a");
+            fileLink.href = clickeditem['attachment'+i];
+
+            const decodedUrl = decodeURIComponent(clickeditem['attachment'+i]);
+            const urlParts = decodedUrl.split('/');
+            const fileName = urlParts[urlParts.length - 1];
+            
+            fileLink.textContent = fileName;
+            fileLink.className = "file-name";
+            fileLink.download = clickeditem['attachment'+i]; // Enable file download
+            uploadbuttonblock.appendChild(fileLink);
+        }
+        uploadbutton.addEventListener('change', function() {
+            var file = this.querySelector('input').files[0];
+            var filename = file.name;
+            var fileLink = document.createElement("a");
+            fileLink.href = URL.createObjectURL(file);
+            fileLink.textContent = filename;
+            fileLink.className = "file-name";
+            fileLink.download = filename; // Enable file download
+            uploadbuttonblock.appendChild(fileLink);
+            changestatuslog.value = 1;
+        });
+        
+        
+        
+        uploaddiv.appendChild(uploadbuttonblock);
+    }
+    form.appendChild(uploaddiv);
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData(form);
+        formData.append('jobid',clickeditem['jobid']?clickeditem['jobid']:'');
+        formData.append('inventoryid',clickeditem['inventoryid']?clickeditem['inventoryid']:'');
+        var vas = {};
+        formData.forEach((value, key) => {
+            vas[key] = value;
+        });
+        
+        fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
+            method: 'POST',
+            body: formData,
+        }).then(response => response.json())
+        .then(data => {
+            vas['responsemsg']=data.msg;
+            callback(vas);
+            //replace div
+            if(replacement){
+                var vasid=new FormData();
+                console.log(clickeditem['id']);
+                vasid.append('id',clickeditem['id']);
+                fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
+                    method: 'POST',
+                    body: vasid,
+                }).then(response => response.json())
+                .then(data => {
+                    createvasjob(data['data'][0],document.getElementById("activejobs"),replacement);
+                });
+            }
+        });
+        form.innerHTML = '上传中...';
+    });
+
+    return form;
 }
 
 
