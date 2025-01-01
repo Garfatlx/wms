@@ -4032,7 +4032,8 @@ async function searchjobwithitems(searchcreteria){
             }
             let plttype = '';
             if (item.plttype && item.plttype !== '散货') {
-                plttype = item.plttype + '托盘打托 ' + item.oogplt;
+                // plttype = item.plttype + '托盘打托 ' + item.oogplt;
+                plttype = item.plttype + '托盘打托 ' ;
             }
             if (job.activity === '入库') {
                 if (item.plt == 0) {
