@@ -5973,6 +5973,17 @@ function showinventorymap(warehouseinventory,activity,currentinventory,callback)
 
     
 }
+function opennewjobwindow(clickeditem){
+    if(!clickeditem){
+        alert('请先选择一个任务');
+        return;
+    }
+
+    const newjobwindow = window.open('jobwindow.html', '');
+    newjobwindow.onload = function() {
+        newjobwindow.postMessage(clickeditem, '*');
+    }
+}
 
 //element creataion functions
 function createwarehouseselectiondiv(selectedwarehouse){
