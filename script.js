@@ -3288,6 +3288,9 @@ function createjob(jobcontent,parentdiv,replacement){
     openinnewtab.style.position = "absolute";
     openinnewtab.style.right = "2px";
     openinnewtab.style.top = "5px";
+    openinnewtab.style.cursor = "pointer";
+
+    activejob.appendChild(openinnewtab);
 
     // Create and append the standalone item title
     const itemTitle2 = document.createElement('p');
