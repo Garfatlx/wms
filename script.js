@@ -3280,6 +3280,15 @@ function createjob(jobcontent,parentdiv,replacement){
     jobstatus.textContent = jobcontent['status'];
     activejob.appendChild(jobstatus);
 
+    // add open in new tab icon
+    const openinnewtab = document.createElement('img');
+    openinnewtab.src = "images/open-in-new-window-icon.jpg";
+    openinnewtab.style.width = "22px";
+    openinnewtab.style.height = "22px";
+    openinnewtab.style.position = "absolute";
+    openinnewtab.style.right = "2px";
+    openinnewtab.style.top = "5px";
+
     // Create and append the standalone item title
     const itemTitle2 = document.createElement('p');
     itemTitle2.className = 'itemtitle';
