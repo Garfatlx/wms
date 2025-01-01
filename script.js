@@ -3369,7 +3369,8 @@ function createjob(jobcontent,parentdiv,replacement){
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity'],activejob);
     });
-    openinnewtab.addEventListener("click", function() {
+    openinnewtab.addEventListener("click", function(event) {
+        event.stopPropagation();
         console.log("open in new tab");
     });
 
