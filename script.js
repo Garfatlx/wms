@@ -3283,12 +3283,7 @@ function createjob(jobcontent,parentdiv,replacement){
     // add open in new tab icon
     const openinnewtab = document.createElement('img');
     openinnewtab.src = "images/open-in-new-window-icon.jpg";
-    openinnewtab.style.width = "22px";
-    openinnewtab.style.height = "22px";
-    openinnewtab.style.position = "absolute";
-    openinnewtab.style.right = "2px";
-    openinnewtab.style.top = "5px";
-    openinnewtab.style.cursor = "pointer";
+    openinnewtab.className = 'openinnewwindowicon';
 
     activejob.appendChild(openinnewtab);
 
@@ -3373,6 +3368,9 @@ function createjob(jobcontent,parentdiv,replacement){
 
     activejob.addEventListener("click", function() {
         loaddetail(clickeditem,clickeditem['activity'],activejob);
+    });
+    openinnewtab.addEventListener("click", function() {
+        console.log("open in new tab");
     });
 
     if(replacement){
