@@ -5676,7 +5676,7 @@ async function showdockappointments(currentjob,page){
 
         function generateTimeSelectordiv(start, end, dock){
             const selectdiv = document.createElement('div');
-            if(page!='showdockappointments'){
+            if(page=='showdockappointments'){
                 return selectdiv;
             }
             selectdiv.className = 'timeselectordiv';
