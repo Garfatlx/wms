@@ -5675,6 +5675,7 @@ async function showdockappointments(currentjob,page){
             selectdiv.addEventListener('click', function() {
                 generateTimeSelector(selectdiv, start, end, dock);
             });
+            return selectdiv;
         }
 
         function generateTimeSelector(cell, start, end, dock) {
