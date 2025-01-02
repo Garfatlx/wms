@@ -5625,7 +5625,7 @@ async function showdockappointments(currentjob,page){
                     }
                     if (slot.break) {
                     cell.classList.add('break');
-                    } else if (appointment) {
+                    } else if (appointment.length > 0) {
                         appointment.forEach(app => {
                             if(currentjob && app['id'] == currentjob['id']){
                                 // cell.classList.add('selected');
