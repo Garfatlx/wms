@@ -5676,6 +5676,7 @@ async function showdockappointments(currentjob,page){
         function generateTimeSelectordiv(start, end, dock){
             const selectdiv = document.createElement('div');
             selectdiv.className = 'timeselectordiv';
+            selectdiv.innerHTML = '+';
             selectdiv.addEventListener('click', function() {
                 generateTimeSelector(selectdiv, start, end, dock);
             });
@@ -5684,11 +5685,12 @@ async function showdockappointments(currentjob,page){
 
         function generateTimeSelector(cell, start, end, dock) {
             if (selectedCell && selectedCell !== cell) {
-                selectedCell.innerHTML = ""; // Clear previous selector
+                selectedCell.innerHTML = "+"; // Clear previous selector
                 selectedCell.classList.remove('selected');
             }
             selectedCell = cell;
             selectedDock = dock;
+            cell.innerHTML = '';
             if(cell.querySelector('select')) {
                 return;
             }
