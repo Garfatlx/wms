@@ -5640,11 +5640,11 @@ async function showdockappointments(currentjob,page){
                             }else{
                                 // cell.classList.add('unavailable');
                                 cell.appendChild(generateappointmentdiv(app));
-                                cell.appendChild(generateTimeSelectordiv(slot.start, slot.end, dock));
                                 // cell.style.backgroundColor = getcolor(appointment);
                                 // cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
                             }
                         });
+                        cell.appendChild(generateTimeSelectordiv(slot.start, slot.end, dock));
                     } else {
                         cell.appendChild(generateTimeSelectordiv(slot.start, slot.end, dock));
                     // cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
