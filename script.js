@@ -5634,7 +5634,7 @@ async function showdockappointments(currentjob,page){
                                 // generateTimeSelector(cell, slot.start, slot.end, dock);
                                 const occupied=generateTimeSelectordiv(slot.start, slot.end, dock);
                                 cell.appendChild(occupied);
-                                occupied.click();
+                                occupied.onclick();
                                 // cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                                 // cell.onclick();
                             }else{
@@ -5673,17 +5673,13 @@ async function showdockappointments(currentjob,page){
             return appointmentdiv;
         }
 
-        
 
         function generateTimeSelectordiv(start, end, dock){
             const selectdiv = document.createElement('div');
             selectdiv.className = 'timeselectordiv';
             selectdiv.innerHTML = '+';
-            const clickhandler = function(event) {
-                event.stopPropagation();
-                generateTimeSelector(selectdiv, start, end, dock);
-            };
-            selectdiv.addEventListener('click',clickhandler);
+            selectdiv.onclick = () => generateTimeSelector(selectdiv, start, end, dock);
+            // selectdiv.addEventListener('click',clickhandler);
             return selectdiv;
         }
 
@@ -5691,12 +5687,10 @@ async function showdockappointments(currentjob,page){
             if (selectedCell && selectedCell !== cell) {
                 selectedCell.innerHTML = "+"; // Clear previous selector
                 selectedCell.classList.remove('selected');
-                selectedCell.addEventListener('click', clickhandler);
             }
             selectedCell = cell;
             selectedDock = dock;
             cell.innerHTML = '';
-            cell.removeEventListener('click', clickhandler);
             if(cell.querySelector('select')) {
                 return;
             }
