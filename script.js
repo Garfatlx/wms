@@ -5621,24 +5621,26 @@ async function showdockappointments(currentjob,page){
                     const cell = document.createElement('td');
                     var appointment = undefined;
                     if(appointments){
-                        appointment = appointments.find(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
+                        appointment = appointments.filter(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
                     }
                     if (slot.break) {
                     cell.classList.add('break');
                     } else if (appointment) {
-                        if(currentjob && appointment['id'] == currentjob['id']){
-                            // cell.classList.add('selected');
-                            // selectedCell = cell;
-                            // selectedDock = appointment['dock'];
-                            // generateTimeSelector(cell, slot.start, slot.end, dock);
-                            cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
-                            cell.onclick();
-                        }else{
-                            cell.classList.add('unavailable');
-                            cell.appendChild(generateappointmentdiv(appointment));
-                            // cell.style.backgroundColor = getcolor(appointment);
-                            // cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
-                        }
+                        appointment.forEach(app => {
+                            if(currentjob && app['id'] == currentjob['id']){
+                                // cell.classList.add('selected');
+                                // selectedCell = cell;
+                                // selectedDock = appointment['dock'];
+                                // generateTimeSelector(cell, slot.start, slot.end, dock);
+                                cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+                                cell.onclick();
+                            }else{
+                                // cell.classList.add('unavailable');
+                                cell.appendChild(generateappointmentdiv(app));
+                                // cell.style.backgroundColor = getcolor(appointment);
+                                // cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
+                            }
+                        });
                     } else {
                     cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                     }
