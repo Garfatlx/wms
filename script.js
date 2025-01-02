@@ -5639,7 +5639,14 @@ async function showdockappointments(currentjob,page){
                                 // cell.onclick();
                             }else{
                                 // cell.classList.add('unavailable');
-                                cell.appendChild(generateappointmentdiv(app));
+                                const appdiv = generateappointmentdiv(app);
+                                cell.appendChild(appdiv);
+                                if(page=='showdockappointments'){
+                                    appdiv.onclick = function(){
+                                        loaddetail(app,app.activity,undefined,true);
+                                        appointmentwindow.close();
+                                    }
+                                }
                                 // cell.style.backgroundColor = getcolor(appointment);
                                 // cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
                             }
