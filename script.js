@@ -1960,9 +1960,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
     controlbar.appendChild(printbutton);
     controlbar.appendChild(printcmrbutton);
     controlbar.appendChild(printlabelbutton);
-    if(access==1 || access==3){
-        controlbar.appendChild(invoicebutton);
-    }
+    // if(access==1 || access==3){
+    //     controlbar.appendChild(invoicebutton);
+    // }
     // controlbar.appendChild(closebutton);
 
     var titleLine = document.createElement("div");
@@ -2634,7 +2634,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         printbutton.removeAttribute("disabled");
         printcmrbutton.removeAttribute("disabled");
         printlabelbutton.removeAttribute("disabled");
-        invoicebutton.removeAttribute("disabled");
+        // invoicebutton.removeAttribute("disabled");
         var fileInputs = itemdetail.getElementsByClassName("file");
         for (var i = 0; i < fileInputs.length; i++) {
             fileInputs[i].removeAttribute("disabled");
@@ -2795,9 +2795,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             // ...
         }
     });
-    invoicebutton.addEventListener("click", function() {
-        showinvoicewindow(clickeditem,items);
-    });
+    // invoicebutton.addEventListener("click", function() {
+    //     showinvoicewindow(clickeditem,items);
+    // });
     
     function checkreadytosubmit(){
         var readytosubmit=true;
@@ -5581,11 +5581,11 @@ async function showdockappointments(currentjob,page){
         datepicker.onchange();
 
         const slots = [
-            { label: 'Shift 1', start: '09:00', end: '11:30' },
-            { label: 'Shift 1', start: '11:45', end: '14:15' },
+            { label: 'Shift 1', start: '08:00', end: '11:00' },
+            { label: 'Shift 1', start: '11:00', end: '13:00' },
             { label: 'Break', start: '', end: '', break: true },
-            { label: 'Shift 2', start: '14:30', end: '17:30' },
-            { label: 'Shift 2', start: '17:00', end: '18:30' }
+            { label: 'Shift 2', start: '13:00', end: '15:00' },
+            { label: 'Shift 2', start: '15:00', end: '17:00' }
         ];
 
         // const appointments = searchedjobs;
@@ -5646,6 +5646,15 @@ async function showdockappointments(currentjob,page){
                 }
                 tableBody.appendChild(row);
             });
+        }
+
+        function generateappointmentdiv(appointment){
+            const appointmentdiv = document.createElement('div');
+            appointmentdiv.className = 'appointmentdiv';
+            appointmentdiv.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
+            const time = appointment.date.split(' ')[1];
+
+            return appointmentdiv;
         }
 
         function generateTimeSelector(cell, start, end, dock) {
