@@ -5635,8 +5635,9 @@ async function showdockappointments(currentjob,page){
                             cell.onclick();
                         }else{
                             cell.classList.add('unavailable');
-                            cell.style.backgroundColor = getcolor(appointment);
-                            cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
+                            cell.appendChild(generateappointmentdiv(appointment));
+                            // cell.style.backgroundColor = getcolor(appointment);
+                            // cell.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
                         }
                     } else {
                     cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
@@ -5651,8 +5652,18 @@ async function showdockappointments(currentjob,page){
         function generateappointmentdiv(appointment){
             const appointmentdiv = document.createElement('div');
             appointmentdiv.className = 'appointmentdiv';
+            appointmentdiv.style.backgroundColor = getcolor(appointment);
             appointmentdiv.innerHTML = `${appointment.customer}  ${appointment.joblabel}`;
-            const time = appointment.date.split(' ')[1];
+
+            const dateTime = appointment.date.split(' ');
+            const time = dateTime[1].split(':');
+            const formattedTime = `${time[0]}:${time[1]}`;
+            const timediv = document.createElement('div');
+            timediv.innerHTML = formattedTime;
+            timediv.style.position = 'absolute';
+            timediv.style.right = '5px';
+            appointmentdiv.appendChild(timediv);
+
 
             return appointmentdiv;
         }
