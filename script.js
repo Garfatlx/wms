@@ -5701,6 +5701,7 @@ async function showdockappointments(currentjob,page){
             select.className = 'time-selector';
             select.value = start;
             select.onchange = (e) => selectedTime = e.target.value;
+            select.onclick = (e) => e.stopPropagation();
             let [startHour, startMin] = start.split(':').map(Number);
             let [endHour, endMin] = end.split(':').map(Number);
             let currentTime = startHour * 60 + startMin;
