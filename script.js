@@ -5643,7 +5643,7 @@ async function showdockappointments(currentjob,page){
                                 cell.appendChild(appdiv);
                                 if(page=='showdockappointments'){
                                     appdiv.onclick = function(){
-                                        loaddetail(app,app.activity,undefined,true);
+                                        loaddetail(app,app.activity,undefined,false);
                                         appointmentwindow.close();
                                     }
                                 }
