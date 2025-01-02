@@ -5634,7 +5634,7 @@ async function showdockappointments(currentjob,page){
                                 // generateTimeSelector(cell, slot.start, slot.end, dock);
                                 const occupied=generateTimeSelectordiv(slot.start, slot.end, dock);
                                 cell.appendChild(occupied);
-                                occupied.onclick();
+                                occupied.click();
                                 // cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                                 // cell.onclick();
                             }else{
