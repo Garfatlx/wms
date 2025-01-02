@@ -5673,14 +5673,17 @@ async function showdockappointments(currentjob,page){
             return appointmentdiv;
         }
 
+        
+
         function generateTimeSelectordiv(start, end, dock){
             const selectdiv = document.createElement('div');
             selectdiv.className = 'timeselectordiv';
             selectdiv.innerHTML = '+';
-            selectdiv.addEventListener('click', function(event) {
+            const clickhandler = function(event) {
                 event.stopPropagation();
                 generateTimeSelector(selectdiv, start, end, dock);
-            });
+            };
+            selectdiv.addEventListener('click',clickhandler);
             return selectdiv;
         }
 
@@ -5688,10 +5691,12 @@ async function showdockappointments(currentjob,page){
             if (selectedCell && selectedCell !== cell) {
                 selectedCell.innerHTML = "+"; // Clear previous selector
                 selectedCell.classList.remove('selected');
+                selectedCell.addEventListener('click', clickhandler);
             }
             selectedCell = cell;
             selectedDock = dock;
             cell.innerHTML = '';
+            cell.removeEventListener('click', clickhandler);
             if(cell.querySelector('select')) {
                 return;
             }
