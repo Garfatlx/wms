@@ -5642,7 +5642,8 @@ async function showdockappointments(currentjob,page){
                             }
                         });
                     } else {
-                    cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
+                        cell.appendChild(generateTimeSelectordiv(slot.start, slot.end, dock));
+                    // cell.onclick = () => generateTimeSelector(cell, slot.start, slot.end, dock);
                     }
     
                     row.appendChild(cell);
@@ -5665,9 +5666,15 @@ async function showdockappointments(currentjob,page){
             timediv.style.position = 'absolute';
             timediv.style.right = '5px';
             appointmentdiv.appendChild(timediv);
-
-
             return appointmentdiv;
+        }
+
+        function generateTimeSelectordiv(start, end, dock){
+            const selectdiv = document.createElement('div');
+            selectdiv.className = 'timeselectordiv';
+            selectdiv.addEventListener('click', function() {
+                generateTimeSelector(selectdiv, start, end, dock);
+            });
         }
 
         function generateTimeSelector(cell, start, end, dock) {
@@ -5681,6 +5688,7 @@ async function showdockappointments(currentjob,page){
                 return;
             }
             const select = document.createElement('select');
+            select.className = 'time-selector';
             select.value = start;
             select.onchange = (e) => selectedTime = e.target.value;
             let [startHour, startMin] = start.split(':').map(Number);
