@@ -821,8 +821,22 @@ function showinventorysearchbox(){
         exportbutton.style.alignSelf = 'center';
         exportbutton.textContent = '导出CSV';
         exportbutton.addEventListener("click", function() {
+            const threeMonthsAgo = new Date();
+            threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
             var ouputdata=filteredinventory.filter(inventory => inventory.status == "完成");
             ouputdata=ouputdata.sort((a, b) => {
+                const dateA = new Date(a.date); // Parses 'yyyy-mm-dd hh:mm:ss'
+                const dateB = new Date(b.date); // Parses 'yyyy-mm-dd hh:mm:ss'
+        
+                // Check if dates are older than 3 months
+                const isOldA = dateA < threeMonthsAgo;
+                const isOldB = dateB < threeMonthsAgo;
+        
+                // Step 1: Prioritize records by 'old' status
+                if (isOldA && !isOldB) return 1;   // 'a' is older, push it down
+                if (!isOldA && isOldB) return -1; // 'b' is older, push it down
+                
                 // If 'hold' is true, place it at the bottom
                 if (a.channel === '拦截暂扣' && b.channel !== '拦截暂扣') return 1;  // 'a' goes after 'b'
                 if (a.channel !== '拦截暂扣' && b.channel === '拦截暂扣') return -1; // 'a' goes before 'b'
