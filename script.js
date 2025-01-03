@@ -5569,7 +5569,12 @@ async function showdockappointments(currentjob,page){
             if(currentjob){
                 searchcreteria.append('warehouse', currentjob['warehouse']);
             }else{
-                searchcreteria.append('warehouse', currentwarehouse);
+                if(currentwarehouse){
+                    searchcreteria.append('warehouse', currentwarehouse);
+                }else{
+                    alert('请先选择仓库');
+                    return;
+                }
             }
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
                 method: 'POST',
