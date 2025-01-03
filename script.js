@@ -821,7 +821,7 @@ function showinventorysearchbox(){
         exportbutton.style.alignSelf = 'center';
         exportbutton.textContent = '导出CSV';
         exportbutton.addEventListener("click", function() {
-            const ouputdata=filteredinventory.filter(inventory => inventory.status == "完成");
+            var ouputdata=filteredinventory.filter(inventory => inventory.status == "完成");
             ouputdata=ouputdata.sort((a, b) => {
                 // If 'hold' is true, place it at the bottom
                 if (a.channel === '拦截暂扣' && b.channel !== '拦截暂扣') return 1;  // 'a' goes after 'b'
