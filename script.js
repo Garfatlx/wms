@@ -821,8 +821,18 @@ function showinventorysearchbox(){
         exportbutton.style.alignSelf = 'center';
         exportbutton.textContent = '导出CSV';
         exportbutton.addEventListener("click", function() {
+            const ouputdata=filteredinventory.filter(inventory => inventory.status == "完成");
+            ouputdata=ouputdata.sort((a, b) => {
+                // If 'hold' is true, place it at the bottom
+                if (a.channel === '拦截暂扣' && b.channel !== '拦截暂扣') return 1;  // 'a' goes after 'b'
+                if (a.channel !== '拦截暂扣' && b.channel === '拦截暂扣') return -1; // 'a' goes before 'b'
+        
+                // If 'hold' status is the same, sort by 'label'
+                return a.label.localeCompare(b.label); // Ascending by 'label'
+            });
+
             // Convert JSON data to CSV
-            const csvData = jsonToCsv(filteredinventory,itemexporttilemapping);
+            const csvData = jsonToCsv(ouputdata,itemexporttilemapping);
 
             // Create a Blob from the CSV data
             const blob = new Blob([csvData], { type: 'text/csv;charset=utf-16;' });
