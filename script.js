@@ -5566,7 +5566,11 @@ async function showdockappointments(currentjob,page){
             var searchcreteria = new FormData();
             console.log(datepicker.value);
             searchcreteria.append('date', datepicker.value+' 23:59:59');
-            searchcreteria.append('warehouse', currentwarehouse);
+            if(currentjob){
+                searchcreteria.append('warehouse', currentjob['warehouse']);
+            }else{
+                searchcreteria.append('warehouse', currentwarehouse);
+            }
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
                 method: 'POST',
                 body: searchcreteria,
