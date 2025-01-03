@@ -5641,7 +5641,7 @@ async function showdockappointments(currentjob,page){
     
                 for (let dock = 1; dock <= 4; dock++) {
                     const cell = document.createElement('td');
-                    var appointment = undefined;
+                    var appointment = [];
                     if(appointments){
                         appointment = appointments.filter(app => app.dock == dock && isWithinSlot(app.date, slot.start, slot.end));
                     }
