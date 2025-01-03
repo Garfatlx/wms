@@ -5555,6 +5555,19 @@ function addnewvaswindow(clickeditem,callback){
     }));
 }
 async function showdockappointments(currentjob,page){
+    var searchcreteria = new FormData();
+    searchcreteria.append('date', new Date()+' 23:59:59');
+    if(currentjob){
+        searchcreteria.append('warehouse', currentjob['warehouse']);
+    }else{
+        if(currentwarehouse){
+            searchcreteria.append('warehouse', currentwarehouse);
+        }else{
+            alert('请先选择仓库');
+            return;
+        }
+    }
+
     const appointmentwindow = window.open('appointment.html', '');
     appointmentwindow.onload = function() {
         const datepicker = appointmentwindow.document.getElementById('date-picker');
@@ -5563,19 +5576,19 @@ async function showdockappointments(currentjob,page){
         const loadingstatus = appointmentwindow.document.getElementById('loadingstatus');
         datepicker.onchange = async function() {
             loadingstatus.innerHTML = '加载中...';
-            var searchcreteria = new FormData();
-            console.log(datepicker.value);
-            searchcreteria.append('date', datepicker.value+' 23:59:59');
-            if(currentjob){
-                searchcreteria.append('warehouse', currentjob['warehouse']);
-            }else{
-                if(currentwarehouse){
-                    searchcreteria.append('warehouse', currentwarehouse);
-                }else{
-                    alert('请先选择仓库');
-                    return;
-                }
-            }
+            // var searchcreteria = new FormData();
+            // searchcreteria.append('date', datepicker.value+' 23:59:59');
+            // if(currentjob){
+            //     searchcreteria.append('warehouse', currentjob['warehouse']);
+            // }else{
+            //     if(currentwarehouse){
+            //         searchcreteria.append('warehouse', currentwarehouse);
+            //     }else{
+            //         alert('请先选择仓库');
+            //         return;
+            //     }
+            // }
+            searchcreteria.set('date', datepicker.value+' 23:59:59');
             const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
                 method: 'POST',
                 body: searchcreteria,
