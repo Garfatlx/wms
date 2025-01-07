@@ -845,8 +845,20 @@ function showinventorysearchbox(){
                 return a.label.localeCompare(b.label); // Ascending by 'label'
             });
 
+            const columnsToKeep = ['label', 'container', 'marks','pcs','plt', 'date', 'channel'];
+            const filteredOutputData = ouputdata.map(inventory => {
+                const filteredInventory = {};
+                columnsToKeep.forEach(column => {
+                    if(inventory.hasOwnProperty(column)){
+                        filteredInventory[column] = inventory[column];
+                    }
+                });
+                return filteredInventory;
+            });
+
+
             // Convert JSON data to CSV
-            const csvData = jsonToCsv(ouputdata,itemexporttilemapping);
+            const csvData = jsonToCsv(filteredOutputData,itemexporttilemapping);
 
             // Create a Blob from the CSV data
             const blob = new Blob([csvData], { type: 'text/csv;charset=utf-16;' });
