@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  
+</head>
+
+<body>
+    <div id="itemdetail"></div>
+</body>
+<script>
+    window.addEventListener('message', function(event) {
+        var itemdetail = event.data;
+        window.title=itemdetail['joblabel'];
+        document.getElementById('itemdetail').innerHTML = itemdetail;
+    });
+
+    async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
+        showcontrolpanel();
+
+        detaillinenumber=0;
+
+        
+        var itemdetail = document.getElementById("itemdetail");
+        
+        itemdetail.innerHTML="";
+        var detailform=document.createElement("form");
+        detailform.id="detailform";
+        detailform.className="detailform";
+        itemdetail.appendChild(detailform);
+
+        detailform.addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+        });
+
+        
+        
+        //control   bar
+        var controlbar=document.createElement("div");
+        controlbar.className="controlbar";
+        detailform.appendChild(controlbar);
+        var submitbutton=document.createElement("button");
+        submitbutton.innerHTML="保存";
+        submitbutton.className="button";
+        
+        
+        var cancelButton = document.createElement("button");
+        cancelButton.innerHTML = "删除任务";
+        cancelButton.className = "button";
+        cancelButton.id = "archivebutton";
+        
+        
+        var printbutton=document.createElement("button");
+        printbutton.innerHTML="&#x1F5B6 操作单";
+        printbutton.className="button";
+        printbutton.style.marginLeft = '10px';
+
+        
+        var printcmrbutton=document.createElement("button");
+        printcmrbutton.innerHTML="&#x1F5B6 CMR";
+        printcmrbutton.className="button";
+
+        var printlabelbutton=document.createElement("button");
+        printlabelbutton.innerHTML="&#x1F5B6 标签";
+        printlabelbutton.className="button";
+
+        const invoicebutton = document.createElement('button');
+        invoicebutton.innerHTML = '账单';
+        invoicebutton.style.marginLeft = '10px';
+        invoicebutton.className = 'button';
+        
+        // var closebutton=document.createElement("button");
+        // closebutton.innerHTML="✕";
+        // closebutton.className="button";
+        // closebutton.style.marginLeft = '30px';
+        // closebutton.style.padding = '5px 5px 5px 8px';
+        // closebutton.addEventListener("click", function() {
+        //     itemdetail.innerHTML="";
+        //     document.getElementById("controlpanel").classList.remove("controlpanel_show");
+        // });
+
+        controlbar.appendChild(submitbutton);
+        controlbar.appendChild(cancelButton);
+        controlbar.appendChild(printbutton);
+        controlbar.appendChild(printcmrbutton);
+        controlbar.appendChild(printlabelbutton);
+        // if(access==1 || access==3){
+        //     controlbar.appendChild(invoicebutton);
+        // }
+        // controlbar.appendChild(closebutton);
+
+        var titleLine = document.createElement("div");
+        titleLine.className = "detailtitle";
+        titleLine.innerHTML = activity+"任务";
+        detailform.appendChild(titleLine);
+
+        //customer line
+
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="input-container";
+        var inputbottomline=document.createElement("div");
+        inputbottomline.className="underline";
+        var input0=document.createElement("input");
+        input0.type="text";
+        input0.name="customer";
+        input0.id="customerinput";
+        input0.required=true;
+        var input0label=document.createElement("label");
+        input0label.innerHTML="客户";
+        input0label.htmlFor="customerinput";
+        input0label.className="label";
+        detailform.appendChild(linecontrol0);
+        linecontrol0.appendChild(input0);
+        linecontrol0.appendChild(inputbottomline);
+        if(access==2){
+            input0.value=customername;
+            input0.readOnly = true;
+        }else{
+            input0.value=((clickeditem!='')?clickeditem['customer']:"");
+            linecontrol0.appendChild(input0label);
+        }
+        
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="input-container";
+        linecontrol0.style.width="180px";
+        var inputbottomline=document.createElement("div");
+        inputbottomline.className="underline";
+        var input0=document.createElement("input");
+        input0.type="text";
+        input0.name="joblabel";
+        input0.id="joblabelinput";
+        input0.required=true;
+        input0.value=((clickeditem!='')?clickeditem['joblabel']:"");
+        var input0label=document.createElement("label");
+        input0label.innerHTML=activity=="入库"?"箱号/单号":"目的地简称";
+        input0label.htmlFor="joblabelinput";
+        input0label.className="label";
+        detailform.appendChild(linecontrol0);
+        linecontrol0.appendChild(input0);
+        linecontrol0.appendChild(input0label);
+        linecontrol0.appendChild(inputbottomline);
+
+        if(activity=="出库"){
+            var linecontrol0=document.createElement("div");
+            linecontrol0.className="input-container";
+            linecontrol0.style.position="absolute";
+            linecontrol0.style.right="120px";
+            linecontrol0.style.top="57px";
+            var inputbottomline=document.createElement("div");
+            inputbottomline.className="underline";
+            var input0=document.createElement("input");
+            input0.type="text";
+            input0.name="reference";
+            input0.id="referenceinput";
+            // input0.required=true;
+            input0.value=((clickeditem!='')?clickeditem['reference']:"");
+            var input0label=document.createElement("label");
+            input0label.innerHTML="提货码";
+            input0label.htmlFor="referenceinput";
+            input0label.className="label";
+            detailform.appendChild(linecontrol0);
+            linecontrol0.appendChild(input0);
+            linecontrol0.appendChild(input0label);
+            linecontrol0.appendChild(inputbottomline);
+
+            var linecontrol0=document.createElement("div");
+            linecontrol0.className="input-container";
+            linecontrol0.style.position="absolute";
+            linecontrol0.style.right="120px";
+            linecontrol0.style.top="95px";
+            var inputbottomline=document.createElement("div");
+            inputbottomline.className="underline";
+            var input0=document.createElement("input");
+            input0.type="text";
+            input0.name="orderid";
+            input0.id="orderidinput";
+            // input0.required=true;
+            input0.value=((clickeditem!='')?clickeditem['orderid']:"");
+            var input0label=document.createElement("label");
+            input0label.innerHTML="订单号";
+            input0label.htmlFor="orderidinput";
+            input0label.className="label";
+            detailform.appendChild(linecontrol0);
+            linecontrol0.appendChild(input0);
+            linecontrol0.appendChild(input0label);
+            linecontrol0.appendChild(inputbottomline);
+
+        }
+        
+        if((newadded && access==2) || (access==2 && clickeditem!='' && clickeditem['status']=="未预约")){
+            const statusinput=document.createElement("input");
+            statusinput.type="hidden";
+            statusinput.name="status";
+            statusinput.value="未预约";
+            detailform.appendChild(statusinput);
+        }else{
+            if(clickeditem['status'] && clickeditem['status']=="未预约"){
+                clickeditem['status'] = "预报";
+            }
+            const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
+            taskstatusbar.style.position="absolute";
+            taskstatusbar.style.right="100px";
+            taskstatusbar.style.top="35px";
+            detailform.appendChild(taskstatusbar);
+        }
+
+        var linecontrol0=document.createElement("div");
+        linecontrol0.className="linecontrol";
+        const dateinput=document.createElement("input");
+        dateinput.type="datetime-local";
+        dateinput.name="date";
+        dateinput.id="inputdate";
+        dateinput.className="lineinput";
+        dateinput.required=true;
+        dateinput.value=((clickeditem!='')?clickeditem['date']:new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16));
+        
+        const dateinputlabel=document.createElement("label");
+        dateinputlabel.innerHTML="日期";
+        dateinputlabel.htmlFor="inputdate";
+        dateinputlabel.className="lineinputlabel";
+        detailform.appendChild(linecontrol0);
+        linecontrol0.appendChild(dateinputlabel);
+        linecontrol0.appendChild(dateinput);
+
+        // dock appointment button
+        if (access == 1 || access == 3) {
+            const dockappointmentbutton = document.createElement('button');
+            dockappointmentbutton.innerHTML = '预约';
+            dockappointmentbutton.className = 'button';
+            dockappointmentbutton.style.marginLeft = '10px';
+            linecontrol0.appendChild(dockappointmentbutton);
+
+            const dockinfo = document.createElement('div');
+            dockinfo.id = 'showdockinfo';
+            dockinfo.style.display = 'inline-block';
+            linecontrol0.appendChild(dockinfo);
+
+            if(clickeditem['dock']){
+                dockinfo.innerHTML = '已预约垛口: ' + clickeditem['dock'];
+            }   
+            const docknumber=createhiddeninput('dock',clickeditem['dock']?clickeditem['dock']:"");
+            detailform.appendChild(docknumber);
+
+            dockappointmentbutton.addEventListener('click', function() {
+                showdockappointments(clickeditem);
+            });
+                
+        }
+        
+
+
+
+        //add warehouse selection and bulk status line
+        const warehouseandbulkstatusline = document.createElement('div');
+        warehouseandbulkstatusline.className = 'flexlinecontrol';
+        warehouseandbulkstatusline.style.marginBottom = '5px';
+        detailform.appendChild(warehouseandbulkstatusline);
+
+        const selectedwarehouse=clickeditem['warehouse']?clickeditem['warehouse']:"";
+        const warehouseselec=createwarehouseselectiondiv(selectedwarehouse);
+        warehouseandbulkstatusline.appendChild(warehouseselec);
+
+        const bulkstatus=clickeditem['bulkstatus']?clickeditem['bulkstatus']:"";
+        const bulkstatusdiv = createbulkstatusselectiondiv(bulkstatus);
+        bulkstatusdiv.style.marginLeft = '20px';
+        warehouseandbulkstatusline.appendChild(bulkstatusdiv);
+
+
+        if(access==3){
+            warehouseselec.querySelector('select').value = currentwarehouse;
+            warehouseselec.querySelector('select').disabled = true;
+            const hidewarehouse = document.createElement('input');
+            hidewarehouse.type = 'hidden';
+            hidewarehouse.name = 'warehouse';
+            hidewarehouse.value = currentwarehouse;
+            linecontrol0.appendChild(hidewarehouse);
+        }
+
+        const line7control = document.createElement('div');
+        line7control.className = 'flexlinecontrol';
+        line7control.style.marginBottom = '5px';
+        detailform.appendChild(line7control);
+
+        if (activity == '出库') {
+            
+            var input0=document.createElement("textarea");
+            input0.name="deladdress";
+            input0.className="lineinput";
+            input0.style.marginRight = '20px';
+            input0.value=((clickeditem!='')?clickeditem['deladdress']:"");
+            var input0label=document.createElement("label");
+            input0label.innerHTML="送货地址";
+            input0label.className="lineinputlabel";
+            line7control.appendChild(input0label);
+            line7control.appendChild(input0);
+        }
+        
+        var input0=document.createElement("textarea");
+        input0.name="ordernote";
+        input0.className="lineinput";
+        input0.value=((clickeditem!='')?clickeditem['ordernote']:"");
+        var input0label=document.createElement("label");
+        input0label.innerHTML="备注";
+        input0label.className="lineinputlabel";
+        input0label.style.margin="0px 0px 0px 0px";
+        line7control.appendChild(input0label);
+        line7control.appendChild(input0);
+
+        if(activity == '入库') {
+            const line8control = document.createElement('div');
+            line8control.className = 'flexlinecontrol';
+            line8control.style.marginBottom = '5px';
+            detailform.appendChild(line8control);
+
+            const quotetemplate=clickeditem['quotetemplate']?clickeditem['quotetemplate']:"";
+            const inputcustomer=document.getElementById("customerinput").value;
+            const quotetemplateselect=createquotetemplateselectiondiv(Object.keys(getcustomerinvoicetempletelist(inputcustomer)),quotetemplate);
+            
+            document.getElementById("customerinput").addEventListener("input", function() {
+                const inputcustomer = this.value;
+                const quotetemplate = clickeditem['quotetemplate'] ? clickeditem['quotetemplate'] : "";
+                const quotetemplateselect = createquotetemplateselectiondiv(Object.keys(getcustomerinvoicetempletelist(inputcustomer)), quotetemplate);
+            
+                // Clear the previous options
+                while (line8control.firstChild) {
+                    line8control.removeChild(line8control.firstChild);
+                }
+            
+                // Append the new options
+                line8control.appendChild(quotetemplateselect);
+            });
+
+            line8control.appendChild(quotetemplateselect);
+
+
+        }
+
+
+        var activityInput = document.createElement("input");
+        activityInput.type = "hidden";
+        activityInput.id = "jobactivity";
+        activityInput.name = "activity";
+        activityInput.value = clickeditem != '' ? clickeditem['activity'] : activity;
+        detailform.appendChild(activityInput);
+
+        var statuslog = document.createElement("div");
+        statuslog.style.display = "none";
+        statuslog.id = "statuslog";
+        statuslog.innerHTML = clickeditem != '' ? clickeditem['status'] : "";
+        detailform.appendChild(statuslog);
+
+        var jobid = document.createElement("input");
+        jobid.type = "hidden";
+        jobid.name = "jobid";
+        jobid.value = clickeditem['jobid'] ? clickeditem['jobid'] : new Date().getTime();
+        detailform.appendChild(jobid);
+        
+        
+
+        detailform.appendChild(document.createElement("hr"));
+
+        //upload image block
+        var uploaddiv=document.createElement("div");
+        uploaddiv.className="uploaddiv";
+        for (var i = 1; i <= 5; i++) {
+            var uploadbuttonblock = document.createElement("div");
+            uploadbuttonblock.className="uploadbuttonblock";
+            uploadbuttonblock.id="uploadbuttonblock"+i;
+
+            var uploadbutton = document.createElement("button");
+            uploadbutton.className="container-btn-file";
+            
+            uploadbutton.innerHTML="上传图片"+i;
+
+            var input = document.createElement("input");
+            input.type = "file";
+            input.id = "imgFile"+i;
+            input.name = "imgFile"+i;
+            input.className="file";
+            input.accept = "image/*";
+            input.multiple = false;
+            
+            uploadbutton.appendChild(input);
+            uploadbuttonblock.appendChild(uploadbutton);
+
+            const inumber = i;
+            if (clickeditem != '' && clickeditem['img'+i] != '' && clickeditem['img'+i] != null) {
+                var img = document.createElement("img");
+                img.src = clickeditem['img'+i];
+                img.width = 100;
+                img.height = 100;
+                img.className = "img-preview";
+                uploadbuttonblock.appendChild(img);
+                img.addEventListener("click", function() {
+                    window.open(this.src);
+                });
+            }
+            
+            //!!!!!!!!!!!!!!
+            input.addEventListener("change", function() {
+                if (clickeditem == '') {
+                    alert("请保存任务后再上传图片");
+                } else {
+                    var file = this.files[0];
+                    if (file) {
+                        if (file.size > 1048576) { // 1MB in bytes
+                            var reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = function(event) {
+                                var img = new Image();
+                                img.src = event.target.result;
+                                img.onload = function() {
+                                    var canvas = document.createElement("canvas");
+                                    var ctx = canvas.getContext("2d");
+                                    var width = img.width;
+                                    var height = img.height;
+            
+                                    // Set canvas dimensions proportional to the image
+                                    if (width > height) {
+                                        if (width > 2000) {
+                                            height *= 2000 / width;
+                                            width = 2000;
+                                        }
+                                    } else {
+                                        if (height > 2000) {
+                                            width *= 2000 / height;
+                                            height = 2000;
+                                        }
+                                    }
+                                    canvas.width = width;
+                                    canvas.height = height;
+            
+                                    // Draw the image on the canvas
+                                    ctx.drawImage(img, 0, 0, width, height);
+            
+                                    // Get the compressed image data
+                                    var compressedDataUrl = canvas.toDataURL("image/jpeg", 0.95); // Adjust quality as needed
+            
+                                    // Create an image element with the compressed data
+                                    var compressedImg = document.createElement("img");
+                                    compressedImg.src = compressedDataUrl;
+                                    compressedImg.width = 100;
+                                    compressedImg.height = 100;
+                                    compressedImg.className = "img-preview";
+                                    var existingImage = document.getElementById('uploadbuttonblock' + inumber).querySelector('.img-preview');
+                                    if (existingImage) {
+                                        existingImage.remove();
+                                    }
+                                    document.getElementById('uploadbuttonblock' + inumber).appendChild(compressedImg);
+            
+                                    // Convert data URL to Blob for upload
+                                    var byteString = atob(compressedDataUrl.split(',')[1]);
+                                    var mimeString = compressedDataUrl.split(',')[0].split(':')[1].split(';')[0];
+                                    var ab = new ArrayBuffer(byteString.length);
+                                    var ia = new Uint8Array(ab);
+                                    for (var i = 0; i < byteString.length; i++) {
+                                        ia[i] = byteString.charCodeAt(i);
+                                    }
+                                    var compressedFile = new Blob([ab], { type: mimeString });
+            
+                                    uploadimage(clickeditem['jobid'], compressedFile, 'img' + inumber);
+                                };
+                            };
+                        } else {
+                            var reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = function() {
+                                var img = document.createElement("img");
+                                img.src = reader.result;
+                                img.width = 100;
+                                img.height = 100;
+                                img.className = "img-preview";
+                                var existingImage = document.getElementById('uploadbuttonblock' + inumber).querySelector('.img-preview');
+                                if (existingImage) {
+                                    existingImage.remove();
+                                }
+                                document.getElementById('uploadbuttonblock' + inumber).appendChild(img);
+                            };
+                            uploadimage(clickeditem['jobid'], file, 'img' + inumber);
+                        }
+                    }
+                }
+            });
+            
+            
+            uploaddiv.appendChild(uploadbuttonblock);
+        }
+        itemdetail.appendChild(uploaddiv);
+        itemdetail.appendChild(document.createElement("hr"));
+        
+        //add new detail button
+        var addnew = document.createElement("button");
+        addnew.type="button";
+        addnew.id="addnewitemlinebutton";
+        addnew.innerHTML="新增货物信息";
+        addnew.className="button";
+        itemdetail.appendChild(addnew);
+
+        if (clickeditem == '' && activity== '入库') {
+            var importfromxls = document.createElement("button");
+            importfromxls.className="container-btn-file";
+            importfromxls.style.fontSize = '14px';
+            importfromxls.style.padding = '5px 10px';
+            importfromxls.style.display = 'inline-flex';
+            // importfromxls.className="container-btn-file";
+            importfromxls.innerHTML="从Excel导入";
+
+            var importfromxlsinput = document.createElement("input");
+            importfromxlsinput.type = "file";
+            importfromxlsinput.id = "importfromxls";
+            importfromxlsinput.name = "importfromxls";
+            importfromxlsinput.className="file";
+            importfromxlsinput.multiple = false;
+            importfromxls.appendChild(importfromxlsinput);
+            itemdetail.appendChild(importfromxls);
+            importfromxlsinput.accept = '.xls,.xlsx';
+            importfromxlsinput.onchange = function() {
+                var file = this.files[0];
+                if (file) {
+                    const joblable=file.name.replace(/\.[^/.]+$/, "");
+                    var reader = new FileReader();
+                    reader.readAsArrayBuffer(file);
+                    reader.onload = function(e) {
+                        var data = new Uint8Array(reader.result);
+                        var workbook = XLSX.read(data, {type: 'array'});
+                        var sheet = workbook.Sheets[workbook.SheetNames[0]];
+                        
+                        //copystart here use header name as indicator
+                        var orijson = XLSX.utils.sheet_to_json(sheet,{header: 1});
+                        var headers = orijson[0].map(header => header.trim());
+                        var json = orijson.slice(1).map(row => {
+                            var newRow = {};
+                            headers.forEach((header, index) => {
+                                newRow[header] = row[index];
+                            });
+                            return newRow;
+                        });
+                        // creat job info
+                        var xlsclickeditem = {  "joblabel":joblable,
+                                                "customer":document.getElementsByName("customer")[0].value,
+                                                "date":document.getElementById("inputdate").value,
+                                                "activity":"入库",
+                                                "status":"预报",
+                                                "ordernote":document.getElementsByName("ordernote")[0].value,
+                                                
+                                            };
+                        loaddetail(xlsclickeditem,"入库",undefined,true);
+                        //read detail infor
+                        var concludeitem=[];
+                        var j=0;
+                        for (var i = 0; i < json.length; i++) {
+                            if(!json[i]['仓点']){
+                                break; 
+                            }
+                            var holdmark = json[i]['拦截暂扣']=="是"?"拦截暂扣":"";
+                            var channelmark = json[i]['Vendor Name（供应商名称）']?json[i]['Vendor Name（供应商名称）']:"";
+                            var marks = json[i]['单号/箱唛']?json[i]['单号/箱唛']:"";
+                            // var itemref = json[i]['仓点']+holdmark+channelmark;
+                            var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+marks+holdmark:json[i]['仓点']+channelmark;
+                            //var itemref = json[i]['拦截暂扣']=="是"?json[i]['仓点']+json[i]['marks']:json[i]['仓点']+channelmark;
+                            var index = concludeitem.findIndex(item => item['itemref'] == itemref);
+                            if (index == -1) {
+                                concludeitem.push({
+                                    "itemref": itemref,
+                                    "label": json[i]['仓点'],
+                                    "marks": json[i]['单号/箱唛'] ? json[i]['单号/箱唛'] : "",
+                                    "deladdress": json[i]['Delivery Address （派送地址）'] ? json[i]['Delivery Address （派送地址）'] : "",
+                                    "requirement":json[i]['拦截暂扣']=="是"?"拦截暂扣":channelmark=="不卸货"?"不卸货":"",
+                                    "fba": json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "",
+                                    "pcs": json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0,
+                                    "cbm": (json[i]['CMB（立方数）'] && !isNaN(Number(json[i]['CMB（立方数）'])))? Number(json[i]['CMB（立方数）']) : 0,
+                                    "kgs": (json[i]['Weight KG（重量）'] && !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量）']) : 0,
+                                    "note": json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "",
+                                    "channel": json[i]['拦截暂扣']=="是"?"拦截暂扣":json[i]['Vendor Name（供应商名称）'],
+                                    "plt": 0,
+                                    "locationa": "",
+                                    "locationb": "",
+                                    "inventoryid": constructinventoryid(j),
+                                    "id": "",
+                                    "priority":json[i]['拦截暂扣']=="是"?-6:0,
+                                    "plttype":json[i]['散货/托盘类型']?json[i]['散货/托盘类型']:"散货",
+                                    "oogplt":json[i]['托盘操作要求']?json[i]['托盘操作要求']:"",
+                                    "createtime": Date.now(),
+                                });
+                                j++;
+                            } else {
+                                concludeitem[index].fba += json[i]['BOL List （货物FBA号码）'] ? json[i]['BOL List （货物FBA号码）'] + ";" : "";
+                                concludeitem[index].pcs += json[i]['Carton Count（箱数）'] ? Number(json[i]['Carton Count（箱数）']) : 0;
+                                concludeitem[index].cbm += (json[i]['CMB（立方数）'] && !isNaN(Number(json[i]['CMB（立方数）'])))? Number(json[i]['CMB（立方数）']) : 0;
+                                concludeitem[index].kgs += (json[i]['Weight KG（重量）'] && !isNaN(Number(json[i]['Weight KG（重量）']))) ? Number(json[i]['Weight KG（重量）']) : 0;
+                                concludeitem[index].note += json[i]['备注（打托要求/拼车/换标/其他）'] ? json[i]['备注（打托要求/拼车/换标/其他）'] + ";" : "";
+                            }
+                        }
+                        for (var i = 0; i < concludeitem.length; i++) {
+                            detaillinenumber++;
+                            concludeitem[i]['cbm'] = Math.round(concludeitem[i]['cbm'] * 100/concludeitem[i]['pcs']) / 100;
+                            concludeitem[i]['kgs'] = Math.round(concludeitem[i]['kgs'] * 100/concludeitem[i]['pcs']) / 100;
+                            createdetailline(i,concludeitem[i],"入库",true);
+                        }
+                        
+                    };
+                }
+            };
+
+        }
+
+        if(newadded && activity=='出库'){
+            const autoarrangebutton = document.createElement("button");
+            autoarrangebutton.innerHTML = "自动排车";
+            autoarrangebutton.className = "button";
+            autoarrangebutton.style.marginLeft = '10px';
+            autoarrangebutton.addEventListener("click", function() {
+                autoarrangeout();
+            });
+            itemdetail.appendChild(autoarrangebutton);
+        }
+        
+        itemdetail.appendChild(createTooltip( "新建出库任务时，请务必在左侧库存列表中点击一个库存项目，将其添加到任务中。对于库存表中没有的货物，请在此处手动添加。创建任务之后的显示顺序为输入顺序。"));
+        
+
+        const sumcountdiv = document.createElement("div");
+        sumcountdiv.className = "sumcount";
+        sumcountdiv.id = "sumcount";
+        itemdetail.appendChild(sumcountdiv);
+
+        // Count all the pcs in the detaillineform
+        var pcsCount = 0;
+        var detaillineform = document.getElementById("detailform");
+        var pcsInputs = detaillineform.querySelectorAll("input[name='pcs']");
+        pcsInputs.forEach(function(input) {
+            pcsCount += parseInt(input.value);
+        });
+
+
+        const detaillinelistDiv = document.createElement("div");
+        detaillinelistDiv.id = "detaillinelist";
+        detaillinelistDiv.className = "detaillinelist";
+        itemdetail.appendChild(detaillinelistDiv);
+        //load items
+        if(clickeditem!=""){
+            const actionToken = Symbol();
+            latestActionToken = actionToken;
+            var searchcreteria = new FormData();
+            searchcreteria.append("jobid",clickeditem['jobid']);
+            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+                method: 'POST',
+                body: searchcreteria,
+            });
+
+            if (latestActionToken !== actionToken) {
+                return;
+            }
+            const data = await response.json();
+            
+            sysresponse.innerHTML=data["msg"];
+            var items = data["data"];
+            if(items!=null){
+                for(var i=items.length-1;i>=0;i--){
+
+                    createdetailline(i+1,items[i],activity,false);
+                }
+                // for (var i = 0; i <items.length ; i++) {
+                //     createdetailline(i+1,items[i],activity,false);
+                // }
+                detaillinenumber=detaillinenumber+items.length;
+            }
+
+            //make line form draggable
+            // const draggables = document.querySelectorAll('.detailineform');
+            // const container = document.querySelector('.detaillinelist');
+
+            // draggables.forEach(draggable => {
+            // draggable.addEventListener('dragstart', () => {
+            //     draggable.classList.add('dragging');
+            // });
+
+            // draggable.addEventListener('dragend', () => {
+            //     draggable.classList.remove('dragging');
+            // });
+            // });
+
+            // container.addEventListener('dragover', e => {
+            // e.preventDefault();
+            // const afterElement = getDragAfterElement(container, e.clientY);
+            // const dragging = document.querySelector('.dragging');
+            // if (afterElement == null) {
+            //     container.appendChild(dragging);
+            // } else {
+            //     container.insertBefore(dragging, afterElement);
+            // }
+            // });
+
+            // function getDragAfterElement(container, y) {
+            // const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+            // return draggableElements.reduce((closest, child) => {
+            //     const box = child.getBoundingClientRect();
+            //     const offset = y - box.top - box.height / 2;
+            //     if (offset < 0 && offset > closest.offset) {
+            //     return { offset: offset, element: child };
+            //     } else {
+            //     return closest;
+            //     }
+            // }, { offset: Number.NEGATIVE_INFINITY }).element;
+            // }
+
+            //stop here
+        }
+        
+
+        
+        //submit button    
+        
+
+        if ((clickeditem && clickeditem['status'] === '完成') || access<1) {
+            var inputs = itemdetail.getElementsByTagName('input');
+            var textareas = itemdetail.getElementsByTagName('textarea');
+            var buttons = itemdetail.getElementsByTagName('button');
+            var selections = itemdetail.getElementsByTagName('select');
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].disabled = true;
+            }
+
+            for (var i = 0; i < textareas.length; i++) {
+                textareas[i].disabled = true;
+            }
+
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+
+            for (var i = 0; i < selections.length; i++) {
+                selections[i].disabled = true;
+            }
+        }
+        if(access==2){
+            printbutton.disabled = true;
+            printcmrbutton.disabled = true;
+            printlabelbutton.disabled = true;
+            printcmrbutton.disabled = true;
+            // if (clickeditem['status'] == '未预约') {
+            //     // submitbutton.disabled = true;
+            //     // cancelButton.disabled = true;
+            //     submitbutton.removeAttribute("disabled");
+            //     cancelButton.removeAttribute("disabled");
+            // }
+            
+            if (clickeditem['status'] && clickeditem['status'] != '未预约' && !newadded) {
+                submitbutton.disabled = true;
+                const tooltip = createTooltip("任务已确认预约，如需修改请联系管理员");
+                submitbutton.insertAdjacentElement('afterend', tooltip);
+                cancelButton.disabled = true;
+            }
+        }
+        if(access==1 || access==3){
+            cancelButton.removeAttribute("disabled");
+            printbutton.removeAttribute("disabled");
+            printcmrbutton.removeAttribute("disabled");
+            printlabelbutton.removeAttribute("disabled");
+            // invoicebutton.removeAttribute("disabled");
+            var fileInputs = itemdetail.getElementsByClassName("file");
+            for (var i = 0; i < fileInputs.length; i++) {
+                fileInputs[i].removeAttribute("disabled");
+            }
+            var addvasbutton=itemdetail.getElementsByClassName("addvasbutton");
+            if(addvasbutton){
+                for (var i = 0; i < addvasbutton.length; i++) {
+                    addvasbutton[i].removeAttribute("disabled");
+                }
+            }
+        }
+        
+        // closebutton.removeAttribute("disabled");
+        addnew.addEventListener("click", function(){
+            detaillinenumber++;
+            createdetailline(detaillinenumber,"",activity,true);
+            //detailform.appendChild(addnew);
+            
+        });
+        submitbutton.addEventListener("click", function() {
+            // var inputform=document.getElementById("detailform");
+            if(document.getElementById("inputdate").value==""){
+                alert("请输入日期");
+                return;
+            }
+            if(document.getElementById("itemdetail").querySelector("[name='warehouse']").value==""){
+                alert("请选择仓库");
+                return;
+            }
+            if(document.getElementById("statusvalue-4")){
+                if(document.getElementById("statusvalue-4").checked==true){
+                    if(document.getElementById("cannotcomplete")){
+                        alert("有未完成附加服务，请先完成附加服务！");
+                        return;
+                    }
+                }
+            }
+            if(activity=="入库"){
+                if(access==2 && Object.keys(getcustomerinvoicetempletelist(document.getElementById('customerinput').value)).length>1 && document.getElementById('quotetemplate').value==''){
+                    alert("请选择发票模板");
+                    return;
+                }
+            }
+            
+
+
+            //check plt information intactly
+            if(newadded){
+                if(checkreadytosubmit()==false){
+                    return;
+                }
+            }
+            const activeJobs = document.getElementById("activejobs");
+            addnewjob(clickeditem,detaillinenumber).then(async function(){
+                sysresponse.innerHTML="任务保存成功";
+                if(access==2){
+                    itemdetail.innerHTML="";
+                    return;
+                }
+                var searchnewadded = new FormData();
+                searchnewadded.append("jobid",jobid.value);
+
+                const jobwithitems=await searchjobwithitems(searchnewadded);
+
+                const newaddedjob = jobwithitems["jobs"][0];
+                // const newaddeditems = jobwithitems["items"];
+                const newaddeditems = newaddedjob["items"];
+                if(thisjobdiv){
+                    createjob(newaddedjob,activeJobs,thisjobdiv);   
+                }else{
+                    
+                    createjob(newaddedjob,activeJobs);
+                }
+                const now=new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16);
+                //send email to customer
+                if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
+                    const sendto=getemailaddress(newaddedjob['customer']);
+                    if(sendto){
+                        const mailsubject = "系统通知: "+newaddedjob['warehouse']+'仓库 '+newaddedjob['joblabel']+'入库完成';
+                        const mailcontent = "主题任务入库完成，系统完成时间"+now+"。入库数据如下 \n"+newaddedjob['overview'].replace(/<br \/>/g, '\n')+ "\n 请登录系统查看详情";
+                        sendemail(sendto,mailsubject,mailcontent);
+                    }else{
+                        //alert("无法发送邮件，请检查客户邮箱地址");
+                    }
+                }
+                if(newaddedjob['status']=="完成" && newaddedjob['activity']=="出库"){
+                    var outemails=[];
+                    const showedorderid=newaddedjob['orderid']?'订单号（ISA）：'+newaddedjob['orderid']:"";
+                    newaddeditems.forEach(function(item){
+                        var index = outemails.findIndex(x => x['customer'] == item['customer']);
+                        const pltinfo=item['plt']==0?"":item['plt']+"托";
+                        if(index==-1){
+                            outemails.push({"customer":item['customer'],
+                                            "email":getemailaddress(item['customer']),
+                                            "subject":"系统通知: "+newaddedjob['warehouse']+'仓库 '+item['label']+" "+showedorderid+' 出库完成',
+                                            "bodycontent":item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n"});
+                        }else{
+                            outemails[index]['bodycontent']+=item['container']+" "+item['label']+" "+item['pcs']+"件 "+pltinfo+"  "+item['note']+"\n";
+                        }
+                    });
+                    outemails.forEach(function(email){
+                        if(email['email']){
+                            const emailbody = "主题任务入库完成，"+showedorderid+"。系统完成时间"+now+"。出库数据如下 \n"+email['bodycontent']+ "\n 请登录系统查看详情";
+                            sendemail(email['email'],email['subject'],emailbody);
+                        }
+                    }
+                    );
+                }
+                
+
+                itemdetail.innerHTML="";
+            })
+            .catch(function(){
+                sysresponse.innerHTML="任务保存失败";
+                itemdetail.innerHTML="";
+            });
+            this.disabled = true;
+            sysresponse.innerHTML="上传中...";
+        });
+        printbutton.addEventListener("click", function() {
+            // Displaying an alert message
+            printSpecificContent(clickeditem);
+        });
+        printcmrbutton.addEventListener("click", function() {
+            // Displaying an alert message
+            printcmr(clickeditem,items);
+        });
+        printlabelbutton.addEventListener("click", function() {
+            // Displaying an alert message
+            printinventorylabel(items);
+        });
+        cancelButton.addEventListener("click", function() {
+            if(clickeditem['status']=="完成"){
+                alert("任务已完成，无法删除");
+                return;
+            }
+            // Displaying an alert message
+            if (confirm("确认删除任务?")) {
+                // Code to execute if user confirms cancellation
+                var archiveid = new FormData();
+                archiveid.append("jobid",clickeditem['jobid']);
+                archiveid.append("activity",activity);
+                fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
+                    method: 'POST',
+                    body: archiveid,
+                }).then(response => response.json()).then(data => {
+                    sysresponse.innerHTML=data["msg"];
+                    if(data["error_code"]==0){
+                        if(thisjobdiv){
+                            thisjobdiv.remove();
+                        }
+                        itemdetail.innerHTML="";
+                    }
+                });
+
+            } else {
+                // Code to execute if user cancels cancellation
+                // ...
+            }
+        });
+        // invoicebutton.addEventListener("click", function() {
+        //     showinvoicewindow(clickeditem,items);
+        // });
+        
+        function checkreadytosubmit(){
+            var readytosubmit=true;
+            var detaillines = document.getElementsByClassName("detaillineform");
+            for (var i = 0; i < detaillines.length; i++) {
+                var detailline = detaillines[i];
+                if (detailline.querySelector('select[name="plttype"]').value == "") {
+                    alert("请填写完出货类型，散货或整托");
+                    readytosubmit = false;
+                    break;
+                }
+                if (detailline.querySelector('select[name="plttype"]').value != "") {
+                    if (detailline.querySelector('select[name="plttype"]').value == "散货") {
+                        continue;
+                    }
+                    // if (detailline.querySelector('input[name="plt"]').value == "") {
+                    //     detailline.querySelector('input[name="plt"]').style.backgroundColor = "pink";
+                    //     detailline.querySelector('input[name="plt"]').focus();
+                    //     alert("请填写完预计打托数");
+                    //     readytosubmit = false;
+                    //     break;
+                    // }
+                    if (detailline.querySelector('select[name="oogplt"]').value == "") {
+                        detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
+                        detailline.querySelector('select[name="oogplt"]').focus();
+                        alert("请填写完是否可超尺寸");
+                        readytosubmit = false;
+                        break;
+                    }
+                }
+            }
+            return readytosubmit;
+        }
+    }
+</script>
+<style type="text/css">
+    [draggable=true] {
+        cursor: move;
+    }
+    .bodyframe{
+        display: flex;
+        width: 100%;
+    }
+    .controlframe{
+        display: inline-block;
+        width: 800px;
+        position: relative;
+    }
+    .leftbody{
+        display: inline-block;
+        /* width: calc(100vw - 560px); */
+        width: 100vw;
+        min-width: 220px;
+
+        position: relative;
+    }
+    .searchbox{
+        display: flex;
+        flex-wrap: wrap;
+        width: calc(100vw - 560px);
+
+        min-width: 220px;
+        margin: 0px 0px 0px 0px;
+        position: relative;
+    }
+    .activejobs{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+        min-width: 220px;
+        height: calc(100vh - 145px);
+        overflow: auto;
+    }
+    .activejob{
+        border-width: 1px;
+        border-style: solid;
+        border-color: light-grey;
+        border-radius: 2px;
+        margin:6px 6px 6px 6px;
+        padding-left:5px;
+        padding-right:5px;
+        width: 200px;
+        min-width: 180;
+        height: 300px;
+        font-size: 16px;
+        display: inline-block;
+        box-shadow:  0px 5px 15px rgba(0,0,0,0.25);
+        transition:0.5s;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .activejob:hover{
+        box-shadow:  0px 5px 15px 8px rgba(0,0,0,0.25);
+        transition: 0.6s;
+    }
+    .listitem{
+        margin: 0 0 0 0;
+        display: inline;
+        font-size: 16px;
+    }
+    .itemtitle{
+        font-size: 18px;
+        font-weight: bold;
+        display:block;
+        margin: 0 0 0 0;
+    }
+    .itemline{
+        display: inline-block;
+        width: 100%;
+    }
+    .lineinputlabel{
+        display: inline-block;
+        margin: 0 0 5 0;
+    }
+    .jobstatus{
+        display: inline-block;
+        position: absolute;
+        right: 33;
+        top: 2;
+    }
+
+    .controlpanel{
+        display: flex;
+        width:0px;
+        height: 800px;
+        margin: 0 0 0 20px;
+        position: relative;
+        transition: 0.5s;
+    }
+    .controlpanel_show{
+        width:550px;
+        max-width: 600px;
+        transition: 0.5s;
+    }
+    .detailtitle{
+        font-size: 18px;
+        font-weight: bold;
+        display:block;
+        margin: 0 0 0 0;
+    }
+    .itemdetail{
+        position: relative;
+        display: inline-block;
+        width: 90%;
+    }
+    .statusbox{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .controlbar{
+
+        display: flex;
+        width: 100%;
+        
+        
+    }
+    .linecontrol{
+        display: block;
+        width: 100%;
+        margin: 5 5 5 5;
+    }
+    .flexlinecontrol{
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        position: relative;
+    }
+    .detailform{
+        display: block;
+        width: 500px;
+    }
+    .detaillineform{
+        display: block;
+        width: 100%;
+        margin:0 0 0 0;
+        margin-block-end: 0;
+
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgba(176, 176, 176, 0.25);
+        border-radius: 2px;
+        margin:2px 2px 2px 2px;
+        padding: 5px 5px 5px 5px;
+        width: 490px;
+        min-width: 180;
+        display: inline-block;
+        box-shadow:  0px 2px 5px rgba(0,0,0,0.25);
+        transition:0.5s;
+        position: relative;
+    }
+    .detailpargraph{
+        width: 400px;
+        overflow-wrap: break-word;
+    }
+    .button {
+        font-family: inherit;
+        border: none;
+        /* outline: 1px dotted rgb(37, 37, 37);
+        outline-offset: -4px; */
+        background: hsl(0deg 0% 75%);
+        box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 5px 8px;
+        transition: 0.2s;
+    }
+
+    .button:active {
+        box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+        background: hsl(0, 0%, 88%);
+    }
+    .input-container {
+        position: relative;
+        
+        margin: 15 0 0 0;
+        width: 100px;
+    }
+
+    .input-container input[type="text"] {
+        font-size: 16px;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        padding: 2px 0 0 0;
+        background-color: transparent;
+        outline: none;
+    }
+
+    .input-container .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #524f4f;
+        transition: all 0.3s ease;
+        pointer-events: none;
+    }
+
+    /* .input-container input[type="text"]:focus ~ .label,  */
+    .input-container input[type="text"]:valid ~ .label,
+    .input-container input[type="text"]:disabled ~ .label
+    {
+        top: -15px;
+        font-size: 12px;
+        color: #777676;
+    }
+
+    .input-container .underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: #333;
+        transform: scaleX(0);
+        transition: all 0.3s ease;
+    }
+
+    .input-container input[type="text"]:focus ~ .underline {
+        transform: scaleX(1);
+    }
+
+    .inventory-table-header {
+        
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #dddddd;
+        cursor: pointer;
+        position: sticky; /* Make the header sticky */
+        top: 0; /* Stick to the top of the container */
+        background-color: white; /* Ensure the header has a background color */
+        z-index: 1;
+    }
+    
+    .inventory-table-row {
+       
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        background: rgb(255, 255, 255);
+        border-bottom: 1px solid #ffffff;
+        cursor: pointer;
+    }
+    .inventory-table-row:nth-child(even) {
+        background: rgb(240, 240, 240);
+    }
+    .inventory-table-row:hover {
+        background: rgb(204, 206, 204);
+        opacity: 1;
+        transition: 0.5s;
+   }
+   .inventory-table-complex-row {
+       border-bottom: 1px solid black;
+       justify-content: space-between;
+       align-items: center;
+       padding: 10px 0;
+       background: rgb(255, 255, 255);
+       cursor: pointer;
+   }
+   .inventory-table-complex-row:hover {
+       background: rgb(204, 206, 204);
+       opacity: 1;
+       transition: 0.5s;
+  }
+    .unittable-table{
+        background-color: white;
+    }
+    /* .unittable-table:nth-child(even) {
+        background: rgb(240, 240, 240);
+    } */
+    .unittable-table:hover {
+        background: rgb(204, 206, 204);
+        opacity: 1;
+        transition: 0.5s;
+   }
+   .tablerownoncompleted{
+        color:grey;
+        opacity: 0.5;
+    }
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    .container-btn-file {
+        /* display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        background-color: #666666;
+        color: #fff;
+        border-style: none;
+        padding: 4px 4px;
+        border-radius: 2px;
+        overflow: hidden;
+        z-index: 1;
+        box-shadow: 4px 8px 10px -3px rgba(0, 0, 0, 0.356);
+        transition: all 250ms;
+        cursor: pointer; */
+
+        font-family: inherit;
+        border: none;
+        background: hsl(0deg 0% 75%);
+        box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+        font-size: 12px;
+        letter-spacing: 0;
+        padding: 3px 3px;
+        transition: 0.2s;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+    .container-btn-file input[type="file"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .container-btn-file > svg {
+        margin-right: 1em;
+    }
+    .container-btn-file:active {
+        box-shadow: inset 1px 1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+        background: hsl(0, 0%, 88%);
+    }
+    .button input[type="file"] {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    
+    .uploaddiv{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 0;
+        height: 125px;
+    }
+    .uploadbuttonblock{
+        display: block;
+        justify-content: center;
+        align-items: center;
+        width: 100px;
+    }
+
+    .loginblock{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .login-form {
+        --input-focus: #2d8cf0;
+        --font-color: #323232;
+        --font-color-sub: #666;
+        --bg-color: #fff;
+        --main-color: #323232;
+        padding: 20px;
+        background: lightgrey;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 20px;
+        border-radius: 5px;
+        border: 2px solid var(--main-color);
+        box-shadow: 4px 4px var(--main-color);
+    }
+
+    .login-title {
+        color: var(--font-color);
+        font-weight: 900;
+        font-size: 20px;
+        margin-bottom: 25px;
+    }
+
+    .login-title span {
+        color: var(--font-color-sub);
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .login-input {
+        width: 150px;
+        height: 40px;
+        border-radius: 5px;
+        border: 2px solid var(--main-color);
+        background-color: var(--bg-color);
+        box-shadow: 4px 4px var(--main-color);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--font-color);
+        padding: 5px 10px;
+        outline: none;
+    }
+
+    .login-input::placeholder {
+        color: var(--font-color-sub);
+        opacity: 0.8;
+    }
+
+    .login-input:focus {
+        border: 2px solid var(--input-focus);
+    }
+
+
+    .login-button-confirm {
+        margin: 50px auto 0 auto;
+        width: 120px;
+        height: 40px;
+        border-radius: 5px;
+        border: 2px solid var(--main-color);
+        background-color: var(--bg-color);
+        box-shadow: 4px 4px var(--main-color);
+        font-size: 17px;
+        font-weight: 600;
+        color: var(--font-color);
+        cursor: pointer;
+    }
+    .login-button-confirm:active {
+        box-shadow: 0px 0px var(--main-color);
+        transform: translate(3px, 3px);
+    }
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+        margin:0;
+        /* margin: 5px 5px 10px 10px; */
+    }
+
+    .tooltip-text {
+        color: #333;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        position: absolute;
+        width: 200px;
+        top: 100%;
+        left: 50%;
+        font-size: 14px;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+        background: #0b798a;
+        color: #000000;
+        padding: 10px;
+        border-radius: 4px;
+        transition: opacity 0.3s, visibility 0.3s, top 0.3s, background 0.3s;
+        z-index: 1;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .tooltip::before {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        border-width: 8px;
+        border-style: solid;
+        border-color: transparent transparent #0b798a transparent;
+        transform: translateX(-50%);
+    }
+
+    .tooltip-container:hover .tooltip {
+        top: 120%;
+        opacity: 1;
+        visibility: visible;
+        background: #abeaf0;
+        transform: translate(-50%, -5px);
+    }
+    .sumcount{
+        display: inline-block;
+        margin: 0px 0px 0px 20px;
+    }
+    .fade-in {
+        animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    /* input[list]::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+    datalist {
+        display: block !important;
+    } */
+
+    .tableele{
+        position: relative;
+    }
+    .tableele:hover .tooltip {
+        top: 120%;
+        opacity: 1;
+        visibility: visible;
+        background: rgb(73 162 233);
+        transform: translate(-50%, -5px);
+        z-index: 2;
+    }
+    .inventoryreporttablediv{
+        display: flex;
+
+        flex-direction: column;
+        width: 50%;
+        min-width: 220px;
+        max-width: 500px;
+        justify-content: center;
+        align-items: center;
+        margin: 0px 0px 0px 0px;
+    }
+    .draggable {
+        cursor: move;
+    }
+    .dragging {
+        opacity: 0.5;
+    }
+
+    .itemblock {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: static;
+    width: 600px;
+    max-width: 600px;
+    }
+
+    .itemblock .blocktitle {
+    font-size: 18px;
+    color: #176dee;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: #ffffff;
+    width: fit-content;
+    }
+
+    .itemblock .blockcontent {
+    padding: 8px 8px;
+    font-size: 0.75rem;
+    border: 2px #176dee solid;
+    border-radius: 4px;
+    box-shadow:  0px 2px 5px rgba(0,0,0,0.5);
+    transition: 0.5s;
+    display: flex;
+
+    flex-wrap: wrap;
+    /* background: #e8e8e8; */
+    }
+
+    .selectiondiv {
+        display: flex;
+    }
+
+    .openinnewwindowicon {
+        width: 22px;
+        height: 22px;
+        position: absolute;
+        top:2px;
+        right: 2px;
+        z-index: 5;
+    }
+</style>
+</html>

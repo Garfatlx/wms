@@ -2869,6 +2869,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         return readytosubmit;
     }
 }
+async function loaddetailinnewwindow(clickeditem,activity){
+    const newwindow=window.open("jobdektailwindow.html","");
+    newwindow.onload = function() {
+        newwindow.postMessage(clickeditem, '*');
+    };
+
+}
 
 function createdetailline(nid, item, activity, cancelable) {
     
@@ -3321,6 +3328,9 @@ function createjob(jobcontent,parentdiv,replacement){
     const openinnewtab = document.createElement('img');
     openinnewtab.src = "images/open-in-new-window-icon.jpg";
     openinnewtab.className = 'openinnewwindowicon';
+    openinnewtab.addEventListener("click", function() {
+        loaddetailinnewwindow(clickeditem,jobcontent['activity']);
+    });
 
     activejob.appendChild(openinnewtab);
 
