@@ -845,6 +845,7 @@ function showinventorysearchbox(){
                 return a.label.localeCompare(b.label); // Ascending by 'label'
             });
 
+            // Filter the data to only keep the columns we want in warehouse checking process
             const columnsToKeep = ['label', 'container', 'marks','pcs','plt', 'date', 'channel'];
             const filteredOutputData = ouputdata.map(inventory => {
                 const filteredInventory = {};
