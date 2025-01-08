@@ -6114,7 +6114,7 @@ function opennewjobwindow(clickeditem){
         return;
     }
 
-    const newjobwindow = window.open('jobwindow.html', '');
+    const newjobwindow = window.open('jobdetailwindow.html', '');
     newjobwindow.onload = function() {
         console.log(clickeditem);
         newjobwindow.postMessage(clickeditem, '*');
