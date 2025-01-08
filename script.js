@@ -9,7 +9,7 @@ var searchedinventory;
 var filteredinventory;
 var searchedreports;
 
-var severdomain = "https://garfat.xyz/index.php/home/Wms/";
+var serverdomain = "https://garfat.xyz/";
 
 window.addEventListener("load", function(){
     
@@ -152,7 +152,7 @@ function login(){
     var loginform = new FormData(document.getElementById("loginform"));
     showloading(document.getElementById("activejobs"));
     const xhr  = new XMLHttpRequest();
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/finduser", true);
+    xhr.open("POST", serverdomain+"index.php/home/Wms/finduser", true);
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
