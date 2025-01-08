@@ -9,6 +9,8 @@ var searchedinventory;
 var filteredinventory;
 var searchedreports;
 
+var severdomain = "https://garfat.xyz/index.php/home/Wms/";
+
 window.addEventListener("load", function(){
     
     access=-1;
@@ -5712,8 +5714,19 @@ async function showdockappointments(currentjob,page){
                                 cell.appendChild(appdiv);
                                 if(page=='showdockappointments'){
                                     appdiv.onclick = function(){
-                                        loaddetail(app,app.activity,undefined,false);
                                         appointmentwindow.close();
+                                        const searchcreteria = new FormData();
+                                        searchcreteria.append('id', app['id']);
+                                        fetch('https://garfat.xyz/index.php/home/Wms/searchjob', {
+                                            method: 'POST',
+                                            body: searchcreteria,
+                                        }).then(response => response.json()).then(data => {
+                                            const appointment = data['data'][0];
+
+                                            loaddetail(app,app.activity,undefined,false);
+                                        });
+
+                                        
                                     }
                                 }
                                 // cell.style.backgroundColor = getcolor(appointment);
