@@ -9,7 +9,7 @@ var searchedinventory;
 var filteredinventory;
 var searchedreports;
 
-var serverdomain = "https://garfat.xyz/";
+var serverdomain = "https://garfat.xyz/index.php/home/Wms/";
 
 window.addEventListener("load", function(){
     
@@ -152,7 +152,7 @@ function login(){
     var loginform = new FormData(document.getElementById("loginform"));
     showloading(document.getElementById("activejobs"));
     const xhr  = new XMLHttpRequest();
-    xhr.open("POST", serverdomain+"index.php/home/Wms/finduser", true);
+    xhr.open("POST", serverdomain+"finduser", true);
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
@@ -225,7 +225,7 @@ async function addnewjob(clickeditem,detaillinenumber){
     //check whether this job is already finished
     var checkingjob = new FormData();
     checkingjob.append("jobid", addjob.get('jobid'));
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+    const response = await fetch(serverdomain+'searchjobs', {
         method: 'POST',
         body: checkingjob,
     });
@@ -241,7 +241,7 @@ async function addnewjob(clickeditem,detaillinenumber){
         let httpRequests = [];
 
         // Example HTTP request using fetch (replace with actual HTTP requests)
-        httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/addjob", {
+        httpRequests.push(fetch(serverdomain+"addjob", {
             method: 'POST',
             body: addjob,
         })
@@ -266,13 +266,13 @@ async function addnewjob(clickeditem,detaillinenumber){
             var checkedstatus = addjobline.get('checked')?addjobline.get('checked'):0;
             addjobline.set('checked', checkedstatus);
 
-            httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/additem", {
+            httpRequests.push(fetch(serverdomain+"additem", {
                 method: 'POST',
                 body: addjobline,
             }));
             
             if(addjob.get('activity')=="入库"){
-                httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                httpRequests.push(fetch(serverdomain+"updateinventory", {
                     method: 'POST',
                     body: addjobline,
                 }));
@@ -282,7 +282,7 @@ async function addnewjob(clickeditem,detaillinenumber){
                 }
             }else{
                 if (addjob.get('status') == '完成') {
-                    httpRequests.push(fetch("https://garfat.xyz/index.php/home/Wms/updateinventory", {
+                    httpRequests.push(fetch(serverdomain+"updateinventory", {
                         method: 'POST',
                         body: addjobline,
                     }));
@@ -1262,7 +1262,7 @@ function searchjobs(searchcreteria,callback){
 
     // // 老代码，一定时间后删除, 2024/12/30注
     // const xhr  = new XMLHttpRequest();  
-    // xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchjobs", true);
+    // xhr.open("POST", serverdomain+"searchjobs", true);
     // xhr.onreadystatechange= () => {
     //     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
     //         if(xhr.response["error_code"]==0){
@@ -1309,7 +1309,7 @@ async function showinventory(searchcreteria){
     const showinventorymap = document.getElementById('inventorymapbutton');
     showinventorymap.disabled = true;
     
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+    const response = await fetch(serverdomain+'searchinventory', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -1330,7 +1330,7 @@ async function showinventory(searchcreteria){
     activejobs.appendChild(table);
 }
 async function searchinventory(searchcreteria){
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+    const response = await fetch(serverdomain+'searchinventory', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -1345,7 +1345,7 @@ function searchitems(searchcreteria){
         searchcreteria.append("warehouse", currentwarehouse);
     }
     const xhr  = new XMLHttpRequest();  
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchitems", true);
+    xhr.open("POST", serverdomain+"searchitems", true);
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
@@ -1368,7 +1368,7 @@ async function showitems(searchcreteria,callback){
     if(access==3){
         searchcreteria.append("warehouse", currentwarehouse);
     }
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+    const response = await fetch(serverdomain+'searchitems', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -1478,7 +1478,7 @@ async function showitemsOrganised(searchcreteria,callback){
     latestActionToken = actionToken;
 
     if(searchcreteria.get('orderid')){
-        const response1= await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        const response1= await fetch(serverdomain+'searchitems', {
             method: 'POST',
             body: searchcreteria,
         });
@@ -1503,7 +1503,7 @@ async function showitemsOrganised(searchcreteria,callback){
         searchcreteria.append("warehouse", currentwarehouse);
     }
     searchcreteria.append("activity", "入库");
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+    const response = await fetch(serverdomain+'searchitems', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -1555,7 +1555,7 @@ async function showitemsOrganised(searchcreteria,callback){
         var outitemsearchcreteria = new FormData();
         outitemsearchcreteria.append("inventoryid", item['inventoryid']);
         outitemsearchcreteria.append("activity", "出库");
-        fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        fetch(serverdomain+'searchitems', {
             method: 'POST',
             body: outitemsearchcreteria,
         }).then(response => response.json())
@@ -1688,7 +1688,7 @@ function searchvas(searchcreteria){
     latestActionToken = actionToken;
 
     const xhr  = new XMLHttpRequest();
-    xhr.open("POST", "https://garfat.xyz/index.php/home/Wms/searchvas", true);
+    xhr.open("POST", serverdomain+"searchvas", true);
     xhr.onreadystatechange= () => {
         if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200){
             if(xhr.response["error_code"]==0){
@@ -1724,7 +1724,7 @@ async function showinovicedata(searchcreteria){
     if(access==3){
         searchcreteria.append("warehouse", currentwarehouse);
     }
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinvoices', {
+    const response = await fetch(serverdomain+'searchinvoices', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -2557,7 +2557,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
         latestActionToken = actionToken;
         var searchcreteria = new FormData();
         searchcreteria.append("jobid",clickeditem['jobid']);
-        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        const response = await fetch(serverdomain+'searchitems', {
             method: 'POST',
             body: searchcreteria,
           });
@@ -2816,7 +2816,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             var archiveid = new FormData();
             archiveid.append("jobid",clickeditem['jobid']);
             archiveid.append("activity",activity);
-            fetch('https://garfat.xyz/index.php/home/Wms/archivejob', {
+            fetch(serverdomain+'archivejob', {
                 method: 'POST',
                 body: archiveid,
             }).then(response => response.json()).then(data => {
@@ -3220,7 +3220,7 @@ function createdetailline(nid, item, activity, cancelable) {
         searchcreteria.append("inventoryid", item['inventoryid']);
         searchcreteria.append("status", '未完成');
 
-        fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
+        fetch(serverdomain+'searchvas', {
             method: 'POST',
             body: searchcreteria,
         }).then(response => response.json()).then(data => {
@@ -3560,7 +3560,7 @@ function uploadimage(jobid, file, field) {
     formData.append('file', file);
     console.log(formData.get('file'));
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://garfat.xyz/index.php/home/Wms/saveimg', true);
+    xhr.open('POST', serverdomain+'saveimg', true);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             sysresponse.innerHTML = xhr.response['msg'];
@@ -3854,7 +3854,7 @@ async function showinventorydetail(inventory,thisrow){
     submitbutton.addEventListener('click', async function() {
         var formData = new FormData(updateinventoryform);
         console.log(formData.get('id'));
-        const response = await fetch('https://garfat.xyz/index.php/home/Wms/updateinventorynumber', {
+        const response = await fetch(serverdomain+'updateinventorynumber', {
             method: 'POST',
             body: formData,
         });
@@ -3872,7 +3872,7 @@ async function showinventorydetail(inventory,thisrow){
             var updateinventory = new FormData();
             updateinventory.append('id', inventory['id']);
             updateinventory.append('inventoryloc', selectedlocations);
-            fetch('https://garfat.xyz/index.php/home/Wms/updateinventorylocation', {
+            fetch(serverdomain+'updateinventorylocation', {
                 method: 'POST',
                 body: updateinventory,
             }).then(function(response) {
@@ -3893,7 +3893,7 @@ async function showinventorydetail(inventory,thisrow){
         if (confirmDelete) {
             const deletecreteria = new FormData();
             deletecreteria.append('id', inventory['id']);
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/deleteinventory', {
+            const response = await fetch(serverdomain+'deleteinventory', {
                 method: 'POST',
                 body: deletecreteria,
             });
@@ -3919,7 +3919,7 @@ async function showinventorydetail(inventory,thisrow){
             const checkcreteria = new FormData();
             checkcreteria.append('id', inventory['id']);
             checkcreteria.append('checkdate', today.toISOString());
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/checkinventory', {
+            const response = await fetch(serverdomain+'checkinventory', {
                 method: 'POST',
                 body: checkcreteria,
             });
@@ -3980,7 +3980,7 @@ async function showactivitydetail(activity){
     
     var searchcreteria = new FormData();
     searchcreteria.append("jobid",activity['jobid']);
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+    const response = await fetch(serverdomain+'searchjobs', {
         method: 'POST',
         body: searchcreteria,
       });
@@ -4055,7 +4055,7 @@ function sendemail(sendto,subject,content){
     formData.append('sendto', sendto);
     formData.append('subject', subject);
     formData.append('content', content);
-    fetch('https://garfat.xyz/index.php/home/Wms/sendemail', {
+    fetch(serverdomain+'sendemail', {
         method: 'POST',
         body: formData,
     }).then(response => response.json()).then(data => {
@@ -4063,7 +4063,7 @@ function sendemail(sendto,subject,content){
     });
 }
 async function searchjobwithitems(searchcreteria){
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobs', {
+    const response = await fetch(serverdomain+'searchjobs', {
         method: 'POST',
         body: searchcreteria,
     });
@@ -4155,7 +4155,7 @@ async function checkandGeneratevasPlt(itemFormdata){
         uploaddata.set('status', '处理中');
         uploaddata.append('instruction', '系统预估托数: '+estimateplt+' 实际托数: '+plt+' 请上传2+1货物打托照片');
         uploaddata.append('deadline', itemFormdata.get('date'));
-        const response = await fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
+        const response = await fetch(serverdomain+'updatevas', {
             method: 'POST',
             body: uploaddata,
         });
@@ -4541,7 +4541,7 @@ function printinventorylabel(content){
 
             const qrcodecontainer = document.createElement('div');
             qrcodecontainer.className = 'qrcodecontainer';
-            // new QRCode(qrcodecontainer, "https://garfat.xyz/index.php/home/Wms/inventorydetail?inventoryid=" + item['inventoryid']);
+            // new QRCode(qrcodecontainer, serverdomain+"inventorydetail?inventoryid=" + item['inventoryid']);
             const qrCodeOptions = {
                 text: "https://oath-stone.com/outboundlabelhandler?inventoryid=" + item['inventoryid'],
                 width: 128,
@@ -4593,7 +4593,7 @@ async function createinventoryoperationdiv(){
             searchallinventory.append("warehouse", selectedwarehouse);
         }
     }
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+    const response = await fetch(serverdomain+'searchinventory', {
         method: 'POST',
         body: searchallinventory,
     });
@@ -4792,7 +4792,7 @@ async function createinventoryoperationdiv(){
             // const deleteinventory = new FormData();
             // deleteinventory.append('ids', uncheckedinventoryids.join(','));
 
-            // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+            // fetch(serverdomain+'deleteinventorybatch', {
             //     method: 'POST',
             //     body: deleteinventory,
             // }).then(response => response.json())
@@ -4826,7 +4826,7 @@ async function createinventoryoperationdiv(){
                 searchallinventory.append('warehouse', selectedwarehouse);
             }
             
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+            const response = await fetch(serverdomain+'searchinventory', {
                 method: 'POST',
                 body: searchallinventory,
             });
@@ -4844,7 +4844,7 @@ async function createinventoryoperationdiv(){
             const deleteinventory = new FormData();
             deleteinventory.append('ids', noncompletedinventoryids.join(','));
 
-            fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+            fetch(serverdomain+'deleteinventorybatch', {
                 method: 'POST',
                 body: deleteinventory,
             }).then(response => response.json())
@@ -4875,7 +4875,7 @@ async function createinventoryoperationdiv(){
         searchcreteriain.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriain.append('activity', '入库');
         searchcreteriain.append('status', '完成');
-        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        const response = await fetch(serverdomain+'searchitems', {
             method: 'POST',
             body: searchcreteriain,
         });
@@ -4885,7 +4885,7 @@ async function createinventoryoperationdiv(){
         searchcreteriaout.append('inventoryids', searchedinvenotryids.join(','));
         searchcreteriaout.append('activity', '出库');
         searchcreteriaout.append('status', '完成');
-        const responseout = await fetch('https://garfat.xyz/index.php/home/Wms/searchitems', {
+        const responseout = await fetch(serverdomain+'searchitems', {
             method: 'POST',
             body: searchcreteriaout,
         });
@@ -4928,7 +4928,7 @@ async function createinventoryoperationdiv(){
 
         // var deleteinventory = new FormData();
         // deleteinventory.append('inventoryids', balancedInventoryIds.join(','));
-        // fetch('https://garfat.xyz/index.php/home/Wms/deleteinventorybatch', {
+        // fetch(serverdomain+'deleteinventorybatch', {
         //     method: 'POST',
         //     body: deleteinventory,
         // }).then(response => response.json())
@@ -5153,7 +5153,7 @@ function autoarrangeout(){
 
         searchcreteria.delete('date');
 
-        const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinventory', {
+        const response = await fetch(serverdomain+'searchinventory', {
             method: 'POST',
             body: searchcreteria,
         });
@@ -5354,7 +5354,7 @@ async function showinvoicewindow(clickeditem,items){
     //loaddate
     var searchcreteria = new FormData();
     searchcreteria.append('jobid', clickeditem['jobid']);
-    const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchinvoiceitem', {
+    const response = await fetch(serverdomain+'searchinvoiceitem', {
         method: 'POST',
         body: searchcreteria,
     });
@@ -5638,7 +5638,7 @@ async function showdockappointments(currentjob,page){
             //     }
             // }
             searchcreteria.set('date', datepicker.value+' 23:59:59');
-            const response = await fetch('https://garfat.xyz/index.php/home/Wms/searchjobsonly', {
+            const response = await fetch(serverdomain+'searchjobsonly', {
                 method: 'POST',
                 body: searchcreteria,
             });
@@ -5717,7 +5717,7 @@ async function showdockappointments(currentjob,page){
                                         appointmentwindow.close();
                                         const searchcreteria = new FormData();
                                         searchcreteria.append('id', app['id']);
-                                        fetch('https://garfat.xyz/index.php/home/Wms/searchjob', {
+                                        fetch(serverdomain+'searchjob', {
                                             method: 'POST',
                                             body: searchcreteria,
                                         }).then(response => response.json()).then(data => {
@@ -6563,7 +6563,7 @@ function vasdetailform(clickeditem,callback,replacement){
             vas[key] = value;
         });
         
-        fetch('https://garfat.xyz/index.php/home/Wms/updatevas', {
+        fetch(serverdomain+'updatevas', {
             method: 'POST',
             body: formData,
         }).then(response => response.json())
@@ -6575,7 +6575,7 @@ function vasdetailform(clickeditem,callback,replacement){
                 var vasid=new FormData();
                 console.log(clickeditem['id']);
                 vasid.append('id',clickeditem['id']);
-                fetch('https://garfat.xyz/index.php/home/Wms/searchvas', {
+                fetch(serverdomain+'searchvas', {
                     method: 'POST',
                     body: vasid,
                 }).then(response => response.json())
