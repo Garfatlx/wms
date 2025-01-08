@@ -150,6 +150,9 @@ function refreshAt(hours, minutes, seconds) {
 function login(){
     
     var loginform = new FormData(document.getElementById("loginform"));
+    if(loginform.get('directconnect')=='directconnect'){
+        serverdomain="https://ljb2.saelinzi.com/index.php/home/Wms/";
+    }
     showloading(document.getElementById("activejobs"));
     const xhr  = new XMLHttpRequest();
     xhr.open("POST", serverdomain+"finduser", true);
