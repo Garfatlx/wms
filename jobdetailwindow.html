@@ -589,11 +589,10 @@
                 }
                 
                 itemdetail.innerHTML="";
+                document.getElementById('submitbutton').disabled = false;
                 loaddetailnew(newaddedjob,activity,null,false);
                 alert("任务保存成功");
-                document.getElementById('submitbutton').disabled = false; 
-
-                
+                 
             })
             .catch(function(){
                 alert("任务保存失败");

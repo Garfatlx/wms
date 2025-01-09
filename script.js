@@ -6110,6 +6110,7 @@ function opennewjobwindow(clickeditem){
         clickeditem['serverdomain'] = serverdomain;
         clickeditem['access']=access;
         clickeditem['currentwarehouse']=currentwarehouse;
+        newjobwindow.title = clickeditem['joblabel']+'任务详情';
         newjobwindow.postMessage(clickeditem, '*');
     }
 }
