@@ -16,12 +16,15 @@
     </div>
 </body>
 <script>
+    var serverdomain;
+    var access;
+    var currentwarehouse;
     window.addEventListener('message', function(event) {
         var itemdetail = event.data;
         window.title=itemdetail['joblabel'];
-        var serverdomain = itemdetail['serverdomain'];
-        var access = itemdetail['access'];
-        var currentwarehouse = itemdetail['currentwarehouse'];
+        serverdomain = itemdetail['serverdomain'];
+        access = itemdetail['access'];
+        currentwarehouse = itemdetail['currentwarehouse'];
 
         console.log(itemdetail);
         document.getElementById('itemdetail').innerHTML = itemdetail;
