@@ -65,10 +65,11 @@
         submitbutton.className="button";
         
         
-        var cancelButton = document.createElement("button");
-        cancelButton.innerHTML = "删除任务";
-        cancelButton.className = "button";
-        cancelButton.id = "archivebutton";
+        var closebutton = document.createElement("button");
+        closebutton.innerHTML = "关闭";
+        closebutton.className = "button";
+        closebutton.style.marginLeft = '20px';
+        closebutton.id = "closebutton";
         
         
         var printbutton=document.createElement("button");
@@ -91,10 +92,11 @@
         invoicebutton.className = 'button';
 
         controlbar.appendChild(submitbutton);
-        controlbar.appendChild(cancelButton);
+        
         controlbar.appendChild(printbutton);
         controlbar.appendChild(printcmrbutton);
         controlbar.appendChild(printlabelbutton);
+        controlbar.appendChild(closebutton);
 
         var titleLine = document.createElement("div");
         titleLine.className = "detailtitle";
@@ -616,34 +618,9 @@
             // Displaying an alert message
             printinventorylabel(items);
         });
-        cancelButton.addEventListener("click", function() {
-            if(clickeditem['status']=="完成"){
-                alert("任务已完成，无法删除");
-                return;
-            }
-            // Displaying an alert message
-            if (confirm("确认删除任务?")) {
-                // Code to execute if user confirms cancellation
-                var archiveid = new FormData();
-                archiveid.append("jobid",clickeditem['jobid']);
-                archiveid.append("activity",activity);
-                fetch(serverdomain+'archivejob', {
-                    method: 'POST',
-                    body: archiveid,
-                }).then(response => response.json()).then(data => {
-                    sysresponse.innerHTML=data["msg"];
-                    if(data["error_code"]==0){
-                        if(thisjobdiv){
-                            thisjobdiv.remove();
-                        }
-                        itemdetail.innerHTML="";
-                    }
-                });
-
-            } else {
-                // Code to execute if user cancels cancellation
-                // ...
-            }
+        closebutton.addEventListener("click", function() {
+            window.close();
+               
         });
         // invoicebutton.addEventListener("click", function() {
         //     showinvoicewindow(clickeditem,items);
