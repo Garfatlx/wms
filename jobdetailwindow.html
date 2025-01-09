@@ -885,64 +885,64 @@
         detaillineform.appendChild(input3label);
         detaillineform.appendChild(input3);
 
-        var linecontrol=document.createElement("div");
-        linecontrol.className="linecontrol";
-        linecontrol.style.margin="0px";
-        var input12=document.createElement("input");
-        input12.name="kgs";
-        input12.type="text";
-        input12.id="kgs"+id;
-        input12.className="lineinput";
-        input12.style.width="80px";
-        input12.value=item['kgs']?item['kgs']:'';
-        var input12label=document.createElement("label");
-        input12label.innerHTML="重量(KG)/件:";
-        input12label.htmlFor=input12.id;
-        input12label.className="lineinputlabel";
-        input12label.htmlFor=input12;
-        linecontrol.appendChild(input12label);
-        linecontrol.appendChild(input12);
+        // var linecontrol=document.createElement("div");
+        // linecontrol.className="linecontrol";
+        // linecontrol.style.margin="0px";
+        // var input12=document.createElement("input");
+        // input12.name="kgs";
+        // input12.type="text";
+        // input12.id="kgs"+id;
+        // input12.className="lineinput";
+        // input12.style.width="80px";
+        // input12.value=item['kgs']?item['kgs']:'';
+        // var input12label=document.createElement("label");
+        // input12label.innerHTML="重量(KG)/件:";
+        // input12label.htmlFor=input12.id;
+        // input12label.className="lineinputlabel";
+        // input12label.htmlFor=input12;
+        // linecontrol.appendChild(input12label);
+        // linecontrol.appendChild(input12);
 
-        var input13=document.createElement("input");
-        input13.name="cbm";
-        input13.type="text";
-        input13.id="cbm"+id;
-        input13.className="lineinput";
-        input13.style.width="80px";
-        input13.value=item['cbm']?item['cbm']:'';
-        var input13label=document.createElement("label");
-        input13label.innerHTML="体积(CBM)/件:";
-        input13label.htmlFor=input13.id;
-        input13label.className="lineinputlabel";
-        input13label.htmlFor=input13;
-        linecontrol.appendChild(input13label);
-        linecontrol.appendChild(input13);
+        // var input13=document.createElement("input");
+        // input13.name="cbm";
+        // input13.type="text";
+        // input13.id="cbm"+id;
+        // input13.className="lineinput";
+        // input13.style.width="80px";
+        // input13.value=item['cbm']?item['cbm']:'';
+        // var input13label=document.createElement("label");
+        // input13label.innerHTML="体积(CBM)/件:";
+        // input13label.htmlFor=input13.id;
+        // input13label.className="lineinputlabel";
+        // input13label.htmlFor=input13;
+        // linecontrol.appendChild(input13label);
+        // linecontrol.appendChild(input13);
 
-        if(activity=="入库"){
-            var priorityinput=document.createElement("select");
-            priorityinput.name="priority";
-            priorityinput.className="lineinput";
-            priorityinput.style.width="45px";
-            var priorityinputlabel=document.createElement("label");
-            priorityinputlabel.innerHTML="优先级";
-            priorityinputlabel.className="lineinputlabel";
-            linecontrol.appendChild(priorityinputlabel);
-            linecontrol.appendChild(priorityinput);
-            const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
-            for (var i = 0; i < priorityoptions.length; i++) {
-                var option = document.createElement("option");
-                option.value = priorityoptions[i];
-                option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
-                if (item && item['priority'] == priorityoptions[i]) {
-                    option.selected = true; // Set the default value based on item['priority']
-                } else if (!item && priorityoptions[i] == 0) {
-                    option.selected = true; // Set the default value to 5 if item is not defined
-                }
-                priorityinput.appendChild(option);
-            }
-        }
+        // if(activity=="入库"){
+        //     var priorityinput=document.createElement("select");
+        //     priorityinput.name="priority";
+        //     priorityinput.className="lineinput";
+        //     priorityinput.style.width="45px";
+        //     var priorityinputlabel=document.createElement("label");
+        //     priorityinputlabel.innerHTML="优先级";
+        //     priorityinputlabel.className="lineinputlabel";
+        //     linecontrol.appendChild(priorityinputlabel);
+        //     linecontrol.appendChild(priorityinput);
+        //     const priorityoptions = [5, 4, 3, 2, 1, 0,-1,-2,-3,-4,-5,-6];
+        //     for (var i = 0; i < priorityoptions.length; i++) {
+        //         var option = document.createElement("option");
+        //         option.value = priorityoptions[i];
+        //         option.text = priorityoptions[i]==-6?"拦截":priorityoptions[i];
+        //         if (item && item['priority'] == priorityoptions[i]) {
+        //             option.selected = true; // Set the default value based on item['priority']
+        //         } else if (!item && priorityoptions[i] == 0) {
+        //             option.selected = true; // Set the default value to 5 if item is not defined
+        //         }
+        //         priorityinput.appendChild(option);
+        //     }
+        // }
 
-        detaillineform.appendChild(linecontrol);
+        // detaillineform.appendChild(linecontrol);
 
         var input4 = document.createElement("input");
         input4.type = "hidden";
@@ -966,20 +966,13 @@
         const linecontrol0=document.createElement("div");
         linecontrol0.className="linecontrol";
         linecontrol0.style.margin="0px";
+
         var input5 = document.createElement("input");
         input5.name = "inventoryid";
-        input5.readOnly = true;
-        input5.className="lineinput";
-        input5.style.width="110px";
-        var inventoryid = constructinventoryid(id);
-        input5.value = item != '' ? item['inventoryid'] : inventoryid;
-        var input5label=document.createElement("label");
-        input5label.innerHTML="库存编号：";
-        input5label.className="lineinputlabel";
-        linecontrol0.appendChild(input5label);
+        input5.type = "hidden";
+        input5.value = item != '' ? item['inventoryid'] : constructinventoryid(id);
         linecontrol0.appendChild(input5);
 
-        //Disable this function temporarily!!!!!!!!
         const selectlocationbutton = document.createElement("button");
         selectlocationbutton.type = "button";
         selectlocationbutton.className = "button";
@@ -1093,7 +1086,7 @@
 
         setTimeout(() => {
             detaillineform.style.opacity="1";
-            detaillineform.style.height="190px";
+            detaillineform.style.height="160px";
         },1);
         
 
@@ -1238,7 +1231,6 @@
     }
     .detaillineform{
         display: block;
-        width: 100%;
         margin:0 0 0 0;
         margin-block-end: 0;
 
@@ -1248,8 +1240,8 @@
         border-radius: 2px;
         margin:2px 2px 2px 2px;
         padding: 5px 5px 5px 5px;
-        width: 490px;
-        min-width: 180;
+        width: 500px;
+        min-width: 220px;
         display: inline-block;
         box-shadow:  0px 2px 5px rgba(0,0,0,0.25);
         transition:0.5s;
@@ -1279,8 +1271,7 @@
     }
     .input-container {
         position: relative;
-        
-        margin: 15 0 0 0;
+        margin: 15px 0 0 0;
         width: 100px;
     }
 
@@ -1445,7 +1436,7 @@
     
     .uploaddiv{
         display: flex;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
         margin: 10px 0;
         height: 125px;
