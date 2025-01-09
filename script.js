@@ -851,7 +851,7 @@ function showinventorysearchbox(){
             });
 
             // Filter the data to only keep the columns we want in warehouse checking process
-            const columnsToKeep = ['label', 'container', 'marks','pcs','plt', 'date', 'channel'];
+            const columnsToKeep = ['label', 'customer','container', 'marks','pcs','plt', 'date', 'channel'];
             const filteredOutputData = ouputdata.map(inventory => {
                 const filteredInventory = {};
                 columnsToKeep.forEach(column => {
