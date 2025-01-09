@@ -19,6 +19,9 @@
     var serverdomain;
     var access;
     var currentwarehouse;
+    window.addEventListener("load", function(){
+        refreshAt(0,0,0);
+    });
     window.addEventListener('message', function(event) {
         var itemdetail = event.data;
         document.title=itemdetail['joblabel']+'详情';
@@ -203,7 +206,7 @@
             }
             const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
             taskstatusbar.style.position="absolute";
-            taskstatusbar.style.left="200px";
+            taskstatusbar.style.left="150px";
             taskstatusbar.style.top="35px";
             detailform.appendChild(taskstatusbar);
         }
