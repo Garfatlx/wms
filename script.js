@@ -11,123 +11,123 @@ var searchedreports;
 
 var serverdomain = "https://garfat.xyz/index.php/home/Wms/";
 
-window.addEventListener("load", function(){
+// window.addEventListener("load", function(){
     
-    access=-1;
-    sysresponse = document.getElementById("response");
-    sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.15";
+//     access=-1;
+//     sysresponse = document.getElementById("response");
+//     sysresponse.innerHTML="欢迎。近期更新频繁，建议每天第一次使用前按键盘Shift+F5刷新页面。v1.1.15";
     
-    //page fist load
-    // var searchcreteria = new FormData();
-    // searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-    // showjobsearchbox();
-    // searchjobs(searchcreteria);
+//     //page fist load
+//     // var searchcreteria = new FormData();
+//     // searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+//     // showjobsearchbox();
+//     // searchjobs(searchcreteria);
 
-    var loginform= document.getElementById("loginform");
-    loginform.addEventListener("submit", function (event) {
-        event.preventDefault();
-        login();
-    });
+//     var loginform= document.getElementById("loginform");
+//     loginform.addEventListener("submit", function (event) {
+//         event.preventDefault();
+//         login();
+//     });
     
-    var newinjobbutton = document.getElementById("newinjobbutton");
-    newinjobbutton.addEventListener("click", function() {
-        if(access>0){
-            loaddetail("",'入库',null,true);
-        }
-    });
-    var newoutjobbutton = document.getElementById("newoutjobbutton");
-    newoutjobbutton.addEventListener("click", function() {
-        if(access>0){
-            loaddetail("",'出库',null,true);
-        }
-    });
-    
-
+//     var newinjobbutton = document.getElementById("newinjobbutton");
+//     newinjobbutton.addEventListener("click", function() {
+//         if(access>0){
+//             loaddetail("",'入库',null,true);
+//         }
+//     });
+//     var newoutjobbutton = document.getElementById("newoutjobbutton");
+//     newoutjobbutton.addEventListener("click", function() {
+//         if(access>0){
+//             loaddetail("",'出库',null,true);
+//         }
+//     });
     
 
-    //select page
-    var currentjobs = document.getElementById("currentjobs");
-    currentjobs.addEventListener("click", function() {
-        console.log("currentjobs clicked");
-        if(access!=-1){
-            var searchcreteria = new FormData();
-            if(access==2){
-                searchcreteria.append("status", '全部');
-            }
-            searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
-            searchcreteria.append("includeunfinished", "true");
-            showjobsearchbox();
-            searchjobs(searchcreteria);
-            currentjobpagecontent='jobs';
-        }
-    });
-    var currentinventory = document.getElementById("currentinventory");
-    currentinventory.addEventListener("click", function() {
-        if(access!=-1){
-            var searchcreteria = new FormData();
-            showinventorysearchbox();
-            showinventory(searchcreteria);
-        }
-    });
+    
 
-    var activitylog = document.getElementById("activitylog");
-    activitylog.addEventListener("click", function() {
-        if(access!=-1){
-            document.getElementById("activejobs").innerHTML="";
-            showitemsearchbox();
-            if(access==2){
-                var searchcreteria = new FormData();
-                searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
-                searchcreteria.append("customer", customername);
-                showitemsOrganised(searchcreteria);
-                //showitems(searchcreteria);
+//     //select page
+//     var currentjobs = document.getElementById("currentjobs");
+//     currentjobs.addEventListener("click", function() {
+//         console.log("currentjobs clicked");
+//         if(access!=-1){
+//             var searchcreteria = new FormData();
+//             if(access==2){
+//                 searchcreteria.append("status", '全部');
+//             }
+//             searchcreteria.append("date", getformatteddate(0)+" 23:59:59");
+//             searchcreteria.append("includeunfinished", "true");
+//             showjobsearchbox();
+//             searchjobs(searchcreteria);
+//             currentjobpagecontent='jobs';
+//         }
+//     });
+//     var currentinventory = document.getElementById("currentinventory");
+//     currentinventory.addEventListener("click", function() {
+//         if(access!=-1){
+//             var searchcreteria = new FormData();
+//             showinventorysearchbox();
+//             showinventory(searchcreteria);
+//         }
+//     });
+
+//     var activitylog = document.getElementById("activitylog");
+//     activitylog.addEventListener("click", function() {
+//         if(access!=-1){
+//             document.getElementById("activejobs").innerHTML="";
+//             showitemsearchbox();
+//             if(access==2){
+//                 var searchcreteria = new FormData();
+//                 searchcreteria.append("enddate", getformatteddate(0)+" 23:59:59");
+//                 searchcreteria.append("customer", customername);
+//                 showitemsOrganised(searchcreteria);
+//                 //showitems(searchcreteria);
 
 
                 
-            }
-        }
-    });
-    var activitylog = document.getElementById("invoicelog");
-    activitylog.addEventListener("click", function() {
-        if(access==1 || access==3){
-            document.getElementById("activejobs").innerHTML="";
-            showinvoicesearchbox();
-        }else{
-            sysresponse.innerHTML="功能未开放";
-        }
-    });
+//             }
+//         }
+//     });
+//     var activitylog = document.getElementById("invoicelog");
+//     activitylog.addEventListener("click", function() {
+//         if(access==1 || access==3){
+//             document.getElementById("activejobs").innerHTML="";
+//             showinvoicesearchbox();
+//         }else{
+//             sysresponse.innerHTML="功能未开放";
+//         }
+//     });
 
     
     
 
-    var datalist=document.createElement("datalist");
-    datalist.id="channels";
-    const channels = ['海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
-    channels.forEach(channel => {
-        const option = document.createElement('option');
-        option.value = channel;
-        datalist.appendChild(option);
-    });
-    document.body.appendChild(datalist);
+//     var datalist=document.createElement("datalist");
+//     datalist.id="channels";
+//     const channels = ['海外仓', '客户自提', '亚马逊-卡派-散货', '亚马逊-卡派-托盘', '快递-DHL Express', '快递-DHL-Paket', '快递-DPD', '卡派-DHL Freight', '拦截暂扣', '不卸货', '暂放-不确定出货方式'];
+//     channels.forEach(channel => {
+//         const option = document.createElement('option');
+//         option.value = channel;
+//         datalist.appendChild(option);
+//     });
+//     document.body.appendChild(datalist);
 
-    var datalist2=document.createElement("datalist");
-    datalist2.id="services";
-    const services = ['贴标', '打托'];
-    services.forEach(service => {
-        const option = document.createElement('option');
-        option.value = service;
-        datalist2.appendChild(option);
-    });
-    document.body.appendChild(datalist2);
+//     var datalist2=document.createElement("datalist");
+//     datalist2.id="services";
+//     const services = ['贴标', '打托'];
+//     services.forEach(service => {
+//         const option = document.createElement('option');
+//         option.value = service;
+//         datalist2.appendChild(option);
+//     });
+//     document.body.appendChild(datalist2);
 
-    // testing code
-    // var searchcreteria = new FormData();
-    // searchcreteria.append("jobid", "1732890217735");   
-    // const testdt=searchjobwithitems(searchcreteria);
+//     // testing code
+//     // var searchcreteria = new FormData();
+//     // searchcreteria.append("jobid", "1732890217735");   
+//     // const testdt=searchjobwithitems(searchcreteria);
 
-    refreshAt(0,0,0);
+//     refreshAt(0,0,0);
 
-});
+// });
 
 function refreshAt(hours, minutes, seconds) {
     var now = new Date();
@@ -4554,8 +4554,6 @@ function printinventorylabel(content){
     printWindow.print();
 }
 
-
-
 // create popup windows
 async function createinventoryoperationdiv(){
     
@@ -6109,7 +6107,9 @@ function opennewjobwindow(clickeditem){
 
     const newjobwindow = window.open('jobdetailwindow.html', '');
     newjobwindow.onload = function() {
-        console.log(clickeditem);
+        clickeditem['serverdomain'] = serverdomain;
+        clickeditem['access']=access;
+        clickeditem['currentwarehouse']=currentwarehouse;
         newjobwindow.postMessage(clickeditem, '*');
     }
 }
