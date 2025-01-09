@@ -21,7 +21,7 @@
     var currentwarehouse;
     window.addEventListener('message', function(event) {
         var itemdetail = event.data;
-        window.title=itemdetail['joblabel'];
+        document.title=itemdetail['joblabel']+'详情';
         serverdomain = itemdetail['serverdomain'];
         access = itemdetail['access'];
         currentwarehouse = itemdetail['currentwarehouse'];
