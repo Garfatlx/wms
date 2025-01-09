@@ -55,6 +55,7 @@
         detailform.appendChild(controlbar);
         var submitbutton=document.createElement("button");
         submitbutton.innerHTML="保存";
+        submitbutton.id="submitbutton";
         submitbutton.className="button";
         
         
@@ -526,10 +527,6 @@
                 alert("请输入日期");
                 return;
             }
-            if(document.getElementById("itemdetail").querySelector("[name='warehouse']").value==""){
-                alert("请选择仓库");
-                return;
-            }
             if(document.getElementById("statusvalue-4")){
                 if(document.getElementById("statusvalue-4").checked==true){
                     if(document.getElementById("cannotcomplete")){
@@ -542,10 +539,7 @@
             const activeJobs = document.getElementById("activejobs");
             addnewjob(clickeditem,detaillinenumber).then(async function(){
                 sysresponse.innerHTML="任务保存成功";
-                if(access==2){
-                    itemdetail.innerHTML="";
-                    return;
-                }
+                
                 var searchnewadded = new FormData();
                 searchnewadded.append("jobid",clickeditem['jobid']);
 
@@ -554,12 +548,7 @@
                 const newaddedjob = jobwithitems["jobs"][0];
                 // const newaddeditems = jobwithitems["items"];
                 const newaddeditems = newaddedjob["items"];
-                if(thisjobdiv){
-                    createjob(newaddedjob,activeJobs,thisjobdiv);   
-                }else{
-                    
-                    createjob(newaddedjob,activeJobs);
-                }
+                
                 const now=new Date().toLocaleString('sv-SE', { timeZoneName: 'short' }).slice(0, 16);
                 //send email to customer
                 if(newaddedjob['status']=="完成" && newaddedjob['activity']=="入库"){
@@ -596,12 +585,16 @@
                     );
                 }
                 
-
                 itemdetail.innerHTML="";
+                loaddetailnew(newaddedjob,activity,null,false);
+                alert("任务保存成功");
+                document.getElementById('submitbutton').disabled = false; 
+
+                
             })
             .catch(function(){
-                sysresponse.innerHTML="任务保存失败";
-                itemdetail.innerHTML="";
+                alert("任务保存失败");
+                document.getElementById('submitbutton').disabled = false; 
             });
             this.disabled = true;
             sysresponse.innerHTML="上传中...";
