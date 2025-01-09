@@ -11,7 +11,8 @@
 </head>
 
 <body>
-    <div id="itemdetail"></div>
+    <div class="controlpanel"></div>
+    <div id="itemdetail" class="itemdetail"></div>
 </body>
 <script>
     window.addEventListener('message', function(event) {
@@ -1192,13 +1193,10 @@
     .controlpanel{
         display: flex;
         width:0px;
-        height: 800px;
         margin: 0 0 0 20px;
         position: relative;
         transition: 0.5s;
-    }
-    .controlpanel_show{
-        width:550px;
+        width:600px;
         max-width: 600px;
         transition: 0.5s;
     }
