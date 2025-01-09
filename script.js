@@ -6586,7 +6586,24 @@ function vasdetailform(clickeditem,callback,replacement){
 
     return form;
 }
+function createJobTopPartInputDiv(name, value, label){
+    const inputdiv = document.createElement('div');
+    inputdiv.className = 'inputdiv';
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = name;
+    input.value = value;
+    input.className = 'input';
+    input.style.width = '150px';
+    const inputlabel = document.createElement('label');
+    inputlabel.htmlFor = name;
+    inputlabel.innerHTML = label;
+    inputlabel.className = 'label';
+    inputdiv.appendChild(inputlabel);
+    inputdiv.appendChild(input);
+    return inputdiv;
 
+}
 
 //get functions
 function getcustomerinvoicetempletelist(customer){

@@ -11,8 +11,9 @@
 </head>
 
 <body>
-    <div class="controlpanel"></div>
-    <div id="itemdetail" class="itemdetail"></div>
+    <div class="controlpanel">
+        <div id="itemdetail" class="itemdetail"></div>
+    </div>
 </body>
 <script>
     window.addEventListener('message', function(event) {
@@ -143,7 +144,7 @@
             var linecontrol0=document.createElement("div");
             linecontrol0.className="input-container";
             linecontrol0.style.position="absolute";
-            linecontrol0.style.right="120px";
+            linecontrol0.style.left="300px";
             linecontrol0.style.top="57px";
             var inputbottomline=document.createElement("div");
             inputbottomline.className="underline";
@@ -165,7 +166,7 @@
             var linecontrol0=document.createElement("div");
             linecontrol0.className="input-container";
             linecontrol0.style.position="absolute";
-            linecontrol0.style.right="120px";
+            linecontrol0.style.left="300px";
             linecontrol0.style.top="95px";
             var inputbottomline=document.createElement("div");
             inputbottomline.className="underline";
@@ -198,7 +199,7 @@
             }
             const taskstatusbar = createstatusbar(((clickeditem!='')?clickeditem['status']:"预报"),'预报','排队中','作业中','完成');
             taskstatusbar.style.position="absolute";
-            taskstatusbar.style.right="100px";
+            taskstatusbar.style.left="200px";
             taskstatusbar.style.top="35px";
             detailform.appendChild(taskstatusbar);
         }
@@ -700,7 +701,7 @@
         detaillineform.style.opacity="0";
         detaillineform.style.height="0";
 
-        detailform.insertBefore(detaillineform, detailform.firstChild);
+        detailform.appendChild(detaillineform);
         // detailform.appendChild(detaillineform);
 
         var createorder=document.createElement("input");
@@ -1192,13 +1193,9 @@
 
     .controlpanel{
         display: flex;
-        width:0px;
         margin: 0 0 0 20px;
         position: relative;
-        transition: 0.5s;
-        width:600px;
-        max-width: 600px;
-        transition: 0.5s;
+        width:100%;
     }
     .detailtitle{
         font-size: 18px;
