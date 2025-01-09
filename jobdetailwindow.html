@@ -538,7 +538,7 @@
             
             const activeJobs = document.getElementById("activejobs");
             addnewjob(clickeditem,detaillinenumber).then(async function(){
-                sysresponse.innerHTML="任务保存成功";
+                
                 
                 var searchnewadded = new FormData();
                 searchnewadded.append("jobid",clickeditem['jobid']);
@@ -597,7 +597,7 @@
                 document.getElementById('submitbutton').disabled = false; 
             });
             this.disabled = true;
-            sysresponse.innerHTML="上传中...";
+            
         });
         printbutton.addEventListener("click", function() {
             // Displaying an alert message
@@ -1179,7 +1179,7 @@
 
     .controlpanel{
         display: flex;
-        margin: 0 0 0 20px;
+        margin: 0 0 0 5px;
         position: relative;
         width:100%;
     }
