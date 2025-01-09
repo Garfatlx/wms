@@ -506,11 +506,10 @@
                 submitbutton.disabled = true;
                 const tooltip = createTooltip("任务已确认预约，如需修改请联系管理员");
                 submitbutton.insertAdjacentElement('afterend', tooltip);
-                cancelButton.disabled = true;
             }
         }
         if(access==1 || access==3){
-            cancelButton.removeAttribute("disabled");
+            
             printbutton.removeAttribute("disabled");
             printcmrbutton.removeAttribute("disabled");
             printlabelbutton.removeAttribute("disabled");
@@ -527,7 +526,7 @@
             }
         }
         
-        // closebutton.removeAttribute("disabled");
+        closebutton.removeAttribute("disabled");
         
         submitbutton.addEventListener("click", function() {
             // var inputform=document.getElementById("detailform");
