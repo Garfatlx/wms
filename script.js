@@ -6614,7 +6614,6 @@ function getcustomerinvoicetempletelist(customer){
     return {'':'unitprice'};
     return ['','其他'];
 }
-
 function getaddress(reforigin){
     const ref = reforigin.trim().toUpperCase();
      if (ref === 'STR1') {
@@ -6657,7 +6656,6 @@ function getaddress(reforigin){
      
      
  }
-
  function getlocation(ref){
     if (ref === 'STR1') {
         return ['1', 'A'];
@@ -6679,7 +6677,6 @@ function getformatteddate(targetdate){
     var day = date.getDate().toString().padStart(2, '0');
     return year + '-' + month + '-' + day;
 }
-
 function getemailaddress(customer){
     // if(customer=='test'){
     //     return 'garfat@live.com';
@@ -6692,6 +6689,29 @@ function getemailaddress(customer){
     }
     return null;
 }
+function checkPalletExchange(destination) {
+    return destinationMapping[destination];
+  }
+const destinationMapping = {
+    HAJ1: true,
+    DTM2: true,
+    WRO5: true,
+    XPO1: false,
+    BER8: false,
+    BRE4: true,
+    CDG7: true,
+    DUS2: true,
+    LEJ1: true,
+    LEJ3: true,
+    MXP3: true,
+    MXP5: true,
+    STR1: true,
+    WRO1: true,
+    XMP2: true,
+    XOR1: true,
+    XSC1: true,
+    RLG1: true,
+};
 const itemexporttilemapping = {
     'warehouse': '仓库',
     'jobid': '操作编号',
