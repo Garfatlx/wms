@@ -2869,13 +2869,13 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                 //     readytosubmit = false;
                 //     break;
                 // }
-                if (detailline.querySelector('select[name="oogplt"]').value == "") {
-                    detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
-                    detailline.querySelector('select[name="oogplt"]').focus();
-                    alert("请填写完是否可超尺寸");
-                    readytosubmit = false;
-                    break;
-                }
+                // if (detailline.querySelector('select[name="oogplt"]').value == "") {
+                //     detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
+                //     detailline.querySelector('select[name="oogplt"]').focus();
+                //     alert("请填写完是否可超尺寸");
+                //     readytosubmit = false;
+                //     break;
+                // }
             }
         }
         return readytosubmit;
