@@ -2991,26 +2991,26 @@ function createdetailline(nid, item, activity, cancelable) {
     if(item['pltmark']){
         pltmark.value=item['pltmark'];
     }
-    
-    const oogplt = document.createElement("select");
-    oogplt.name = "oogplt";
-    oogplt.style.marginLeft = "10px";
-    oogplt.placeholder = "是否可超尺寸";
-    oogplt.className = "lineinput";
-    oogplt.style.width = "100px";
-    const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
-    for (var i = 0; i < oogpltoptions.length; i++) {
-        var option = document.createElement("option");
-        option.value = oogpltoptions[i];
-        option.text = oogpltoptions[i];
-        if (item && item['oogplt'] == oogpltoptions[i]) {
-            option.selected = true; // Set the default value based on item['oogplt']
-        } else if (!item && oogpltoptions[i] == "散货") {
-            option.selected = true; // Set the default value to "普通" if item is not defined
-        }
-        oogplt.appendChild(option);
-    }
-    pltreqlinecontrol.appendChild(oogplt);
+    pltreqlinecontrol.appendChild(pltmark);
+    // const oogplt = document.createElement("select");
+    // oogplt.name = "oogplt";
+    // oogplt.style.marginLeft = "10px";
+    // oogplt.placeholder = "是否可超尺寸";
+    // oogplt.className = "lineinput";
+    // oogplt.style.width = "100px";
+    // const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
+    // for (var i = 0; i < oogpltoptions.length; i++) {
+    //     var option = document.createElement("option");
+    //     option.value = oogpltoptions[i];
+    //     option.text = oogpltoptions[i];
+    //     if (item && item['oogplt'] == oogpltoptions[i]) {
+    //         option.selected = true; // Set the default value based on item['oogplt']
+    //     } else if (!item && oogpltoptions[i] == "散货") {
+    //         option.selected = true; // Set the default value to "普通" if item is not defined
+    //     }
+    //     oogplt.appendChild(option);
+    // }
+    // pltreqlinecontrol.appendChild(oogplt);
 
     plttypeinput.querySelector('select').addEventListener("change", function() {
         if (this.value != "") {
