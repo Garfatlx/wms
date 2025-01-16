@@ -645,13 +645,13 @@
                     //     readytosubmit = false;
                     //     break;
                     // }
-                    if (detailline.querySelector('select[name="oogplt"]').value == "") {
-                        detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
-                        detailline.querySelector('select[name="oogplt"]').focus();
-                        alert("请填写完是否可超尺寸");
-                        readytosubmit = false;
-                        break;
-                    }
+                    // if (detailline.querySelector('select[name="oogplt"]').value == "") {
+                    //     detailline.querySelector('select[name="oogplt"]').style.backgroundColor = "pink";
+                    //     detailline.querySelector('select[name="oogplt"]').focus();
+                    //     alert("请填写完是否可超尺寸");
+                    //     readytosubmit = false;
+                    //     break;
+                    // }
                 }
             }
             return readytosubmit;
@@ -758,41 +758,52 @@
         plttypeinput.style.display = 'inline-flex';
         pltreqlinecontrol.appendChild(plttypeinput);
 
-        const oogplt = document.createElement("select");
-        oogplt.name = "oogplt";
-        oogplt.style.marginLeft = "10px";
-        oogplt.placeholder = "是否可超尺寸";
-        oogplt.className = "lineinput";
-        oogplt.style.width = "100px";
-        const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
-        for (var i = 0; i < oogpltoptions.length; i++) {
-            var option = document.createElement("option");
-            option.value = oogpltoptions[i];
-            option.text = oogpltoptions[i];
-            if (item && item['oogplt'] == oogpltoptions[i]) {
-                option.selected = true; // Set the default value based on item['oogplt']
-            } else if (!item && oogpltoptions[i] == "散货") {
-                option.selected = true; // Set the default value to "普通" if item is not defined
-            }
-            oogplt.appendChild(option);
+        const pltmark = document.createElement("input");
+        pltmark.type = "text";
+        pltmark.id = "pltmark" + id;
+        pltmark.name = "pltmark";
+        pltmark.style.border = "none";
+        pltmark.readOnly = true;
+        if(item['pltmark']){
+            pltmark.value=item['pltmark'];
         }
-        pltreqlinecontrol.appendChild(oogplt);
+        pltreqlinecontrol.appendChild(pltmark);
 
-        plttypeinput.querySelector('select').addEventListener("change", function() {
-            if (this.value != "") {
-                if(this.value=="散货"){
-                    pltinput.value = 0;
-                    oogplt.value = "";
-                    return;
-                }
-                if(oogplt.value==""){
-                    oogplt.value="不可超托盘尺寸";
-                }
-                if(!pltinput.value){
-                    pltinput.focus();
-                }
-            }
-        });
+        // const oogplt = document.createElement("select");
+        // oogplt.name = "oogplt";
+        // oogplt.style.marginLeft = "10px";
+        // oogplt.placeholder = "是否可超尺寸";
+        // oogplt.className = "lineinput";
+        // oogplt.style.width = "100px";
+        // const oogpltoptions = ["", "不可超托盘尺寸", "可超托盘尺寸"];
+        // for (var i = 0; i < oogpltoptions.length; i++) {
+        //     var option = document.createElement("option");
+        //     option.value = oogpltoptions[i];
+        //     option.text = oogpltoptions[i];
+        //     if (item && item['oogplt'] == oogpltoptions[i]) {
+        //         option.selected = true; // Set the default value based on item['oogplt']
+        //     } else if (!item && oogpltoptions[i] == "散货") {
+        //         option.selected = true; // Set the default value to "普通" if item is not defined
+        //     }
+        //     oogplt.appendChild(option);
+        // }
+        // pltreqlinecontrol.appendChild(oogplt);
+
+        // plttypeinput.querySelector('select').addEventListener("change", function() {
+        //     if (this.value != "") {
+        //         if(this.value=="散货"){
+        //             pltinput.value = 0;
+        //             oogplt.value = "";
+        //             return;
+        //         }
+        //         if(oogplt.value==""){
+        //             oogplt.value="不可超托盘尺寸";
+        //         }
+        //         if(!pltinput.value){
+        //             pltinput.focus();
+        //         }
+        //     }
+        // });
 
         var selectchannel=document.createElement("input");
         selectchannel.type="text";

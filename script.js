@@ -2502,7 +2502,7 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
                                 "id": "",
                                 "priority":json[i]['拦截暂扣']=="是"?-6:0,
                                 "plttype":json[i]['散货/托盘类型']?json[i]['散货/托盘类型']:"散货",
-                                "oogplt":json[i]['托盘操作要求']?json[i]['托盘操作要求']:"",
+                                // "oogplt":json[i]['托盘操作要求']?json[i]['托盘操作要求']:"",
                                 "createtime": Date.now(),
                             });
                             j++;
@@ -3012,21 +3012,21 @@ function createdetailline(nid, item, activity, cancelable) {
     // }
     // pltreqlinecontrol.appendChild(oogplt);
 
-    plttypeinput.querySelector('select').addEventListener("change", function() {
-        if (this.value != "") {
-            if(this.value=="散货"){
-                pltinput.value = 0;
-                oogplt.value = "";
-                return;
-            }
-            if(oogplt.value==""){
-                oogplt.value="不可超托盘尺寸";
-            }
-            if(!pltinput.value){
-                pltinput.focus();
-            }
-        }
-    });
+    // plttypeinput.querySelector('select').addEventListener("change", function() {
+    //     if (this.value != "") {
+    //         if(this.value=="散货"){
+    //             pltinput.value = 0;
+    //             oogplt.value = "";
+    //             return;
+    //         }
+    //         if(oogplt.value==""){
+    //             oogplt.value="不可超托盘尺寸";
+    //         }
+    //         if(!pltinput.value){
+    //             pltinput.focus();
+    //         }
+    //     }
+    // });
 
     var selectchannel=document.createElement("input");
     selectchannel.type="text";
