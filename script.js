@@ -2973,7 +2973,7 @@ function createdetailline(nid, item, activity, cancelable) {
     pltreqlinecontrol.className = "linecontrol";
     detaillineform.appendChild(pltreqlinecontrol);
     const pltrequirementtitle = document.createElement("div");
-    pltrequirementtitle.innerHTML = "打托要求：";
+    pltrequirementtitle.innerHTML = "";
     pltreqlinecontrol.appendChild(pltrequirementtitle);
 
     const plttypecon=item['plttype']?item['plttype']:"";
@@ -6172,13 +6172,13 @@ function createplttypeselectiondiv(selectedplttype){
     const plttypeselectioninput = document.createElement('select');
     plttypeselectioninput.name = 'plttype';
     plttypeselectioninput.id = 'plttypeselection';
-    plttypeselectioninput.style.width = '50px';
+    plttypeselectioninput.style.width = '100px';
     plttypeselectioninput.style.fontSize = '14px';
     plttypeselectioninput.style.margin = '0px 0px 0px 0px';
 
     const plttypeselectionlabel = document.createElement('label');
     plttypeselectionlabel.htmlFor = 'plttypeselection';
-    plttypeselectionlabel.innerHTML = '托盘类型';
+    plttypeselectionlabel.innerHTML = '散货/托盘类型';
     plttypeselectionlabel.style.fontSize = '16px';
 
     const plttypeoptions = ['','散货','EU-FBA','Normal-EU', 'Block'];
