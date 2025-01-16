@@ -9,6 +9,8 @@ var searchedinventory;
 var filteredinventory;
 var searchedreports;
 
+var readytoloadjobdetail=true;
+
 var serverdomain = "https://garfat.xyz/index.php/home/Wms/";
 
 // window.addEventListener("load", function(){
@@ -1933,6 +1935,9 @@ function showcontrolpanel(){
     document.getElementById("controlpanel").appendChild(closebutton);
 }
 async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
+    if(!readytoloadjobdetail){
+        return;
+    }
     showcontrolpanel();
 
     detaillinenumber=0;
@@ -2730,7 +2735,9 @@ async function loaddetail(clickeditem,activity,thisjobdiv,newadded){
             }
         }
         const activeJobs = document.getElementById("activejobs");
+        readytoloadjobdetail=false;
         addnewjob(clickeditem,detaillinenumber).then(async function(){
+            readytoloadjobdetail=true;
             sysresponse.innerHTML="任务保存成功";
             if(access==2){
                 itemdetail.innerHTML="";
@@ -2975,6 +2982,16 @@ function createdetailline(nid, item, activity, cancelable) {
     plttypeinput.style.display = 'inline-flex';
     pltreqlinecontrol.appendChild(plttypeinput);
 
+    const pltmark = document.createElement("input");
+    pltmark.type = "text";
+    pltmark.id = "pltmark" + id;
+    pltmark.name = "pltmark";
+    pltmark.style.border = "none";
+    pltmark.readOnly = true;
+    if(item['pltmark']){
+        pltmark.value=item['pltmark'];
+    }
+    
     const oogplt = document.createElement("select");
     oogplt.name = "oogplt";
     oogplt.style.marginLeft = "10px";
